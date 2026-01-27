@@ -1,0 +1,40 @@
+---
+layout: default
+title: Categories
+---
+
+<div class="page-header">
+  <h1>Categories</h1>
+  <p>카테고리별로 글을 탐색하세요.</p>
+</div>
+
+<section>
+  {% assign categories = site.posts | map: "categories" | flatten | uniq | sort %}
+
+  {% for category in categories %}
+  {% assign posts = site.posts | where_exp: "post", "post.categories contains category" %}
+
+  <div class="post-card" id="{{ category | slugify }}">
+    <div class="post-card-header">
+      <h2 style="margin: 0;">
+        <span class="category-badge" style="font-size: 1rem;">{{ category }}</span>
+        <span style="color: var(--text-muted); font-weight: normal; font-size: 0.9rem; margin-left: 0.5rem;">{{ posts.size }}개의 글</span>
+      </h2>
+    </div>
+
+    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+      {% for post in posts limit:5 %}
+      <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+        <a href="{{ post.url }}" style="color: var(--heading-color); text-decoration: none;">{{ post.title }}</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 0.5rem;">{{ post.date | date: "%Y-%m-%d" }}</span>
+      </li>
+      {% endfor %}
+      {% if posts.size > 5 %}
+      <li style="padding-top: 0.5rem;">
+        <span style="color: var(--text-muted); font-size: 0.9rem;">... 외 {{ posts.size | minus: 5 }}개 더</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>

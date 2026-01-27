@@ -2,19 +2,69 @@
 layout: default
 ---
 
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <div class="post-meta">
-    {{ page.date | date: "%Y년 %m월 %d일" }}
-    {% if page.tags %}
-    ·
-    {% for tag in page.tags %}
-    <span class="tag">#{{ tag }}</span>
-    {% endfor %}
-    {% endif %}
-  </div>
+<article class="post-content">
+  <header style="margin-bottom: 2rem;">
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta" style="margin-top: 1rem;">
+      <span class="post-meta-item">
+        📅 {{ page.date | date: "%Y년 %m월 %d일" }}
+      </span>
+      {% if page.reading_time %}
+      <span class="post-meta-item reading-time">
+        ⏱️ {{ page.reading_time }}분
+      </span>
+      {% endif %}
+      {% if page.author %}
+      <span class="post-meta-item">
+        ✍️ {{ page.author }}
+      </span>
+      {% endif %}
+    </div>
 
-  <div class="post-content">
+    {% if page.categories %}
+    <div style="margin-top: 0.75rem;">
+      {% for category in page.categories %}
+      <span class="category-badge">{{ category }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if page.tags %}
+    <div class="post-tags" style="margin-top: 1rem;">
+      {% for tag in page.tags %}
+      <a href="/tags/#{{ tag }}" class="tag">#{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="content-body">
     {{ content }}
   </div>
+
+  {% if page.source %}
+  <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+    <p style="color: var(--text-muted); font-size: 0.9rem;">
+      원본 출처: <a href="{{ page.source }}" target="_blank" rel="noopener">{{ page.source }}</a>
+    </p>
+  </footer>
+  {% endif %}
 </article>
+
+<nav style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+  {% if page.previous.url %}
+  <a href="{{ page.previous.url }}" class="post-card" style="flex: 1; text-decoration: none;">
+    <span style="color: var(--text-muted); font-size: 0.85rem;">← 이전 글</span>
+    <h3 style="margin-top: 0.5rem; font-size: 1rem; color: var(--heading-color);">{{ page.previous.title | truncate: 40 }}</h3>
+  </a>
+  {% else %}
+  <div style="flex: 1;"></div>
+  {% endif %}
+
+  {% if page.next.url %}
+  <a href="{{ page.next.url }}" class="post-card" style="flex: 1; text-decoration: none; text-align: right;">
+    <span style="color: var(--text-muted); font-size: 0.85rem;">다음 글 →</span>
+    <h3 style="margin-top: 0.5rem; font-size: 1rem; color: var(--heading-color);">{{ page.next.title | truncate: 40 }}</h3>
+  </a>
+  {% endif %}
+</nav>

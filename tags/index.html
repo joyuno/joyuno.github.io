@@ -1,0 +1,41 @@
+---
+layout: default
+title: Tags
+---
+
+<div class="page-header">
+  <h1>Tags</h1>
+  <p>태그별로 글을 탐색하세요.</p>
+</div>
+
+<section>
+  {% assign tags = site.posts | map: "tags" | flatten | uniq | sort %}
+
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+    {% for tag in tags %}
+    {% assign count = site.posts | where_exp: "post", "post.tags contains tag" | size %}
+    <a href="#{{ tag }}" class="tag" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+      #{{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+  {% for tag in tags %}
+  {% assign posts = site.posts | where_exp: "post", "post.tags contains tag" %}
+
+  <div class="post-card" id="{{ tag }}">
+    <h3 style="margin: 0 0 1rem 0; color: var(--accent-color);">#{{ tag }}</h3>
+
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      {% for post in posts %}
+      <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+        <a href="{{ post.url }}" style="color: var(--heading-color); text-decoration: none;">{{ post.title }}</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 0.5rem;">{{ post.date | date: "%Y-%m-%d" }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>
