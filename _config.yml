@@ -27,8 +27,18 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# 페이지
+include:
+  - _pages
+
 # 제외
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  - scripts
+  - .github
+
+# 사이트 설정
+lang: ko
+timezone: Asia/Seoul

@@ -4,149 +4,568 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #1a1a2e;
-      --text-color: #eee;
-      --accent-color: #4a9eff;
-      --code-bg: #16213e;
-      --border-color: #333;
+      --sidebar-width: 260px;
+      --topbar-height: 3rem;
+      --bg-color: #1b1b1e;
+      --sidebar-bg: #1e1e21;
+      --main-bg: #27272a;
+      --card-bg: #2d2d30;
+      --text-color: #d3d3d3;
+      --text-muted: #868686;
+      --heading-color: #ffffff;
+      --accent-color: #6c9cfc;
+      --accent-hover: #8fb5ff;
+      --border-color: #3a3a3d;
+      --code-bg: #252528;
+      --tag-bg: #3a3a3d;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
     }
 
-    header {
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 1rem;
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.75;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-profile {
+      text-align: center;
       margin-bottom: 2rem;
     }
 
-    header h1 a {
-      color: var(--accent-color);
-      text-decoration: none;
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 2.5rem;
+      color: white;
+      font-weight: 700;
     }
 
-    nav a {
+    .profile-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .sidebar-nav {
+      margin-top: 1rem;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
       color: var(--text-color);
-      margin-right: 1rem;
       text-decoration: none;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+      font-size: 0.95rem;
     }
 
-    nav a:hover {
+    .sidebar-nav a:hover {
+      background: var(--card-bg);
       color: var(--accent-color);
     }
 
-    a { color: var(--accent-color); }
-
-    h1, h2, h3, h4 { color: var(--text-color); }
-
-    code, pre {
-      background: var(--code-bg);
-      border-radius: 4px;
-      font-family: 'SF Mono', Monaco, monospace;
+    .sidebar-nav a.active {
+      background: var(--accent-color);
+      color: white;
     }
 
-    code { padding: 0.2em 0.4em; }
-
-    pre {
-      padding: 1rem;
-      overflow-x: auto;
+    .nav-icon {
+      width: 20px;
+      text-align: center;
     }
 
-    pre code {
-      padding: 0;
-      background: none;
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
     }
 
-    .post-list {
-      list-style: none;
-      padding: 0;
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
     }
 
-    .post-list li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border-color);
+    .social-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      transition: color 0.2s;
     }
 
-    .post-date {
-      color: #888;
-      font-size: 0.9em;
-      margin-right: 1rem;
+    .social-links a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Main Content */
+    #main-wrapper {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .main-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+    }
+
+    /* Post Cards */
+    .post-card {
+      background: var(--card-bg);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .post-card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .post-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .post-card h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .post-card h2 a {
+      color: var(--heading-color);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .post-card h2 a:hover {
+      color: var(--accent-color);
     }
 
     .post-meta {
-      color: #888;
-      font-size: 0.9em;
-      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
     }
 
-    table {
+    .post-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .post-excerpt {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--text-muted);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .category-badge {
+      background: linear-gradient(135deg, var(--accent-color), #a855f7);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* Post Content */
+    .post-content {
+      background: var(--card-bg);
+      border-radius: 0.75rem;
+      padding: 2.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .post-content h1 {
+      font-size: 2rem;
+      color: var(--heading-color);
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .post-content h2 {
+      font-size: 1.5rem;
+      color: var(--heading-color);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .post-content h3 {
+      font-size: 1.25rem;
+      color: var(--heading-color);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .post-content h4 {
+      font-size: 1.1rem;
+      color: var(--heading-color);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-content p {
+      margin-bottom: 1.25rem;
+    }
+
+    .post-content ul, .post-content ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+    }
+
+    .post-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .post-content a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .post-content a:hover {
+      border-bottom-color: var(--accent-color);
+    }
+
+    .post-content code {
+      background: var(--code-bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #e06c75;
+    }
+
+    .post-content pre {
+      background: var(--code-bg);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .post-content pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-color);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .post-content blockquote {
+      border-left: 4px solid var(--accent-color);
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      background: var(--code-bg);
+      border-radius: 0 0.5rem 0.5rem 0;
+      color: var(--text-muted);
+    }
+
+    .post-content table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
     }
 
-    th, td {
+    .post-content th, .post-content td {
       border: 1px solid var(--border-color);
-      padding: 0.5rem;
+      padding: 0.75rem 1rem;
       text-align: left;
     }
 
-    th { background: var(--code-bg); }
-
-    details {
+    .post-content th {
       background: var(--code-bg);
-      padding: 1rem;
-      border-radius: 4px;
-      margin: 1rem 0;
+      font-weight: 600;
+      color: var(--heading-color);
     }
 
-    summary {
-      cursor: pointer;
-      font-weight: bold;
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
     }
 
-    footer {
+    .post-content strong {
+      color: var(--heading-color);
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .site-footer {
       margin-top: 3rem;
-      padding-top: 1rem;
+      padding: 1.5rem 0;
       border-top: 1px solid var(--border-color);
-      color: #888;
-      font-size: 0.9em;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      :root {
+        --sidebar-width: 220px;
+      }
+      .main-content {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+
+      #sidebar.open {
+        transform: translateX(0);
+      }
+
+      #main-wrapper {
+        margin-left: 0;
+      }
+
+      .mobile-header {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--topbar-height);
+        background: var(--sidebar-bg);
+        border-bottom: 1px solid var(--border-color);
+        align-items: center;
+        padding: 0 1rem;
+        z-index: 99;
+      }
+
+      .menu-toggle {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .mobile-title {
+        flex: 1;
+        text-align: center;
+        font-weight: 600;
+        color: var(--heading-color);
+      }
+
+      .main-content {
+        padding: calc(var(--topbar-height) + 1.5rem) 1rem 1.5rem;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-header {
+        display: none;
+      }
+    }
+
+    /* Utilities */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Reading time & date styling */
+    .reading-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1><a href="/">{{ site.title }}</a></h1>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/blog/">Blog</a>
-      </nav>
-    </header>
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="메뉴 열기">☰</button>
+    <span class="mobile-title">{{ site.title }}</span>
+  </header>
 
-    <main>
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-profile">
+      <div class="profile-avatar">J</div>
+      <div class="profile-name">{{ site.author | default: "Joyuno" }}</div>
+      <div class="profile-tagline">Backend & AI Developer</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="/" {% if page.url == "/" %}class="active"{% endif %}>
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="/blog/" {% if page.url contains "/blog" %}class="active"{% endif %}>
+        <span class="nav-icon">📝</span>
+        <span>Blog</span>
+      </a>
+      <a href="/categories/" {% if page.url contains "/categories" %}class="active"{% endif %}>
+        <span class="nav-icon">📁</span>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" {% if page.url contains "/tags" %}class="active"{% endif %}>
+        <span class="nav-icon">🏷️</span>
+        <span>Tags</span>
+      </a>
+      <a href="/archives/" {% if page.url contains "/archives" %}class="active"{% endif %}>
+        <span class="nav-icon">📚</span>
+        <span>Archives</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="social-links">
+        <a href="https://github.com/joyuno" target="_blank" rel="noopener" title="GitHub">
+          GitHub
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div id="main-wrapper">
+    <main class="main-content">
       {{ content }}
     </main>
 
-    <footer>
-      <p>© {{ site.time | date: '%Y' }} {{ site.author }}. Powered by Jekyll & GitHub Pages.</p>
+    <footer class="site-footer">
+      <p>© {{ site.time | date: '%Y' }} {{ site.author | default: "Joyuno" }}. Powered by Jekyll & GitHub Pages.</p>
     </footer>
   </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.querySelector('.menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !menuToggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
 </body>
 </html>
