@@ -56,6 +56,3 @@ source: https://daewooki.github.io/posts/2026-1-openaianthropicgoogle-ai-1/
 1. 프로덕션에서 모델 버전 고정 여부 점검, 종료 시나리오 대응 계획 수립
 2. 정책(Usage/Privacy/Terms) 변경을 릴리즈 노트만큼 중요하게 모니터링
 3. 근거 제시 기능 사용 시 과금 전환을 제품 요금제에 반영, 캐싱으로 비용 통제
-
----
-*원본 출처: [Daewook's Dev Log](https://daewooki.github.io/posts/2026-1-openaianthropicgoogle-ai-1/)*
