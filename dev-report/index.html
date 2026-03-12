@@ -1,22 +1,23 @@
 ---
 layout: default
-title: Blog
+title: Dev Report
 ---
 
 <div class="page-header">
-  <h1>All Posts</h1>
-  <p>총 {{ site.posts | size }}개의 글이 있습니다.</p>
+  <h1>📊 Dev Report</h1>
+  <p>매일 CLI 작업 로그를 자동으로 요약한 개발 리포트입니다.</p>
 </div>
 
 <section>
-  {% for post in site.posts %}
-  {% unless post.categories contains "dev-report" %}
+  {% assign dev_posts = site.posts | where_exp: "post", "post.categories contains 'dev-report'" %}
+  {% if dev_posts.size == 0 %}
+  <p style="color: var(--text-muted);">아직 Dev Report가 없습니다.</p>
+  {% else %}
+  {% for post in dev_posts %}
   <article class="post-card">
     <div class="post-card-header">
       <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      {% if post.categories %}
-      <span class="category-badge">{{ post.categories | first }}</span>
-      {% endif %}
+      <span class="category-badge">Dev Report</span>
     </div>
 
     <div class="post-meta">
@@ -42,6 +43,6 @@ title: Blog
     </div>
     {% endif %}
   </article>
-  {% endunless %}
   {% endfor %}
+  {% endif %}
 </section>
