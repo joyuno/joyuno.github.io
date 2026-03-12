@@ -5,7 +5,7 @@ title: Blog
 
 <div class="page-header">
   <h1>All Posts</h1>
-  <p>총 {{ site.posts | where_exp: "post", "post.categories contains 'dev-report' == false" | size }}개의 글이 있습니다.</p>
+  <p>총 {{ site.posts | size }}개의 글이 있습니다.</p>
 </div>
 
 <section>
