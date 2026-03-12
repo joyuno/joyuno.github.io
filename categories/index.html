@@ -5,36 +5,111 @@ title: Categories
 
 <div class="page-header">
   <h1>Categories</h1>
-  <p>카테고리별로 글을 탐색하세요.</p>
+  <p>총 {{ site.categories | size }}개 카테고리, {{ site.posts | size }}개 포스트</p>
 </div>
 
-<section>
-  {% assign categories = site.posts | map: "categories" | flatten | uniq | sort %}
-
-  {% for category in categories %}
-  {% assign posts = site.posts | where_exp: "post", "post.categories contains category" %}
-
-  <div class="post-card" id="{{ category | slugify }}">
-    <div class="post-card-header">
-      <h2 style="margin: 0;">
-        <span class="category-badge" style="font-size: 1rem;">{{ category }}</span>
-        <span style="color: var(--text-muted); font-weight: normal; font-size: 0.9rem; margin-left: 0.5rem;">{{ posts.size }}개의 글</span>
-      </h2>
-    </div>
-
-    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
-      {% for post in posts limit:5 %}
-      <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
-        <a href="{{ post.url }}" style="color: var(--heading-color); text-decoration: none;">{{ post.title }}</a>
-        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 0.5rem;">{{ post.date | date: "%Y-%m-%d" }}</span>
-      </li>
-      {% endfor %}
-      {% if posts.size > 5 %}
-      <li style="padding-top: 0.5rem;">
-        <span style="color: var(--text-muted); font-size: 0.9rem;">... 외 {{ posts.size | minus: 5 }}개 더</span>
-      </li>
-      {% endif %}
-    </ul>
+<div class="cat-list">
+  {% assign sorted_cats = site.categories | sort %}
+  {% for cat in sorted_cats %}
+  {% assign cat_name = cat[0] %}
+  {% assign cat_posts = cat[1] %}
+  <div class="cat-row" onclick="toggleCat('{{ cat_name | slugify }}')">
+    <span class="cat-folder">📁</span>
+    <a class="cat-name" href="#{{ cat_name | slugify }}" onclick="return false;">{{ cat_name }}</a>
+    <span class="cat-count">{{ cat_posts.size }} 포스트</span>
+    <span class="cat-chevron" id="chev-{{ cat_name | slugify }}">›</span>
+  </div>
+  <div class="cat-posts" id="posts-{{ cat_name | slugify }}">
+    {% assign sorted_posts = cat_posts | sort: 'date' | reverse %}
+    {% for post in sorted_posts %}
+    <a class="cat-post-item" href="{{ post.url }}">
+      <span class="cat-post-title">{{ post.title }}</span>
+      <span class="cat-post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+    </a>
+    {% endfor %}
   </div>
   {% endfor %}
-</section>
+</div>
+
+<style>
+  .cat-list {
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--card-bg);
+  }
+
+  .cat-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer; transition: background 0.15s;
+  }
+  .cat-row:last-of-type { border-bottom: none; }
+  .cat-row:hover { background: var(--bg-color); }
+
+  .cat-folder { font-size: 0.95rem; color: var(--text-muted); flex-shrink: 0; }
+
+  .cat-name {
+    font-size: 0.95rem; font-weight: 500;
+    color: var(--accent-color); text-decoration: none; flex: 1;
+  }
+
+  .cat-count {
+    font-size: 0.8rem; color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .cat-chevron {
+    color: var(--text-muted); font-size: 1.1rem;
+    transition: transform 0.2s; display: inline-block;
+    margin-left: 0.25rem; flex-shrink: 0;
+  }
+  .cat-chevron.open { transform: rotate(90deg); }
+
+  .cat-posts {
+    display: none;
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .cat-posts.open { display: block; }
+
+  .cat-post-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.55rem 1.25rem 0.55rem 2.75rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+  }
+  .cat-post-item:last-child { border-bottom: none; }
+  .cat-post-item:hover { background: var(--card-bg); }
+
+  .cat-post-title {
+    font-size: 0.875rem; color: var(--text-color);
+    flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    padding-right: 1rem;
+  }
+
+  .cat-post-date {
+    font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
+  }
+</style>
+
+<script>
+  function toggleCat(slug) {
+    const posts = document.getElementById('posts-' + slug);
+    const chev = document.getElementById('chev-' + slug);
+    posts.classList.toggle('open');
+    chev.classList.toggle('open');
+  }
+
+  // URL 해시로 특정 카테고리 자동 펼치기
+  window.addEventListener('DOMContentLoaded', function() {
+    const hash = location.hash.replace('#', '');
+    if (hash) {
+      const posts = document.getElementById('posts-' + hash);
+      const chev = document.getElementById('chev-' + hash);
+      if (posts) { posts.classList.add('open'); chev.classList.add('open'); }
+    }
+  });
+</script>
