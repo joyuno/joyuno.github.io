@@ -5,111 +5,185 @@ title: Categories
 
 <div class="page-header">
   <h1>Categories</h1>
-  <p>총 {{ site.categories | size }}개 카테고리, {{ site.posts | size }}개 포스트</p>
+  <p>총 {{ site.posts | size }}개 포스트</p>
 </div>
 
-<div class="cat-list">
-  {% assign sorted_cats = site.categories | sort %}
-  {% for cat in sorted_cats %}
-  {% assign cat_name = cat[0] %}
-  {% assign cat_posts = cat[1] %}
-  <div class="cat-row" onclick="toggleCat('{{ cat_name | slugify }}')">
-    <span class="cat-folder">📁</span>
-    <a class="cat-name" href="#{{ cat_name | slugify }}" onclick="return false;">{{ cat_name }}</a>
-    <span class="cat-count">{{ cat_posts.size }} 포스트</span>
-    <span class="cat-chevron" id="chev-{{ cat_name | slugify }}">›</span>
-  </div>
-  <div class="cat-posts" id="posts-{{ cat_name | slugify }}">
-    {% assign sorted_posts = cat_posts | sort: 'date' | reverse %}
-    {% for post in sorted_posts %}
-    <a class="cat-post-item" href="{{ post.url }}">
-      <span class="cat-post-title">{{ post.title }}</span>
-      <span class="cat-post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
-    </a>
-    {% endfor %}
-  </div>
+{% comment %} 부모 카테고리 목록 수집 (첫 번째 카테고리가 부모) {% endcomment %}
+{% assign all_parents = "" | split: "" %}
+{% for post in site.posts %}
+  {% assign parent = post.categories[0] %}
+  {% if parent %}
+    {% unless all_parents contains parent %}
+      {% assign all_parents = all_parents | push: parent %}
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+{% assign all_parents = all_parents | sort %}
+
+<div class="cat-tree">
+{% for parent in all_parents %}
+  {% assign parent_posts = site.posts | where_exp: "p", "p.categories[0] == parent" %}
+
+  {% comment %} 하위 카테고리 목록 수집 (두 번째 카테고리가 자식) {% endcomment %}
+  {% assign sub_cats = "" | split: "" %}
+  {% for post in parent_posts %}
+    {% assign sub = post.categories[1] %}
+    {% if sub %}
+      {% unless sub_cats contains sub %}
+        {% assign sub_cats = sub_cats | push: sub %}
+      {% endunless %}
+    {% endif %}
   {% endfor %}
+  {% assign sub_cats = sub_cats | sort %}
+
+  <div class="cat-parent-row" onclick="toggleParent('{{ parent | slugify }}')">
+    <span class="cat-icon open-icon" id="icon-{{ parent | slugify }}">📂</span>
+    <span class="cat-icon close-icon" id="icon-closed-{{ parent | slugify }}" style="display:none">📁</span>
+    <span class="cat-label">{{ parent }}</span>
+    <span class="cat-badge">{{ parent_posts.size }}</span>
+    <span class="cat-chevron" id="chev-{{ parent | slugify }}">›</span>
+  </div>
+
+  <div class="cat-children" id="children-{{ parent | slugify }}">
+    {% if sub_cats.size > 0 %}
+      {% for sub in sub_cats %}
+        {% assign sub_posts = parent_posts | where_exp: "p", "p.categories[1] == sub" %}
+        <div class="cat-child-row">
+          <span class="cat-child-icon">📄</span>
+          <span class="cat-child-label">{{ sub }}</span>
+          <span class="cat-badge cat-badge-sm">{{ sub_posts.size }}</span>
+        </div>
+      {% endfor %}
+      {% comment %} 서브카테고리 없는 포스트 (카테고리가 1개뿐) {% endcomment %}
+      {% assign no_sub_posts = parent_posts | where_exp: "p", "p.categories.size == 1" %}
+      {% if no_sub_posts.size > 0 %}
+        <div class="cat-child-row">
+          <span class="cat-child-icon">📄</span>
+          <span class="cat-child-label">기타</span>
+          <span class="cat-badge cat-badge-sm">{{ no_sub_posts.size }}</span>
+        </div>
+      {% endif %}
+    {% else %}
+      {% comment %} 서브카테고리 없는 경우 직접 포스트 수만 표시 {% endcomment %}
+      <div class="cat-child-row cat-no-sub">
+        <span class="cat-child-icon">📄</span>
+        <span class="cat-child-label">포스트 {{ parent_posts.size }}개</span>
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
 </div>
 
 <style>
-  .cat-list {
+  .cat-tree {
     border: 1px solid var(--border-color);
     border-radius: 0.75rem;
     overflow: hidden;
     background: var(--card-bg);
   }
 
-  .cat-row {
-    display: flex; align-items: center; gap: 0.6rem;
-    padding: 0.85rem 1.25rem;
+  .cat-parent-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.25rem;
     border-bottom: 1px solid var(--border-color);
-    cursor: pointer; transition: background 0.15s;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
   }
-  .cat-row:last-of-type { border-bottom: none; }
-  .cat-row:hover { background: var(--bg-color); }
+  .cat-parent-row:hover { background: var(--bg-color); }
+  .cat-parent-row:last-of-type { border-bottom: none; }
 
-  .cat-folder { font-size: 0.95rem; color: var(--text-muted); flex-shrink: 0; }
+  .cat-icon { font-size: 1rem; flex-shrink: 0; }
 
-  .cat-name {
-    font-size: 0.95rem; font-weight: 500;
-    color: var(--accent-color); text-decoration: none; flex: 1;
+  .cat-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+    flex: 1;
   }
 
-  .cat-count {
-    font-size: 0.8rem; color: var(--text-muted);
+  .cat-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .cat-badge-sm {
+    font-size: 0.7rem;
+    padding: 0.05rem 0.45rem;
   }
 
   .cat-chevron {
-    color: var(--text-muted); font-size: 1.1rem;
-    transition: transform 0.2s; display: inline-block;
-    margin-left: 0.25rem; flex-shrink: 0;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+    display: inline-block;
+    flex-shrink: 0;
+    margin-left: 0.15rem;
   }
   .cat-chevron.open { transform: rotate(90deg); }
 
-  .cat-posts {
+  .cat-children {
     display: none;
     background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
+    padding: 0.35rem 0;
   }
-  .cat-posts.open { display: block; }
+  .cat-children.open { display: block; }
 
-  .cat-post-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.55rem 1.25rem 0.55rem 2.75rem;
-    text-decoration: none;
-    border-bottom: 1px solid var(--border-color);
-    transition: background 0.15s;
+  .cat-child-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem 0.5rem 2.8rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
   }
-  .cat-post-item:last-child { border-bottom: none; }
-  .cat-post-item:hover { background: var(--card-bg); }
+  .cat-child-row:last-child { border-bottom: none; }
 
-  .cat-post-title {
-    font-size: 0.875rem; color: var(--text-color);
-    flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    padding-right: 1rem;
+  .cat-child-icon { font-size: 0.85rem; flex-shrink: 0; opacity: 0.7; }
+
+  .cat-child-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    flex: 1;
   }
 
-  .cat-post-date {
-    font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
-  }
+  .cat-no-sub .cat-child-label { font-style: italic; }
 </style>
 
 <script>
-  function toggleCat(slug) {
-    const posts = document.getElementById('posts-' + slug);
+  function toggleParent(slug) {
+    const children = document.getElementById('children-' + slug);
     const chev = document.getElementById('chev-' + slug);
-    posts.classList.toggle('open');
-    chev.classList.toggle('open');
+    const openIcon = document.getElementById('icon-' + slug);
+    const closeIcon = document.getElementById('icon-closed-' + slug);
+    const isOpen = children.classList.toggle('open');
+    chev.classList.toggle('open', isOpen);
+    openIcon.style.display = isOpen ? 'inline' : 'none';
+    closeIcon.style.display = isOpen ? 'none' : 'inline';
   }
 
-  // URL 해시로 특정 카테고리 자동 펼치기
+  // 기본으로 모든 카테고리 펼치기
   window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cat-parent-row').forEach(function(row) {
+      const slug = row.getAttribute('onclick').match(/'([^']+)'/)[1];
+      toggleParent(slug);
+    });
+
+    // URL 해시로 특정 카테고리 스크롤
     const hash = location.hash.replace('#', '');
     if (hash) {
-      const posts = document.getElementById('posts-' + hash);
-      const chev = document.getElementById('chev-' + hash);
-      if (posts) { posts.classList.add('open'); chev.classList.add('open'); }
+      const children = document.getElementById('children-' + hash);
+      if (children) {
+        children.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   });
 </script>
