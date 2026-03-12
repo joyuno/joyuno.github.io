@@ -5,13 +5,18 @@ title: Blog
 
 <div class="page-header">
   <h1>All Posts</h1>
-  <p>총 {{ site.posts | size }}개의 글이 있습니다.</p>
+  <p>총 {{ site.posts | where_exp: "post", "post.categories contains 'dev-report' == false" | size }}개의 글이 있습니다.</p>
 </div>
 
 <section>
   {% for post in site.posts %}
   {% unless post.categories contains "dev-report" %}
-  <article class="post-card">
+  {% assign post_filename = post.path | split: "/" | last %}
+  <article class="post-card" data-path="{{ post_filename }}">
+    <div class="card-admin-actions">
+      <button class="card-btn card-btn-edit" onclick="cardEdit('{{ post_filename }}')">✏️ 수정</button>
+      <button class="card-btn card-btn-delete" onclick="cardDelete('{{ post_filename }}', {{ post.title | jsonify }})">🗑️ 삭제</button>
+    </div>
     <div class="post-card-header">
       <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
       {% if post.categories %}
@@ -20,13 +25,9 @@ title: Blog
     </div>
 
     <div class="post-meta">
-      <span class="post-meta-item">
-        📅 {{ post.date | date: "%Y년 %m월 %d일" }}
-      </span>
+      <span class="post-meta-item">📅 {{ post.date | date: "%Y년 %m월 %d일" }}</span>
       {% if post.reading_time %}
-      <span class="post-meta-item reading-time">
-        ⏱️ {{ post.reading_time }}분
-      </span>
+      <span class="post-meta-item reading-time">⏱️ {{ post.reading_time }}분</span>
       {% endif %}
     </div>
 
@@ -45,3 +46,33 @@ title: Blog
   {% endunless %}
   {% endfor %}
 </section>
+
+<script>
+  function cardEdit(filename) {
+    window.open('https://github.com/joyuno/joyuno.github.io/edit/main/_posts/' + filename, '_blank');
+  }
+  async function cardDelete(filename, title) {
+    if (!confirm('「' + title + '」를 삭제하시겠습니까?')) return;
+    let token = localStorage.getItem('gh_pat');
+    if (!token) {
+      token = prompt('GitHub Personal Access Token (repo 권한):');
+      if (!token) return;
+      localStorage.setItem('gh_pat', token);
+    }
+    const metaResp = await fetch(
+      'https://api.github.com/repos/joyuno/joyuno.github.io/contents/_posts/' + filename,
+      { headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!metaResp.ok) { alert('파일 조회 실패'); return; }
+    const meta = await metaResp.json();
+    const delResp = await fetch(
+      'https://api.github.com/repos/joyuno/joyuno.github.io/contents/_posts/' + filename,
+      {
+        method: 'DELETE',
+        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+        body: JSON.stringify({ message: 'Delete post: ' + filename, sha: meta.sha })
+      }
+    );
+    if (delResp.ok) { location.reload(); } else { alert('삭제 실패'); }
+  }
+</script>

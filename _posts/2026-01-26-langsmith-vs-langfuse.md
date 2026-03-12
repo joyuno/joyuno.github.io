@@ -88,6 +88,3 @@ OTel 기반 계측으로 백엔드 선택 유연성을 유지하는 접근법:
 - OTel에서 context propagation (async, background job) 마스터하기
 - 비용을 LLM 토큰 외 tool/retrieval까지 합산하는 데이터 모델 설계
 - 프로덕션 sampling/PII 마스킹/retention 정책 수립
-
----
-*원본 출처: [Daewook's Dev Log](https://daewooki.github.io/posts/llm-langsmith-vs-langfuse-2026-1-2/)*
