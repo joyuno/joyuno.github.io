@@ -592,8 +592,8 @@
     });
 
     // ─── Admin Auth ───
-    // SHA-256 of "joyuno"
-    const ADMIN_HASH = '2e38087f651b7e2d8651eaae0115e993e9dfa53db02526e7ecc3a94473572207';
+    // SHA-256 of admin password
+    const ADMIN_HASH = '590f0aea520cc998bfe82433f1035cf2dbe4a4cc4d8866c2a9580075854648d0';
 
     async function sha256(str) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
