@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="dark">
+<html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,22 +162,18 @@
       top: 0; right: 0;
       width: var(--right-sidebar-width);
       height: 100vh;
-      background: var(--sidebar-bg);
-      border-left: 1px solid var(--border-color);
-      padding: 1.75rem 1.25rem;
+      background: transparent;
+      padding: 2rem 1.5rem;
       overflow-y: auto;
       z-index: 100;
     }
 
-    .widget { margin-bottom: 1.75rem; }
+    .widget { margin-bottom: 2.25rem; }
 
     .widget-title {
-      font-size: 0.85rem; font-weight: 700;
+      font-size: 1rem; font-weight: 700;
       color: var(--heading-color);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      margin-bottom: 0.85rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--accent-color);
+      margin-bottom: 1rem;
     }
 
     /* Search */
@@ -214,32 +210,29 @@
 
     /* Recent posts */
     .recent-post-item {
-      display: flex; gap: 0.6rem; align-items: flex-start;
-      padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);
+      padding: 0.55rem 0;
+      border-bottom: none;
     }
-    .recent-post-item:last-child { border-bottom: none; }
-    .recent-post-num {
-      min-width: 20px; height: 20px;
-      background: var(--accent-color); color: white;
-      border-radius: 50%; font-size: 0.7rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 0.15rem;
-    }
+    .recent-post-num { display: none; }
+    .recent-post-info { width: 100%; }
     .recent-post-info a {
-      display: block; font-size: 0.82rem; color: var(--text-color);
-      text-decoration: none; line-height: 1.4; transition: color 0.15s;
+      display: block; font-size: 0.88rem; color: var(--text-color);
+      text-decoration: none; line-height: 1.45; transition: color 0.15s;
+      padding: 0.1rem 0;
     }
     .recent-post-info a:hover { color: var(--accent-color); }
-    .recent-post-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .recent-post-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
 
     /* Tag cloud */
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .tag-cloud-item {
-      background: var(--tag-bg); color: var(--text-muted);
-      padding: 0.2rem 0.6rem; border-radius: 1rem;
-      font-size: 0.75rem; text-decoration: none; transition: all 0.15s;
+      background: transparent;
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 0.25rem 0.75rem; border-radius: 2rem;
+      font-size: 0.8rem; text-decoration: none; transition: all 0.15s;
     }
-    .tag-cloud-item:hover { background: var(--accent-color); color: white; }
+    .tag-cloud-item:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
     /* ─── Page Header ─── */
     .page-header { margin-bottom: 2rem; }
@@ -560,7 +553,7 @@
 
   <script>
     // ─── Theme ───
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
 
     function setTheme(t) {
