@@ -114,8 +114,8 @@
     }
 
     .sidebar-actions {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.5rem;
     }
 
     /* Theme toggle */
@@ -462,16 +462,13 @@
     <div class="sidebar-footer">
       <div class="sidebar-actions">
         <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
-          <span id="theme-icon">🌙</span>
-          <span id="theme-label">다크</span>
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label">라이트</span>
         </button>
         <button class="admin-btn" id="admin-btn" onclick="handleAdminClick()">
           <span id="admin-icon">🔒</span>
           <span id="admin-label">관리</span>
         </button>
-      </div>
-      <div class="social-links">
-        <a href="https://github.com/joyuno" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </aside>
