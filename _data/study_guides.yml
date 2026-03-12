@@ -4,3 +4,9 @@
   tags: ["streaming", "messaging", "pipeline"]
   date: "2026-03-12"
   url: "/study-guides/apache-kafka-study-guide.html"
+- keyword: "Apache Airflow"
+  slug: "apache-airflow"
+  category: "data-engineering"
+  tags: ["orchestration", "workflow", "scheduling"]
+  date: "2026-03-12"
+  url: "/study-guides/apache-airflow-study-guide.html"
