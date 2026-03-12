@@ -83,10 +83,13 @@
     .profile-avatar {
       width: 80px; height: 80px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-color), #a855f7);
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 0.75rem;
-      font-size: 2rem; color: white; font-weight: 700;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%; height: 100%; object-fit: cover;
     }
 
     .profile-name { font-size: 1.1rem; font-weight: 700; color: var(--heading-color); margin-bottom: 0.2rem; }
@@ -432,9 +435,11 @@
   <!-- Left Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-profile">
-      <div class="profile-avatar">J</div>
+      <div class="profile-avatar">
+        <img src="/assets/img/profile.jpeg" alt="profile">
+      </div>
       <div class="profile-name">{{ site.author | default: "Joyuno" }}</div>
-      <div class="profile-tagline">Backend &amp; AI Developer</div>
+      <div class="profile-tagline">AI Engineer</div>
     </div>
 
     <nav class="sidebar-nav">
