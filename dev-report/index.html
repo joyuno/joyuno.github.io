@@ -1,0 +1,48 @@
+---
+layout: default
+title: Dev Report
+---
+
+<div class="page-header">
+  <h1>📊 Dev Report</h1>
+  <p>매일 CLI 작업 로그를 자동으로 요약한 개발 리포트입니다.</p>
+</div>
+
+<section>
+  {% assign dev_posts = site.posts | where_exp: "post", "post.categories contains 'dev-report'" %}
+  {% if dev_posts.size == 0 %}
+  <p style="color: var(--text-muted);">아직 Dev Report가 없습니다.</p>
+  {% else %}
+  {% for post in dev_posts %}
+  <article class="post-card">
+    <div class="post-card-header">
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <span class="category-badge">Dev Report</span>
+    </div>
+
+    <div class="post-meta">
+      <span class="post-meta-item">
+        📅 {{ post.date | date: "%Y년 %m월 %d일" }}
+      </span>
+      {% if post.reading_time %}
+      <span class="post-meta-item reading-time">
+        ⏱️ {{ post.reading_time }}분
+      </span>
+      {% endif %}
+    </div>
+
+    {% if post.excerpt %}
+    <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+    {% endif %}
+
+    {% if post.tags %}
+    <div class="post-tags">
+      {% for tag in post.tags limit:5 %}
+      <a href="/tags/#{{ tag }}" class="tag">#{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </article>
+  {% endfor %}
+  {% endif %}
+</section>

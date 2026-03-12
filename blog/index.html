@@ -10,6 +10,7 @@ title: Blog
 
 <section>
   {% for post in site.posts %}
+  {% unless post.categories contains "dev-report" %}
   <article class="post-card">
     <div class="post-card-header">
       <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
@@ -41,5 +42,6 @@ title: Blog
     </div>
     {% endif %}
   </article>
+  {% endunless %}
   {% endfor %}
 </section>
