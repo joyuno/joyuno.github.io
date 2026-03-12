@@ -1,0 +1,129 @@
+---
+layout: default
+title: Study
+---
+
+<div class="page-header">
+  <h1>📚 Study Guides</h1>
+  <p>매일 기술 스택 하나를 깊게 파고드는 실무 스터디 문서입니다.</p>
+</div>
+
+{% assign category_labels = "data-engineering,ai-ml,infra,security" | split: "," %}
+{% assign category_names = "Data Engineering,AI / ML,Infrastructure,Security" | split: "," %}
+{% assign category_icons = "🗄️,🤖,⚙️,🔐" | split: "," %}
+
+{% for i in (0..3) %}
+  {% assign cat = category_labels[i] %}
+  {% assign cat_guides = site.data.study_guides | where: "category", cat %}
+  {% if cat_guides.size > 0 %}
+  <section class="study-section">
+    <h2 class="study-cat-title">{{ category_icons[i] }} {{ category_names[i] }}</h2>
+    <div class="study-grid">
+      {% for guide in cat_guides %}
+      <a class="study-card" href="{{ guide.url }}" target="_blank" rel="noopener">
+        <div class="study-card-header">
+          <span class="study-keyword">{{ guide.keyword }}</span>
+          <span class="study-date">{{ guide.date }}</span>
+        </div>
+        <div class="study-tags">
+          {% for tag in guide.tags %}
+          <span class="study-tag">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+        <div class="study-card-footer">
+          <span class="study-open">실무 가이드 보기 →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+{% endfor %}
+
+{% if site.data.study_guides.size == 0 %}
+<p style="color:var(--text-muted); padding: 2rem 0;">아직 스터디 가이드가 없습니다.</p>
+{% endif %}
+
+<style>
+  .study-section { margin-bottom: 2.5rem; }
+
+  .study-cat-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .study-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .study-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .study-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  .study-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .study-keyword {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .study-date {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .study-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .study-tag {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+  }
+
+  .study-card-footer {
+    margin-top: auto;
+  }
+
+  .study-open {
+    font-size: 0.78rem;
+    color: var(--accent-color);
+    font-weight: 500;
+  }
+</style>

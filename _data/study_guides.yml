@@ -1,0 +1,6 @@
+- keyword: "Apache Kafka"
+  slug: "apache-kafka"
+  category: "data-engineering"
+  tags: ["streaming", "messaging", "pipeline"]
+  date: "2026-03-12"
+  url: "/study-guides/apache-kafka-study-guide.html"
