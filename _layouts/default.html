@@ -545,7 +545,9 @@
         style="margin-top:0.5rem; width:100%; padding:0.6rem 0.8rem; border-radius:0.4rem; border:1px solid var(--border-color); background:var(--bg-color); color:var(--text-color); font-size:0.9rem;"
         onkeydown="if(event.key==='Enter')submitAdmin()">
       <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">
-        PAT: GitHub → Settings → Developer settings → Personal access tokens (repo 권한)
+        PAT: GitHub → Settings → Developer settings → Personal access tokens → <strong>Tokens (classic)</strong> → repo 권한
+        <span id="pat-stored-badge" style="display:none; margin-left:0.4rem; color:var(--accent-color);">✓ 저장됨</span>
+        <a href="#" onclick="clearPAT(event)" style="margin-left:0.4rem; color:var(--danger-color,#f85149); font-size:0.72rem;" id="pat-clear-link">초기화</a>
       </p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-secondary" onclick="closeAdminModal()">취소</button>
@@ -624,13 +626,28 @@
       } else {
         document.getElementById('admin-modal').classList.add('open');
         document.getElementById('admin-password').focus();
+        updatePATStatus();
       }
     }
 
     function closeAdminModal() {
       document.getElementById('admin-modal').classList.remove('open');
       document.getElementById('admin-password').value = '';
+      document.getElementById('admin-pat').value = '';
       document.getElementById('modal-error').style.display = 'none';
+    }
+
+    function clearPAT(e) {
+      e.preventDefault();
+      localStorage.removeItem('gh_pat');
+      document.getElementById('pat-stored-badge').style.display = 'none';
+      document.getElementById('admin-pat').value = '';
+      alert('GitHub PAT가 초기화되었습니다. 다음 로그인 시 재입력해주세요.');
+    }
+
+    function updatePATStatus() {
+      const badge = document.getElementById('pat-stored-badge');
+      if (badge) badge.style.display = localStorage.getItem('gh_pat') ? 'inline' : 'none';
     }
 
     async function submitAdmin() {
