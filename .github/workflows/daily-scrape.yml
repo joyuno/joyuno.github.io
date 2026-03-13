@@ -2,8 +2,8 @@ name: Daily Blog Scraper
 
 on:
   schedule:
-    # 매일 오전 9시 (KST) = UTC 00:00 에 실행
-    - cron: '0 0 * * *'
+    # 매일 밤 23:55 (KST) = UTC 14:55 에 실행
+    - cron: '55 14 * * *'
   workflow_dispatch:  # 수동 실행 가능
 
 permissions:
