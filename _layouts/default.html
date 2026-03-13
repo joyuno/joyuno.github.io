@@ -541,6 +541,12 @@
       <h3>🔐 관리자 인증</h3>
       <div class="modal-error" id="modal-error">비밀번호가 틀렸습니다.</div>
       <input type="password" id="admin-password" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')submitAdmin()">
+      <input type="password" id="admin-pat" placeholder="GitHub PAT (삭제 기능용, 선택사항)"
+        style="margin-top:0.5rem; width:100%; padding:0.6rem 0.8rem; border-radius:0.4rem; border:1px solid var(--border-color); background:var(--bg-color); color:var(--text-color); font-size:0.9rem;"
+        onkeydown="if(event.key==='Enter')submitAdmin()">
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">
+        PAT: GitHub → Settings → Developer settings → Personal access tokens (repo 권한)
+      </p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-secondary" onclick="closeAdminModal()">취소</button>
         <button class="modal-btn modal-btn-primary" onclick="submitAdmin()">로그인</button>
@@ -632,6 +638,8 @@
       const hash = await sha256(pwd);
       if (hash === ADMIN_HASH) {
         localStorage.setItem('joyuno_admin', '1');
+        const pat = document.getElementById('admin-pat').value.trim();
+        if (pat) localStorage.setItem('gh_pat', pat);
         closeAdminModal();
         applyAdminMode();
       } else {
