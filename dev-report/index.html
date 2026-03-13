@@ -54,11 +54,10 @@ title: Dev Report
   }
   async function cardDelete(filename, title) {
     if (!confirm('「' + title + '」를 삭제하시겠습니까?')) return;
-    let token = localStorage.getItem('gh_pat');
+    const token = localStorage.getItem('gh_pat');
     if (!token) {
-      token = prompt('GitHub Personal Access Token (repo 권한):');
-      if (!token) return;
-      localStorage.setItem('gh_pat', token);
+      alert('삭제하려면 관리자 로그인 시 GitHub PAT를 입력해주세요.\n(사이드바 관리 버튼 → 로그인 → PAT 입력)');
+      return;
     }
     const metaResp = await fetch(
       'https://api.github.com/repos/joyuno/joyuno.github.io/contents/_posts/' + filename,
