@@ -22,9 +22,12 @@ SOURCE_BLOG_URL = "https://daewooki.github.io"
 POSTS_DIR = "_posts"
 
 
-def get_yesterday_date():
-    yesterday = datetime.now() - timedelta(days=1)
-    return yesterday.strftime("%Y-%m-%d")
+def get_target_date():
+    """KST 기준 오늘 날짜 반환 (GitHub Actions는 UTC로 실행되므로 +9시간 보정)"""
+    from datetime import timezone
+    kst = timezone(timedelta(hours=9))
+    now_kst = datetime.now(timezone.utc).astimezone(kst)
+    return now_kst.strftime("%Y-%m-%d")
 
 
 def build_headers():
@@ -187,9 +190,9 @@ def main():
     print(f"총 {len(md_files)}개 포스트 발견")
 
     if not args.all:
-        yesterday = get_yesterday_date()
-        md_files = [f for f in md_files if f["name"].startswith(yesterday)]
-        print(f"어제({yesterday}) 날짜 포스트: {len(md_files)}개")
+        target = get_target_date()
+        md_files = [f for f in md_files if f["name"].startswith(target)]
+        print(f"오늘({target} KST) 날짜 포스트: {len(md_files)}개")
     else:
         print("--all 모드: 전체 포스트 임포트")
 
