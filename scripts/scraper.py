@@ -193,6 +193,9 @@ def main():
         target = get_target_date()
         md_files = [f for f in md_files if f["name"].startswith(target)]
         print(f"오늘({target} KST) 날짜 포스트: {len(md_files)}개")
+        if not md_files:
+            print(f"daewooki에 {target} 날짜 업로드 없음 — 스킵합니다.")
+            sys.exit(0)
     else:
         print("--all 모드: 전체 포스트 임포트")
 
