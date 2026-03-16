@@ -1,34 +1,34 @@
 ---
 layout: post
 title: "2026-03-16 개발 작업 리포트"
-date: 2026-03-16 09:44:33 +0900
+date: 2026-03-16 09:45:16 +0900
 categories: [dev-report]
 tags: [daily-report, development]
 ---
 
 # 🤖 Claude CLI 작업 리포트
 
-- **feat**(otel_project): 401 에러 발생 시 토큰 갱신 로직 추가
-  → axios 인터셉터에서 refreshToken 호출 후 원 요청 재시도
+- **feat**(otel_project): 401 에러 해결을 위한 인증 헤더 추가
+  → NotificationContext.tsx에 axios 인터셉터 구현
 
-- **refactor**(otel_project): 알림 폴링 로직 개선
-  → NotificationProvider의 불필요한 중복 요청 방지 및 에러 처리 강화
+- **refactor**(otel_project): 불필요한 폴링 제거 및 에러 핸들링 개선
+  → NotificationContext.tsx에서 무한 재시도 로직 수정
 
 - **chore**(otel_project): 프론트엔드 빌드 및 도커 컴포즈 재배포
-  → 포트 3000 자동 배포 확인 및 빌드 프로세스 실행
+  → docker compose up --build 실행
 
-- **fix**(obsidian): 일일 리포트 중복 생성 방지
-  → update_daily_note.py에 작업 내용 존재 여부 검사 추가
+- **fix**(obsidian): 잘못 생성된 일일 리포트 파일 제거 로직 추가
+  → update_daily_note.py에 작업 내용 검증
 
-- **feat**(obsidian): 블로그 자동 배포 스크립트 경로 수정
-  → upload_blog.py의 파일 접근 루트를 obsidian 기준으로 통일
+- **feat**(obsidian): GitHub 블로그 자동 배포를 위한 파일 경로 통일
+  → upload_blog.py 등에서 상대 경로를 절대 경로로 수정
 
-- **refactor**(obsidian): 스터디 내용 자동 생성 로직 개선
-  → study_generator.py의 GitHub Actions 연동 및 실행 흐름 최적화
+- **refactor**(obsidian): 스터디 및 블로그 업로드 실패 디버깅
+  → main.py와 scraper.py의 실행 흐름 개선
 
 ---
 
-💡 오늘의 AI 활용 팁: "무한 반복 에러" 디버깅 시 "현재 코드 조각과 콘솔 에러 로그 전체를 함께 제공해줘"라고 요청하면 AI가 상태 관리와 API 호출 흐름을 더 정확히 분석해줍니다.
+💡 오늘의 AI 활용 팁: 에러 디버깅 요청 시 "이 에러 로그의 [구체적인 라인]과 [관련 파일/컨텍스트]를 보면, [추측 원인]일 것 같은데 맞는지 확인하고 수정 코드를 제안해줘"처럼 문제를 구체화하면 더 정확한 해결책을 얻을 수 있습니다.
 
 ## 📁 작업한 프로젝트
 
@@ -42,6 +42,6 @@ tags: [daily-report, development]
 | 세션 수 | 2 |
 | 프로젝트 수 | 2 |
 | 명령어 수 | 7 |
-| 총 메시지 | 40 |
-| 도구 호출 | 59 |
+| 총 메시지 | 42 |
+| 도구 호출 | 61 |
 | 수정된 파일 | 7 |
