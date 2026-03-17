@@ -8,25 +8,25 @@ layout: default
   <!-- Admin controls -->
   <div class="post-admin-bar">
     <button class="post-admin-btn post-admin-btn-edit"
-      onclick="editPost('{{ post_filename }}')">✏️ 수정</button>
+      onclick="editPost('{{ post_filename }}')"><i data-lucide="pencil" class="icon"></i> 수정</button>
     <button class="post-admin-btn post-admin-btn-delete"
-      onclick="deletePost('{{ post_filename }}', '{{ page.title | escape }}')">🗑️ 삭제</button>
+      onclick="deletePost('{{ post_filename }}', '{{ page.title | escape }}')"><i data-lucide="trash-2" class="icon"></i> 삭제</button>
   </div>
 
   <header style="margin-bottom: 2rem;">
     <h1>{{ page.title }}</h1>
     <div class="post-meta" style="margin-top: 0.85rem;">
       <span class="post-meta-item">
-        📅 {{ page.date | date: "%Y년 %m월 %d일" }}
+        <i data-lucide="calendar" class="icon"></i> {{ page.date | date: "%Y년 %m월 %d일" }}
       </span>
       {% if page.reading_time %}
       <span class="post-meta-item reading-time">
-        ⏱️ {{ page.reading_time }}분
+        <i data-lucide="clock" class="icon"></i> {{ page.reading_time }}분
       </span>
       {% endif %}
       {% if page.author %}
       <span class="post-meta-item">
-        ✍️ {{ page.author }}
+        <i data-lucide="user" class="icon"></i> {{ page.author }}
       </span>
       {% endif %}
     </div>
@@ -56,7 +56,7 @@ layout: default
 <nav style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
   {% if page.previous.url %}
   <a href="{{ page.previous.url }}" class="post-card" style="flex: 1; text-decoration: none;">
-    <span style="color: var(--text-muted); font-size: 0.82rem;">← 이전 글</span>
+    <span style="color: var(--text-muted); font-size: 0.82rem;"><i data-lucide="arrow-left" class="icon"></i> 이전 글</span>
     <h3 style="margin-top: 0.4rem; font-size: 0.95rem; color: var(--heading-color);">{{ page.previous.title | truncate: 40 }}</h3>
   </a>
   {% else %}
@@ -65,7 +65,7 @@ layout: default
 
   {% if page.next.url %}
   <a href="{{ page.next.url }}" class="post-card" style="flex: 1; text-decoration: none; text-align: right;">
-    <span style="color: var(--text-muted); font-size: 0.82rem;">다음 글 →</span>
+    <span style="color: var(--text-muted); font-size: 0.82rem;">다음 글 <i data-lucide="arrow-right" class="icon"></i></span>
     <h3 style="margin-top: 0.4rem; font-size: 0.95rem; color: var(--heading-color);">{{ page.next.title | truncate: 40 }}</h3>
   </a>
   {% endif %}
@@ -128,3 +128,4 @@ layout: default
     }
   }
 </script>
+<script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>

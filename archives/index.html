@@ -14,7 +14,7 @@ title: Archives
   {% for year in posts_by_year %}
   <div class="post-card">
     <h2 style="margin: 0 0 1rem 0; color: var(--accent-color); display: flex; align-items: center; gap: 0.75rem;">
-      📅 {{ year.name }}
+      <i data-lucide="calendar" class="icon"></i> {{ year.name }}
       <span style="background: var(--tag-bg); color: var(--text-muted); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: normal;">
         {{ year.items.size }}개
       </span>
@@ -38,3 +38,4 @@ title: Archives
   </div>
   {% endfor %}
 </section>
+<script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>

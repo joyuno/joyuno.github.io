@@ -4,20 +4,20 @@ title: Study
 ---
 
 <div class="page-header">
-  <h1>📚 Study Guides</h1>
+  <h1><i data-lucide="book-open" class="icon"></i> Study Guides</h1>
   <p>매일 기술 스택 하나를 깊게 파고드는 실무 스터디 문서입니다.</p>
 </div>
 
 {% assign category_labels = "data-engineering,ai-ml,infra,security" | split: "," %}
 {% assign category_names = "Data Engineering,AI / ML,Infrastructure,Security" | split: "," %}
-{% assign category_icons = "🗄️,🤖,⚙️,🔐" | split: "," %}
+{% assign category_icons = "database,bot,settings-2,shield" | split: "," %}
 
 {% for i in (0..3) %}
   {% assign cat = category_labels[i] %}
   {% assign cat_guides = site.data.study_guides | where: "category", cat %}
   {% if cat_guides.size > 0 %}
   <section class="study-section">
-    <h2 class="study-cat-title">{{ category_icons[i] }} {{ category_names[i] }}</h2>
+    <h2 class="study-cat-title"><i data-lucide="{{ category_icons[i] }}" class="icon"></i> {{ category_names[i] }}</h2>
     <div class="study-grid">
       {% for guide in cat_guides %}
       <a class="study-card" href="{{ guide.url }}" target="_blank" rel="noopener">
@@ -31,7 +31,7 @@ title: Study
           {% endfor %}
         </div>
         <div class="study-card-footer">
-          <span class="study-open">실무 가이드 보기 →</span>
+          <span class="study-open">실무 가이드 보기 <i data-lucide="arrow-right" class="icon"></i></span>
         </div>
       </a>
       {% endfor %}
@@ -127,3 +127,4 @@ title: Study
     font-weight: 500;
   }
 </style>
+<script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>

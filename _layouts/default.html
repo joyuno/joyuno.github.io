@@ -6,6 +6,7 @@
   <title>{{ page.title }} | {{ site.title }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     /* ─── Theme Variables ─── */
     :root {
@@ -49,6 +50,28 @@
       --input-bg: #f9fafb;
       --modal-bg: #ffffff;
     }
+
+    /* ─── Lucide Icons ─── */
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.125em;
+      flex-shrink: 0;
+    }
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-icon .icon { font-size: 1rem; }
+    .icon-btn { font-size: 1.1rem; }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -420,9 +443,9 @@
 <body>
   <!-- Mobile Header -->
   <header class="mobile-header">
-    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="메뉴 열기">☰</button>
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="메뉴 열기"><i data-lucide="menu" class="icon"></i></button>
     <span class="mobile-title">{{ site.title }}</span>
-    <button class="mobile-theme-btn" onclick="toggleTheme()" aria-label="테마 전환" id="mobile-theme-icon">🌙</button>
+    <button class="mobile-theme-btn" onclick="toggleTheme()" aria-label="테마 전환" id="mobile-theme-icon"><i data-lucide="moon" class="icon"></i></button>
   </header>
 
   <!-- Left Sidebar -->
@@ -437,39 +460,39 @@
 
     <nav class="sidebar-nav">
       <a href="/" {% if page.url == "/" %}class="active"{% endif %}>
-        <span class="nav-icon">🏠</span><span>Home</span>
+        <span class="nav-icon"><i data-lucide="house" class="icon"></i></span><span>Home</span>
       </a>
       <a href="/blog/" {% if page.url contains "/blog" %}class="active"{% endif %}>
-        <span class="nav-icon">📝</span><span>Blog</span>
+        <span class="nav-icon"><i data-lucide="file-text" class="icon"></i></span><span>Blog</span>
       </a>
       <a href="/categories/" {% if page.url contains "/categories" %}class="active"{% endif %}>
-        <span class="nav-icon">📁</span><span>Categories</span>
+        <span class="nav-icon"><i data-lucide="folder" class="icon"></i></span><span>Categories</span>
       </a>
       <a href="/tags/" {% if page.url contains "/tags" %}class="active"{% endif %}>
-        <span class="nav-icon">🏷️</span><span>Tags</span>
+        <span class="nav-icon"><i data-lucide="tag" class="icon"></i></span><span>Tags</span>
       </a>
       <a href="/archives/" {% if page.url contains "/archives" %}class="active"{% endif %}>
-        <span class="nav-icon">📚</span><span>Archives</span>
+        <span class="nav-icon"><i data-lucide="archive" class="icon"></i></span><span>Archives</span>
       </a>
       <a href="/ai-tech-digest/" {% if page.url contains "/ai-tech-digest" %}class="active"{% endif %}>
-        <span class="nav-icon">🤖</span><span>AI Tech</span>
+        <span class="nav-icon"><i data-lucide="bot" class="icon"></i></span><span>AI Tech</span>
       </a>
       <a href="/dev-report/" {% if page.url contains "/dev-report" %}class="active"{% endif %}>
-        <span class="nav-icon">📊</span><span>Dev Report</span>
+        <span class="nav-icon"><i data-lucide="bar-chart-2" class="icon"></i></span><span>Dev Report</span>
       </a>
       <a href="/study/" {% if page.url contains "/study" %}class="active"{% endif %}>
-        <span class="nav-icon">📚</span><span>Study</span>
+        <span class="nav-icon"><i data-lucide="book-open" class="icon"></i></span><span>Study</span>
       </a>
     </nav>
 
     <div class="sidebar-footer">
       <div class="sidebar-actions">
         <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
-          <span id="theme-icon">☀️</span>
+          <span id="theme-icon"><i data-lucide="sun" class="icon"></i></span>
           <span id="theme-label">라이트</span>
         </button>
         <button class="admin-btn" id="admin-btn" onclick="handleAdminClick()">
-          <span id="admin-icon">🔒</span>
+          <span id="admin-icon"><i data-lucide="lock" class="icon"></i></span>
           <span id="admin-label">관리</span>
         </button>
       </div>
@@ -490,9 +513,9 @@
   <aside id="right-sidebar">
     <!-- Search -->
     <div class="widget">
-      <div class="widget-title">🔍 검색</div>
+      <div class="widget-title"><i data-lucide="search" class="icon"></i> 검색</div>
       <div class="search-box">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><i data-lucide="search" class="icon"></i></span>
         <input type="text" id="search-input" placeholder="포스트 검색...">
       </div>
       <ul id="results-container"></ul>
@@ -500,7 +523,7 @@
 
     <!-- Recent Posts -->
     <div class="widget">
-      <div class="widget-title">🕐 최근 업데이트</div>
+      <div class="widget-title"><i data-lucide="clock" class="icon"></i> 최근 업데이트</div>
       {% for post in site.posts limit:5 %}
       <div class="recent-post-item">
         <div class="recent-post-num">{{ forloop.index }}</div>
@@ -514,7 +537,7 @@
 
     <!-- Popular Tags -->
     <div class="widget">
-      <div class="widget-title">🏷️ 인기 태그</div>
+      <div class="widget-title"><i data-lucide="tag" class="icon"></i> 인기 태그</div>
       <div class="tag-cloud">
         {% assign sorted_tags = site.tags | sort %}
         {% for tag in sorted_tags limit:25 %}
@@ -525,7 +548,7 @@
 
     <!-- Categories -->
     <div class="widget">
-      <div class="widget-title">📁 카테고리</div>
+      <div class="widget-title"><i data-lucide="folder" class="icon"></i> 카테고리</div>
       <div class="tag-cloud">
         {% assign sorted_cats = site.categories | sort %}
         {% for cat in sorted_cats limit:15 %}
@@ -538,7 +561,7 @@
   <!-- Admin Login Modal -->
   <div class="modal-overlay" id="admin-modal">
     <div class="modal-box">
-      <h3>🔐 관리자 인증</h3>
+      <h3><i data-lucide="key-round" class="icon"></i> 관리자 인증</h3>
       <div class="modal-error" id="modal-error">비밀번호가 틀렸습니다.</div>
       <input type="password" id="admin-password" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')submitAdmin()">
       <input type="password" id="admin-pat" placeholder="GitHub PAT (삭제 기능용, 선택사항)"
@@ -546,7 +569,7 @@
         onkeydown="if(event.key==='Enter')submitAdmin()">
       <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">
         PAT: GitHub → Settings → Developer settings → Personal access tokens → <strong>Tokens (classic)</strong> → repo 권한
-        <span id="pat-stored-badge" style="display:none; margin-left:0.4rem; color:var(--accent-color);">✓ 저장됨</span>
+        <span id="pat-stored-badge" style="display:none; margin-left:0.4rem; color:var(--accent-color);"><i data-lucide="check" class="icon"></i> 저장됨</span>
         <a href="#" onclick="clearPAT(event)" style="margin-left:0.4rem; color:var(--danger-color,#f85149); font-size:0.72rem;" id="pat-clear-link">초기화</a>
       </p>
       <div class="modal-actions">
@@ -568,14 +591,16 @@
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
       const isDark = t === 'dark';
-      const icon = isDark ? '🌙' : '☀️';
+      const iconName = isDark ? 'moon' : 'sun';
+      const iconHtml = `<i data-lucide="${iconName}" class="icon"></i>`;
       const label = isDark ? '다크' : '라이트';
       const el = document.getElementById('theme-icon');
       const lb = document.getElementById('theme-label');
       const mi = document.getElementById('mobile-theme-icon');
-      if (el) el.textContent = icon;
+      if (el) { el.innerHTML = iconHtml; }
       if (lb) lb.textContent = label;
-      if (mi) mi.textContent = icon;
+      if (mi) { mi.innerHTML = iconHtml; }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
     function toggleTheme() {
@@ -615,7 +640,12 @@
       const icon = document.getElementById('admin-icon');
       const label = document.getElementById('admin-label');
       if (btn) btn.classList.toggle('active', admin);
-      if (icon) icon.textContent = admin ? '🔓' : '🔒';
+      if (icon) {
+        icon.innerHTML = admin
+          ? '<i data-lucide="lock-open" class="icon"></i>'
+          : '<i data-lucide="lock" class="icon"></i>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
       if (label) label.textContent = admin ? '로그아웃' : '관리';
     }
 
@@ -667,6 +697,9 @@
 
     // Apply admin mode on load
     applyAdminMode();
+
+    // Lucide 아이콘 초기화
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // ─── SimpleJekyllSearch ───
     window.addEventListener('DOMContentLoaded', function() {
