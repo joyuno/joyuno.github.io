@@ -23,13 +23,13 @@ POSTS_DIR = "_posts"
 
 
 def get_target_date():
-    """UTC 기준 오늘 날짜 반환.
-    cron이 UTC 14:55에 실행되므로 UTC날짜 = KST당일(23:55).
-    GitHub Actions가 최대 수십 분 지연돼도 UTC 자정(00:00)을 넘지 않는 한
-    UTC날짜는 변하지 않아 안정적. KST 기준을 쓰면 지연 시 다음날로 넘어가는 문제 발생.
+    """UTC 기준 어제 날짜 반환 (= KST 전날 포스트).
+    cron이 UTC 14:55(= KST 23:55)에 실행될 때 전날 포스트를 가져옴.
+    UTC 기준을 쓰면 GitHub Actions 지연으로 KST 날짜가 바뀌어도 안전.
     """
     from datetime import timezone
-    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    yesterday = datetime.now(timezone.utc) - timedelta(days=1)
+    return yesterday.strftime("%Y-%m-%d")
 
 
 def build_headers():
@@ -194,7 +194,7 @@ def main():
     if not args.all:
         target = get_target_date()
         md_files = [f for f in md_files if f["name"].startswith(target)]
-        print(f"오늘({target} KST) 날짜 포스트: {len(md_files)}개")
+        print(f"어제({target} KST) 날짜 포스트: {len(md_files)}개")
         if not md_files:
             print(f"daewooki에 {target} 날짜 업로드 없음 — 스킵합니다.")
             sys.exit(0)
