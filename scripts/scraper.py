@@ -23,11 +23,13 @@ POSTS_DIR = "_posts"
 
 
 def get_target_date():
-    """KST 기준 오늘 날짜 반환 (GitHub Actions는 UTC로 실행되므로 +9시간 보정)"""
+    """UTC 기준 오늘 날짜 반환.
+    cron이 UTC 14:55에 실행되므로 UTC날짜 = KST당일(23:55).
+    GitHub Actions가 최대 수십 분 지연돼도 UTC 자정(00:00)을 넘지 않는 한
+    UTC날짜는 변하지 않아 안정적. KST 기준을 쓰면 지연 시 다음날로 넘어가는 문제 발생.
+    """
     from datetime import timezone
-    kst = timezone(timedelta(hours=9))
-    now_kst = datetime.now(timezone.utc).astimezone(kst)
-    return now_kst.strftime("%Y-%m-%d")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def build_headers():
