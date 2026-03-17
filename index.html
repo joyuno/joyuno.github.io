@@ -22,16 +22,16 @@ title: Home
 
     <div class="post-meta">
       <span class="post-meta-item">
-        📅 {{ post.date | date: "%Y년 %m월 %d일" }}
+        <i data-lucide="calendar" class="icon"></i> {{ post.date | date: "%Y년 %m월 %d일" }}
       </span>
       {% if post.reading_time %}
       <span class="post-meta-item reading-time">
-        ⏱️ {{ post.reading_time }}분
+        <i data-lucide="clock" class="icon"></i> {{ post.reading_time }}분
       </span>
       {% endif %}
       {% if post.author %}
       <span class="post-meta-item">
-        ✍️ {{ post.author }}
+        <i data-lucide="user" class="icon"></i> {{ post.author }}
       </span>
       {% endif %}
     </div>
@@ -51,6 +51,7 @@ title: Home
   {% endfor %}
 
   <p style="margin-top: 2rem; text-align: center;">
-    <a href="/blog/" style="color: var(--accent-color); text-decoration: none; font-weight: 500;">모든 글 보기 →</a>
+    <a href="/blog/" style="color: var(--accent-color); text-decoration: none; font-weight: 500;">모든 글 보기 <i data-lucide="arrow-right" class="icon"></i></a>
   </p>
 </section>
+<script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>
