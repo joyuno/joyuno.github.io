@@ -10,3 +10,9 @@
   tags: ["orchestration", "workflow", "scheduling"]
   date: "2026-03-12"
   url: "/study-guides/apache-airflow-study-guide.html"
+- keyword: "Apache Spark"
+  slug: "apache-spark"
+  category: "data-engineering"
+  tags: ["batch-processing", "stream-processing", "big-data"]
+  date: "2026-03-17"
+  url: "/study-guides/apache-spark-study-guide.html"
