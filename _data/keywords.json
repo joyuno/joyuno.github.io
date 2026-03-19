@@ -1,0 +1,1079 @@
+{
+  "meta": {
+    "total": 90,
+    "created": "2026-03-12",
+    "description": "데이터 엔지니어 · AI 엔지니어 · AI 정보보안 엔지니어 실무 기술스택 스터디 키워드 큐"
+  },
+  "keywords": [
+    {
+      "id": 1,
+      "keyword": "Apache Kafka",
+      "category": "data-engineering",
+      "tags": [
+        "streaming",
+        "messaging",
+        "pipeline"
+      ],
+      "status": "done",
+      "published_date": "2026-03-12"
+    },
+    {
+      "id": 2,
+      "keyword": "Apache Airflow",
+      "category": "data-engineering",
+      "tags": [
+        "orchestration",
+        "workflow",
+        "scheduling"
+      ],
+      "status": "done",
+      "published_date": "2026-03-12"
+    },
+    {
+      "id": 3,
+      "keyword": "Apache Spark",
+      "category": "data-engineering",
+      "tags": [
+        "batch-processing",
+        "stream-processing",
+        "big-data"
+      ],
+      "status": "done",
+      "published_date": "2026-03-17"
+    },
+    {
+      "id": 4,
+      "keyword": "Apache Flink",
+      "category": "data-engineering",
+      "tags": [
+        "stream-processing",
+        "real-time"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 5,
+      "keyword": "Kubernetes",
+      "category": "infra",
+      "tags": [
+        "container",
+        "orchestration",
+        "devops"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 6,
+      "keyword": "Docker",
+      "category": "infra",
+      "tags": [
+        "container",
+        "devops"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 7,
+      "keyword": "dbt",
+      "category": "data-engineering",
+      "tags": [
+        "transformation",
+        "elt",
+        "sql"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 8,
+      "keyword": "Snowflake",
+      "category": "data-engineering",
+      "tags": [
+        "data-warehouse",
+        "cloud",
+        "sql"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 9,
+      "keyword": "Databricks",
+      "category": "data-engineering",
+      "tags": [
+        "lakehouse",
+        "spark",
+        "delta-lake"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 10,
+      "keyword": "Delta Lake",
+      "category": "data-engineering",
+      "tags": [
+        "lakehouse",
+        "acid",
+        "table-format"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 11,
+      "keyword": "Apache Iceberg",
+      "category": "data-engineering",
+      "tags": [
+        "lakehouse",
+        "table-format",
+        "open-source"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 12,
+      "keyword": "Airbyte",
+      "category": "data-engineering",
+      "tags": [
+        "ingestion",
+        "elt",
+        "connector"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 13,
+      "keyword": "Fivetran",
+      "category": "data-engineering",
+      "tags": [
+        "ingestion",
+        "elt",
+        "managed"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 14,
+      "keyword": "Debezium",
+      "category": "data-engineering",
+      "tags": [
+        "cdc",
+        "kafka",
+        "database"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 15,
+      "keyword": "Dagster",
+      "category": "data-engineering",
+      "tags": [
+        "orchestration",
+        "asset-based"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 16,
+      "keyword": "Prefect",
+      "category": "data-engineering",
+      "tags": [
+        "orchestration",
+        "event-driven"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 17,
+      "keyword": "Great Expectations",
+      "category": "data-engineering",
+      "tags": [
+        "data-quality",
+        "validation",
+        "testing"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 18,
+      "keyword": "Monte Carlo",
+      "category": "data-engineering",
+      "tags": [
+        "data-observability",
+        "monitoring"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 19,
+      "keyword": "Apache Beam",
+      "category": "data-engineering",
+      "tags": [
+        "unified-processing",
+        "batch",
+        "stream"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 20,
+      "keyword": "Trino",
+      "category": "data-engineering",
+      "tags": [
+        "query-engine",
+        "distributed-sql",
+        "federation"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 21,
+      "keyword": "ClickHouse",
+      "category": "data-engineering",
+      "tags": [
+        "olap",
+        "columnar",
+        "analytics"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 22,
+      "keyword": "DuckDB",
+      "category": "data-engineering",
+      "tags": [
+        "olap",
+        "embedded",
+        "analytics"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 23,
+      "keyword": "Polars",
+      "category": "data-engineering",
+      "tags": [
+        "dataframe",
+        "rust",
+        "performance"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 24,
+      "keyword": "DataHub",
+      "category": "data-engineering",
+      "tags": [
+        "data-catalog",
+        "metadata",
+        "governance"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 25,
+      "keyword": "lakeFS",
+      "category": "data-engineering",
+      "tags": [
+        "data-versioning",
+        "git-for-data"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 26,
+      "keyword": "Redpanda",
+      "category": "data-engineering",
+      "tags": [
+        "streaming",
+        "kafka-compatible",
+        "cpp"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 27,
+      "keyword": "BigQuery",
+      "category": "data-engineering",
+      "tags": [
+        "data-warehouse",
+        "gcp",
+        "serverless"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 28,
+      "keyword": "Amazon Redshift",
+      "category": "data-engineering",
+      "tags": [
+        "data-warehouse",
+        "aws",
+        "mpp"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 29,
+      "keyword": "Kafka Connect",
+      "category": "data-engineering",
+      "tags": [
+        "integration",
+        "connector",
+        "kafka"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 30,
+      "keyword": "Kafka Streams",
+      "category": "data-engineering",
+      "tags": [
+        "stream-processing",
+        "kafka",
+        "library"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 31,
+      "keyword": "PyTorch",
+      "category": "ai-ml",
+      "tags": [
+        "deep-learning",
+        "framework",
+        "training"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 32,
+      "keyword": "TensorFlow",
+      "category": "ai-ml",
+      "tags": [
+        "deep-learning",
+        "framework",
+        "production"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 33,
+      "keyword": "Hugging Face Transformers",
+      "category": "ai-ml",
+      "tags": [
+        "nlp",
+        "llm",
+        "pretrained-models"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 34,
+      "keyword": "LangChain",
+      "category": "ai-ml",
+      "tags": [
+        "llm",
+        "rag",
+        "agent",
+        "framework"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 35,
+      "keyword": "LlamaIndex",
+      "category": "ai-ml",
+      "tags": [
+        "llm",
+        "rag",
+        "data-framework"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 36,
+      "keyword": "vLLM",
+      "category": "ai-ml",
+      "tags": [
+        "llm-serving",
+        "inference",
+        "performance"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 37,
+      "keyword": "MLflow",
+      "category": "ai-ml",
+      "tags": [
+        "mlops",
+        "experiment-tracking",
+        "model-registry"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 38,
+      "keyword": "Kubeflow",
+      "category": "ai-ml",
+      "tags": [
+        "mlops",
+        "k8s",
+        "pipeline"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 39,
+      "keyword": "Weights & Biases",
+      "category": "ai-ml",
+      "tags": [
+        "experiment-tracking",
+        "visualization"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 40,
+      "keyword": "Feast",
+      "category": "ai-ml",
+      "tags": [
+        "feature-store",
+        "online-offline",
+        "serving"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 41,
+      "keyword": "Ray Serve",
+      "category": "ai-ml",
+      "tags": [
+        "distributed",
+        "serving",
+        "scaling"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 42,
+      "keyword": "BentoML",
+      "category": "ai-ml",
+      "tags": [
+        "model-serving",
+        "packaging",
+        "deployment"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 43,
+      "keyword": "Triton Inference Server",
+      "category": "ai-ml",
+      "tags": [
+        "nvidia",
+        "inference",
+        "multi-framework"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 44,
+      "keyword": "Pinecone",
+      "category": "ai-ml",
+      "tags": [
+        "vector-db",
+        "rag",
+        "managed"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 45,
+      "keyword": "Qdrant",
+      "category": "ai-ml",
+      "tags": [
+        "vector-db",
+        "rust",
+        "open-source"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 46,
+      "keyword": "Milvus",
+      "category": "ai-ml",
+      "tags": [
+        "vector-db",
+        "distributed",
+        "open-source"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 47,
+      "keyword": "Weaviate",
+      "category": "ai-ml",
+      "tags": [
+        "vector-db",
+        "multimodal",
+        "rag"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 48,
+      "keyword": "Evidently AI",
+      "category": "ai-ml",
+      "tags": [
+        "model-monitoring",
+        "drift-detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 49,
+      "keyword": "ZenML",
+      "category": "ai-ml",
+      "tags": [
+        "mlops",
+        "llmops",
+        "pipeline"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 50,
+      "keyword": "DVC",
+      "category": "ai-ml",
+      "tags": [
+        "data-versioning",
+        "experiment",
+        "git"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 51,
+      "keyword": "NeMo Guardrails",
+      "category": "ai-ml",
+      "tags": [
+        "llm-safety",
+        "guardrails",
+        "nvidia"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 52,
+      "keyword": "Dify",
+      "category": "ai-ml",
+      "tags": [
+        "llm-platform",
+        "rag",
+        "agent"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 53,
+      "keyword": "Terraform",
+      "category": "infra",
+      "tags": [
+        "iac",
+        "multi-cloud",
+        "provisioning"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 54,
+      "keyword": "GitHub Actions",
+      "category": "infra",
+      "tags": [
+        "ci-cd",
+        "automation",
+        "devops"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 55,
+      "keyword": "ArgoCD",
+      "category": "infra",
+      "tags": [
+        "gitops",
+        "k8s",
+        "cd"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 56,
+      "keyword": "Helm",
+      "category": "infra",
+      "tags": [
+        "k8s",
+        "package-manager",
+        "charts"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 57,
+      "keyword": "Prometheus + Grafana",
+      "category": "infra",
+      "tags": [
+        "monitoring",
+        "metrics",
+        "visualization"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 58,
+      "keyword": "ELK Stack",
+      "category": "infra",
+      "tags": [
+        "logging",
+        "search",
+        "observability"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 59,
+      "keyword": "HashiCorp Vault",
+      "category": "infra",
+      "tags": [
+        "secrets",
+        "security",
+        "encryption"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 60,
+      "keyword": "OpenTelemetry",
+      "category": "infra",
+      "tags": [
+        "observability",
+        "tracing",
+        "metrics"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 61,
+      "keyword": "MITRE ATT&CK Framework",
+      "category": "security",
+      "tags": [
+        "threat-modeling",
+        "tactics",
+        "techniques"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 62,
+      "keyword": "Splunk Enterprise Security",
+      "category": "security",
+      "tags": [
+        "siem",
+        "log-analysis",
+        "threat-detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 63,
+      "keyword": "CrowdStrike Falcon",
+      "category": "security",
+      "tags": [
+        "xdr",
+        "edr",
+        "endpoint"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 64,
+      "keyword": "Palo Alto Cortex XDR",
+      "category": "security",
+      "tags": [
+        "xdr",
+        "soar",
+        "detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 65,
+      "keyword": "SentinelOne Singularity",
+      "category": "security",
+      "tags": [
+        "xdr",
+        "ai",
+        "autonomous"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 66,
+      "keyword": "Metasploit Framework",
+      "category": "security",
+      "tags": [
+        "pentest",
+        "exploitation",
+        "red-team"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 67,
+      "keyword": "Burp Suite",
+      "category": "security",
+      "tags": [
+        "web-security",
+        "pentest",
+        "scanner"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 68,
+      "keyword": "Nessus",
+      "category": "security",
+      "tags": [
+        "vulnerability-scanner",
+        "compliance"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 69,
+      "keyword": "Wiz",
+      "category": "security",
+      "tags": [
+        "cnapp",
+        "cloud-security",
+        "cspm"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 70,
+      "keyword": "Falco",
+      "category": "security",
+      "tags": [
+        "runtime-security",
+        "k8s",
+        "threat-detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 71,
+      "keyword": "IDA Pro",
+      "category": "security",
+      "tags": [
+        "reverse-engineering",
+        "disassembler",
+        "malware"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 72,
+      "keyword": "Ghidra",
+      "category": "security",
+      "tags": [
+        "reverse-engineering",
+        "nsa",
+        "open-source"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 73,
+      "keyword": "Darktrace",
+      "category": "security",
+      "tags": [
+        "ai-security",
+        "ndr",
+        "anomaly-detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 74,
+      "keyword": "Vectra AI",
+      "category": "security",
+      "tags": [
+        "ai-security",
+        "ndr",
+        "threat-detection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 75,
+      "keyword": "OWASP ZAP",
+      "category": "security",
+      "tags": [
+        "web-security",
+        "scanner",
+        "open-source"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 76,
+      "keyword": "Trivy",
+      "category": "security",
+      "tags": [
+        "container-security",
+        "image-scan",
+        "vulnerability"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 77,
+      "keyword": "Volatility",
+      "category": "security",
+      "tags": [
+        "memory-forensics",
+        "incident-response"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 78,
+      "keyword": "YARA",
+      "category": "security",
+      "tags": [
+        "malware-detection",
+        "rule-based",
+        "signature"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 79,
+      "keyword": "Snort / Suricata",
+      "category": "security",
+      "tags": [
+        "ids-ips",
+        "network-security",
+        "rule-based"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 80,
+      "keyword": "Adversarial Robustness Toolbox",
+      "category": "security",
+      "tags": [
+        "adversarial-ml",
+        "ai-red-team",
+        "ibm"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 81,
+      "keyword": "Garak",
+      "category": "security",
+      "tags": [
+        "llm-security",
+        "vulnerability-scanner"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 82,
+      "keyword": "Okta",
+      "category": "security",
+      "tags": [
+        "iam",
+        "sso",
+        "identity"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 83,
+      "keyword": "CyberArk",
+      "category": "security",
+      "tags": [
+        "pam",
+        "privileged-access",
+        "vault"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 84,
+      "keyword": "Cloudflare WAF",
+      "category": "security",
+      "tags": [
+        "waf",
+        "ddos",
+        "web-protection"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 85,
+      "keyword": "Zscaler",
+      "category": "security",
+      "tags": [
+        "zero-trust",
+        "ztna",
+        "sase"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 86,
+      "keyword": "Microsoft Sentinel",
+      "category": "security",
+      "tags": [
+        "siem",
+        "azure",
+        "cloud-native"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 87,
+      "keyword": "Aqua Security",
+      "category": "security",
+      "tags": [
+        "container-security",
+        "cwpp",
+        "runtime"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 88,
+      "keyword": "SQLMap",
+      "category": "security",
+      "tags": [
+        "sql-injection",
+        "automation",
+        "pentest"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 89,
+      "keyword": "Wireshark",
+      "category": "security",
+      "tags": [
+        "packet-analysis",
+        "network",
+        "forensics"
+      ],
+      "status": "pending",
+      "published_date": null
+    },
+    {
+      "id": 90,
+      "keyword": "DNSSEC",
+      "category": "security",
+      "tags": [
+        "dns-security",
+        "authentication",
+        "protocol"
+      ],
+      "status": "pending",
+      "published_date": null
+    }
+  ]
+}
