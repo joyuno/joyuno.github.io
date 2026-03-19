@@ -28,3 +28,9 @@
   tags: ["stream-processing", "real-time"]
   date: "2026-03-19"
   url: "/study-guides/apache-flink-study-guide.html"
+- keyword: "Kubernetes"
+  slug: "kubernetes"
+  category: "infra"
+  tags: ["container", "orchestration", "devops"]
+  date: "2026-03-19"
+  url: "/study-guides/kubernetes-study-guide.html"

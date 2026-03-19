@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes 실무 스터디 가이드 | 데브옵스 · 인프라 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent2);
+        }
+        .toc ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .toc li {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+        .section {
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.03);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+        .date {
+            color: var(--accent4);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Kubernetes 실무 스터디 가이드</h1>
+        <p class="subtitle">데브옵스 · 인프라 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">#container</span>
+            <span class="badge">#orchestration</span>
+            <span class="badge">#devops</span>
+            <span class="badge">작성일: <span class="date">2026.03</span></span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Kubernetes란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Kubernetes란?</h2>
+            <p>Kubernetes(쿠버네티스, K8s)는 컨테이너화된 애플리케이션의 배포, 스케일링, 관리를 자동화하는 오픈소스 플랫폼입니다. Google이 설계했으며 현재 CNCF(Cloud Native Computing Foundation)가 관리합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>자동화된 배포와 롤링 업데이트</h4>
+                    <p>애플리케이션을 선언적으로 정의하고, 원하는 상태를 유지하며, 무중단 업데이트를 지원합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>서비스 디스커버리와 로드 밸런싱</h4>
+                    <p>컨테이너에 DNS 이름이나 자체 IP 주소를 부여하고, 트래픽을 분산시킵니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>자동 복구(self-healing)</h4>
+                    <p>실패한 컨테이너를 재시작하고, 노드 장애 시 컨테이너를 다른 노드로 재배치합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 배포 방식과의 비교를 통해 Kubernetes의 가치를 확인해 보세요.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>기준</th>
+                        <th>전통적 VM</th>
+                        <th>단순 컨테이너 (Docker)</th>
+                        <th>Kubernetes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>스케일링</strong></td>
+                        <td>수동, 느림</td>
+                        <td>부분적 자동화</td>
+                        <td>자동, 수평/수직</td>
+                    </tr>
+                    <tr>
+                        <td><strong>가용성</strong></td>
+                        <td>수동 장애 조치</td>
+                        <td>제한적</td>
+                        <td>내장된 고가용성</td>
+                    </tr>
+                    <tr>
+                        <td><strong>리소스 효율</strong></td>
+                        <td>낮음 (OS 오버헤드)</td>
+                        <td>높음</td>
+                        <td>매우 높음 (빈 패킹)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>배포 복잡도</strong></td>
+                        <td>높음</td>
+                        <td>중간</td>
+                        <td>초기 높음, 이후 낮음</td>
+                    </tr>
+                    <tr>
+                        <td><strong>생태계</strong></td>
+                        <td>제한적</td>
+                        <td>풍부</td>
+                        <td>매우 풍부 (Helm, Operators 등)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>Kubernetes 클러스터의 기본 아키텍처를 ASCII 다이어그램으로 표현했습니다.</p>
+            <div class="diagram">
+    [ 사용자 / kubectl / API ]
+            |
+            v
+    +-----------------------+
+    |   Control Plane       |
+    |  (Master Node(s))     |
+    |                       |
+    |  - API Server         |
+    |  - Scheduler          |
+    |  - Controller Manager |
+    |  - etcd (클러스터 DB) |
+    +-----------------------+
+            |
+            | (관리 명령)
+            v
+    +---------------------------------------------------+
+    |                Worker Nodes                       |
+    |   +----------+     +----------+     +----------+  |
+    |   |   Pod    |     |   Pod    |     |   Pod    |  |
+    |   | [Container]    | [Container]    | [Container] |
+    |   +----------+     +----------+     +----------+  |
+    |   |  kubelet |     |  kubelet |     |  kubelet |  |
+    |   | kube-proxy|    | kube-proxy|    | kube-proxy| |
+    |   +----------+     +----------+     +----------+  |
+    |                                                   |
+    +---------------------------------------------------+
+            </div>
+            <div class="callout">
+                <strong>핵심 오브젝트:</strong> Pod(컨테이너 그룹), Deployment(배포 관리), Service(네트워크 엔드포인트), ConfigMap/Secret(설정), Namespace(가상 클러스터).
+            </div>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            <h3>4.1 로컬 개발 환경 설치 (Minikube)</h3>
+            <pre><code># Minikube 설치 (macOS 예시)
+brew install minikube
+# 클러스터 시작
+minikube start --driver=docker
+# 상태 확인
+kubectl cluster-info</code></pre>
+
+            <h3>4.2 첫 번째 애플리케이션 배포</h3>
+            <p>간단한 Python 웹 애플리케이션을 배포해 봅니다.</p>
+            <p><strong>app.py</strong> (로컬에 생성):</p>
+            <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Hello from Kubernetes Pod!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)</code></pre>
+
+            <p><strong>Dockerfile</strong>:</p>
+            <pre><code>FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY app.py .
+CMD ["python", "app.py"]</code></pre>
+
+            <p><strong>requirements.txt</strong>:</p>
+            <pre><code>Flask==2.3.2</code></pre>
+
+            <p><strong>Kubernetes Deployment YAML (deploy.yaml)</strong>:</p>
+            <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-webapp
+  template:
+    metadata:
+      labels:
+        app: python-webapp
+    spec:
+      containers:
+      - name: web
+        image: python-webapp:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-webapp-service
+spec:
+  selector:
+    app: python-webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer</code></pre>
+
+            <p><strong>배포 명령어</strong>:</p>
+            <pre><code># 이미지 빌드 및 Minikube에 로드
+docker build -t python-webapp .
+minikube image load python-webapp:latest
+# 배포 적용
+kubectl apply -f deploy.yaml
+# 상태 확인
+kubectl get pods,svc</code></pre>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 항목</th>
+                        <th>키 (YAML)</th>
+                        <th>기본값 / 예시</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>리소스 제한</td>
+                        <td>resources.limits</td>
+                        <td>cpu: "500m", memory: "512Mi"</td>
+                        <td>컨테이너가 사용할 수 있는 최대 리소스</td>
+                    </tr>
+                    <tr>
+                        <td>레플리카 수</td>
+                        <td>spec.replicas</td>
+                        <td>3</td>
+                        <td>유지할 Pod의 개수</td>
+                    </tr>
+                    <tr>
+                        <td>헬스체크</td>
+                        <td>livenessProbe</td>
+                        <td>httpGet: /health, 초기지연: 30초</td>
+                        <td>컨테이너 재시작 여부 판단</td>
+                    </tr>
+                    <tr>
+                        <td>서비스 타입</td>
+                        <td>spec.type</td>
+                        <td>ClusterIP, NodePort, LoadBalancer</td>
+                        <td>서비스 노출 방식</td>
+                    </tr>
+                    <tr>
+                        <td>볼륨 마운트</td>
+                        <td>volumeMounts</td>
+                        <td>mountPath: "/data"</td>
+                        <td>컨테이너 내 스토리지 경로</td>
+                    </tr>
+                    <tr>
+                        <td>환경 변수</td>
+                        <td>env</td>
+                        <td>- name: DB_HOST value: "db"</td>
+                        <td>컨테이너에 주입할 환경 변수</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="callout">
+                <strong>팁 1: kubectl alias 설정</strong><br>
+                <code>alias k=kubectl</code>을 ~/.bashrc 또는 ~/.zshrc에 추가하여 명령어를 단축하세요.
+            </div>
+            <div class="callout warn">
+                <strong>문제: Pod가 Pending 상태로 멈춤</strong><br>
+                <strong>원인:</strong> 리소스 부족 또는 노드 선택기 불일치.<br>
+                <strong>해결:</strong> <code>kubectl describe pod &lt;pod-name&gt;</code>으로 이벤트 확인. <code>kubectl get nodes</code>로 노드 상태 점검.
+            </div>
+            <div class="callout">
+                <strong>팁 2: ConfigMap으로 설정 분리</strong><br>
+                환경별 설정(개발/스테이징/운영)을 ConfigMap으로 관리하고 Pod에 마운트하세요. 코드와 설정을 분리할 수 있습니다.
+            </div>
+            <div class="callout warn">
+                <strong>문제: 서비스에 연결할 수 없음</strong><br>
+                <strong>원인:</strong> 레이블 셀렉터 불일치 또는 네트워크 정책.<br>
+                <strong>해결:</strong> <code>kubectl get svc &lt;service-name&gt; -o yaml</code>로 selector 레이블 확인. Pod의 레이블과 일치하는지 확인하세요.
+            </div>
+            <div class="callout">
+                <strong>팁 3: 네임스페이스 활용</strong><br>
+                팀/환경별로 네임스페이스를 분리하여 리소스를 격리하고 관리 효율성을 높이세요.
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul style="padding-left: 2rem; margin-top: 1rem;">
+                <li><a href="https://kubernetes.io/docs" target="_blank">공식 Kubernetes 문서</a> - 가장 정확하고 상세한 정보원</li>
+                <li><a href="https://kubernetes.io/ko/docs" target="_blank">Kubernetes 한국어 문서</a> - 한글 번역본</li>
+                <li><a href="https://helm.sh" target="_blank">Helm</a> - Kubernetes 패키지 매니저</li>
+                <li><a href="https://github.com/kubernetes/kubernetes" target="_blank">Kubernetes GitHub</a> - 소스 코드 및 이슈 트래킹</li>
+                <li><a href="https://www.cncf.io/certification/cka/" target="_blank">CKA (Certified Kubernetes Administrator)</a> - 공인 자격증</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 Kubernetes의 핵심 개념과 실무 적용을 빠르게 학습하기 위해 제작되었습니다.</p>
+        <p>지속적인 업데이트와 피드백을 반영할 예정입니다. © 2026 데브옵스 스터디 그룹</p>
+    </footer>
+</body>
+</html>
