@@ -16,3 +16,9 @@
   tags: ["batch-processing", "stream-processing", "big-data"]
   date: "2026-03-17"
   url: "/study-guides/apache-spark-study-guide.html"
+- keyword: "Apache Flink"
+  slug: "apache-flink"
+  category: "data-engineering"
+  tags: ["stream-processing", "real-time"]
+  date: "2026-03-19"
+  url: "/study-guides/apache-flink-study-guide.html"
