@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Flink 실무 스터디 가이드 | 데이터 엔지니어 · AI 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .toc li {
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.8rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 2rem 0;
+            color: var(--accent2);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre-wrap;
+        }
+        .code-block {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+        .code-block pre {
+            margin: 0;
+        }
+        .lang-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            border-radius: 0 8px 0 8px;
+            border-left: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Apache Flink 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">Stream Processing</span>
+            <span class="badge">Real-Time</span>
+            <span class="badge">Stateful Computations</span>
+            <span class="badge">Python API</span>
+            <span class="badge">2026.03 작성</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Apache Flink란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Apache Flink란?</h2>
+            <p>Apache Flink는 <strong>상태 기반의 정확히 한 번(exactly-once) 처리 의미론을 보장하는 분산 스트림 처리 프레임워크</strong>입니다. 배치 처리를 유한 스트림의 특별한 경우로 간주하여 스트림과 배치를 통합한 단일 엔진으로 동작합니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔁 상태 기반 처리</h4>
+                    <p>연산 중간 결과를 내부 상태(State)로 유지하며, 체크포인트를 통해 장애 발생 시 정확한 상태로 복구할 수 있습니다. 이는 실시간 애널리틱스, 이벤트 기반 애플리케이션에 필수적입니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ 저지연 & 고처리량</h4>
+                    <p>이벤트 단위 처리와 마이크 배치 처리 방식을 혼용하여 밀리초 단위의 지연 시간과 초당 수백만 이벤트의 처리량을 동시에 달성할 수 있습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌐 통합 배치 & 스트림</h4>
+                    <p>DataSet API(배치)와 DataStream API(스트림)를 동일한 런타임 위에서 제공합니다. 최근에는 더욱 간결한 Table API & SQL로 통합되고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>실시간 데이터 처리 영역에서 Flink는 상태 관리와 정확성 보장 측면에서 두드러집니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>프레임워크</th>
+                        <th>처리 모델</th>
+                        <th>상태 관리</th>
+                        <th>정확성 보장</th>
+                        <th>주요 사용 사례</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Apache Flink</strong></td>
+                        <td>True Streaming (이벤트 단위)</td>
+                        <td>내장된 분산 상태, 체크포인트</td>
+                        <td><strong>Exactly-once</strong></td>
+                        <td>실시간 대시보드, 복잡 이벤트 처리(CEP), 실시간 ETL</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Spark Streaming</td>
+                        <td>Micro-batching (작은 배치)</td>
+                        <td>외부 저장소 의존 (예: HDFS)</td>
+                        <td>Exactly-once (구현 복잡)</td>
+                        <td>배치와 스트림 혼합 워크로드, 주기적 리포트</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Kafka Streams</td>
+                        <td>True Streaming</td>
+                        <td>로컬 상태 (RocksDB) + Kafka</td>
+                        <td>Exactly-once (Kafka 한정)</td>
+                        <td>Kafka 기반 간단한 스트림 앱, 토픽 간 변환</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Storm</td>
+                        <td>True Streaming</td>
+                        <td>제한적 (Trident API 필요)</td>
+                        <td>At-least-once</td>
+                        <td>극저지연 처리, 트랜잭션 필요 없는 모니터링</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>💡 선택 가이드</h4>
+                <p><strong>Flink를 선택할 때</strong>: 상태가 복잡하고 정확한 한 번 처리가 필수이며, 지연 시간과 처리량을 모두 고려해야 하는 경우 (예: 실시간 추천, 사기 탐지, 주식 거래 모니터링).<br>
+                <strong>다른 대안을 고려할 때</strong>: 이미 Spark 생태계가 구축되었거나, 마이크로 배치로 충분하며, 상태 관리가 간단한 경우.</p>
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>Flink 애플리케이션은 <strong>소스(Source) → 변환(Transformation) → 싱크(Sink)</strong>의 흐름으로 구성됩니다. JobManager와 TaskManager가 클러스터를 구성합니다.</p>
+            
+            <div class="diagram">
+  +------------------+      +---------------------+      +------------------+
+  |   Data Sources   | ---> |   Flink Cluster     | ---> |   Data Sinks     |
+  |  (Kafka, File,   |      |                     |      |  (Kafka, DB,     |
+  |   Socket, etc.)  |      | +----------------+  |      |   File, etc.)    |
+  +------------------+      | |  JobManager    |  |      +------------------+
+                            | |  (Master)      |  |
+                            | |  - Schedules   |  |
+                            | |  - Coordinates |  |
+                            | +----------------+  |
+                            |        ^            |
+                            |        |            |
+                            | +------v--------+  |
+                            | | TaskManagers  |  |
+                            | |  (Workers)    |  |
+                            | |  - Execute    |  |
+                            | |  - State      |  |
+                            | +---------------+  |
+                            +---------------------+
+                                      |
+                              +-------v-------+
+                              | State Backend |
+                              | (Memory,      |
+                              |  RocksDB,     |
+                              |  FS)          |
+                              +---------------+
+            </div>
+            
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>JobManager (마스터)</strong>: 작업 스케줄링, 체크포인트 조정, 장애 복구 담당.</li>
+                <li><strong>TaskManager (워커)</strong>: 실제 데이터 연산 태스크를 실행하고 상태를 관리.</li>
+                <li><strong>State Backend</strong>: 상태 저장 방식을 정의 (메모리, 파일시스템, RocksDB).</li>
+                <li><strong>Checkpoint & Savepoint</strong>: 장애 복구(Checkpoint)와 버전 업그레이드/스케일 아웃(Savepoint)을 위한 상태 스냅샷.</li>
+            </ul>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
+            
+            <h3>단계 1: 로컬 설치 (Mac/Linux)</h3>
+            <div class="code-block">
+                <div class="lang-tag">CLI</div>
+                <pre><code># 1. Java 11 이상 설치 확인
+java -version
+
+# 2. Flink 다운로드 및 압축 해제
+wget https://downloads.apache.org/flink/flink-1.18.0/flink-1.18.0-bin-scala_2.12.tgz
+tar -xzf flink-1.18.0-bin-scala_2.12.tgz
+cd flink-1.18.0
+
+# 3. 로컬 클러스터 시작
+./bin/start-cluster.sh
+
+# 4. 웹 UI 확인 (http://localhost:8081)
+# 5. 예제 작업 실행
+./bin/flink run ./examples/streaming/WordCount.jar</code></pre>
+            </div>
+
+            <h3>단계 2: PyFlink 환경 설정 (Python 가상환경)</h3>
+            <div class="code-block">
+                <div class="lang-tag">CLI</div>
+                <pre><code># 가상환경 생성 및 활성화
+python -m venv pyflink_env
+source pyflink_env/bin/activate  # Windows: pyflink_env\Scripts\activate
+
+# PyFlink 설치 (Java 11+ 필요)
+pip install apache-flink
+
+# Jupyter notebook 확장 설치 (선택사항)
+pip install apache-flink-jupyter</code></pre>
+            </div>
+
+            <h3>단계 3: 첫 번째 PyFlink 스트리밍 작업</h3>
+            <p>소켓에서 들어오는 단어를 실시간으로 카운트하는 예제입니다.</p>
+            <div class="code-block">
+                <div class="lang-tag">Python</div>
+                <pre><code>from pyflink.datastream import StreamExecutionEnvironment
+from pyflink.datastream.connectors import SocketTextStreamSource
+from pyflink.common.typeinfo import Types
+from pyflink.datastream.functions import MapFunction, FlatMapFunction
+
+# 실행 환경 생성
+env = StreamExecutionEnvironment.get_execution_environment()
+# 체크포인트 간격 설정 (장애 복구용)
+env.enable_checkpointing(10000)  # 10초마다
+
+# 소켓 소스 정의 (로컬 9999 포트)
+source = SocketTextStreamSource("localhost", 9999, "\n", 0)
+text_stream = env.add_source(source, "Socket Source")
+
+# 변환: 단어 분리 및 카운트
+class Tokenizer(FlatMapFunction):
+    def flat_map(self, value):
+        for word in value.lower().split():
+            yield (word, 1)
+
+class Adder(MapFunction):
+    def map(self, value):
+        return value[0], value[1] + 1
+
+word_counts = (text_stream
+    .flat_map(Tokenizer(), output_type=Types.TUPLE([Types.STRING(), Types.INT()]))
+    .key_by(lambda x: x[0])  # 단어별로 키 지정
+    .map(Adder(), output_type=Types.TUPLE([Types.STRING(), Types.INT()]))
+)
+
+# 결과 출력 (표준 출력)
+word_counts.print()
+
+# 작업 실행
+print("소켓 스트림 처리 시작... (데이터를 localhost:9999로 전송하세요)")
+print("예: nc -lk 9999")
+env.execute("Socket WordCount")</code></pre>
+            </div>
+            <div class="callout">
+                <h4>🚀 실행 방법</h4>
+                <p>1. 터미널 A에서 Flink 클러스터 실행: <code>./bin/start-cluster.sh</code><br>
+                2. 터미널 B에서 netcat 서버 시작: <code>nc -lk 9999</code><br>
+                3. 터미널 C에서 위 Python 스크립트 실행: <code>python wordcount.py</code><br>
+                4. 터미널 B에 단어 입력 → 터미널 C에서 실시간 카운트 출력 확인</p>
+            </div>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>실무에서 자주 조정하는 Flink 설정값들입니다. <code>flink-conf.yaml</code> 또는 코드에서 설정 가능합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 키</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>실무 권장값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>taskmanager.numberOfTaskSlots</code></td>
+                        <td>1</td>
+                        <td>각 TaskManager의 태스크 슬롯 수 (CPU 코어당 1개 권장)</td>
+                        <td>물리적 코어 수</td>
+                    </tr>
+                    <tr>
+                        <td><code>parallelism.default</code></td>
+                        <td>1</td>
+                        <td>작업 기본 병렬도</td>
+                        <td>TaskManager 수 × taskSlots</td>
+                    </tr>
+                    <tr>
+                        <td><code>state.backend</code></td>
+                        <td>(없음)</td>
+                        <td>상태 백엔드 유형 (jobmanager, filesystem, rocksdb)</td>
+                        <td>rocksdb (대용량 상태 시)</td>
+                    </tr>
+                    <tr>
+                        <td><code>execution.checkpointing.interval</code></td>
+                        <td>(없음)</td>
+                        <td>체크포인트 간격 (ms)</td>
+                        <td>1m (60000) - 처리량과 복구 시간 절충</td>
+                    </tr>
+                    <tr>
+                        <td><code>execution.checkpointing.timeout</code></td>
+                        <td>10m</td>
+                        <td>체크포인트 완료 대기 시간</td>
+                        <td>5m (300000)</td>
+                    </tr>
+                    <tr>
+                        <td><code>pipeline.object-reuse</code></td>
+                        <td>false</td>
+                        <td>객체 재사용으로 GC 오버헤드 감소 (주의 필요)</td>
+                        <td>true (성능 최적화 시)</td>
+                    </tr>
+                    <tr>
+                        <td><code>table.exec.state.ttl</code></td>
+                        <td>0 (무제한)</td>
+                        <td>상태 데이터의 TTL (Time-To-Live)</td>
+                        <td>7d (604800000) - 상태 무한 증가 방지</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <div class="callout warn">
+                <h4>⚠️ 자주 겪는 문제 1: 백프레셔(Backpressure) 발생</h4>
+                <p><strong>증상</strong>: 웹 UI에서 작업 그래프가 빨간색, 처리 지연 증가, 체크포인트 타임아웃.<br>
+                <strong>원인</strong>: 싱크 처리 속도가 소스 수신 속도보다 느림, 키 분포 편향(Data Skew), 리소스 부족.<br>
+                <strong>해결</strong>:
+                1. 병렬도 증가 (<code>env.set_parallelism()</code>)
+                2. 상태 백엔드를 RocksDB로 변경 (대용량 상태 시)
+                3. 윈도우 크기 조정 또는 데이터 리파티셔닝
+                4. 싱크 측 병목 확인 (예: DB 쓰기 속도)</p>
+            </div>
+
+            <div class="callout">
+                <h4>💡 실무 팁 1: 상태 TTL 설정으로 메모리 관리</h4>
+                <p>키별 상태가 무한정 커지는 것을 방지하려면 항상 TTL을 설정하세요. 특히 세션 윈도우나 유저 활동 추적 시 필수입니다.</p>
+                <div class="code-block">
+                    <div class="lang-tag">Python</div>
+                    <pre><code>from pyflink.common import Time
+from pyflink.common.state import StateTtlConfig
+
+ttl_config = (StateTtlConfig
+    .new_builder(Time.days(7))  # 7일 후 상태 자동 삭제
+    .set_update_type(StateTtlConfig.UpdateType.OnReadAndWrite)
+    .set_state_visibility(StateTtlConfig.StateVisibility.NeverReturnExpired)
+    .build())
+
+# 상태 디스크립터에 TTL 적용
+state_descriptor = ValueStateDescriptor("user_state", Types.STRING())
+state_descriptor.enable_time_to_live(ttl_config)</code></pre>
+                </div>
+            </div>
+
+            <div class="callout warn">
+                <h4>⚠️ 자주 겪는 문제 2: 체크포인트 실패</h4>
+                <p><strong>증상</strong>: <code>Checkpoint expired before completing</code> 에러, 작업 실패.<br>
+                <strong>원인</strong>: 네트워크 지연, 상태가 너무 커서 저장 시간 초과, 저장소 성능 문제.<br>
+                <strong>해결</strong>:
+                1. 체크포인트 간격 증가 (<code>execution.checkpointing.interval</code>)
+                2. 타임아웃 시간 증가 (<code>execution.checkpointing.timeout</code>)
+                3. 증분 체크포인트 활성화 (<code>state.backend.incremental: true</code> for RocksDB)
+                4. HDFS 대신 로컬 SSD 사용 검토</p>
+            </div>
+
+            <div class="callout">
+                <h4>💡 실무 팁 2: 키 선택 전략으로 데이터 편향 해결</h4>
+                <p>특정 키에 데이터가 몰리는 경우(예: 인기 상품 ID), 리파티셔닝 전에 salting 기법을 적용하세요.</p>
+                <div class="code-block">
+                    <div class="lang-tag">Python</div>
+                    <pre><code>from pyflink.datastream import StreamExecutionEnvironment
+
+env = StreamExecutionEnvironment.get_execution_environment()
+
+# 원본 스트림
+data_stream = env.from_collection([...])
+
+# Salting: 키에 랜덤 접미사 추가
+def add_salt(element):
+    import random
+    key, value = element
+    salt = random.randint(0, 9)  # 0-9 사이 소금
+    return (f"{key}_{salt}", value)
+
+salted_stream = data_stream.map(add_salt)
+
+# Salting된 키로 리파티셔닝 후 집계
+result = (salted_stream
+    .key_by(lambda x: x[0])  # salted_key로 분산
+    .reduce(lambda a, b: (a[0], a[1] + b[1]))  # 집계
+)
+
+# 최종 결과에서 salt 제거 (필요시)
+final_result = result.map(lambda x: (x[0].split('_')[0], x[1]))</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://nightlies.apache.org/flink/flink-docs-release-1.18/" target="_blank">📖 공식 문서 (최신 안정판)</a> - 개념, API, 설정 상세 설명</li>
+                <li><a href="https://github.com/apache/flink" target="_blank">🐙 Apache Flink GitHub</a> - 소스 코드, 이슈 트래킹</li>
+                <li><a href="https://flink.apache.org/community.html#mailing-lists" target="_blank">✉️ 사용자 메일링 리스트</a> - 커뮤니티 질문</li>
+                <li><a href="https://training.ververica.com/" target="_blank">🎓 무료 교육 (Ververica)</a> - 실습형 강의</li>
+                <li><a href="https://github.com/apache/flink-playgrounds" target="_blank">🧪 플레이그라운드 예제</a> - 다양한 실습 예제 코드</li>
+                <li><a href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/python/table/" target="_blank">🐍 PyFlink Table API 가이드</a> - Python SQL 인터페이스</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 Apache Flink 커뮤니티 문서와 실무 경험을 바탕으로 작성되었습니다.</p>
+        <p>📅 최종 업데이트: 2026년 3월 | 🏷️ 관련 태그: <strong>stream-processing, real-time, data-engineering, apache-flink</strong></p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">Apache Flink는 Apache Software Foundation의 등록 상표입니다.</p>
+    </footer>
+</body>
+</html>
