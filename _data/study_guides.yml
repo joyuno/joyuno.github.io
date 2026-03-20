@@ -34,3 +34,9 @@
   tags: ["container", "orchestration", "devops"]
   date: "2026-03-19"
   url: "/study-guides/kubernetes-study-guide.html"
+- keyword: "Docker"
+  slug: "docker"
+  category: "infra"
+  tags: ["container", "devops"]
+  date: "2026-03-20"
+  url: "/study-guides/docker-study-guide.html"
