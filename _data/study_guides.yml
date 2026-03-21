@@ -40,3 +40,9 @@
   tags: ["container", "devops"]
   date: "2026-03-20"
   url: "/study-guides/docker-study-guide.html"
+- keyword: "dbt"
+  slug: "dbt"
+  category: "data-engineering"
+  tags: ["transformation", "elt", "sql"]
+  date: "2026-03-21"
+  url: "/study-guides/dbt-study-guide.html"
