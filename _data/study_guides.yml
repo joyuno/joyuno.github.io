@@ -40,3 +40,9 @@
   tags: ["transformation", "elt", "sql"]
   date: "2026-03-21"
   url: "/study-guides/dbt-study-guide.html"
+- keyword: "Snowflake"
+  slug: "snowflake"
+  category: "data-engineering"
+  tags: ["data-warehouse", "cloud", "sql"]
+  date: "2026-03-22"
+  url: "/study-guides/snowflake-study-guide.html"

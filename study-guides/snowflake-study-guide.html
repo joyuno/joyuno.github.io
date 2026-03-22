@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        .toc h2 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        .toc li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 80px;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent2);
+        }
+        .section h3 {
+            font-size: 1.6rem;
+            margin: 30px 0 15px;
+            color: var(--accent4);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--accent3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 25px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 25px 0;
+            line-height: 1.4;
+            color: var(--accent2);
+            white-space: pre;
+        }
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .tag-list {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background-color: var(--surface2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Snowflake 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">클라우드 데이터 플랫폼</span>
+            <span class="badge">실무 중심</span>
+            <span class="badge">2026.03 업데이트</span>
+            <span class="badge">Python & SQL</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Snowflake란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Snowflake란?</h2>
+            <p>Snowflake는 클라우드 네이티브 데이터 플랫폼으로, 데이터 웨어하우징, 데이터 레이크, 데이터 공유, 머신러닝/애널리틱스 워크로드를 하나의 통합 서비스로 제공합니다. 전통적인 아키텍처와 달리 스토리지와 컴퓨팅이 분리되어 독립적으로 확장 가능합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📊 통합 데이터 플랫폼</h4>
+                    <p>ETL/ELT, 저장, 처리, 분석, 공유까지의 전체 데이터 파이프라인을 단일 플랫폼에서 관리. 구조화/반구조화 데이터 모두 지원.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ 스토리지-컴퓨팅 분리</h4>
+                    <p>데이터 스토리지와 컴퓨팅 클러스터가 독립적. 워크로드별로 컴퓨팅 리소스를 유연하게 할당하고 초 단위로 과금.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌐 멀티 클라우드 & 리전</h4>
+                    <p>AWS, Azure, GCP를 동시에 지원. 크로스 클라우드 데이터 복제 및 쿼리 가능. 글로벌 데이터 거버넌스 정책 적용.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 온프레미스 및 클라우드 대안과 비교한 Snowflake의 차별점.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>비교 항목</th>
+                        <th>Snowflake</th>
+                        <th>전통적 DW (e.g., Redshift)</th>
+                        <th>빅데이터 플랫폼 (e.g., Hadoop)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>관리 부담</strong></td>
+                        <td>완전 관리형 (NoOps)</td>
+                        <td>부분 관리형 (클러스터 튜닝 필요)</td>
+                        <td>자가 관리 (고비용)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>확장성</strong></td>
+                        <td>자동 스케일 아웃/인, 초 단위</td>
+                        <td>수동 클러스터 조정, 시간 단위</td>
+                        <td>수평 확장 복잡</td>
+                    </tr>
+                    <tr>
+                        <td><strong>데이터 형식</strong></td>
+                        <td>JSON, Avro, Parquet, XML 등 네이티브 지원</td>
+                        <td>ETL을 통한 변환 필요</td>
+                        <td>모든 형식 가능 but 코드 복잡</td>
+                    </tr>
+                    <tr>
+                        <td><strong>동시성</strong></td>
+                        <td>자동 워크로드 분리, 무제한 동시 쿼리</td>
+                        <td>동시성 제한, 큐잉 발생</td>
+                        <td>리소스 경합 심함</td>
+                    </tr>
+                    <tr>
+                        <td><strong>가격 모델</strong></td>
+                        <td>스토리지 + 컴퓨팅 크레딧 분리 과금</td>
+                        <td>인스턴스 예약 또는 온디맨드</td>
+                        <td>인프라 유지비 + 인력 비용</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>💡 핵심 가치:</strong> 데이터 인프라 운영 복잡성을 제거하고, 데이터 팀이 비즈니스 가치 창출에 집중할 수 있게 합니다.
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>Snowflake 아키텍처는 세 가지 계층으로 구성됩니다.</p>
+            <div class="diagram">
+  ┌─────────────────────────────────────────────────────────────┐
+  │                    CLOUD SERVICES LAYER                     │
+  │  (인증, 메타데이터 관리, 쿼리 최적화, 트랜잭션 관리)         │
+  └───────────────────────────┬─────────────────────────────────┘
+                              │
+  ┌───────────────────────────┼─────────────────────────────────┐
+  │                    QUERY PROCESSING LAYER                   │
+  │  (가상 웨어하우스: 컴퓨팅 클러스터)                         │
+  │  ┌──────┐ ┌──────┐ ┌──────┐                               │
+  │  │  WH1 │ │  WH2 │ │  WH3 │  (워크로드별 독립적 스케일)    │
+  │  └──────┘ └──────┘ └──────┘                               │
+  └───────────────────────────┼─────────────────────────────────┘
+                              │
+  ┌───────────────────────────┼─────────────────────────────────┐
+  │                    DATABASE STORAGE LAYER                   │
+  │  (고도로 최적화된 칼럼형 스토리지)                          │
+  │  ┌────────────────────────────────────────────────────┐    │
+  │  │  AWS S3 | Azure Blob | Google Cloud Storage        │    │
+  │  └────────────────────────────────────────────────────┘    │
+  └─────────────────────────────────────────────────────────────┘
+            </div>
+            <h3>주요 용어</h3>
+            <ul style="padding-left: 30px; margin: 20px 0;">
+                <li><strong>가상 웨어하우스 (Virtual Warehouse)</strong>: 컴퓨팅 클러스터. 크기(T-Shirt)와 자동 일시정지 설정 가능.</li>
+                <li><strong>데이터베이스 & 스키마</strong>: 전통적인 RDBMS와 유사한 논리적 데이터 구조.</li>
+                <li><strong>스테이지 (Stage)</strong>: 데이터 파일을 임시로 저장하는 위치 (내부/외부).</li>
+                <li><strong>파이프 (Pipe)</strong>: 스테이지의 파일을 테이블로 지속적으로 로드하는 오브젝트.</li>
+                <li><strong>태스크 (Task)</strong>: 예약된 SQL 또는 스트림 작업을 실행.</li>
+                <li><strong>스트림 (Stream)</strong>: 테이블 변경 사항(CDC)을 추적하는 오브젝트.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <h3>4.1 설치 및 설정</h3>
+            <p>Python 커넥터 설치 및 계정 연결.</p>
+            <pre><code># Snowflake Python 커넥터 설치
+pip install snowflake-connector-python pandas
+
+# 환경 변수 설정 (보안 권장)
+export SNOWFLAKE_ACCOUNT='your_account'
+export SNOWFLAKE_USER='your_user'
+export SNOWFLAKE_PASSWORD='your_password'
+export SNOWFLAKE_WAREHOUSE='COMPUTE_WH'
+export SNOWFLAKE_DATABASE='TEST_DB'
+export SNOWFLAKE_SCHEMA='PUBLIC'</code></pre>
+
+            <h3>4.2 첫 연결 및 쿼리 실행</h3>
+            <pre><code>import snowflake.connector
+import pandas as pd
+
+# 연결 설정
+ctx = snowflake.connector.connect(
+    user='your_user',
+    password='your_password',
+    account='your_account',
+    warehouse='COMPUTE_WH',
+    database='TEST_DB',
+    schema='PUBLIC'
+)
+
+# 커서 생성 및 쿼리 실행
+cur = ctx.cursor()
+try:
+    cur.execute("CREATE OR REPLACE TABLE sample (id INT, name STRING)")
+    cur.execute("INSERT INTO sample VALUES (1, 'Alice'), (2, 'Bob')")
+    cur.execute("SELECT * FROM sample")
+    df = cur.fetch_pandas_all()
+    print(df)
+finally:
+    cur.close()
+ctx.close()</code></pre>
+
+            <h3>4.3 CLI (SnowSQL) 사용법</h3>
+            <pre><code># SnowSQL 설치 후 로그인
+snowsql -a your_account -u your_user
+
+# 웨어하우스, 데이터베이스 선택
+USE WAREHOUSE COMPUTE_WH;
+USE DATABASE TEST_DB;
+
+-- 파일에서 SQL 실행
+!source /path/to/query.sql;
+
+-- 쿼리 결과를 CSV로 내보내기
+COPY INTO @~/output/data.csv FROM (SELECT * FROM sample) FILE_FORMAT=(TYPE=CSV);</code></pre>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 항목</th>
+                        <th>권장값 / 옵션</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>웨어하우스 크기</strong></td>
+                        <td>X-SMALL ~ 4X-LARGE</td>
+                        <td>작은 배치: X-SMALL, 대용량 ETL: LARGE 이상. AUTO_SUSPEND 설정 필수.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AUTO_SUSPEND</strong></td>
+                        <td>60 ~ 300 (초)</td>
+                        <td>유휴 시간 후 웨어하우스 자동 정지. 비용 절감 핵심.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AUTO_RESUME</strong></td>
+                        <td>TRUE</td>
+                        <td>쿼리 요청 시 웨어하우스 자동 재개.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SCALING_POLICY</strong></td>
+                        <td>STANDARD / ECONOMY</td>
+                        <td>STANDARD: 빠른 스케일 아웃, ECONOMY: 비용 최적화.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DATA_RETENTION_TIME</strong></td>
+                        <td>1 (일) / 0 (Fail-safe)</td>
+                        <td>테이블 삭제 후 Time Travel 기간. 0은 Fail-safe만.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FILE_FORMAT (CSV)</strong></td>
+                        <td>TYPE=CSV, SKIP_HEADER=1</td>
+                        <td>COPY INTO 명령어 사용 시 기본 파일 형식 정의.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🚀 성능 최적화</h4>
+                    <ul style="padding-left: 20px;">
+                        <li>큰 테이블 조인 시 웨어하우스 크기 업스케일.</li>
+                        <li>자주 사용되는 조인 키는 CLUSTER BY 설정.</li>
+                        <li>반복 쿼리는 MATERIALIZED VIEW 고려.</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <h4>💸 비용 관리</h4>
+                    <ul style="padding-left: 20px;">
+                        <li>웨어하우스 AUTO_SUSPEND 필수 설정.</li>
+                        <li>리소스 모니터로 크레딧 사용량 경고 설정.</li>
+                        <li>큰 웨어하우스 단기 사용 후 다운스케일.</li>
+                    </ul>
+                </div>
+            </div>
+            <h3>자주 겪는 문제</h3>
+            <div class="callout warn">
+                <strong>문제: "Out of memory" 오류</strong><br>
+                <strong>원인:</strong> 웨어하우스 크기가 쿼리 복잡도에 비해 작음.<br>
+                <strong>해결:</strong> 웨어하우스 크기를 증가 (예: X-SMALL → MEDIUM). 쿼리를 작은 배치로 분할.
+            </div>
+            <div class="callout warn">
+                <strong>문제: COPY INTO 실패 - 파일 형식 불일치</strong><br>
+                <strong>원인:</strong> CSV 파일 내 구분자, 인코딩, 헤더 불일치.<br>
+                <strong>해결:</strong> FILE_FORMAT 명시적 정의. 오류된 행은 VALIDATION_MODE으로 확인.
+                <pre><code>COPY INTO my_table FROM @my_stage
+FILE_FORMAT = (TYPE=CSV FIELD_DELIMITER='|' SKIP_HEADER=1 ENCODING='UTF8');</code></pre>
+            </div>
+            <div class="callout">
+                <strong>팁: Python에서 대용량 데이터 로드</strong><br>
+                PUT/COPY 명령어를 사용하여 로컬 파일을 스테이지에 업로드 후 로드하는 것이 효율적.
+                <pre><code># 비효율적: INSERT 한 줄씩
+# 효율적: 파일 업로드 후 COPY
+cur.execute("PUT file:///data/*.csv @my_stage")
+cur.execute("COPY INTO my_table FROM @my_stage")</code></pre>
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul style="padding-left: 30px; font-size: 1.1rem;">
+                <li><a href="https://docs.snowflake.com/" target="_blank">📘 Snowflake 공식 문서</a> - 가장 상세하고 최신 정보</li>
+                <li><a href="https://community.snowflake.com/s/" target="_blank">🧑‍💻 Snowflake 커뮤니티</a> - Q&A 및 사용자 사례</li>
+                <li><a href="https://www.snowflake.com/en/data-cloud/workloads/" target="_blank">⚙️ 워크로드 가이드</a> - 데이터 엔지니어링, AI/ML 등</li>
+                <li><a href="https://github.com/snowflakedb/snowflake-connector-python" target="_blank">🐍 Python 커넥터 GitHub</a> - 소스 코드 및 이슈</li>
+                <li><a href="https://www.snowflake.com/blog/" target="_blank">📢 Snowflake 블로그</a> - 신기능 발표 및 베스트 프랙티스</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 실무 적용을 위한 핵심 요약 가이드입니다. 지속적으로 업데이트됩니다.</p>
+        <p>문서 작성일: <strong>2026년 3월</strong></p>
+        <div class="tag-list">
+            <span class="tag">data-warehouse</span>
+            <span class="tag">cloud</span>
+            <span class="tag">sql</span>
+            <span class="tag">python</span>
+            <span class="tag">snowflake</span>
+            <span class="tag">data-engineering</span>
+        </div>
+        <p style="margin-top: 20px;"><a href="#top">🔝 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
