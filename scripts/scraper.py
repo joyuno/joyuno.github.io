@@ -15,21 +15,10 @@ import sys
 import time
 
 import requests
-from datetime import datetime, timedelta
 
 GITHUB_API_URL = "https://api.github.com/repos/daewooki/daewooki.github.io/contents/_posts"
 SOURCE_BLOG_URL = "https://daewooki.github.io"
 POSTS_DIR = "_posts"
-
-
-def get_target_date():
-    """UTC 기준 어제 날짜 반환 (= KST 전날 포스트).
-    cron이 UTC 14:55(= KST 23:55)에 실행될 때 전날 포스트를 가져옴.
-    UTC 기준을 쓰면 GitHub Actions 지연으로 KST 날짜가 바뀌어도 안전.
-    """
-    from datetime import timezone
-    yesterday = datetime.now(timezone.utc) - timedelta(days=1)
-    return yesterday.strftime("%Y-%m-%d")
 
 
 def build_headers():
@@ -175,7 +164,7 @@ def import_post(file_info, headers):
 
 def main():
     parser = argparse.ArgumentParser(description="daewooki.github.io 포스트 임포터")
-    parser.add_argument("--all", action="store_true", help="전체 포스트 일괄 임포트")
+    parser.add_argument("--all", action="store_true", help="(레거시) 전체 포스트 일괄 임포트")
     args = parser.parse_args()
 
     headers = build_headers()
@@ -189,20 +178,18 @@ def main():
         sys.exit(1)
 
     md_files = [f for f in files if isinstance(f, dict) and f.get("name", "").endswith(".md")]
-    print(f"총 {len(md_files)}개 포스트 발견")
+    print(f"총 {len(md_files)}개 포스트 발견 (daewooki)")
 
-    if not args.all:
-        target = get_target_date()
-        md_files = [f for f in md_files if f["name"].startswith(target)]
-        print(f"어제({target} KST) 날짜 포스트: {len(md_files)}개")
-        if not md_files:
-            print(f"daewooki에 {target} 날짜 업로드 없음 — 스킵합니다.")
-            sys.exit(0)
-    else:
-        print("--all 모드: 전체 포스트 임포트")
+    # 이미 임포트된 파일 제외 — 새 포스트만 다운로드
+    new_files = [f for f in md_files if not os.path.exists(os.path.join(POSTS_DIR, f["name"]))]
+    print(f"미임포트 포스트: {len(new_files)}개")
+
+    if not new_files:
+        print("새로운 포스트 없음 — 스킵합니다.")
+        sys.exit(0)
 
     count = 0
-    for idx, file_info in enumerate(md_files, 1):
+    for idx, file_info in enumerate(new_files, 1):
         result = import_post(file_info, headers)
         if result:
             count += 1
