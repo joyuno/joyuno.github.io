@@ -22,12 +22,6 @@
   tags: ["stream-processing", "real-time"]
   date: "2026-03-19"
   url: "/study-guides/apache-flink-study-guide.html"
-- keyword: "Apache Flink"
-  slug: "apache-flink"
-  category: "data-engineering"
-  tags: ["stream-processing", "real-time"]
-  date: "2026-03-19"
-  url: "/study-guides/apache-flink-study-guide.html"
 - keyword: "Kubernetes"
   slug: "kubernetes"
   category: "infra"
