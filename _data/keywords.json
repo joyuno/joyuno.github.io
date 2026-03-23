@@ -108,8 +108,8 @@
         "spark",
         "delta-lake"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-03-23"
     },
     {
       "id": 10,

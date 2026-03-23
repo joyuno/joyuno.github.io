@@ -46,3 +46,9 @@
   tags: ["data-warehouse", "cloud", "sql"]
   date: "2026-03-22"
   url: "/study-guides/snowflake-study-guide.html"
+- keyword: "Databricks"
+  slug: "databricks"
+  category: "data-engineering"
+  tags: ["lakehouse", "spark", "delta-lake"]
+  date: "2026-03-23"
+  url: "/study-guides/databricks-study-guide.html"
