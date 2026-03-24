@@ -1,17 +1,17 @@
 ---
 layout: default
-title: Dev Report
+title: Dev Blog
 ---
 
 <div class="page-header">
-  <h1><i data-lucide="bar-chart-2" class="icon"></i> Dev Report</h1>
-  <p>매일 CLI 작업 로그를 자동으로 요약한 개발 리포트입니다.</p>
+  <h1><i data-lucide="notebook-pen" class="icon"></i> Dev Blog</h1>
+  <p>매일의 개발 여정을 기록하는 TIL 개발일지입니다.</p>
 </div>
 
 <section>
-  {% assign dev_posts = site.posts | where_exp: "post", "post.categories contains 'dev-report'" %}
+  {% assign dev_posts = site.posts | where_exp: "post", "post.categories contains 'dev-blog' or post.categories contains 'dev-report'" %}
   {% if dev_posts.size == 0 %}
-  <p style="color: var(--text-muted); padding: 2rem 0;">아직 Dev Report가 없습니다.</p>
+  <p style="color: var(--text-muted); padding: 2rem 0;">아직 개발일지가 없습니다.</p>
   {% else %}
   {% for post in dev_posts %}
   {% assign post_filename = post.path | split: "/" | last %}
@@ -22,14 +22,11 @@ title: Dev Report
     </div>
     <div class="post-card-header">
       <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <span class="category-badge">Dev Report</span>
+      <span class="category-badge">Dev Blog</span>
     </div>
 
     <div class="post-meta">
       <span class="post-meta-item"><i data-lucide="calendar" class="icon"></i> {{ post.date | date: "%Y년 %m월 %d일" }}</span>
-      {% if post.reading_time %}
-      <span class="post-meta-item reading-time"><i data-lucide="clock" class="icon"></i> {{ post.reading_time }}분</span>
-      {% endif %}
     </div>
 
     {% if post.excerpt %}
