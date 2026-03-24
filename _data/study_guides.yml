@@ -58,3 +58,9 @@
   tags: ["data-warehouse", "cloud", "sql"]
   date: "2026-03-25"
   url: "/study-guides/snowflake-study-guide.html"
+- keyword: "Delta Lake"
+  slug: "delta-lake"
+  category: "data-engineering"
+  tags: ["lakehouse", "acid", "table-format"]
+  date: "2026-03-24"
+  url: "/study-guides/delta-lake-study-guide.html"
