@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Iceberg 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--accent);
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: inherit;
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            border: 1px solid var(--border);
+            color: var(--accent2);
+        }
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: -1px;
+        }
+        .step {
+            margin-bottom: 2.5rem;
+        }
+        .step h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Apache Iceberg 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">Lakehouse</span>
+            <span class="badge">Table Format</span>
+            <span class="badge">Open Source</span>
+            <span class="badge">2026.03 작성</span>
+            <span class="badge">Apache 2.0 License</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h3>📚 목차</h3>
+        <ol>
+            <li><a href="#section1">Apache Iceberg란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Apache Iceberg란?</h2>
+            <p>Apache Iceberg는 대규모 분석 데이터 세트를 관리하기 위한 <strong>오픈 테이블 포맷(Open Table Format)</strong>입니다. 데이터 레이크 상에서 트랜잭션, 스키마 진화, 버전 관리, 파티셔닝 추상화 등 데이터 웨어하우스 수준의 기능을 제공하며, Spark, Trino, Flink, Hive 등 다양한 컴퓨팅 엔진에서 일관되게 작동합니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔍 정교한 메타데이터 계층</h4>
+                    <p>Manifest 파일을 통해 데이터 파일 목록을 효율적으로 관리하고, 스냅샷 기반 버전 관리를 지원합니다. 이로 인해 파티션 변화에 강하고, 시간 여행(Time Travel) 및 롤백이 가능합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ 성능 최적화</h4>
+                    <p>파일 수준의 통계(Min/Max, Null Count 등)를 메타데이터에 저장하여 쿼리 시 불필요한 파일 스캔을 제거합니다. 동시성 제어와 효율적인 Compaction을 지원합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 스키마 & 파티션 진화</h4>
+                    <p>기존 데이터를 재작성하지 않고도 컬럼 추가/삭제, 타입 변경, 파티션 전략 변경이 가능합니다. 하위 호환성을 보장하며 안전한 스키마 변경이 특징입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>Hive 형식의 한계(파일 레벨 동시성 제어 부재, 비효율적인 파티션 발견)와 Delta Lake, Hudi 등 다른 테이블 포맷과의 차이점을 이해해야 합니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>특징</th>
+                        <th>Apache Iceberg</th>
+                        <th>Apache Hive (기존)</th>
+                        <th>Delta Lake</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ACID 트랜잭션</strong></td>
+                        <td>✅ 스냅샷 격리</td>
+                        <td>❌ 테이블 락만 가능</td>
+                        <td>✅ 쓰기 직렬화</td>
+                    </tr>
+                    <tr>
+                        <td><strong>시간 여행</strong></td>
+                        <td>✅ 모든 스냅샷 쿼리 가능</td>
+                        <td>❌ 불가능</td>
+                        <td>✅ 제한적 (로그 보존 기간)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>스키마 진화</strong></td>
+                        <td>✅ 안전한 컬럼 추가/삭제/이름 변경</td>
+                        <td>✅ 제한적 (컬럼 추가만)</td>
+                        <td>✅ 제한적 (DROP 제한)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>파티션 진화</strong></td>
+                        <td>✅ Hidden Partitioning 지원</td>
+                        <td>❌ 파티션 변경 시 데이터 재작성 필요</td>
+                        <td>❌ 변경 불가</td>
+                    </tr>
+                    <tr>
+                        <td><strong>컴퓨팅 엔진 지원</strong></td>
+                        <td>Spark, Flink, Trino, Hive, Presto 등</td>
+                        <td>Hive, Spark</td>
+                        <td>Spark, Databricks 런타임</td>
+                    </tr>
+                    <tr>
+                        <td><strong>성능 최적화</strong></td>
+                        <td>파일 수준 통계, 동적 파티션 프루닝</td>
+                        <td>디렉토리 스캔, 통계 부재</td>
+                        <td>Z-Ordering, 데이터 스킵</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout">
+                <h4>💡 선택 가이드</h4>
+                <p><strong>Iceberg를 선택할 때:</strong> 멀티 엔진 환경(Spark, Trino, Flink 혼용), 복잡한 스키마/파티션 진화 요구사항, 데이터 레이크의 성숙도가 높은 경우.<br>
+                <strong>다른 대안을 고려할 때:</strong> Databricks 단일 플랫폼(Delta Lake), 간단한 ETL 파이프라인(Hive), 실시간 스트리밍 우선(Hudi)인 경우.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>Iceberg의 아키텍처는 메타데이터 계층을 통해 물리적 데이터 파일을 추상화합니다.</p>
+            
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        쿼리 엔진 (Spark, Trino, Flink)                   │
+└───────────────────────────────┬─────────────────────────────────────────┘
+                                │ (Catalog API 호출)
+                                ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Iceberg Catalog                                  │
+│  (Hive, Glue, JDBC, Nessie, REST) - 현재 스냅샷 ID, 메타데이터 위치 관리 │
+└───────────────────────────────┬─────────────────────────────────────────┘
+                                │ (메타데이터 파일 조회)
+                                ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    메타데이터 계층 (JSON)                                 │
+│  ┌─────────────┐    ┌──────────────┐    ┌──────────────┐              │
+│  │  메타데이터  │◄───│   Manifest   │◄───│   Manifest   │              │
+│  │   파일      │    │    리스트     │    │    파일      │              │
+│  │ (v1, v2)    │    │              │    │ (AVRO)       │              │
+│  └─────────────┘    └──────────────┘    └──────┬───────┘              │
+│        │                       │                │                      │
+│        │ 현재 스냅샷           │ Manifest 파일  │ 데이터 파일 포인터   │
+│        │ 포인터                │ 경로 목록      │ (경로, 통계)         │
+│        ▼                       ▼                ▼                      │
+└─────────────────────────────────────────────────────────────────────────┘
+                                                                │
+                                                                ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     데이터 파일 계층 (Parquet, ORC, Avro)                │
+│                 ┌────────────┐ ┌────────────┐ ┌────────────┐           │
+│                 │   데이터    │ │   데이터    │ │   데이터    │           │
+│                 │   파일 1    │ │   파일 2    │ │   파일 N    │           │
+│                 └────────────┘ └────────────┘ └────────────┘           │
+└─────────────────────────────────────────────────────────────────────────┘
+            </div>
+            
+            <h3>주요 용어</h3>
+            <ul>
+                <li><strong>Snapshot</strong>: 테이블의 특정 시점 상태. 각 커밋은 새로운 스냅샷을 생성합니다.</li>
+                <li><strong>Manifest File</strong>: 데이터 파일 목록과 각 파일의 통계(Min/Max, Null Count 등)를 포함하는 Avro 파일.</li>
+                <li><strong>Manifest List</strong>: Manifest 파일들의 목록과 각각의 스냅샷 정보를 가진 파일.</li>
+                <li><strong>Catalog</strong>: 현재 메타데이터 파일 위치를 추적하는 구성 요소 (Hive, Glue, JDBC 등).</li>
+                <li><strong>Hidden Partitioning</strong>: 파티션 키를 데이터 값에서 추출(예: event_time → date_trunc('day', event_time)). 사용자는 원본 컬럼으로 쿼리.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트 (Python + Spark)</h2>
+            <p>로컬 환경에서 PySpark와 Iceberg를 사용해 첫 테이블을 생성하고 조작해봅니다.</p>
+            
+            <div class="step">
+                <h4>Step 1: 환경 설정 (PySpark with Iceberg)</h4>
+                <div class="code-block-title">터미널</div>
+                <pre><code># pip를 이용한 패키지 설치
+pip install pyspark==3.5.0 pyiceberg
+
+# 또는 Spark 세션 내에서 패키지 사용 시
+export PYSPARK_SUBMIT_ARGS="--packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0 pyspark-shell"</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 2: SparkSession 생성 및 카탈로그 설정</h4>
+                <div class="code-block-title">Python 코드 (iceberg_quickstart.py)</div>
+                <pre><code>from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("IcebergQuickstart") \
+    .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
+    .config("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog") \
+    .config("spark.sql.catalog.local.type", "hadoop") \
+    .config("spark.sql.catalog.local.warehouse", "/tmp/iceberg-warehouse") \
+    .config("spark.sql.defaultCatalog", "local") \
+    .getOrCreate()
+
+# Spark Catalog 확인
+spark.sql("SHOW CURRENT NAMESPACE").show()</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 3: 테이블 생성 및 데이터 삽입</h4>
+                <pre><code># 테이블 생성 (Hidden Partitioning 예시)
+spark.sql("""
+CREATE TABLE local.db.user_events (
+    user_id bigint,
+    event_time timestamp,
+    event_name string,
+    country string
+) USING iceberg
+PARTITIONED BY (days(event_time), country)
+""")
+
+# 샘플 데이터 삽입
+sample_data = [
+    (1, "2026-03-15 10:30:00", "login", "KR"),
+    (2, "2026-03-15 11:15:00", "purchase", "US"),
+    (3, "2026-03-16 09:45:00", "view_item", "KR")
+]
+df = spark.createDataFrame(sample_data, ["user_id", "event_time", "event_name", "country"])
+df.writeTo("local.db.user_events").append()
+
+# 데이터 조회
+spark.sql("SELECT * FROM local.db.user_events").show()</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 4: 스키마 진화 및 시간 여행</h4>
+                <pre><code># 컬럼 추가 (스키마 진화)
+spark.sql("ALTER TABLE local.db.user_events ADD COLUMN device_type string")
+
+# 새로운 데이터로 업데이트
+new_data = [
+    (4, "2026-03-16 14:20:00", "logout", "JP", "mobile")
+]
+df_new = spark.createDataFrame(new_data, ["user_id", "event_time", "event_name", "country", "device_type"])
+df_new.writeTo("local.db.user_events").append()
+
+# 시간 여행: 첫 번째 스냅샷 조회
+spark.sql("SELECT * FROM local.db.user_events VERSION AS OF 1").show()
+
+# 스냅샷 히스토리 확인
+spark.sql("SELECT * FROM local.db.user_events.snapshots").show(truncate=False)</code></pre>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>프로덕션 환경에서 중요한 Iceberg 관련 설정들입니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>카테고리</th>
+                        <th>설정 키</th>
+                        <th>기본값/예시</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><strong>카탈로그</strong></td>
+                        <td>spark.sql.catalog.&lt;catalog_name&gt;.type</td>
+                        <td>hadoop, hive, rest, glue</td>
+                        <td>사용할 카탈로그 구현체 지정</td>
+                    </tr>
+                    <tr>
+                        <td>spark.sql.catalog.&lt;catalog_name&gt;.warehouse</td>
+                        <td>s3://bucket/warehouse/</td>
+                        <td>데이터와 메타데이터가 저장될 루트 경로</td>
+                    </tr>
+                    <tr>
+                        <td>spark.sql.catalog.&lt;catalog_name&gt;.uri</td>
+                        <td>thrift://hive-metastore:9083</td>
+                        <td>Hive Metastore URI (type=hive일 때)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>작성 최적화</strong></td>
+                        <td>write.target-file-size-bytes</td>
+                        <td>536870912 (512MB)</td>
+                        <td>파일 당 목표 크기. Compaction에 영향</td>
+                    </tr>
+                    <tr>
+                        <td>write.format.default</td>
+                        <td>parquet</td>
+                        <td>기본 파일 포맷 (parquet, orc, avro)</td>
+                    </tr>
+                    <tr>
+                        <td>write.metadata.delete-after-commit.enabled</td>
+                        <td>true</td>
+                        <td>커밋 후 이전 메타데이터 파일 삭제 여부</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>읽기 최적화</strong></td>
+                        <td>read.split.open-cost</td>
+                        <td>4194304 (4MB)</td>
+                        <td>파일을 열기 위한 예상 비용. 스플릿 계획에 사용</td>
+                    </tr>
+                    <tr>
+                        <td>read.split.target-size</td>
+                        <td>134217728 (128MB)</td>
+                        <td>목표 스플릿 크기</td>
+                    </tr>
+                    <tr>
+                        <td>engine.hive.enabled</td>
+                        <td>false</td>
+                        <td>Hive 엔진 호환 모드 (레거시 지원)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>유지 관리</strong></td>
+                        <td>commit.retry.num-retries</td>
+                        <td>4</td>
+                        <td>커밋 실패 시 재시도 횟수</td>
+                    </tr>
+                    <tr>
+                        <td>commit.retry.min-wait-ms</td>
+                        <td>100</td>
+                        <td>재시도 간 최소 대기 시간(ms)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <div class="callout warn">
+                <h4>⚠️ 문제: 작은 파일 문제 (Small Files)</h4>
+                <p><strong>증상:</strong> 수많은 작은 Parquet 파일로 인해 쿼리 성능 저하, 메타데이터 부풀림.<br>
+                <strong>해결:</strong> 정기적인 Compaction(rewrite_data_files) 수행. 스트리밍 작업 시 write.target-file-size-bytes 설정 확인.</p>
+                <pre><code>-- Spark SQL로 Compaction 실행
+CALL local.system.rewrite_data_files(
+  table => 'db.user_events',
+  strategy => 'binpack'
+)</code></pre>
+            </div>
+
+            <div class="callout">
+                <h4>💡 팁: Hidden Partitioning 활용</h4>
+                <p>파티션을 물리적 경로가 아닌 컬럼 값에서 추출하도록 정의하여, 파티션 전략 변경 시 데이터 재작성 없이 가능합니다.</p>
+                <pre><code>-- 좋은 예: Hidden Partitioning
+CREATE TABLE events (
+    ts timestamp,
+    user_id bigint,
+    data string
+) PARTITIONED BY (hours(ts), bucket(16, user_id))
+
+-- 나쁜 예: 직접 컬럼 파티셔닝 (파티션 변경 시 데이터 이동 필요)
+CREATE TABLE events (
+    ts timestamp,
+    user_id bigint,
+    data string
+) PARTITIONED BY (date(ts), user_id % 16)</code></pre>
+            </div>
+
+            <div class="callout warn">
+                <h4>⚠️ 문제: 동시 쓰기 충돌</h4>
+                <p><strong>증상:</strong> 여러 작업이 동시에 같은 테이블에 쓰기 시도 시 충돌 발생.<br>
+                <strong>해결:</strong> Optimistic Concurrency Control(OCC)을 이해. 충돌 시 재시도 로직 구현 또는 작업 스케줄링 조정.</p>
+                <pre><code># Python에서 재시도 로직 예시
+from tenacity import retry, stop_after_attempt, wait_exponential
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
+def write_with_retry(df, table_path):
+    df.writeTo(table_path).append()</code></pre>
+            </div>
+
+            <div class="callout">
+                <h4>💡 팁: 효율적인 Expire Snapshots & Remove Orphans</h4>
+                <p>오래된 스냅샷과 더 이상 참조되지 않는 데이터 파일을 정리하여 스토리지 비용 절감.</p>
+                <pre><code>-- 30일 이전 스냅샷 정리
+CALL local.system.expire_snapshots(
+  table => 'db.user_events',
+  older_than => TIMESTAMP '2026-02-01 00:00:00',
+  retain_last => 10 -- 최소 10개 스냅샷은 유지
+)
+
+-- 고아 파일 정리 (카탈로그에 없는 데이터 파일 삭제)
+CALL local.system.remove_orphan_files(
+  table => 'db.user_events',
+  older_than => TIMESTAMP '2026-02-01 00:00:00'
+)</code></pre>
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://iceberg.apache.org/" target="_blank">📘 Apache Iceberg 공식 사이트</a> - 최신 문서, 릴리스 노트</li>
+                <li><a href="https://iceberg.apache.org/spec/" target="_blank">📖 Iceberg 테이블 스펙</a> - 포맷의 기술적 상세 명세</li>
+                <li><a href="https://github.com/apache/iceberg" target="_blank">💻 Apache Iceberg GitHub</a> - 소스 코드, 이슈, 컨트리뷰션 가이드</li>
+                <li><a href="https://tabular.io/blog/" target="_blank">✍️ Tabular Blog</a> - Iceberg 창시자들의 실무 인사이트</li>
+                <li><a href="https://www.dremio.com/resources/guides/apache-iceberg/" target="_blank">🎓 Dremio Iceberg 가이드</a> - 성능 튜닝, 아키텍처 설명</li>
+                <li><strong>추천 도서:</strong> "Data Lakehouse in Action" (Manning, 2025) - Lakehouse와 Iceberg 실무 적용 사례</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 Apache Iceberg 커뮤니티 문서와 실무 경험을 바탕으로 작성되었습니다. 내용은 지속적으로 업데이트됩니다.</p>
+        <p>© 2026.03 데이터 엔지니어 실무 가이드 | <a href="#top">맨 위로 이동</a></p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--border);">
+            Apache Iceberg는 Apache Software Foundation의 등록 상표입니다. 이 가이드는 공식 문서를 대체하지 않습니다.
+        </p>
+    </footer>
+</body>
+</html>
