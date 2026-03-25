@@ -64,3 +64,9 @@
   tags: ["lakehouse", "acid", "table-format"]
   date: "2026-03-24"
   url: "/study-guides/delta-lake-study-guide.html"
+- keyword: "Apache Iceberg"
+  slug: "apache-iceberg"
+  category: "data-engineering"
+  tags: ["lakehouse", "table-format", "open-source"]
+  date: "2026-03-25"
+  url: "/study-guides/apache-iceberg-study-guide.html"
