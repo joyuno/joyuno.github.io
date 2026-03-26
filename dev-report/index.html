@@ -9,7 +9,9 @@ title: Dev Blog
 </div>
 
 <section>
-  {% assign dev_posts = site.posts | where_exp: "post", "post.categories contains 'dev-blog' or post.categories contains 'dev-report'" %}
+  {% assign blog_posts = site.posts | where_exp: "post", "post.categories contains 'dev-blog'" %}
+  {% assign report_posts = site.posts | where_exp: "post", "post.categories contains 'dev-report'" %}
+  {% assign dev_posts = blog_posts | concat: report_posts | sort: "date" | reverse %}
   {% if dev_posts.size == 0 %}
   <p style="color: var(--text-muted); padding: 2rem 0;">아직 개발일지가 없습니다.</p>
   {% else %}
