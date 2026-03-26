@@ -70,3 +70,9 @@
   tags: ["lakehouse", "table-format", "open-source"]
   date: "2026-03-25"
   url: "/study-guides/apache-iceberg-study-guide.html"
+- keyword: "Airbyte"
+  slug: "airbyte"
+  category: "data-engineering"
+  tags: ["ingestion", "elt", "connector"]
+  date: "2026-03-26"
+  url: "/study-guides/airbyte-study-guide.html"
