@@ -76,3 +76,9 @@
   tags: ["ingestion", "elt", "connector"]
   date: "2026-03-26"
   url: "/study-guides/airbyte-study-guide.html"
+- keyword: "Fivetran"
+  slug: "fivetran"
+  category: "data-engineering"
+  tags: ["ingestion", "elt", "managed"]
+  date: "2026-03-27"
+  url: "/study-guides/fivetran-study-guide.html"
