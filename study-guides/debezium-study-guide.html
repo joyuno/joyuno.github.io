@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Debezium 핵심 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 0.95em;
+        }
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre-wrap;
+        }
+        pre code {
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 8px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 0 10px; }
+            .hero h1 { font-size: 2.5rem; }
+            .toc ol { grid-template-columns: 1fr; }
+            .concept-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>Debezium 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">CDC</span>
+            <span class="badge">Kafka</span>
+            <span class="badge">Database</span>
+            <span class="badge">실시간 데이터</span>
+            <span class="badge">마이크로서비스</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </section>
+
+    <section class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Debezium란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </section>
+
+    <section id="section1" class="section">
+        <h2>1. Debezium란?</h2>
+        <p>Debezium은 <strong>Change Data Capture(CDC)</strong>를 위한 오픈소스 분산 플랫폼입니다. 데이터베이스의 트랜잭션 로그(바이너리 로그, WAL, redo log 등)를 모니터링하여 데이터 변경 사항을 실시간으로 캡처하고, 이벤트 스트림(주로 Apache Kafka)으로 전송합니다.</p>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>🔍 로그 기반 CDC</h4>
+                <p>트리거나 쿼리 기반이 아닌 데이터베이스 자체의 트랜잭션 로그를 읽어 변경 사항을 캡처합니다. 소스 DB에 부하를 거의 주지 않으며, 모든 변경 사항(INSERT, UPDATE, DELETE)을 정확히 포착합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🚀 실시간 스트리밍</h4>
+                <p>변경 이벤트를 마이크로초 단위로 Kafka 토픽에 전송합니다. 데이터 파이프라인, 캐시 갱신, 검색 인덱싱, 실시간 분석 등 지연 시간이 중요한 시나리오에 적합합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🧩 분산 & 내결함성</h4>
+                <p>Kafka Connect 위에서 동작하여 확장성과 내결함성을 제공합니다. 커넥터 장애 시 오프셋을 기반으로 복구할 수 있으며, 클러스터 환경에서 안정적으로 운영됩니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section2" class="section">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>기존 데이터 동기화 방식과의 비교를 통해 Debezium의 장점을 확인해 보세요.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>방식</th>
+                    <th>설명</th>
+                    <th>장점</th>
+                    <th>단점</th>
+                    <th>Debezium 비교</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>배치 쿼리</strong></td>
+                    <td>주기적으로 전체/증분 데이터를 SELECT</td>
+                    <td>구현 간단, 모든 DB 지원</td>
+                    <td>실시간성 낮음, 소스 DB 부하, 변경 감지 불확실</td>
+                    <td>✅ <strong>실시간, 저부하, 정확한 변경 추적</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>애플리케이션 이중 작성</strong></td>
+                    <td>애플리케이션 코드에서 두 시스템에 동시 저장</td>
+                    <td>직접 제어 가능</td>
+                    <td>코드 복잡도 증가, 데이터 불일치 위험, 유지보수 어려움</td>
+                    <td>✅ <strong>비침투적, 관심사 분리</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>트리거 기반 CDC</strong></td>
+                    <td>DB 트리거로 변경 히스토리 테이블 생성</td>
+                    <td>실시간성 보장</td>
+                    <td>소스 DB 성능 저하, 트리거 관리 복잡, DDL 변경 대응 어려움</td>
+                    <td>✅ <strong>로그 기반으로 DB 부하 최소화</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>ETL 도구</strong></td>
+                    <td>전용 ETL 툴을 사용한 데이터 동기화</td>
+                    <td>GUI, 다양한 변환 기능</td>
+                    <td>비용, 실시간성 부족, 벤더 종속 가능성</td>
+                    <td>✅ <strong>오픈소스, 커뮤니티 활성, 스트리밍 최적화</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <strong>핵심 결론:</strong> Debezium은 <strong>실시간성, 정확성, 확장성, 비침투성</strong>을 모두 만족시키는 현대적인 데이터 동기화 패러다임을 제공합니다. 마이크로서비스 아키텍처, 데이터 레이크/웨어하우스 적재, 실시간 분석 등에 필수적인 컴포넌트입니다.
+        </div>
+    </section>
+
+    <section id="section3" class="section">
+        <h2>3. 핵심 개념</h2>
+        <h3>아키텍처 개요</h3>
+        <div class="diagram">
++----------------+     +---------------------+     +-------------------+     +-------------------+
+|                |     |                     |     |                   |     |                   |
+|  Source DB     |---->|  Debezium Connector |---->|  Apache Kafka     |---->|  Sink Applications|
+|  (MySQL, PG,   |     |  (Kafka Connect     |     |  (Event Stream)   |     |  (Elasticsearch,  |
+|  MongoDB, etc) |     |   Worker 내 실행)   |     |                   |     |   Data Lake, etc) |
+|                |     |                     |     |                   |     |                   |
++----------------+     +---------------------+     +-------------------+     +-------------------+
+        ^                          ^                          ^                          ^
+        |                          |                          |                          |
+    Transaction Log           Captures Changes           Publishes Events         Consume & Process
+    (Binlog, WAL, etc)        (Create, Update,           as Kafka Messages        Change Events
+                               Delete)
+        </div>
+        <h3>주요 컴포넌트</h3>
+        <ul>
+            <li><strong>Debezium Connector</strong>: 특정 데이터베이스(MySQL, PostgreSQL, MongoDB 등)용으로 작성된 소스 커넥터. DB 로그를 읽고 변경 이벤트 레코드로 변환.</li>
+            <li><strong>Kafka Connect</strong>: Debezium이 실행되는 프레임워크. 커넥터 관리, 확장, 내결함성, 오프셋 추적 제공.</li>
+            <li><strong>Change Event</strong>: 데이터베이스 변경 사항을 표현하는 구조화된 메시지. `before`/`after` 상태, 작업 유형, 타임스탬프, 트랜잭션 메타데이터 포함.</li>
+            <li><strong>Snapshot</strong>: 커넥터 최초 실행 시 기존 데이터 전체를 캡처하는 과정. 증분 스트리밍의 기반이 됨.</li>
+        </ul>
+    </section>
+
+    <section id="section4" class="section">
+        <h2>4. 퀵스타트 (Docker 기반)</h2>
+        <p>Docker Compose를 사용해 MySQL → Debezium → Kafka → Python Consumer 파이프라인을 빠르게 구축합니다.</p>
+
+        <h3>Step 1: Docker Compose 파일 작성</h3>
+        <div class="code-block-title">docker-compose.yml</div>
+        <pre><code>version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafka-connect:
+    image: debezium/connect:latest
+    depends_on:
+      - kafka
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+      STATUS_STORAGE_TOPIC: connect_statuses
+    ports:
+      - "8083:8083"
+
+  mysql:
+    image: debezium/example-mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: debezium
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpw
+    ports:
+      - "3306:3306"</code></pre>
+
+        <h3>Step 2: 인프라 실행 및 커넥터 등록</h3>
+        <div class="code-block-title">터미널 명령어</div>
+        <pre><code># 1. Docker Compose로 서비스 실행
+docker-compose up -d
+
+# 2. Kafka Connect가 준비될 때까지 대기 (약 30초)
+sleep 30
+
+# 3. MySQL Debezium 커넥터 등록 (HTTP API 호출)
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" \
+  http://localhost:8083/connectors/ -d '{
+    "name": "inventory-connector",
+    "config": {
+      "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+      "tasks.max": "1",
+      "database.hostname": "mysql",
+      "database.port": "3306",
+      "database.user": "debezium",
+      "database.password": "dbz",
+      "database.server.id": "184054",
+      "database.server.name": "dbserver1",
+      "database.include.list": "inventory",
+      "database.history.kafka.bootstrap.servers": "kafka:9092",
+      "database.history.kafka.topic": "schema-changes.inventory",
+      "snapshot.mode": "initial"
+    }
+  }'</code></pre>
+
+        <h3>Step 3: Python으로 변경 이벤트 소비하기</h3>
+        <div class="code-block-title">consumer.py</div>
+        <pre><code>from kafka import KafkaConsumer
+import json
+
+# Kafka Consumer 설정
+consumer = KafkaConsumer(
+    'dbserver1.inventory.customers',  # 토픽명: {server_name}.{database}.{table}
+    bootstrap_servers=['localhost:9092'],
+    auto_offset_reset='earliest',
+    enable_auto_commit=True,
+    value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+)
+
+print("📢 MySQL 변경 이벤트 수신 대기중...")
+for message in consumer:
+    event = message.value
+    op = event['op']  # 'c'=create, 'u'=update, 'd'=delete, 'r'=read (snapshot)
+    
+    if op == 'c':
+        print(f"[INSERT] 새 레코드: {event['after']}")
+    elif op == 'u':
+        print(f"[UPDATE] 변경 전: {event['before']} → 변경 후: {event['after']}")
+    elif op == 'd':
+        print(f"[DELETE] 삭제된 레코드: {event['before']}")
+    elif op == 'r':
+        print(f"[SNAPSHOT] 초기 데이터: {event['after']}")
+    
+    # 추가 메타데이터 접근
+    # source_ts = event['source']['ts_ms']
+    # table = event['source']['table']</code></pre>
+
+        <div class="callout">
+            <strong>실행 순서:</strong> 1) `docker-compose up -d` → 2) 커넥터 등록(CURL) → 3) `python consumer.py` 실행 → 4) 별도 터미널에서 MySQL에 접속(`docker-compose exec mysql mysql -u root -pdebezium`)하여 `INSERT/UPDATE/DELETE` 쿼리 실행 → 5) Python Consumer에서 실시간 이벤트 확인.
+        </div>
+    </section>
+
+    <section id="section5" class="section">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>MySQL 커넥터를 기준으로 실무에서 자주 사용하거나 중요한 설정들을 정리했습니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>설정 키</th>
+                    <th>기본값</th>
+                    <th>설명</th>
+                    <th>실무 팁</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>snapshot.mode</code></td>
+                    <td>initial</td>
+                    <td>초기 스냅샷 캡처 방식 설정</td>
+                    <td><code>initial</code>(기본), <code>when_needed</code>(필요시), <code>never</code>(스냅샷 안함), <code>initial_only</code>(스냅샷만) 중 선택. 대용량 DB는 <code>initial</code> 사용 시 주의.</td>
+                </tr>
+                <tr>
+                    <td><code>snapshot.locking.mode</code></td>
+                    <td>minimal</td>
+                    <td>스냅샷 중 테이블 락 방식</td>
+                    <td><code>none</code>(락 안함, 일관성 떨어짐), <code>minimal</code>(덤프 중 짧은 락), <code>extended</code>(전체 스냅샷 동안 락). 운영 DB는 <code>minimal</code> 권장.</td>
+                </tr>
+                <tr>
+                    <td><code>database.server.id</code></td>
+                    <td>-</td>
+                    <td>MySQL 복제용 고유 ID</td>
+                    <td>반드시 MySQL 클러스터 내에서 고유한 값으로 설정. 다른 커넥터/복제본과 중복 금지.</td>
+                </tr>
+                <tr>
+                    <td><code>database.history</code></td>
+                    <td>io.debezium.relational.history.FileDatabaseHistory</td>
+                    <td>DDL 변경 히스토리 저장소</td>
+                    <td>Kafka 기반 저장소(<code>KafkaDatabaseHistory</code>)를 사용하면 커넥터 장애 복구 시 스키마 이력을 유지할 수 있어 프로덕션에 적합.</td>
+                </tr>
+                <tr>
+                    <td><code>include.schema.changes</code></td>
+                    <td>true</td>
+                    <td>DDL 변경 이벤트 전송 여부</td>
+                    <td>true면 ALTER TABLE 등 스키마 변경도 별도 토픽에 기록. 스키마 추적이 필요 없거나 소음이 될 경우 false로 설정.</td>
+                </tr>
+                <tr>
+                    <td><code>tombstones.on.delete</code></td>
+                    <td>true</td>
+                    <td>DELETE 이벤트 후 tombstone 레코드 생성 여부</td>
+                    <td>Kafka 로그 압축을 위해 true 유지. false로 설정하면 삭제된 키의 이전 이벤트가 압축에서 제거되지 않을 수 있음.</td>
+                </tr>
+                <tr>
+                    <td><code>decimal.handling.mode</code></td>
+                    <td>precise</td>
+                    <td>DECIMAL/NUMERIC 타입 처리 방식</td>
+                    <td><code>precise</code>(문자열), <code>double</code>(부동소수점), <code>string</code>(문자열). 정확한 계산이 필요하면 <code>precise</code> 유지.</td>
+                </tr>
+                <tr>
+                    <td><code>max.batch.size</code></td>
+                    <td>2048</td>
+                    <td>폴링 당 최대 레코드 수</td>
+                    <td>네트워크/처리량에 따라 조정. 너무 크면 메모리 부하, 너무 작으면 오버헤드 증가.</td>
+                </tr>
+                <tr>
+                    <td><code>poll.interval.ms</code></td>
+                    <td>500</td>
+                    <td>로그 폴링 간격(ms)</td>
+                    <td>실시간성을 높이려면 줄이고, DB 부하를 줄이려면 늘림. 일반적으로 100~1000ms 사이 설정.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="section6" class="section">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+        <h3>🔧 자주 겪는 문제와 해결책</h3>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>문제: 커넥터 시작 시 스냅샷에서 멈춤</h4>
+                <p><strong>원인:</strong> 대용량 테이블의 스냅샷으로 시간이 오래 걸리거나, 락 경합 발생.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li><code>snapshot.mode: when_needed</code>로 변경</li>
+                    <li><code>snapshot.max.threads</code> 증가로 병렬 처리</li>
+                    <li>저부하 시간대에 배치 또는 <code>initial_only</code>로 별도 실행</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <h4>문제: MySQL 바이너리 로그 보관 주기 짧음</h4>
+                <p><strong>원인:</strong> <code>expire_logs_days</code> 설정으로 인해 커넥터가 재시작 시 필요한 로그가 삭제됨.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>MySQL에서 <code>expire_logs_days</code> 값을 증가 (예: 7일 → 30일)</li>
+                    <li>커넥터 자주 중단하지 않도록 모니터링 및 안정화</li>
+                    <li>스냅샷부터 재시작해야 하는 경우 대비 전략 수립</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <h4>문제: 이벤트 순서 보장 필요</h4>
+                <p><strong>원인:</strong> 파티셔닝, 멀티 스레드 처리 시 순서가 뒤섞일 수 있음.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>테이블/프라이머리 키 기준으로 파티셔닝 설정 (<code>message.key.columns</code>)</li>
+                    <li><code>tasks.max: 1</code>로 유지 (단일 태스크가 순서 보장)</li>
+                    <li>트랜잭션 경계 내 순서는 <code>source.ts_ms</code>로 판단 가능</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>🚀 실무 운영 팁</h3>
+        <div class="callout">
+            <strong>모니터링 필수 지표:</strong>
+            <ul>
+                <li><strong>Connect Worker 상태</strong>: JVM 메모리, 스레드 풀, Deadlock</li>
+                <li><strong>커넥터 상태</strong>: `RUNNING`, `FAILED`, `PAUSED`</li>
+                <li><strong>지연 시간(Lag)</strong>: `source.ts_ms`와 현재 시간 차이. 증가 시 병목 지점 확인.</li>
+                <li><strong>변경 이벤트 처리량</strong>: 초당 처리 이벤트 수, 배치 크기 추이.</li>
+            </ul>
+        </div>
+        <div class="callout warn">
+            <strong>주의: DDL 변경 시</strong>
+            <p>ALTER TABLE로 컬럼 추가/삭제/타입 변경 시 기존 스트리밍 이벤트와의 호환성 문제가 발생할 수 있습니다. 스키마 레지스트리(Schema Registry)를 함께 사용하거나, 백필(backfill) 전략을 미리 수립하세요. 가능하면 Breaking Schema Change는 피하고, 호환되는 변경(컬럼 추가 등)을 수행하세요.</p>
+        </div>
+        <p><strong>성능 튜닝 가이드라인:</strong></p>
+        <ul>
+            <li><strong>네트워크 대역폭</strong>: DB와 Kafka Connect, Kafka 브로커 간 네트워크 지연 시간 최소화.</li>
+            <li><strong>Kafka 토픽 설정</strong>: 이벤트 볼륨에 맞는 파티션 수, 복제 계수, 보관 정책 설정.</li>
+            <li><strong>커넥터 메모리</strong>: 대용량 메시지(예: 큰 BLOB 컬럼) 처리 시 Connect Worker의 HEAP 증가 필요.</li>
+            <li><strong>병렬 처리</strong>:`tasks.max` 증가 및 `database.server.id` 범위 설정으로 병렬 처리 (단, 순서 보장 고려).</li>
+        </ul>
+    </section>
+
+    <section id="section7" class="section">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://debezium.io/documentation/" target="_blank">📘 공식 문서</a> - 가장 정확하고 상세한 정보원</li>
+            <li><a href="https://github.com/debezium/debezium-examples" target="_blank">🧪 Debezium Examples GitHub</a> - 다양한 사용 예제 코드</li>
+            <li><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-449%3A+Deprecate+and+disable+ZooKeeper+offsets+committing+in+Kafka+Connect" target="_blank">🔗 Kafka Connect 오프셋 관리 (KIP-449)</a> - 커넥터 상태 관리 이해</li>
+            <li><a href="https://www.confluent.io/blog/kafka-connect-deep-dive-converters-serialization-explained/" target="_blank">🔗 Kafka Connect 컨버터 & 직렬화</a> - 이벤트 포맷 심화 학습</li>
+            <li><strong>커뮤니티</strong>: <a href="https://groups.google.com/g/debezium" target="_blank">Google Groups</a>, <a href="https://stackoverflow.com/questions/tagged/debezium" target="_blank">Stack Overflow (#debezium)</a></li>
+        </ul>
+        <div class="callout">
+            <strong>학습 로드맵 추천:</strong> 1) 공식 문서 퀵스타트 따라하기 → 2) Docker로 로컬 실습 환경 구축 → 3) 주요 설정들 실험해보기 → 4) Python/Java로 Consumer 작성 → 5) 모니터링 및 운영 시나리오 고민 → 6) 성능 튜닝 및 고가용성 구성 탐구.
+        </div>
+    </section>
+
+    <footer>
+        <p>본 문서는 Debezium 실무 적용을 위한 핵심 개념과 절차를 요약한 가이드입니다.</p>
+        <p>지속적으로 변화하는 오픈소스 생태계의 특성상, 프로덕션 적용 시 항상 최신 공식 문서를 참고하시기 바랍니다.</p>
+        <p>© 2026.03 데이터 엔지니어 실무 스터디 그룹</p>
+    </footer>
+</body>
+</html>

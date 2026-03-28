@@ -82,3 +82,9 @@
   tags: ["ingestion", "elt", "managed"]
   date: "2026-03-27"
   url: "/study-guides/fivetran-study-guide.html"
+- keyword: "Debezium"
+  slug: "debezium"
+  category: "data-engineering"
+  tags: ["cdc", "kafka", "database"]
+  date: "2026-03-28"
+  url: "/study-guides/debezium-study-guide.html"
