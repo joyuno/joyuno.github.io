@@ -88,3 +88,9 @@
   tags: ["cdc", "kafka", "database"]
   date: "2026-03-28"
   url: "/study-guides/debezium-study-guide.html"
+- keyword: "Dagster"
+  slug: "dagster"
+  category: "data-engineering"
+  tags: ["orchestration", "asset-based"]
+  date: "2026-03-29"
+  url: "/study-guides/dagster-study-guide.html"
