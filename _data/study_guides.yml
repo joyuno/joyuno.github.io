@@ -94,3 +94,9 @@
   tags: ["orchestration", "asset-based"]
   date: "2026-03-29"
   url: "/study-guides/dagster-study-guide.html"
+- keyword: "Prefect"
+  slug: "prefect"
+  category: "data-engineering"
+  tags: ["orchestration", "event-driven"]
+  date: "2026-03-30"
+  url: "/study-guides/prefect-study-guide.html"
