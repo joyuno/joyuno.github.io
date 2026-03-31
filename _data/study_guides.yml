@@ -100,3 +100,9 @@
   tags: ["orchestration", "event-driven"]
   date: "2026-03-30"
   url: "/study-guides/prefect-study-guide.html"
+- keyword: "Great Expectations"
+  slug: "great-expectations"
+  category: "data-engineering"
+  tags: ["data-quality", "validation", "testing"]
+  date: "2026-03-31"
+  url: "/study-guides/great-expectations-study-guide.html"
