@@ -112,3 +112,9 @@
   tags: ["data-observability", "monitoring"]
   date: "2026-04-01"
   url: "/study-guides/monte-carlo-study-guide.html"
+- keyword: "Apache Beam"
+  slug: "apache-beam"
+  category: "data-engineering"
+  tags: ["unified-processing", "batch", "stream"]
+  date: "2026-04-02"
+  url: "/study-guides/apache-beam-study-guide.html"
