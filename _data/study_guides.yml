@@ -118,3 +118,9 @@
   tags: ["unified-processing", "batch", "stream"]
   date: "2026-04-02"
   url: "/study-guides/apache-beam-study-guide.html"
+- keyword: "Trino"
+  slug: "trino"
+  category: "data-engineering"
+  tags: ["query-engine", "distributed-sql", "federation"]
+  date: "2026-04-03"
+  url: "/study-guides/trino-study-guide.html"
