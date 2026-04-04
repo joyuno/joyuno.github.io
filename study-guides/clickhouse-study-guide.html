@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickHouse 실무 스터디 가이드 | 데이터 엔지니어 · AI 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 2rem 0;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        table th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.03);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--accent3);
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .toc ol {
+                grid-template-columns: 1fr;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>ClickHouse 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">OLAP</span>
+            <span class="badge">Columnar</span>
+            <span class="badge">Analytics</span>
+            <span class="badge">고성능</span>
+            <span class="badge">실시간</span>
+            <span class="badge">버전: 24.x</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">ClickHouse란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. ClickHouse란?</h2>
+            <p>ClickHouse는 Yandex가 개발한 <strong>컬럼형 오픈소스 OLAP 데이터베이스 관리 시스템(DBMS)</strong>입니다. 수 페타바이트 규모의 데이터에 대해 아주 빠른 애널리틱 쿼리를 실행하도록 설계되었습니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>⚡ 실시간 분석</h4>
+                    <p>대규모 데이터셋에 대한 집계 쿼리를 밀리초에서 초 단위로 응답합니다. 데이터 수신과 동시에 분석 쿼리가 가능합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📊 컬럼형 스토리지</h4>
+                    <p>로우 단위가 아닌 컬럼 단위로 데이터를 저장하고 압축합니다. 분석 쿼리에서 필요한 컬럼만 읽어 성능을 극대화합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 대량 병렬 처리(MPP)</h4>
+                    <p>쿼리를 여러 서버와 코어에 분산하여 병렬 실행합니다. 선형 확장성을 제공하며, 클러스터 구성이 용이합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 대안과의 비교를 통해 ClickHouse의 적합한 사용 사례를 확인합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>시스템</th>
+                        <th>유형</th>
+                        <th>ClickHouse 대비 장점</th>
+                        <th>ClickHouse 대비 단점</th>
+                        <th>적합한 작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ClickHouse</strong></td>
+                        <td>컬럼형 OLAP</td>
+                        <td>압도적인 실시간 분석 속도, 뛰어난 압축률, SQL 지원</td>
+                        <td>트랜잭션 지원 부족, 고빈도 단일 행 업데이트 비적합</td>
+                        <td>실시간 대시보드, 로그 분석, 사용자 행동 분석</td>
+                    </tr>
+                    <tr>
+                        <td>PostgreSQL</td>
+                        <td>로우형 OLTP</td>
+                        <td>ACID 트랜잭션, 풍부한 기능, 확장성</td>
+                        <td>대규모 분석 쿼리 속도 느림, 컬럼형 압축 없음</td>
+                        <td>트랜잭션 처리, 운영 데이터 저장</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Druid</td>
+                        <td>컬럼형 OLAP</td>
+                        <td>이벤트 스트림 수집 최적화, 고가용성</td>
+                        <td>설정 복잡성, SQL 기능 제한적</td>
+                        <td>이벤트 기반 시계열 데이터, 실시간 수집 분석</td>
+                    </tr>
+                    <tr>
+                        <td>BigQuery / Snowflake</td>
+                        <td>클라우드 DWH</td>
+                        <td>완전 관리형, 자동 확장, 서버리스</td>
+                        <td>비용(스캔 기반), Vendor Lock-in, 온프레미스 불가</td>
+                        <td>클라우드 기반 데이터 웨어하우스, 간편한 관리</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>결론:</strong> 초고속 실시간 분석, 대용량 배치 집계, 비용 효율적인 대규모 데이터 저장이 필요할 때 ClickHouse는 최고의 선택지입니다.
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>ClickHouse의 아키	처는 데이터 수신, 저장, 처리, 제공의 단순하고 효율적인 흐름을 따릅	니다.</p>
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────┐
+│                        Client Applications                          │
+│    (Python, Go, BI Tools, Grafana, SQL Clients)                    │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ (HTTP/TCP, Native Protocol)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                     ClickHouse Server (Single Node)                 │
+├─────────────┬─────────────┬──────────────┬────────────┬────────────┤
+│   Parser    │  Analyzer   │  Optimizer   │ Interpreter│  Storage   │
+│  (SQL →     │   (Query    │   (Query     │  (Query    │  Engine    │
+│   AST)      │  Semantics) │   Plan)      │ Execution) │ (MergeTree)│
+├─────────────┴─────────────┴──────────────┴────────────┴────────────┤
+│               Columnar Storage on Local Disk / S3                   │
+└─────────────────────────────────────────────────────────────────────┘
+                               │
+┌─────────────────────────────────────────────────────────────────────┐
+│                    ClickHouse Cluster (Sharding)                    │
+├───────────────────┬───────────────────┬─────────────────────────────┤
+│    Shard 1        │    Shard 2        │    ... (Distributed Table)  │
+│  (Replica Set)    │  (Replica Set)    │                             │
+└───────────────────┴───────────────────┴─────────────────────────────┘
+            </div>
+            <h3>주요 엔진</h3>
+            <ul>
+                <li><strong>MergeTree</strong>: 모든 프로덕션 용도의 핵심 엔진. 데이터 파티셔닝, 인덱싱, 병합을 관리.</li>
+                <li><strong>ReplicatedMergeTree</strong>: 고가용성을 위한 MergeTree의 복제 버전.</li>
+                <li><strong>Distributed</strong>: 물리적 테이블이 아닌, 클러스터 전체에 쿼리를 분산하는 "가상" 엔진.</li>
+                <li><strong>Kafka</strong>: Apache Kafka 토픽에서 직접 데이터를 수신하는 엔진.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <h3>4.1 도커로 설치하기</h3>
+            <div class="code-block-title">CLI</div>
+            <pre><code># 최신 안정 버전 도커 컨테이너 실행
+docker run -d \
+  --name some-clickhouse-server \
+  -p 8123:8123 -p 9000:9000 -p 9009:9009 \
+  --ulimit nofile=262144:262144 \
+  clickhouse/clickhouse-server:latest</code></pre>
+
+            <h3>4.2 Python 클라이언트 연결 및 첫 테이블 생성</h3>
+            <div class="code-block-title">Python (clickhouse-driver 설치 필요)</div>
+            <pre><code># pip install clickhouse-driver pandas
+from clickhouse_driver import Client
+
+# 클라이언트 연결 (도커 기본 설정)
+client = Client(host='localhost', port=9000, user='default', password='')
+
+# 테이블 생성 (MergeTree 엔진)
+create_table_sql = """
+CREATE TABLE IF NOT EXISTS tutorial.user_events
+(
+    user_id UInt64,
+    event_time DateTime,
+    event_type String,
+    country_code LowCardinality(String),
+    revenue Decimal(10, 2)
+)
+ENGINE = MergeTree()
+PARTITION BY toYYYYMM(event_time)
+ORDER BY (user_id, event_time)
+"""
+client.execute(create_table_sql)
+print("테이블 생성 완료.")</code></pre>
+
+            <h3>4.3 데이터 삽입 및 조회</h3>
+            <pre><code># 배치 데이터 삽입
+insert_sql = "INSERT INTO tutorial.user_events VALUES"
+data = [
+    (101, '2026-03-15 10:00:00', 'purchase', 'US', 49.99),
+    (101, '2026-03-15 10:05:00', 'view', 'US', 0),
+    (102, '2026-03-15 11:00:00', 'purchase', 'KR', 29.99),
+    (103, '2026-03-15 12:00:00', 'login', 'JP', 0),
+]
+client.execute(insert_sql, data)
+
+# 분석 쿼리 실행
+result = client.execute("""
+    SELECT
+        country_code,
+        count() as total_events,
+        sum(revenue) as total_revenue,
+        avg(revenue) as avg_revenue
+    FROM tutorial.user_events
+    WHERE event_time >= '2026-03-15'
+    GROUP BY country_code
+    ORDER BY total_revenue DESC
+""")
+for row in result:
+    print(row)</code></pre>
+            <div class="callout">
+                <strong>참고:</strong> 프로덕션 환경에서는 반드시 적절한 사용자, 비밀번호, 네트워크 보안 설정을 구성하세요.
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>주로 수정하는 설정 파일 (<code>/etc/clickhouse-server/config.xml</code> 또는 <code>users.xml</code>)의 주요 항목입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 경로</th>
+                        <th>기본값</th>
+                        <th>권장/설명</th>
+                        <th>영향</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;listen_host&gt;</code></td>
+                        <td>::</td>
+                        <td>프로덕션: 특정 IP 또는 0.0.0.0</td>
+                        <td>네트워크 접근 제어</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;max_concurrent_queries&gt;</code></td>
+                        <td>100</td>
+                        <td>시스템 리소스에 따라 조정 (예: 200)</td>
+                        <td>동시 쿼리 수 제한</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;max_memory_usage&gt;</code></td>
+                        <td>10GB</td>
+                        <td>물리적 RAM의 70-80%로 설정</td>
+                        <td>단일 쿼리 메모리 제한</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;background_pool_size&gt;</code></td>
+                        <td>16</td>
+                        <td>CPU 코어 수에 맞춰 증가 (예: 32)</td>
+                        <td>병렬 머지/뮤테이션 성능</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;compression&gt;</code></td>
+                        <td>lz4</td>
+                        <td>압축률 높임: zstd, 속도 우선: lz4</td>
+                        <td>저장 공간 vs 쿼리 속도</td>
+                    </tr>
+                    <tr>
+                        <td>유저 설정 <code>&lt;max_execution_time&gt;</code></td>
+                        <td>0 (무제한)</td>
+                        <td>예: 300 (초) - 장시간 쿼리 방지</td>
+                        <td>쿼리 타임아웃</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🚀 성능 팁</h4>
+                    <ul>
+                        <li><strong>파티셔닝</strong>: 너무 많은 파티션(수천 개)을 만들지 마세요. 월/일 단위가 일반적.</li>
+                        <li><strong>ORDER BY 키</strong>: 가장 자주 필터링하는 컬럼을 앞에 배치하세요.</li>
+                        <li><strong>적절한 데이터 타입</strong>: <code>LowCardinality(String)</code>으로 카디널리티가 낮은 문자열을 압축하세요.</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 운영 팁</h4>
+                    <ul>
+                        <li><strong>모니터링</strong>: 시스템 메트릭스(<code>system.metrics</code>), 쿼리 로그(<code>system.query_log</code>)를 적극 활용.</li>
+                        <li><strong>TTL</strong>: 데이터 보관 정책을 위해 테이블/컬럼 수준 TTL을 설정하세요.</li>
+                        <li><strong>머지 최적화</strong>: <code>optimize table ... final</code>은 프로덕션에서 신중하게 사용.</li>
+                    </ul>
+                </div>
+            </div>
+            <h3>자주 겪는 문제</h3>
+            <div class="callout warn">
+                <strong>문제: </strong> "Memory limit (for query) exceeded" 오류.<br>
+                <strong>원인: </strong> 집계 시 중간 상태가 너무 커지거나, <code>DISTINCT</code>, <code>GROUP BY</code> 카디널리티가 매우 높음.<br>
+                <strong>해결: </strong> 1) <code>max_memory_usage</code> 증가, 2) 샘플링 쿼리 사용, 3) <code>GROUP BY</code> 컬럼 최적화.
+            </div>
+            <div class="callout">
+                <strong>문제: </strong> Too many parts (파티션 수 백/천 개)로 인한 느린 쿼리.<br>
+                <strong>원인: </strong> 소량의 데이터를 매우 자주 삽입하면 각 삽입이 별도의 파트를 생성.<br>
+                <strong>해결: </strong> 1) 더 큰 배치로 삽입, 2) <code>optimize table</code> 실행, 3) 백그라운드 머지 설정 조정.
+            </div>
+            <div class="callout">
+                <strong>문제: </strong> 복제 지연 (ReplicatedMergeTree).<br>
+                <strong>원인: </strong> 네트워크 지연, 디스크 I/O 병목, ZooKeeper 성능 이슈.<br>
+                <strong>해결: </strong> 1) ZooKeeper 모니터링, 2) <code>system.replication_queue</code> 확인, 3) 네트워크 대역폭 점검.
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://clickhouse.com/docs/en/" target="_blank">📘 공식 문서 (영문)</a> - 가장 완벽하고 최신의 정보원.</li>
+                <li><a href="https://clickhouse.com/docs/en/guides/" target="_blank">🧭 공식 가이드</a> - 특정 작업에 대한 단계별 튜토리얼.</li>
+                <li><a href="https://github.com/ClickHouse/ClickHouse" target="_blank">💻 GitHub 저장소</a> - 소스코드, 이슈, 릴리즈 노트.</li>
+                <li><a href="https://presentations.clickhouse.com/" target="_blank">🎤 프레젠테이션</a> - 컨퍼런스 발표 자료 모음.</li>
+                <li><a href="https://clickhouse.com/docs/en/integrations/" target="_blank">🔌 통합 가이드</a> - Kafka, Spark, Airflow 등과의 연동.</li>
+            </ul>
+            <div class="callout">
+                <strong>학습 경로 추천:</strong> 공식 문서 → 인터랙티브 튜토리얼 → 샘플 데이터셋으로 실험 → 실제 데이터 마이그레이션.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 ClickHouse의 실무 적용을 위한 핵심 요약입니다. 지속적으로 변화하는 기술이므로 공식 문서를 항상 참고하세요.</p>
+        <p>© 2026.03 - 데이터 엔지니어 · AI 엔지니어 커뮤니티</p>
+        <p style="margin-top: 1rem;"><a href="#top">🔝 맨 위로</a></p>
+    </footer>
+
+    <script>
+        // 간단한 목차 링크 스무스 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

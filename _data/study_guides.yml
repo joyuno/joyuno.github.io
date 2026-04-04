@@ -124,3 +124,9 @@
   tags: ["query-engine", "distributed-sql", "federation"]
   date: "2026-04-03"
   url: "/study-guides/trino-study-guide.html"
+- keyword: "ClickHouse"
+  slug: "clickhouse"
+  category: "data-engineering"
+  tags: ["olap", "columnar", "analytics"]
+  date: "2026-04-04"
+  url: "/study-guides/clickhouse-study-guide.html"
