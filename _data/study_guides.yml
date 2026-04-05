@@ -130,3 +130,9 @@
   tags: ["olap", "columnar", "analytics"]
   date: "2026-04-04"
   url: "/study-guides/clickhouse-study-guide.html"
+- keyword: "DuckDB"
+  slug: "duckdb"
+  category: "data-engineering"
+  tags: ["olap", "embedded", "analytics"]
+  date: "2026-04-05"
+  url: "/study-guides/duckdb-study-guide.html"
