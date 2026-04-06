@@ -136,3 +136,9 @@
   tags: ["olap", "embedded", "analytics"]
   date: "2026-04-05"
   url: "/study-guides/duckdb-study-guide.html"
+- keyword: "Polars"
+  slug: "polars"
+  category: "data-engineering"
+  tags: ["dataframe", "rust", "performance"]
+  date: "2026-04-06"
+  url: "/study-guides/polars-study-guide.html"
