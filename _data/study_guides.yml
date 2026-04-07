@@ -142,3 +142,9 @@
   tags: ["dataframe", "rust", "performance"]
   date: "2026-04-06"
   url: "/study-guides/polars-study-guide.html"
+- keyword: "DataHub"
+  slug: "datahub"
+  category: "data-engineering"
+  tags: ["data-catalog", "metadata", "governance"]
+  date: "2026-04-07"
+  url: "/study-guides/datahub-study-guide.html"
