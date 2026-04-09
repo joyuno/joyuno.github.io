@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Redpanda 핵심 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        .toc a {
+            color: var(--text);
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            color: var(--accent2);
+            margin: 1.5rem 0 1rem 0;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 2rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+        code, pre {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            background-color: var(--surface2);
+            border-radius: 4px;
+        }
+        code {
+            padding: 2px 6px;
+            color: var(--accent3);
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .code-block-title {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-radius: 6px 6px 0 0;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 0 10px; }
+            .hero h1 { font-size: 2.5rem; }
+            .toc ol { grid-template-columns: 1fr; }
+            .concept-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Redpanda 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">streaming</span>
+            <span class="badge">kafka-compatible</span>
+            <span class="badge">C++</span>
+            <span class="badge">실시간 데이터</span>
+            <span class="badge">2026.03 작성</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Redpanda란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Redpanda란?</h2>
+            <p>Redpanda는 Kafka API와 완벽 호환되는 <strong>C++ 기반의 고성능 스트리밍 데이터 플랫폼</strong>입니다. JVM을 사용하지 않고, 단일 바이너리로 구성되어 운영 복잡성을 크게 줄였습니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>⚡ 성능</h4>
+                    <p>기존 Kafka 대비 최대 10배 낮은 지연 시간과 높은 처리량을 제공합니다. 커널 바이패스, 바벨 큐 등 최적화 기법을 활용합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 운영 단순화</h4>
+                    <p>ZooKeeper 의존성 제거, 단일 바이너리 배포, 내장 웹 UI를 통해 운영 부담을 획기적으로 줄였습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 완전 호환성</h4>
+                    <p>Kafka 클라이언트 라이브러리(Producer/Consumer), CLI 도구(kcat), Connect, Schema Registry와의 호환성을 유지합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 Apache Kafka와의 주요 차이점을 비교합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>Apache Kafka</th>
+                        <th>Redpanda</th>
+                        <th>실무적 의미</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>아키텍처</strong></td>
+                        <td>JVM 기반, ZooKeeper 의존</td>
+                        <td>C++ 네이티브, ZooKeeper 없음</td>
+                        <td>GC 지연 없음, 구성 요소 감소</td>
+                    </tr>
+                    <tr>
+                        <td><strong>성능</strong></td>
+                        <td>높은 처리량, 비교적 높은 지연</td>
+                        <td>초저지연(~ms), 높은 처리량</td>
+                        <td>실시간 분석/ML에 적합</td>
+                    </tr>
+                    <tr>
+                        <td><strong>운영</strong></td>
+                        <td>튜닝 포인트 많음, 전문성 요구</td>
+                        <td>자동 튜닝, 내장 모니터링</td>
+                        <td>소규모 팀도 운영 가능</td>
+                    </tr>
+                    <tr>
+                        <td><strong>호환성</strong></td>
+                        <td>표준</td>
+                        <td>Kafka API 완전 호환</td>
+                        <td>기존 코드/도구 재사용 가능</td>
+                    </tr>
+                    <tr>
+                        <td><strong>라이선스</strong></td>
+                        <td>Apache 2.0</td>
+                        <td>BSL 1.1 → Apache 2.0</td>
+                        <td>상용 사용 가능 (조건부)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>💡 선택 가이드:</strong> 실시간 AI/ML 피처 파이프라인, 저지연 트랜잭션 처리, 운영 인력이 부족한 팀이라면 Redpanda를 고려하세요. 매우 큰 클러스터(100+ 노드)나 특정 커뮤니티 도구가 필수라면 Kafka를 검토하세요.
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>Redpanda의 핵심 아키텍처는 Raft 컨센서스 프로토콜을 기반으로 한 단순화된 설계입니다.</p>
+            <div class="diagram">
+  ┌─────────────────────────────────────────────────────────┐
+  │                   Redpanda Cluster                      │
+  │  ┌──────────┐    ┌──────────┐    ┌──────────┐         │
+  │  │  Node 1  │    │  Node 2  │    │  Node 3  │         │
+  │  │ (Leader) │    │(Follower)│    │(Follower)│         │
+  │  └────┬─────┘    └────┬─────┘    └────┬─────┘         │
+  │       │ Raft          │ Raft          │ Raft          │
+  │       ▼               ▼               ▼               │
+  │  ┌─────────────────────────────────────────┐         │
+  │  │         내장 Raft 컨센서스 레이어        │         │
+  │  └─────────────────────────────────────────┘         │
+  │       │               │               │               │
+  │       ▼               ▼               ▼               │
+  │  ┌──────────┐  ┌──────────┐  ┌──────────┐         │
+  │  │  로그     │  │  로그     │  │  로그     │         │
+  │  │ 세그먼트  │  │ 세그먼트  │  │ 세그먼트  │         │
+  │  └──────────┘  └──────────┘  └──────────┘         │
+  └─────────────────────────────────────────────────────────┘
+           │               │               │
+           └───────────────┼───────────────┘
+                           ▼
+                ┌─────────────────────┐
+                │ Kafka API Endpoint  │
+                │ (포트 9092, 9644)   │
+                └─────────────────────┘
+                           │
+           ┌───────────────┼───────────────┐
+           ▼               ▼               ▼
+    ┌────────────┐ ┌────────────┐ ┌────────────┐
+    │  Producer  │ │ Consumer   │ │   Admin    │
+    │ (기존 라이브러리)│ (기존 라이브러리) │  (CLI/UI)  │
+    └────────────┘ └────────────┘ └────────────┘
+            </div>
+            <h3>주요 용어</h3>
+            <ul>
+                <li><strong>Broker</strong>: Redpanda의 단일 노드. 데이터 저장 및 서빙.</li>
+                <li><strong>Topic</strong>: 데이터 스트림의 논리적 분류 (파티션으로 분할).</li>
+                <li><strong>Partition</strong>: 토픽의 수평 분할 단위. 리더-팔로워 복제.</li>
+                <li><strong>Raft</strong>: 내장 컨센서스 프로토콜. ZooKeeper 불필요.</li>
+                <li><strong>Controller</strong>: 클러스터 메타데이터 관리 (자동 선출).</li>
+            </ul>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            <p>Docker를 이용한 로컬 개발 환경 구축부터 첫 메시지 생산/소비까지.</p>
+
+            <h3>4.1 Docker로 실행</h3>
+            <div class="code-block-title">CLI</div>
+            <pre><code># Redpanda 단일 노드 클러스터 실행
+docker run -d \
+  --name redpanda-1 \
+  -p 9092:9092 \
+  -p 9644:9644 \
+  docker.redpanda.com/redpandadata/redpanda:v24.2.1 \
+  redpanda start \
+  --overprovisioned \
+  --smp 1 \
+  --memory 1G \
+  --reserve-memory 0M \
+  --node-id 0 \
+  --check=false \
+  --kafka-addr PLAINTEXT://0.0.0.0:9092 \
+  --advertise-kafka-addr PLAINTEXT://127.0.0.1:9092</code></pre>
+
+            <h3>4.2 Python 클라이언트 예제</h3>
+            <div class="code-block-title">Python: producer.py</div>
+            <pre><code>from kafka import KafkaProducer
+import json
+import time
+
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+    acks='all'  # 강력한 일관성 보장
+)
+
+topic = 'user-events'
+for i in range(10):
+    message = {
+        'user_id': i,
+        'event': 'page_view',
+        'timestamp': int(time.time() * 1000),
+        'properties': {'page': '/home', 'source': 'web'}
+    }
+    # 메시지 전송 (비동기)
+    future = producer.send(topic, value=message)
+    # 결과 확인 (동기화)
+    metadata = future.get(timeout=10)
+    print(f"Sent: {message} → Partition: {metadata.partition}, Offset: {metadata.offset}")
+    time.sleep(0.5)
+
+producer.flush()
+producer.close()</code></pre>
+
+            <div class="code-block-title">Python: consumer.py</div>
+            <pre><code>from kafka import KafkaConsumer
+import json
+
+consumer = KafkaConsumer(
+    'user-events',
+    bootstrap_servers='localhost:9092',
+    auto_offset_reset='earliest',  # 'latest' 가능
+    enable_auto_commit=True,
+    group_id='data-eng-group',
+    value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+)
+
+print("📥 메시지 수신 대기중...")
+try:
+    for message in consumer:
+        print(f"""
+Partition: {message.partition}
+Offset:    {message.offset}
+Key:       {message.key}
+Value:     {message.value}
+Timestamp: {message.timestamp}
+        """)
+except KeyboardInterrupt:
+    print("Consumer 종료")
+finally:
+    consumer.close()</code></pre>
+
+            <h3>4.3 CLI로 토픽 관리</h3>
+            <div class="code-block-title">CLI (rpk 명령어)</div>
+            <pre><code># Docker 컨테이너 내에서 실행
+docker exec -it redpanda-1 rpk topic create log-events --partitions 3 --replicas 1
+
+# 토픽 리스트 확인
+docker exec -it redpanda-1 rpk topic list
+
+# 토픽 상세 정보
+docker exec -it redpanda-1 rpk topic describe log-events
+
+# 메시지 직접 생산
+echo '{"log": "error occurred"}' | docker exec -i redpanda-1 rpk topic produce log-events
+
+# 메시지 소비 (테일)
+docker exec -it redpanda-1 rpk topic consume log-events -n 5</code></pre>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>프로덕션 환경에서 주로 튜닝하는 설정들입니다. <code>redpanda.yaml</code> 파일에서 수정합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 항목</th>
+                        <th>기본값</th>
+                        <th>권장 값 (프로덕션)</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>log_segment_size</code></td>
+                        <td>1GB</td>
+                        <td>2GB ~ 5GB</td>
+                        <td>로그 세그먼트 파일 크기. 너무 작으면 파일 수 증가.</td>
+                    </tr>
+                    <tr>
+                        <td><code>default_topic_replications</code></td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>토픽 복제 계수 (가용성 보장).</td>
+                    </tr>
+                    <tr>
+                        <td><code>log_retention_ms</code></td>
+                        <td>7 days</td>
+                        <td>604800000 (7일)</td>
+                        <td>데이터 보존 기간 (밀리초).</td>
+                    </tr>
+                    <tr>
+                        <td><code>enable_idempotence</code></td>
+                        <td>true</td>
+                        <td>true</td>
+                        <td>멱등성 생산자 활성화 (중복 메시지 방지).</td>
+                    </tr>
+                    <tr>
+                        <td><code>fetch_reads_debounce_timeout_ms</code></td>
+                        <td>10ms</td>
+                        <td>5ms (저지연)</td>
+                        <td>소비자 페치 요청 대기 시간. 지연 감소 but CPU 증가.</td>
+                    </tr>
+                    <tr>
+                        <td><code>auto_create_topics_enabled</code></td>
+                        <td>true</td>
+                        <td>false (프로덕션)</td>
+                        <td>자동 토픽 생성 비활성화 (관리 정책).</td>
+                    </tr>
+                    <tr>
+                        <td><code>cloud_storage_cache_size</code></td>
+                        <td>20% of disk</td>
+                        <td>50GB</td>
+                        <td>클라우드 스토리지 캐시 크기 (Tiered Storage 사용 시).</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>⚠️ 메모리 설정 주의:</strong> <code>reserve-memory</code>는 Redpanda가 시스템에서 예약할 메모리 양입니다. 컨테이너 환경에서는 호스트 메모리의 일부를 명시적으로 할당하는 것이 좋습니다.
+            </div>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+
+            <h3>자주 겪는 문제</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>❌ "Leader not available" 오류</h4>
+                    <p><strong>원인:</strong> 토픽 생성 직후 클라이언트가 즉시 생산/소비 시도. 리더 선출이 아직 완료되지 않음.</p>
+                    <p><strong>해결:</strong> 클라이언트에 재시도 로직 추가 (exponential backoff). 또는 <code>min.isr</code> 설정 확인.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>❌ 디스크 공간 부족</h4>
+                    <p><strong>원인:</strong> 보존 정책(log_retention)이 제대로 적용되지 않거나, 세그먼트 삭제가 느림.</p>
+                    <p><strong>해결:</strong> <code>rpk cluster config set log_cleanup_interval_ms 30000</code>으로 청정 주기 단축. Tiered Storage(클라우드)로 오래된 데이터 오프로드.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>❌ 높은 지연 시간</h4>
+                    <p><strong>원인:</strong> 네트워크, 디스크 I/O 병목, 또는 너무 많은 파티션.</p>
+                    <p><strong>해결:</strong> 내장 메트릭(<code>localhost:9644/metrics</code>)에서 <code>p99</code> 대기 시간 확인. SSD 사용 권장. 불필요한 파티션 수 줄이기.</p>
+                </div>
+            </div>
+
+            <h3>성능 튜닝 팁</h3>
+            <ul>
+                <li><strong>파티션 수 결정:</strong> CPU 코어 수의 2~3배를 시작점으로. 너무 많으면 메타데이터 오버헤드 증가.</li>
+                <li><strong>배치 크기:</strong> Producer의 <code>batch.size</code>와 <code>linger.ms</code>를 증가시켜 처리량 향상 (지연 시간 약간 증가).</li>
+                <li><strong>컴프레션:</strong> <code>compression.type=lz4</code> 또는 <code>zstd</code>로 네트워크/디스크 사용량 감소.</li>
+                <li><strong>모니터링:</strong> Prometheus + Grafana로 <code>vectorized_io_queue_total_latency</code>, <code>under_replicated_replicas</code> 지표 추적.</li>
+            </ul>
+
+            <div class="callout warn">
+                <strong>🚨 주의사항:</strong> Redpanda는 JVM이 없어 GC 튜닝은 불필요하지만, 여전히 메모리와 디스크 I/O 모니터링은 필수입니다. 특히 컨테이너 환경에서는 메모리 한계를 명시적으로 설정하세요.
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.redpanda.com/" target="_blank">📘 공식 문서</a> - 가장 최신이고 상세한 정보원</li>
+                <li><a href="https://github.com/redpanda-data/redpanda" target="_blank">🐙 GitHub 저장소</a> - 소스 코드 및 이슈 트래킹</li>
+                <li><a href="https://docs.redpanda.com/docs/deploy/deployment-option/cloud/" target="_blank">☁️ Redpanda Cloud</a> - 관리형 서비스 (프리 티어 존재)</li>
+                <li><a href="https://kafka.apache.org/documentation/" target="_blank">🔄 Kafka 공식 문서</a> - API 호환성 이해에 도움</li>
+                <li><a href="https://vectorized.io/blog/" target="_blank">✍️ 공식 블로그</a> - 성능 벤치마크 및 사용 사례</li>
+            </ul>
+            <div class="callout">
+                <strong>🎯 학습 로드맵:</strong> 1) 단일 노드 Docker로 실습 → 2) Python 클라이언트로 생산/소비 작성 → 3) 3노드 클러스터 구성 (docker-compose) → 4) 스트림 처리(ksqlDB/Faust) 연결 → 5) 프로덕션 설정(보안, 모니터링) 탐구
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 실무 적용을 위한 핵심 요약입니다. 정확한 정보는 공식 문서를 참고하세요.</p>
+        <p>© 2026.03 - 데이터 엔지니어 커뮤니티 스터디 자료 | <a href="https://redpanda.com" target="_blank">Redpanda</a>는 Redpanda Data, Inc.의 상표입니다.</p>
+    </footer>
+</body>
+</html>
