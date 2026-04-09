@@ -154,3 +154,9 @@
   tags: ["data-versioning", "git-for-data"]
   date: "2026-04-08"
   url: "/study-guides/lakefs-study-guide.html"
+- keyword: "Redpanda"
+  slug: "redpanda"
+  category: "data-engineering"
+  tags: ["streaming", "kafka-compatible", "cpp"]
+  date: "2026-04-09"
+  url: "/study-guides/redpanda-study-guide.html"
