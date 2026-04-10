@@ -160,3 +160,9 @@
   tags: ["streaming", "kafka-compatible", "cpp"]
   date: "2026-04-09"
   url: "/study-guides/redpanda-study-guide.html"
+- keyword: "BigQuery"
+  slug: "bigquery"
+  category: "data-engineering"
+  tags: ["data-warehouse", "gcp", "serverless"]
+  date: "2026-04-10"
+  url: "/study-guides/bigquery-study-guide.html"
