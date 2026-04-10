@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 BigQuery 핵심 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        .toc h2 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        .toc li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 80px;
+            scroll-margin-top: 30px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 25px 0;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        pre, code {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            border-radius: 6px;
+        }
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        code {
+            padding: 3px 6px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .step {
+            margin-bottom: 40px;
+        }
+        .step h4 {
+            color: var(--accent3);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .tip-list {
+            padding-left: 25px;
+        }
+        .tip-list li {
+            margin-bottom: 15px;
+        }
+        .tip-list strong {
+            color: var(--accent4);
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 15px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .toc ol {
+                grid-template-columns: 1fr;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>BigQuery 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">데이터 웨어하우스</span>
+            <span class="badge">GCP</span>
+            <span class="badge">서버리스</span>
+            <span class="badge">Python</span>
+            <span class="badge">실무 중심</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">BigQuery란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. BigQuery란?</h2>
+            <p>Google Cloud Platform(GCP)의 완전 관리형 서버리스 데이터 웨어하우스 및 분석 플랫폼입니다. 페타바이트 규모의 데이터에 대해 초고속 SQL 쿼리를 실행할 수 있으며, 인프라 관리 없이 분석에 집중할 수 있습니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>⚡ 초고속 쿼리</h4>
+                    <p>컬럼형 저장소와 Dremel 쿼리 엔진을 활용하여 대규모 데이터셋에서도 초고속 SQL 쿼리 실행. 분리된 스토리지와 컴퓨팅 아키텍처.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 완전 관리형</h4>
+                    <p>서버리스 아키텍처로 인프라 프로비저닝, 패치, 백업, 클러스터 관리가 필요 없습니다. 사용한 만큼만 비용 지불.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📈 머신러닝 통합</h4>
+                    <p>BigQuery ML을 통해 SQL만으로 모델 훈련 및 배포 가능. TensorFlow, Vertex AI와의 원활한 통합.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 온프레미스 및 클라우드 대안과의 비교를 통해 BigQuery의 강점을 확인합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>솔루션</th>
+                        <th>장점</th>
+                        <th>단점</th>
+                        <th>BigQuery 대비</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>온프레미스 (Oracle, Teradata)</strong></td>
+                        <td>완전한 제어권, 레거시 시스템 통합</td>
+                        <td>높은 유지보수 비용, 확장성 제한, 전문 인력 필요</td>
+                        <td>관리 오버헤드 90% 감소, 탄력적 확장</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Redshift</strong></td>
+                        <td>AWS 생태계 통합, 성숙한 도구</td>
+                        <td>클러스터 관리 필요, 용량 계획 필요</td>
+                        <td>완전 서버리스, 자동 스케일링</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Snowflake</strong></td>
+                        <td>멀티 클라우드, 시장점유율 높음</td>
+                        <td>비용이 높을 수 있음, 벤더 종속성</td>
+                        <td>GCP 통합 최적화, BigQuery ML 고유 기능</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Azure Synapse</strong></td>
+                        <td>Azure 서비스 통합, 다양한 컴퓨팅 옵션</td>
+                        <td>복잡한 아키텍처, 학습 곡선 가파름</td>
+                        <td>단순한 서버리스 모델, 빠른 시작</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>핵심 선택 기준:</strong> 완전 관리형 서버리스가 필요하고, GCP 생태계를 사용하며, ML 통합이 중요한 경우 BigQuery가 최적의 선택입니다.
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>BigQuery의 아키텍처와 핵심 구성 요소를 이해합니다.</p>
+            <div class="diagram">
+  +-------------------+     +-------------------+     +-------------------+
+  |   데이터 소스       |     |   BigQuery        |     |   분석/시각화     |
+  |   (Cloud Storage, |---->|   Storage          |---->|   (Looker,        |
+  |   Streaming, etc.)|     |   (Colossus)       |     |   Data Studio,    |
+  +-------------------+     +-------------------+     |   BI Tools)       |
+                               |                      +-------------------+
+                               |  쿼리 요청
+                               v
+  +---------------------------------------------------------------+
+  |                 BigQuery 서비스 계층                          |
+  |  +-------------------+       +---------------------------+    |
+  |  |   Dremel 엔진      |       |   슬롯 & 리소스 관리      |    |
+  |  |   (쿼리 실행)      |<----->|   (자동 스케일링)         |    |
+  |  +-------------------+       +---------------------------+    |
+  +---------------------------------------------------------------+
+                               |
+                               |  결과 반환
+                               v
+  +-------------------+     +-------------------+     +-------------------+
+  |   머신러닝         |     |   데이터 마트     |     |   애플리케이션    |
+  |   (BigQuery ML)    |     |   (Materialized  |     |   (API 호출)      |
+  |                   |     |    Views)         |     |                   |
+  +-------------------+     +-------------------+     +-------------------+
+            </div>
+            <h3>주요 개념 설명</h3>
+            <ul class="tip-list">
+                <li><strong>프로젝트</strong>: BigQuery의 최상위 컨테이너. 모든 리소스는 프로젝트에 속함.</li>
+                <li><strong>데이터셋</strong>: 테이블, 뷰, 모델을 포함하는 논리적 컨테이너 (데이터베이스 개념).</li>
+                <li><strong>테이블</strong>: 행과 열로 구성된 실제 데이터. 네이티브 테이블과 외부 테이블로 구분.</li>
+                <li><strong>슬롯</strong>: 쿼리 실행을 위한 컴퓨팅 용량 단위. 자동으로 할당 및 관리됨.</li>
+                <li><strong>파티셔닝 & 클러스터링</strong>: 쿼리 성능 최적화 및 비용 절감을 위한 데이터 조직화 기술.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <p>Python을 사용하여 BigQuery를 시작하는 단계별 가이드입니다.</p>
+            
+            <div class="step">
+                <h4>단계 1: 환경 설정</h4>
+                <p>GCP 프로젝트 생성 및 서비스 계정 키 준비</p>
+                <pre><code># CLI에서 GCP 인증 및 프로젝트 설정
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+gcloud auth application-default login</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>단계 2: Python 클라이언트 설치</h4>
+                <pre><code># pip를 사용한 클라이언트 라이브러리 설치
+pip install google-cloud-bigquery pandas pyarrow</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>단계 3: 첫 번째 쿼리 실행</h4>
+                <pre><code>from google.cloud import bigquery
+
+# 클라이언트 초기화 (환경변수 GOOGLE_APPLICATION_CREDENTIALS 설정 필요)
+client = bigquery.Client(project='your-project-id')
+
+# 공개 데이터셋에서 샘플 쿼리 실행
+query = """
+    SELECT name, SUM(number) as total
+    FROM `bigquery-public-data.usa_names.usa_1910_current`
+    WHERE state = 'TX'
+    GROUP BY name
+    ORDER BY total DESC
+    LIMIT 10
+"""
+
+# 쿼리 실행 및 결과를 DataFrame으로 변환
+query_job = client.query(query)
+df = query_job.to_dataframe()
+
+print("텍사스에서 가장 인기 있는 이름 Top 10:")
+print(df.head())</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>단계 4: 데이터 로드 및 테이블 생성</h4>
+                <pre><code># CSV 파일에서 데이터 로드
+dataset_id = "your_dataset"
+table_id = "sample_sales"
+
+# 데이터셋 참조
+dataset_ref = client.dataset(dataset_id)
+table_ref = dataset_ref.table(table_id)
+
+# 작업 구성
+job_config = bigquery.LoadJobConfig(
+    source_format=bigquery.SourceFormat.CSV,
+    skip_leading_rows=1,
+    autodetect=True,  # 스키마 자동 감지
+    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE  # 기존 테이블 덮어쓰기
+)
+
+# Cloud Storage 또는 로컬 파일에서 로드
+with open("sales_data.csv", "rb") as source_file:
+    load_job = client.load_table_from_file(
+        source_file, table_ref, job_config=job_config
+    )
+
+load_job.result()  # 작업 완료 대기
+print(f"테이블 {table_id}에 {load_job.output_rows} 행 로드 완료")</code></pre>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>실무에서 자주 사용하는 중요한 설정 옵션들입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>카테고리</th>
+                        <th>설정/옵션</th>
+                        <th>기본값</th>
+                        <th>권장값/설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3">쿼리 최적화</td>
+                        <td>maximum_bytes_billed</td>
+                        <td>무제한</td>
+                        <td>쿼리당 비용 제한 설정 (예: 1000000000 = 1GB)</td>
+                    </tr>
+                    <tr>
+                        <td>use_legacy_sql</td>
+                        <td>False</td>
+                        <td>Standard SQL 사용 권장 (성능 및 기능 우위)</td>
+                    </tr>
+                    <tr>
+                        <td>priority</td>
+                        <td>INTERACTIVE</td>
+                        <td>BATCH: 비용 50% 절감 but 큐 대기 가능</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">테이블 설계</td>
+                        <td>파티셔닝</td>
+                        <td>없음</td>
+                        <td>시간 단위(일별) 또는 정수 범위 파티셔닝 권장</td>
+                    </tr>
+                    <tr>
+                        <td>클러스터링</td>
+                        <td>없음</td>
+                        <td>자주 필터링하는 컬럼 4개까지 지정 가능</td>
+                    </tr>
+                    <tr>
+                        <td>만료 시간</td>
+                        <td>없음</td>
+                        <td>임시 데이터 자동 정리를 위해 설정 (초 단위)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">작업 관리</td>
+                        <td>job_timeout_ms</td>
+                        <td>무제한</td>
+                        <td>장시간 실행 작업 타임아웃 설정 (예: 300000 = 5분)</td>
+                    </tr>
+                    <tr>
+                        <td>labels</td>
+                        <td>없음</td>
+                        <td>작업에 라벨 추가하여 비용 추적 및 관리</td>
+                    </tr>
+                    <tr>
+                        <td>ML 모델</td>
+                        <td>model_type</td>
+                        <td>LINEAR_REG</td>
+                        <td>linear_reg, logistic_reg, kmeans, tensorflow 등</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="callout warn">
+                <strong>주의:</strong> 아래 문제들은 실무에서 자주 발생하는 사례들입니다. 미리 대비하면 비용과 시간을 절약할 수 있습니다.
+            </div>
+            
+            <h3>자주 겪는 문제와 해결책</h3>
+            <ul class="tip-list">
+                <li>
+                    <strong>문제: 쿼리 비용이 예상보다 많이 발생</strong><br>
+                    <strong>해결:</strong> 
+                    1. <code>maximum_bytes_billed</code> 설정으로 비용 상한 제한<br>
+                    2. 파티셔닝/클러스터링으로 스캔 데이터 양 최소화<br>
+                    3. 쿼리 실행 전 <code>dry run</code>으로 처리 데이터량 확인<br>
+                    <code>job_config = bigquery.QueryJobConfig(dry_run=True)</code>
+                </li>
+                <li>
+                    <strong>문제: "Resources exceeded during query execution" 에러</strong><br>
+                    <strong>해결:</strong>
+                    1. 쿼리를 여러 개의 작은 쿼리로 분할<br>
+                    2. 임시 테이블 사용하여 중간 결과 저장<br>
+                    3. 슬롯 예약(reservation)으로 컴퓨팅 용량 보장
+                </li>
+                <li>
+                    <strong>문제: 데이터 로드 속도가 너무 느림</strong><br>
+                    <strong>해결:</strong>
+                    1. AVRO 또는 Parquet 포맷 사용 (CSV 대비 2-5배 빠름)<br>
+                    2. 여러 파일을 병렬로 로드<br>
+                    3. 스트리밍 삽입 API 사용 (실시간 데이터)
+                </li>
+                <li>
+                    <strong>문제: 동시 쿼리 실행 제한에 걸림</strong><br>
+                    <strong>해결:</strong>
+                    1. 쿼리 큐잉 구현 (exponential backoff)<br>
+                    2. 슬롯 예약 풀 크기 증가 요청<br>
+                    3. BATCH 우선순위 쿼리 사용
+                </li>
+                <li>
+                    <strong>문제: BigQuery ML 모델 성능이 낮음</strong><br>
+                    <strong>해결:</strong>
+                    1. 특징 공학 적용 (데이터 전처리)<br>
+                    2. 하이퍼파라미터 튜닝<br>
+                    3. 더 큰 데이터셋으로 훈련
+                </li>
+            </ul>
+            
+            <h3>성능 최적화 팁</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📊 SELECT * 피하기</h4>
+                    <p>필요한 컬럼만 명시적으로 선택. 전체 테이블 스캔을 방지하고 비용을 크게 절감.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⏱️ 파티션 프루닝</h4>
+                    <p>WHERE 절에 파티션 컬럼 조건을 포함하여 불필요한 파티션 스캔을 건너뜁니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 클러스터링 활용</h4>
+                    <p>자주 함께 조회되는 컬럼으로 클러스터링하여 관련 데이터를 물리적으로 그룹화.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <p>공식 문서와 추가 학습 자료입니다.</p>
+            <ul class="tip-list">
+                <li><a href="https://cloud.google.com/bigquery/docs" target="_blank">📘 BigQuery 공식 문서</a> - 가장 최신의 공식 가이드</li>
+                <li><a href="https://cloud.google.com/bigquery/pricing" target="_blank">💰 BigQuery 가격 책정</a> - 비용 계산 및 최적화 가이드</li>
+                <li><a href="https://cloud.google.com/bigquery-ml/docs" target="_blank">🤖 BigQuery ML 문서</a> - SQL로 머신러닝 모델 구축</li>
+                <li><a href="https://github.com/GoogleCloudPlatform/bigquery-utils" target="_blank">🔧 BigQuery 유틸리티 GitHub</a> - 공식 유틸리티 및 샘플</li>
+                <li><a href="https://cloud.google.com/blog/topics/developers-practitioners" target="_blank">✍️ GCP 개발자 블로그</a> - 최신 기능과 사례 연구</li>
+                <li><a href="https://codelabs.developers.google.com/?cat=BigQuery" target="_blank">🧪 BigQuery 코드랩</a> - 실습형 튜토리얼</li>
+            </ul>
+            <div class="callout">
+                <strong>학습 로드맵 추천:</strong> 1) 기본 SQL 쿼리 → 2) 데이터 로드/내보내기 → 3) 파티셔닝/클러스터링 → 4) 성능 최적화 → 5) BigQuery ML → 6) 고급 기능(스크립팅, 저장 프로시저)
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 BigQuery 실무 스터디 가이드 - 데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <p>본 문서는 실무 적용을 위한 참고 자료이며, 공식 문서를 대체하지 않습니다. 최신 정보는 공식 문서를 참고하세요.</p>
+        <p style="margin-top: 20px;"><a href="#top">▲ 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
