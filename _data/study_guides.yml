@@ -166,3 +166,9 @@
   tags: ["data-warehouse", "gcp", "serverless"]
   date: "2026-04-10"
   url: "/study-guides/bigquery-study-guide.html"
+- keyword: "Amazon Redshift"
+  slug: "amazon-redshift"
+  category: "data-engineering"
+  tags: ["data-warehouse", "aws", "mpp"]
+  date: "2026-04-11"
+  url: "/study-guides/amazon-redshift-study-guide.html"
