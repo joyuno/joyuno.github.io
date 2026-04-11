@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Redshift 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height:, 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            padding: -4rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: -3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .toc li {
+            margin-bottom: 0.8rem;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 2px;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            color: var(--accent2);
+            margin: 1.5rem 0 1rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            font-family: 'Courier New', monospace;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 1.5rem 0;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            border-radius: 4px;
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+        .code-block-title {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px 6px 0 0;
+            font-size: 0.9rem;
+            color: var(--accent3);
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a {
+            color: var(--accent);
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .step {
+            margin-bottom: 2.5rem;
+        }
+        .step h4 {
+            color: var(--accent4);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Amazon Redshift 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">data-warehouse</span>
+            <span class="badge">aws</span>
+            <span class="badge">mpp</span>
+            <span class="badge">실무 중심</span>
+            <span class="badge">2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Amazon Redshift란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#section3">핵심 개념 (아키텍처)</a></li>
+            <li><a href="#section4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Amazon Redshift란?</h2>
+            <p>Amazon Redshift는 AWS에서 제공하는 완전관리형 페타바이트 규모의 클라우드 데이터 웨어하우스 서비스입니다. Massively Parallel Processing(MPP) 아키텍처를 기반으로 하여, 복잡한 분석 쿼리를 고속으로 처리하도록 설계되었습니다.</p>
+            <div class="callout">
+                <strong>핵심 가치:</strong> 기존 온프레미스 데이터 웨어하우스 대비 1/10 비용, 확장성, 완전 관리형 운영, SQL 및 BI 도구와의 완벽한 호환성.
+            </div>
+            <h3>3대 핵심 능력</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>분산 처리 (MPP)</h4>
+                    <p>쿼리를 여러 노드에서 병렬 실행하여 성능을 극대화합니다. 리더 노드가 쿼리를 계획하고, 컴퓨트 노드가 데이터를 분산 저장/처리합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>컬럼형 저장</h4>
+                    <p>데이터를 행(Row)이 아닌 컬럼(Column) 단위로 저장합니다. 분석 쿼리에서 필요한 컬럼만 스캔하여 I/O를 획기적으로 줄이고 압축 효율을 높입니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>완전 관리형</h4>
+                    <p>하드웨어 프로비저닝, 패치, 백업, 모니터링 등 운영 부담을 AWS가 담당합니다. 사용자는 비즈니스 로직과 쿼리 최적화에 집중할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>다양한 데이터 저장소와의 비교를 통해 Redshift의 적절한 사용 사례를 이해합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>서비스/제품</th>
+                        <th>주요 용도</th>
+                        <th>Redshift 대비 장단점</th>
+                        <th>선택 가이드</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Amazon Redshift</strong></td>
+                        <td>대규모 배치 분석, BI 리포트, 복잡한 조인/집계</td>
+                        <td><strong>장점:</strong> MPP로 최고 분석 성능, SQL 표준 준수<br><strong>단점:</strong> 실시간 처리 부적합, 운영비용</td>
+                        <td>TB~PB급 데이터, 주간/월간 리포트, 역사적 트렌드 분석</td>
+                    </tr>
+                    <tr>
+                        <td>Amazon Athena</td>
+                        <td>S3 데이터에 대한 임시 쿼리</td>
+                        <td>서버리스, 쿼리 당 비용. Redshift보다 느리고 복잡한 쿼리 부적합</td>
+                        <td>스키마 온 리드, 탐색적 분석, 비정형 쿼리</td>
+                    </tr>
+                    <tr>
+                        <td>Snowflake</td>
+                        <td>데이터 웨어하우스</td>
+                        <td>스토리지-컴퓨트 분리 아키텍처, 멀티 클라우드. Redshift와 기능 경쟁</td>
+                        <td>클라우드 중립성 필요, 동적 스케일링 중요 시</td>
+                    </tr>
+                    <tr>
+                        <td>PostgreSQL / Aurora</td>
+                        <td>OLTP, 트랜잭션 처리</td>
+                        <td>낮은 레이턴시, ACID 보장. 분석 쿼리 성능은 Redshift에 비해 현저히 낮음</td>
+                        <td>주문 처리, 사용자 인증 등 실시간 CRUD 작업</td>
+                    </tr>
+                    <tr>
+                        <td>BigQuery</td>
+                        <td>서버리스 데이터 웨어하우스</td>
+                        <td>완전 서버리스, 관리 부담 없음. GCP 생태계. Redshift와 유사한 분석 성능</td>
+                        <td>AWS 생태계가 아닐 때, 관리 최소화 필요 시</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념 (아키텍처)</h2>
+            <p>Redshift 클러스터의 핵심 구성 요소와 데이터 흐름을 이해합니다.</p>
+            <div class="diagram">
+                ┌─────────────────────────────────────────────────────────────┐
+                │                    Client / BI Tools                        │
+                │                    (Tableau, Looker, etc.)                  │
+                └──────────────────────────┬──────────────────────────────────┘
+                                           │ (JDBC/ODBC)
+                ┌──────────────────────────▼──────────────────────────────────┐
+                │                    Leader Node                              │
+                │  ┌────────────────────────────────────────────────────┐    │
+                │  │   Query Planner & Coordinator                      │    │
+                │  │   - Parses SQL                                     │    │
+                │  │   - Creates Distributed Execution Plan             │    │
+                │  │   - Aggregates Results from Compute Nodes          │    │
+                │  └────────────────────────────────────────────────────┘    │
+                └──────────────────────────┬──────────────────────────────────┘
+                                           │ (Distributed Plan)
+                ┌──────────────────────────▼──────────────────────────────────┐
+                │                    Compute Node(s)                          │
+                │  ┌────────────┐  ┌────────────┐  ┌────────────┐            │
+                │  │   Slice 1  │  │   Slice 2  │  │   Slice N  │            │
+                │  │ ┌────────┐ │  │ ┌────────┐ │  │ ┌────────┐ │            │
+                │  │ │ Local  │ │  │ │ Local  │ │  │ │ Local  │ │            │
+                │  │ │ Storage│ │  │ │ Storage│ │  │ │ Storage│ │            │
+                │  │ └────────┘ │  │ └────────┘ │  │ └────────┘ │            │
+                │  └────────────┘  └────────────┘  └────────────┘            │
+                │  (Columnar Storage) (Columnar Storage) (Columnar Storage)  │
+                └─────────────────────────────────────────────────────────────┘
+                                           │
+                ┌──────────────────────────▼──────────────────────────────────┐
+                │                    Persistent Storage                        │
+                │                    (S3 for RA3, Managed Storage)            │
+                └─────────────────────────────────────────────────────────────┘
+            </div>
+            <ul>
+                <li><strong>리더 노드(Leader Node):</strong> 클라이언트 연결을 관리하고 쿼리 실행 계획을 수립하며 최종 결과를 집계합니다.</li>
+                <li><strong>컴퓨트 노드(Compute Node):</strong> 실제 데이터 저장과 쿼리 실행을 담당합니다. 노드 내 슬라이스(Slice)로 세분화되어 병렬 처리됩니다.</li>
+                <li><strong>슬라이스(Slice):</strong> 컴퓨트 노드의 논리적 파티션. 각 슬라이스는 CPU 코어와 메모리 할당을 받아 데이터의 일부를 처리합니다.</li>
+                <li><strong>컬럼형 저장(Columnar Storage):</strong> 데이터를 컬럼 단위로 압축 저장하여 분석 쿼리 성능을 향상시킵니다.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
+            <p>Python 환경에서 Redshift에 연결하고 첫 번째 파이프라인을 구축하는 단계별 가이드입니다.</p>
+
+            <div class="step">
+                <h4>Step 1: 클러스터 생성 및 엔드포인트 확인 (AWS Console/CLI)</h4>
+                <div class="code-block-title">AWS CLI 명령어</div>
+                <pre># 클러스터 생성 (예시, 파라미터는 상황에 맞게 조정)
+aws redshift create-cluster \
+    --cluster-identifier my-redshift-cluster \
+    --node-type dc2.large \
+    --master-username adminuser \
+    --master-user-password <YourSecurePassword> \
+    --cluster-type single-node \
+    --publicly-accessible true
+
+# 클러스터 상태 및 엔드포인트 확인
+aws redshift describe-clusters --cluster-identifier my-redshift-cluster \
+    --query 'Clusters[0].[ClusterStatus, Endpoint.Address, Endpoint.Port]'</pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 2: Python 드라이버 설치 및 연결 설정</h4>
+                <div class="code-block-title">Python (psycopg2 설치 및 연결)</div>
+                <pre>pip install psycopg2-binary boto3</pre>
+                <pre>import psycopg2
+import boto3
+from botocore.exceptions import ClientError
+
+def get_redshift_connection():
+    """Redshift 클러스터에 연결"""
+    # 엔드포인트, 포트, 사용자 정보는 AWS Console에서 확인
+    host = "my-redshift-cluster.xxxxxx.us-east-1.redshift.amazonaws.com"
+    port = 5439
+    dbname = "dev"
+    user = "adminuser"
+    password = "<YourSecurePassword>" # 실무에서는 Secrets Manager 사용 권장
+
+    try:
+        conn = psycopg2.connect(
+            host=host,
+            port=port,
+            dbname=dbname,
+            user=user,
+            password=password
+        )
+        print("Redshift 연결 성공")
+        return conn
+    except Exception as e:
+        print(f"연결 실패: {e}")
+        return None</pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 3: 첫 번째 테이블 생성 및 데이터 로드</h4>
+                <div class="code-block-title">Python: 테이블 생성 및 COPY 명령 실행</div>
+                <pre>conn = get_redshift_connection()
+cur = conn.cursor()
+
+# 샘플 테이블 생성
+create_table_sql = """
+CREATE TABLE IF NOT EXISTS sales_transactions (
+    transaction_id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    product_id VARCHAR(50),
+    sale_amount DECIMAL(10,2),
+    sale_date DATE,
+    region VARCHAR(20)
+)
+DISTKEY(customer_id)  -- 고객 ID 기준 분산
+SORTKEY(sale_date);   -- 판매일 기준 정렬
+"""
+cur.execute(create_table_sql)
+conn.commit()
+print("테이블 생성 완료")
+
+# S3에 있는 CSV 데이터를 COPY (가장 일반적인 로드 방식)
+copy_sql = """
+COPY sales_transactions
+FROM 's3://your-data-bucket/path/to/sales_data.csv'
+IAM_ROLE 'arn:aws:iam::123456789012:role/MyRedshiftReadS3Role'
+CSV
+IGNOREHEADER 1
+DELIMITER ','
+DATEFORMAT 'auto';
+"""
+# cur.execute(copy_sql) # S3 버킷과 IAM Role이 준비된 후 실행
+# conn.commit()
+
+# 직접 INSERT 예시 (소량 데이터)
+insert_sql = """
+INSERT INTO sales_transactions VALUES
+(1, 1001, 'PROD_A', 299.99, '2026-03-01', 'Seoul'),
+(2, 1002, 'PROD_B', 150.50, '2026-03-01', 'Busan');
+"""
+cur.execute(insert_sql)
+conn.commit()
+print("샘플 데이터 INSERT 완료")
+
+cur.close()
+conn.close()</pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 4: 첫 분석 쿼리 실행</h4>
+                <div class="code-block-title">Python: 분석 쿼리 실행 및 결과 확인</div>
+                <pre>conn = get_redshift_connection()
+cur = conn.cursor()
+
+analysis_query = """
+SELECT
+    region,
+    DATE_TRUNC('month', sale_date) as sale_month,
+    COUNT(*) as transaction_count,
+    SUM(sale_amount) as total_sales
+FROM sales_transactions
+GROUP BY region, DATE_TRUNC('month', sale_date)
+ORDER BY sale_month DESC, total_sales DESC;
+"""
+
+cur.execute(analysis_query)
+results = cur.fetchall()
+
+print("지역별 월간 매출 분석")
+for row in results:
+    print(f"지역: {row[0]}, 월: {row[1]}, 거래수: {row[2]}, 매출: {row[3]}")
+
+cur.close()
+conn.close()</pre>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>성능과 비용을 최적화하기 위해 반드시 이해해야 할 주요 설정들입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 항목</th>
+                        <th>설명</th>
+                        <th>권장 값/가이드</th>
+                        <th>영향</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DISTKEY</strong></td>
+                        <td>데이터를 컴퓨트 노드에 분산시키는 기준 컬럼</td>
+                        <td>조인 빈도가 높은 컬럼, 카디널리티 높은 컬럼 선택 (e.g., user_id)</td>
+                        <td>노드 간 데이터 이동(Data Skew) 최소화, 조인 성능 향상</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SORTKEY</strong></td>
+                        <td>데이터를 물리적으로 정렬하는 기준 컬럼</td>
+                        <td>범위 쿼리/필터에 자주 사용되는 컬럼 (e.g., transaction_date)</td>
+                        <td>쿼리 스캔 범위 축소, 압축 효율 향상</td>
+                    </tr>
+                    <tr>
+                        <td><strong>노드 타입</strong></td>
+                        <td>컴퓨트 노드의 하드웨어 사양</td>
+                        <td>dc2: 컴퓨트 집중, ra3: 스토리지-컴퓨트 분리 (유연한 스케일링)</td>
+                        <td>성능, 스토리지 용량, 비용 구조 결정</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WLM(Workload Management)</strong></td>
+                        <td>쿼리 대기열 및 동시성 관리</td>
+                        <td>Auto WLM 사용 권장. 우선순위 큐를 통해 ETL/보고서 쿼리 분리</td>
+                        <td>자원 경합 방지, 쿼리 타임아웃 관리</td>
+                    </tr>
+                    <tr>
+                        <td><strong>압축 인코딩</strong></td>
+                        <td>컬럼 데이터 압축 방식</td>
+                        <td>CREATE TABLE 시 `ENCODE AUTO` 사용 또는 분석 후 수동 지정 (e.g., DELTA)</td>
+                        <td>스토리지 절감, I/O 성능 향상</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VACUUM & ANALYZE</strong></td>
+                        <td>저장 공간 재확보 및 통계 정보 업데이트</td>
+                        <td>대량 DELETE/UPDATE 후 수동 VACUUM 실행. 주기적 ANALYZE 자동화</td>
+                        <td>쿼리 플랜 정확도 유지, 성능 저하 방지</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <h3>자주 겪는 문제 + 해결책</h3>
+
+            <div class="callout warn">
+                <strong>문제 1: 쿼리가 매우 느리거나 타임아웃 발생</strong>
+                <ul>
+                    <li><strong>원인:</strong> 잘못된 DISTKEY/SORTKEY, 통계 정보 부실, 데이터 편향(Skew), WLM 설정.</li>
+                    <li><strong>해결:</strong>
+                        <ol>
+                            <li><code>EXPLAIN</code> 명령어로 실행 계획 확인. "Hash Join" 대신 "Nested Loop"가 보이면 의심.</li>
+                            <li><code>STL_QUERY</code>, <code>SVL_QUERY_REPORT</code> 시스템 뷰로 실행 단계 분석.</li>
+                            <li>통계 업데이트: <code>ANALYZE [table_name];</code></li>
+                            <li>데이터 편향 확인: <code>SELECT slice, COUNT(*) FROM stv_blocklist WHERE tbl = ... GROUP BY slice;</code></li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="callout">
+                <strong>문제 2: COPY 명령이 S3 데이터를 로드하지 못함</strong>
+                <ul>
+                    <li><strong>원인:</strong> IAM Role 권한 부족, 파일 형식 불일치, 네트워크 문제.</li>
+                    <li><strong>해결:</strong>
+                        <ol>
+                            <li>IAM Role에 S3 버킷에 대한 <code>s3:GetObject</code>, <code>s3:ListBucket</code> 권한 확인.</li>
+                            <li>파일 헤더, 구분자, 인코딩 옵션(<code>CSV</code>, <code>DELIMITER</code>, <code>IGNOREHEADER</code>) 재확인.</li>
+                            <li><code>STL_LOAD_ERRORS</code> 시스템 테이블에서 상세 에러 메시지 조회.</li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="callout">
+                <strong>문제 3: 디스크 공간 부족</strong>
+                <ul>
+                    <li><strong>원인:</strong> 로그 데이터 누적, VACUUM 미실행, 불필요한 데이터 보관.</li>
+                    <li><strong>해결:</strong>
+                        <ol>
+                            <li>대량 삭제 후 <code>VACUUM [table_name];</code> 실행하여 공간 회수.</li>
+                            <li>오래된 데이터는 아카이빙(S3) 후 테이블에서 삭제.</li>
+                            <li>RA3 노드 타입으로 마이그레이션 고려 (스토리지 자동 확장).</li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>성능 최적화 팁</h3>
+            <ul>
+                <li><strong>최소한의 컬럼 조회:</strong> <code>SELECT *</code> 금지. 컬럼형 저장의 이점을 살리기 위해 필요한 컬럼만 명시.</li>
+                <li><strong>조인 순서:</strong> 큰 테이블을 DISTKEY로 분산시키고, 작은 테이블은 브로드캐스트 조인 유도.</li>
+                <li><strong>임시 테이블 활용:</strong> 복잡한 쿼리 중간 결과를 임시 테이블에 저장하여 재사용.</li>
+                <li><strong>UNLOAD 활용:</strong> 대량 결과 추출은 <code>UNLOAD</code> to S3 후 다운로드가 더 빠름.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.aws.amazon.com/redshift/latest/dg/welcome.html" target="_blank">Amazon Redshift 공식 문서</a> - 가장 권위 있는 참고 자료</li>
+                <li><a href="https://docs.aws.amazon.com/redshift/latest/dg/c_redshift-sql.html" target="_blank">Redshift SQL 명령어 레퍼런스</a></li>
+                <li><a href="https://aws.amazon.com/ko/blogs/big-data/tag/amazon-redshift/" target="_blank">AWS 빅 데이터 블로그 (Redshift 태그)</a> - 최신 기능과 사례</li>
+                <li><a href="https://github.com/awslabs/amazon-redshift-utils" target="_blank">Amazon Redshift Utilities GitHub</a> - 관리 및 모니터링 스크립트 모음</li>
+                <li><a href="https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html" target="_blank">Redshift 클러스터 관리 가이드</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Amazon Redshift 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트를 위해 작성됨</p>
+        <p>작성일: 2026년 03월 | 지속적으로 업데이트되는 AWS 서비스 특성상 공식 문서를 최종 참고하세요.</p>
+        <p><a href="#top">맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
