@@ -172,3 +172,9 @@
   tags: ["data-warehouse", "aws", "mpp"]
   date: "2026-04-11"
   url: "/study-guides/amazon-redshift-study-guide.html"
+- keyword: "Kafka Connect"
+  slug: "kafka-connect"
+  category: "data-engineering"
+  tags: ["integration", "connector", "kafka"]
+  date: "2026-04-12"
+  url: "/study-guides/kafka-connect-study-guide.html"
