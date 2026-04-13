@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Lake 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트</title>
+    <title>Delta Lake 실무 스터디 가이드</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -22,9 +22,9 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -90,31 +90,32 @@
             gap: 10px;
         }
         .toc li {
-            margin-bottom: 8px;
-            padding: 5px 0;
+            padding: 8px 0;
             border-bottom: 1px dashed var(--border);
+        }
+        .toc li:last-child {
+            border-bottom: none;
         }
         .section {
             margin-bottom: 4rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 2rem;
         }
         .section h2 {
             font-size: 2.2rem;
             margin-bottom: 1.5rem;
-            color: var(--accent);
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--surface2);
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
         }
         .section h3 {
             font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent2);
+            margin: 1.8rem 0 1rem;
+            color: var(--accent3);
         }
         .concept-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 1.5rem;
             margin: 2rem 0;
         }
         .concept-card {
@@ -122,51 +123,61 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            border-left: 3px solid var(--accent);
         }
         .concept-card h4 {
-            color: var(--accent3);
+            color: var(--accent2);
             margin-bottom: 0.8rem;
             font-size: 1.3rem;
         }
         .callout {
             background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.2rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent2);
+            border-radius: 6px;
+            padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
         }
         .callout.warn {
-            border-left-color: var(--danger);
+            border-left-color: var(--accent4);
         }
-        .diagram {
-            background-color: var(--surface);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-family: 'Courier New', monospace;
-            white-space: pre;
-            overflow-x: auto;
-            margin: 2rem 0;
-            line-height: 1.4;
+        .callout h4 {
+            margin-bottom: 0.5rem;
             color: var(--accent2);
         }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface);
-            padding: 2px 6px;
-            border-radius: 4px;
+        .callout.warn h4 {
+            color: var(--accent4);
+        }
+        .diagram {
+            background-color: var(--bg);
             border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.4;
+            color: var(--text);
+        }
+        code, pre {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
         }
         pre {
+            background-color: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             padding: 1.2rem;
             overflow-x: auto;
             margin: 1.2rem 0;
             line-height: 1.5;
+        }
+        code {
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent3);
         }
         table {
             width: 100%;
@@ -186,24 +197,38 @@
             font-weight: 600;
         }
         tr:nth-child(even) {
-            background-color: rgba(255,255,255,0.03);
+            background-color: var(--surface2);
         }
         footer {
             text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
+            padding: 3rem 1rem;
+            margin-top: 4rem;
             border-top: 1px solid var(--border);
-            margin-top: 3rem;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
         .date {
             color: var(--accent4);
             font-weight: bold;
         }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .toc ol {
+                grid-template-columns: 1fr;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="hero">
+    <section class="hero" id="top">
         <h1>Delta Lake 실무 스터디 가이드</h1>
         <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
         <div class="meta-badges">
@@ -213,9 +238,9 @@
             <span class="badge">Spark</span>
             <span class="badge">Data Reliability</span>
         </div>
-    </header>
+    </section>
 
-    <nav class="toc">
+    <section class="toc">
         <h2>📚 목차</h2>
         <ol>
             <li><a href="#section1">Delta Lake란?</a></li>
@@ -226,298 +251,360 @@
             <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
             <li><a href="#section7">참고 자료</a></li>
         </ol>
-    </nav>
+    </section>
 
-    <main>
-        <section id="section1" class="section">
-            <h2>1. Delta Lake란?</h2>
-            <p>Delta Lake는 데이터 레이크 위에 ACID 트랜잭션, 확장 가능한 메타데이터 처리, 통합 배치/스트리밍 데이터 처리를 제공하는 <strong>오픈 소스 스토리지 레이어</strong>입니다. Parquet 파일을 기반으로 하며, 트랜잭션 로그(Delta Log)를 통해 데이터의 신뢰성과 일관성을 보장합니다.</p>
-            
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>ACID 트랜잭션</h4>
-                    <p>다중 작업 읽기/쓰기 시 데이터 무결성을 보장합니다. 동시성 제어로 충돌을 방지하고, 롤백이 가능하여 안전한 데이터 수정이 가능합니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>스키마 진화 & 시행</h4>
-                    <p>자동 또는 명시적 스키마 진화를 지원하며, 스키마 시행으로 잘못된 데이터가 쓰이는 것을 방지합니다. Merge, Update, Delete 연산을 지원합니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>타임 트래블</h4>
-                    <p>데이터 버전 관리를 통해 특정 시점(타임스탬프 또는 버전 번호)의 데이터를 쿼리할 수 있습니다. 데이터 롤백과 감사 추적에 유용합니다.</p>
-                </div>
+    <section class="section" id="section1">
+        <h2>1. Delta Lake란?</h2>
+        <p>Delta Lake는 데이터 레이크 위에 <strong>ACID 트랜잭션</strong>, <strong>스키마 관리</strong>, <strong>데이터 버전 관리(타임 트래블)</strong> 기능을 제공하는 오픈 소스 스토리지 레이어입니다. Parquet, ORC 같은 오픈 포맷을 기반으로 하며, Apache Spark, Trino, Flink 등과 통합되어 기존 데이터 파이프라인을 신뢰성 있는 Lakehouse 아키텍처로 전환하는 핵심 기술입니다.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>ACID 트랜잭션</h4>
+                <p>다중 작업 쓰기 시 원자성(Atomicity) 보장. 읽기와 쓰기 충돌 방지 및 직렬화 격리 수준 제공. 데이터 일관성과 신뢰성을 보장합니다.</p>
             </div>
-        </section>
-
-        <section id="section2" class="section">
-            <h2>2. 왜 써야 하는가?</h2>
-            <p>기존 데이터 레이크의 문제점(데이터 불일치, 쓰기 충돌, 낮은 품질)을 해결하면서도 데이터 웨어하우스 수준의 관리 기능을 제공합니다.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>기능</th>
-                        <th>기존 Parquet/ORC</th>
-                        <th>Delta Lake</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ACID 보장</td>
-                        <td>❌ 없음 (파일 덮어쓰기)</td>
-                        <td>✅ 완전 지원 (트랜잭션 로그)</td>
-                    </tr>
-                    <tr>
-                        <td>Update/Delete/Merge</td>
-                        <td>❌ 불가 (전체 재생성 필요)</td>
-                        <td>✅ 네이티브 지원</td>
-                    </tr>
-                    <tr>
-                        <td>스키마 관리</td>
-                        <td>⚠️ 수동 관리</td>
-                        <td>✅ 자동 진화 & 시행</td>
-                    </tr>
-                    <tr>
-                        <td>데이터 버전 관리</td>
-                        <td>❌ 없음</td>
-                        <td>✅ 타임 트래블 (버전 히스토리)</td>
-                    </tr>
-                    <tr>
-                        <td>성능 최적화</td>
-                        <td>⚠️ 제한적 (수동 최적화)</td>
-                        <td>✅ Z-Ordering, 소규모 파일 컴팩션</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="section3" class="section">
-            <h2>3. 핵심 개념</h2>
-            <p>Delta Lake의 핵심은 <strong>트랜잭션 로그(Delta Log)</strong>와 이를 기반으로 한 ACID 보장입니다. 모든 데이터 변경사항은 순서대로 로그에 기록되고, 이를 통해 일관된 뷰를 제공합니다.</p>
-            
-            <div class="diagram">
-┌─────────────────────────────────────────────────────────────┐
-│                    애플리케이션 / Spark                     │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                    Delta Lake Layer                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌──────────────────┐   │
-│  │   ACID      │  │  Schema     │  │  Time Travel     │   │
-│  │ Transactions│  │ Enforcement │  │  (Versioning)    │   │
-│  └─────────────┘  └─────────────┘  └──────────────────┘   │
-│                    ▲                                        │
-└────────────────────┼────────────────────────────────────────┘
-                     │ Delta Log (JSON/Parquet)
-┌────────────────────▼────────────────────────────────────────┐
-│                 Cloud/Object Storage                         │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  /delta_table/                                       │   │
-│  │    ├── _delta_log/   ← 트랜잭션 로그 (버전 관리)     │   │
-│  │    │     ├── 00000000000000000000.json               │   │
-│  │    │     ├── 00000000000000000001.json               │   │
-│  │    │     └── ...                                     │   │
-│  │    ├── part-00001-xxx.parquet  ← 데이터 파일         │   │
-│  │    └── part-00002-yyy.parquet                        │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+            <div class="concept-card">
+                <h4>스키마 진화 & 강화</h4>
+                <p>자동 스키마 추론, 스키마 진화(Schema Evolution)로 백필링 없이 새 컬럼 추가 가능. 스키마 강화(Schema Enforcement)로 데이터 품질을 유지합니다.</p>
             </div>
-            
-            <div class="callout">
-                <strong>💡 핵심 포인트:</strong> Delta Log는 모든 변경사항의 단일 소스입니다. 읽기 작업 시 현재 스냅샷을 빠르게 구성하고, 쓰기 작업 시 직렬화 가능한 격리를 보장합니다.
+            <div class="concept-card">
+                <h4>타임 트래블 & 롤백</h4>
+                <p>트랜잭션 로그(Delta Log)를 통해 데이터의 모든 변경 이력을 보존. 특정 시점 버전(Version) 또는 타임스탬프로 데이터를 쿼리하거나 오퍼레이션을 롤백할 수 있습니다.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="section4" class="section">
-            <h2>4. 퀵스타트</h2>
-            
-            <h3>4.1 설치 및 설정 (PySpark)</h3>
-            <pre><code># PySpark 셸 또는 노트북에서
+    <section class="section" id="section2">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>기존 데이터 레이크(RAW S3/GCS + Parquet)는 유연하지만 데이터 품질, 일관성, 업데이트/삭제 작업에서 한계가 있었습니다. Delta Lake는 이를 해결하며 데이터 웨어하우스 수준의 관리 기능을 제공합니다.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>기능 / 대안</th>
+                    <th>RAW Parquet/ORC</th>
+                    <th>전통적 데이터 웨어하우스</th>
+                    <th><strong>Delta Lake</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ACID 트랜잭션</strong></td>
+                    <td>❌ 없음</td>
+                    <td>✅ 제공</td>
+                    <td>✅ 제공 (멀티 클러스터)</td>
+                </tr>
+                <tr>
+                    <td><strong>업데이트/머지/삭제</strong></td>
+                    <td>❌ Overwrite만 가능</td>
+                    <td>✅ 제공</td>
+                    <td>✅ 제공 (MERGE, UPDATE, DELETE)</td>
+                </tr>
+                <tr>
+                    <td><strong>스키마 관리</strong></td>
+                    <td>❌ 수동 관리</td>
+                    <td>✅ 엄격한 스키마</td>
+                    <td>✅ 진화(Evolution) & 강화(Enforcement)</td>
+                </tr>
+                <tr>
+                    <td><strong>데이터 버전 관리</strong></td>
+                    <td>❌ 없음</td>
+                    <td>⚠️ 제한적 (백업)</td>
+                    <td>✅ 타임 트래블 (Version, Timestamp)</td>
+                </tr>
+                <tr>
+                    <td><strong>오픈 포맷</strong></td>
+                    <td>✅ Parquet/ORC</td>
+                    <td>❌ 벤더 종속</td>
+                    <td>✅ Parquet 기반</td>
+                </tr>
+                <tr>
+                    <td><strong>비용</strong></td>
+                    <td>💰 낮음 (스토리지)</td>
+                    <td>💰 높음 (라이선스+컴퓨트)</td>
+                    <td>💰 낮음 (스토리지+오픈소스)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout">
+            <h4>💡 핵심 가치</h4>
+            <p><strong>단일 소스의 진실(Single Source of Truth)</strong>: ETL, 스트리밍, ML 훈련, BI 리포트가 모두 동일한 Delta 테이블을 안전하게 참조할 수 있습니다. 데이터 레이크의 유연성과 데이터 웨어하우스의 신뢰성을 결합한 <strong>Lakehouse</strong> 아키텍처의 실현체입니다.</p>
+        </div>
+    </section>
+
+    <section class="section" id="section3">
+        <h2>3. 핵심 개념</h2>
+        <h3>아키텍처 다이어그램</h3>
+        <div class="diagram">
+            ┌─────────────────────────────────────────────────────────────┐
+            │                  애플리케이션 & 쿼리 엔진                    │
+            │     (Spark, Trino, Flink, pandas, Power BI, etc.)          │
+            └───────────────────────────┬─────────────────────────────────┘
+                                        │
+                                        ▼
+            ┌─────────────────────────────────────────────────────────────┐
+            │                 Delta Lake (스토리지 레이어)                 │
+            ├─────────────────────────────────────────────────────────────┤
+            │  ┌────────────┐  ┌────────────┐  ┌────────────────────┐    │
+            │  │   ACID     │  │   Schema   │  │   Time Travel     │    │
+            │  │ Transaction│  │ Management │  │   (Versioning)    │    │
+            │  └────────────┘  └────────────┘  └────────────────────┘    │
+            ├─────────────────────────────────────────────────────────────┤
+            │                  Transaction Log (Delta Log)                │
+            │                 (JSON files in _delta_log/)                │
+            │                    ┌────────────┐                          │
+            │                    │   Commit   │ 00000000000000000000.json│
+            │                    │   File     │ 00000000000000000001.json│
+            │                    └────────────┘ ...                      │
+            ├─────────────────────────────────────────────────────────────┤
+            │                 실제 데이터 파일 (Parquet)                   │
+            │                 part-00001-xxx.snappy.parquet              │
+            │                 part-00002-yyy.snappy.parquet              │
+            └─────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+            ┌─────────────────────────────────────────────────────────────┐
+            │             객체 스토리지 (S3, ADLS, GCS) 또는 HDFS          │
+            └─────────────────────────────────────────────────────────────┘
+        </div>
+
+        <h3>주요 컴포넌트</h3>
+        <ul>
+            <li><strong>Delta Log</strong>: 모든 트랜잭션을 순차적으로 기록하는 싱글 소스의 트루스. JSON 파일로 저장되며, 테이블의 현재 상태(메타데이터, 파일 목록)를 정의합니다.</li>
+            <li><strong>Checkpoint</strong>: 주기적으로 생성되는 Parquet 형식의 체크포인트 파일로, 전체 로그를 재처리하지 않고 빠르게 테이블 상태를 로드할 수 있게 합니다.</li>
+            <li><strong>Vacuum</strong>: 더 이상 참조되지 않는 오래된 데이터 파일을 삭제하여 스토리지 비용을 절감하는 명령어. 기본 보존 기간은 7일입니다.</li>
+            <li><strong>Z-Ordering</strong>: 관련된 데이터를 물리적으로 함께 배치하여 쿼리 성능을 최적화하는 기술입니다.</li>
+        </ul>
+    </section>
+
+    <section class="section" id="section4">
+        <h2>4. 퀵스타트</h2>
+        <h3>4.1 설치 및 설정 (PySpark)</h3>
+        <pre><code># PySpark 셸 또는 노트북에서
+# Delta Lake 패키지 지정 (Spark 3.x 이상)
 from pyspark.sql import SparkSession
 
-# Delta Lake 패키지 포함하여 SparkSession 생성
 spark = SparkSession.builder \
     .appName("DeltaQuickstart") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .getOrCreate()
 
-# 또는 기존 SparkSession에 패키지 추가
-# spark = SparkSession.builder.config("spark.jars.packages", "io.delta:delta-core_2.12:2.4.0").getOrCreate()</code></pre>
+# 또는 spark-submit 시 패키지 추가
+# --packages io.delta:delta-core_2.12:3.1.0</code></pre>
 
-            <h3>4.2 첫 Delta 테이블 생성</h3>
-            <pre><code># 샘플 데이터 생성
-data = [(1, "Alice", 3000, "Engineering"),
-        (2, "Bob", 4000, "Sales"),
-        (3, "Charlie", 3500, "Engineering")]
-df = spark.createDataFrame(data, ["id", "name", "salary", "department"])
+        <h3>4.2 첫 Delta 테이블 생성 및 쓰기</h3>
+        <pre><code># 샘플 데이터 생성
+data = [(1, "Alice", "Seoul", 1000),
+        (2, "Bob", "Busan", 2000),
+        (3, "Charlie", "Incheon", 1500)]
+columns = ["id", "name", "city", "amount"]
 
-# Delta 테이블로 저장 (로컬 또는 S3/ADLS 경로)
-delta_path = "/tmp/delta/employees"
+df = spark.createDataFrame(data, columns)
+
+# Delta 형식으로 저장 (디렉토리 생성)
+delta_path = "s3a://my-bucket/delta/demo_table"  # 또는 "file:///tmp/delta_demo"
 df.write.format("delta").mode("overwrite").save(delta_path)
 
 print(f"Delta 테이블 생성 완료: {delta_path}")</code></pre>
 
-            <h3>4.3 읽기, 업데이트, 타임트래블</h3>
-            <pre><code># 읽기
+        <h3>4.3 읽기, 업데이트, 타임 트래블</h3>
+        <pre><code># 읽기
 df_read = spark.read.format("delta").load(delta_path)
 df_read.show()
 
-# 업데이트 (SQL 방식)
-from delta.tables import *
-deltaTable = DeltaTable.forPath(spark, delta_path)
-deltaTable.update(
-    condition = "department = 'Engineering'",
-    set = {"salary": "salary + 500"}
+# 업데이트 (SQL)
+from delta.tables import DeltaTable
+delta_table = DeltaTable.forPath(spark, delta_path)
+
+# 조건부 업데이트
+delta_table.update(
+    condition = "city = 'Seoul'",
+    set = { "amount": "amount + 100" }
 )
 
-# 버전 히스토리 확인
-history = deltaTable.history()
-history.select("version", "timestamp", "operation", "operationParameters").show()
-
-# 타임트래블 (이전 버전 읽기)
-df_v0 = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
-df_v0.show()</code></pre>
-
-            <h3>4.4 CLI에서 기본 작업</h3>
-            <pre><code># Delta Lake CLI (delta-rs) 설치
-# pip install deltalake
-
-# Python에서 deltalake 라이브러리 사용
-# from deltalake import DeltaTable
-# dt = DeltaTable("/tmp/delta/employees")
-# df = dt.to_pandas()</code></pre>
-        </section>
-
-        <section id="section5" class="section">
-            <h2>5. 핵심 설정 레퍼런스</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>설정</th>
-                        <th>기본값</th>
-                        <th>설명</th>
-                        <th>실무 권장값</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>spark.databricks.delta.properties.defaults.autoOptimize.autoCompact</td>
-                        <td>false</td>
-                        <td>자동 소규모 파일 컴팩션</td>
-                        <td>true (스트리밍 시나리오)</td>
-                    </tr>
-                    <tr>
-                        <td>spark.databricks.delta.properties.defaults.autoOptimize.optimizeWrite</td>
-                        <td>false</td>
-                        <td>쓰기 시 자동 최적화 (파일 크기 조정)</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>delta.dataSkippingNumIndexedCols</td>
-                        <td>32</td>
-                        <td>데이터 스킵핑을 위한 인덱스 컬럼 수</td>
-                        <td>10-20 (자주 필터링하는 컬럼)</td>
-                    </tr>
-                    <tr>
-                        <td>delta.logRetentionDuration</td>
-                        <td>30 days</td>
-                        <td>Delta Log 보관 기간 (타임트래블 가능 기간)</td>
-                        <td>7-90 days (규정 준수에 따라)</td>
-                    </tr>
-                    <tr>
-                        <td>delta.deletedFileRetentionDuration</td>
-                        <td>1 week</td>
-                        <td>삭제된 파일 보관 기간 (VACUUM 전)</td>
-                        <td>7 days (안전한 롤백을 위해)</td>
-                    </tr>
-                    <tr>
-                        <td>spark.sql.parquet.compression.codec</td>
-                        <td>snappy</td>
-                        <td>Parquet 압축 코덱</td>
-                        <td>zstd (더 나은 압축률)</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="callout warn">
-                <strong>⚠️ 주의:</strong> VACUUM 명령은 deletedFileRetentionDuration 이전의 데이터를 물리적으로 삭제합니다. 타임트래블이 필요한 경우 보관 기간을 충분히 설정하세요.
-            </div>
-        </section>
-
-        <section id="section6" class="section">
-            <h2>6. 실무 팁 & 트러블슈팅</h2>
-            
-            <h3>자주 겪는 문제와 해결책</h3>
-            
-            <h4>문제 1: 소규모 파일 문제 (Small Files Problem)</h4>
-            <p><strong>증상:</strong> 수많은 작은 Parquet 파일로 인해 읽기 성능 저하 및 메타데이터 오버헤드 발생.</p>
-            <p><strong>해결:</strong></p>
-            <pre><code># 주기적 OPTIMIZE 실행
-spark.sql("OPTIMIZE delta.`/path/to/table`")
-
-# Z-Ordering으로 데이터 클러스터링 (자주 함께 조회되는 컬럼)
-spark.sql("OPTIMIZE delta.`/path/to/table` ZORDER BY (date, user_id)")
-
-# 쓰기 시 자동 최적화 활성화
-spark.conf.set("spark.databricks.delta.properties.defaults.autoOptimize.optimizeWrite", "true")</code></pre>
-
-            <h4>문제 2: 스키마 불일치 (Schema Mismatch)</h4>
-            <p><strong>증상:</strong> 새 데이터의 스키마가 기존 테이블과 달라 쓰기 실패.</p>
-            <p><strong>해결:</strong></p>
-            <pre><code># 스키마 자동 진화 활성화 (쓰기 시)
-df.write.format("delta").mode("append") \
-    .option("mergeSchema", "true") \
-    .save("/delta/table")
-
-# 또는 기존 테이블에 컬럼 추가
-spark.sql("ALTER TABLE delta.`/path/to/table` ADD COLUMNS (new_col STRING)")</code></pre>
-
-            <h4>문제 3: 동시 쓰기 충돌 (Concurrent Write Conflicts)</h4>
-            <p><strong>증상:</strong> 다수의 작업이 동시에 쓰기 시도 시 충돌 발생.</p>
-            <p><strong>해결:</strong></p>
-            <pre><code># Optimistic Concurrency Control 활용
-# MERGE 구문을 사용한 업서트(upsert) 패턴 적용
-deltaTable.alias("target").merge(
-    sourceData.alias("source"),
+# 머지(Upsert) 작업
+new_data = spark.createDataFrame([(4, "David", "Daegu", 3000), (1, "Alice", "Seoul", 1200)], columns)
+delta_table.alias("target").merge(
+    new_data.alias("source"),
     "target.id = source.id"
 ).whenMatchedUpdateAll() \
  .whenNotMatchedInsertAll() \
  .execute()
 
-# 쓰기 재시도 로직 구현 (예: 3회 재시도)</code></pre>
+# 타임 트래블 (이전 버전 조회)
+df_history = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
+print("초기 버전 데이터:")
+df_history.show()</code></pre>
 
-            <h4>문제 4: 메타데이터 성능 저하</h4>
-            <p><strong>증상:</strong> 수만 개 이상의 파티션 또는 장기 운영 시 메타데이터 처리 느려짐.</p>
-            <p><strong>해결:</strong></p>
-            <pre><code># 파티션 수 줄이기 (날짜별 → 월별)
-# CHECKPOINT 주기 조정 (기본 10커밋)
-spark.conf.set("spark.databricks.delta.checkpoint.partSize", 50)
+        <h3>4.4 메타데이터 및 유지 관리</h3>
+        <pre><code># 테이블 히스토리 확인
+delta_table.history().show(truncate=False)
 
-# 주기적으로 로그 정리 (주의: 타임트래블 기간 단축)
-spark.sql("VACUUM delta.`/path/to/table` RETAIN 168 HOURS")  # 7일만 보관</code></pre>
-        </section>
+# 상세 정보
+spark.sql(f"DESCRIBE DETAIL delta.`{delta_path}`").show(truncate=False)
 
-        <section id="section7" class="section">
-            <h2>7. 참고 자료</h2>
-            <ul style="padding-left: 2rem; margin-top: 1rem;">
-                <li><a href="https://docs.delta.io/latest/index.html" target="_blank">📘 Delta Lake 공식 문서</a> - 가장 최신의 공식 가이드</li>
-                <li><a href="https://github.com/delta-io/delta" target="_blank">🐙 Delta Lake GitHub 레포지토리</a> - 소스 코드 및 이슈 트래킹</li>
-                <li><a href="https://docs.databricks.com/en/delta/index.html" target="_blank">☁️ Databricks Delta Lake 가이드</a> - 엔터프라이즈 기능 포함</li>
-                <li><a href="https://delta.io/blog/" target="_blank">✍️ Delta Lake 블로그</a> - 최신 기능 및 사례 연구</li>
-                <li><a href="https://www.youtube.com/results?search_query=delta+lake" target="_blank">🎥 Delta Lake YouTube 영상</a> - 컨퍼런스 발표 및 튜토리얼</li>
+# 오래된 파일 정리 (7일 이전 파일 삭제, dry-run 먼저 실행 권장)
+delta_table.vacuum(retentionHours=168)  # 7일
+# delta_table.vacuum(retentionHours=168, dryRun=True)  # 실제 삭제 전 확인</code></pre>
+    </section>
+
+    <section class="section" id="section5">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>설정</th>
+                    <th>기본값</th>
+                    <th>설명</th>
+                    <th>실무 권장값</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>delta.logRetentionDuration</code></td>
+                    <td>30 days</td>
+                    <td>트랜잭션 로그 보관 기간. 타임 트래블 가능 기간 결정.</td>
+                    <td>30-90 days (규제 요구사항에 따라)</td>
+                </tr>
+                <tr>
+                    <td><code>delta.deletedFileRetentionDuration</code></td>
+                    <td>1 week</td>
+                    <td>VACUUM 명령 실행 시 삭제되지 않을 파일의 최소 보존 기간.</td>
+                    <td>7 days (VACUUM 주기보다 길게)</td>
+                </tr>
+                <tr>
+                    <td><code>delta.autoOptimize.autoCompact</code></td>
+                    <td>false</td>
+                    <td>작성 후 자동으로 소규모 파일을 컴팩션.</td>
+                    <td>true (스트리밍/소규모 쓰기 많을 때)</td>
+                </tr>
+                <tr>
+                    <td><code>delta.autoOptimize.optimizeWrite</code></td>
+                    <td>false</td>
+                    <td>쓰기 시 자동으로 파일 크기 최적화.</td>
+                    <td>true (대부분의 경우 권장)</td>
+                </tr>
+                <tr>
+                    <td><code>spark.databricks.delta.schema.autoMerge.enabled</code></td>
+                    <td>false</td>
+                    <td>스키마 자동 진화 허용 (스키마 병합).</td>
+                    <td>true (ELT/스키마 변경 많을 때)</td>
+                </tr>
+                <tr>
+                    <td><code>delta.appendOnly</code></td>
+                    <td>false</td>
+                    <td>테이블을 추가 전용 모드로 설정 (업데이트/삭제 방지).</td>
+                    <td>로그/이벤트 데이터 테이블에 적용</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <h4>설정 적용 예시</h4>
+            <pre><code># 테이블 생성 시 설정 지정
+df.write.format("delta") \
+  .option("delta.autoOptimize.optimizeWrite", "true") \
+  .option("delta.logRetentionDuration", "interval 60 days") \
+  .save("/path/to/table")
+
+# 기존 테이블 설정 변경 (Spark SQL)
+spark.sql("""
+ALTER TABLE my_delta_table
+SET TBLPROPERTIES (
+  'delta.deletedFileRetentionDuration' = 'interval 15 days',
+  'delta.autoOptimize.autoCompact' = 'true'
+)
+""")</code></pre>
+        </div>
+    </section>
+
+    <section class="section" id="section6">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+
+        <div class="callout">
+            <h4>✅ 팁 1: 작은 파일 문제 해결</h4>
+            <p><strong>증상</strong>: 많은 수의 소규모 Parquet 파일로 인해 메타데이터 처리 오버헤드 증가, 쿼리 성능 저하.</p>
+            <p><strong>해결</strong>:</p>
+            <pre><code># 1. OPTIMIZE 명령으로 파일 컴팩션
+spark.sql("OPTIMIZE delta.`/path/to/table`")
+
+# 2. Z-Ordering으로 데이터 클러스터링 (자주 함께 필터링하는 컬럼 기준)
+spark.sql("OPTIMIZE delta.`/path/to/table` ZORDER BY (date, user_id)")
+
+# 3. 쓰기 시 자동 최적화 활성화 (테이블 속성 설정)
+spark.sql("""
+ALTER TABLE my_table SET TBLPROPERTIES (
+  'delta.autoOptimize.autoCompact' = 'true',
+  'delta.autoOptimize.optimizeWrite' = 'true'
+)
+""")</code></pre>
+        </div>
+
+        <div class="callout warn">
+            <h4>⚠️ 주의 2: VACUUM으로 인한 데이터 손실</h4>
+            <p><strong>증상</strong>: VACUUM 실행 후 특정 시점으로의 타임 트래블 실패 또는 데이터 복구 불가.</p>
+            <p><strong>원인</strong>: VACUUM은 보존 기간(<code>deletedFileRetentionDuration</code>) 이전의 데이터 파일을 물리적으로 삭제합니다.</p>
+            <p><strong>해결</strong>:</p>
+            <ul>
+                <li>운영 테이블 VACUUM 전 항상 <code>dryRun=True</code>로 삭제될 파일 확인.</li>
+                <li>보존 기간을 팀의 롤백 요구사항에 맞게 설정 (예: 7일 → 30일).</li>
+                <li>프로덕션에서는 VACUUM 작업을 스케줄링하고 실행 로그를 보관.</li>
             </ul>
-            
-            <div class="callout">
-                <strong>🚀 다음 단계:</strong> 실무 적용을 위해선 Delta Lake의 <strong>Change Data Feed (CDF)</strong>, <strong>Generated Columns</strong>, <strong>Delta Sharing</strong> 등 고급 기능을 학습하는 것을 추천합니다.
-            </div>
-        </section>
-    </main>
+            <pre><code># 안전한 VACUUM 실행
+delta_table.vacuum(retentionHours=168, dryRun=True)  # 먼저 확인
+delta_table.vacuum(retentionHours=168)               # 실제 실행</code></pre>
+        </div>
+
+        <div class="callout">
+            <h4>✅ 팁 3: 스키마 변경 대응 (진화 vs 강화)</h4>
+            <p><strong>문제</strong>: 새 컬럼이 추가된 데이터를 기존 Delta 테이블에 쓰려고 할 때 스키마 불일치 오류.</p>
+            <p><strong>선택</strong>:</p>
+            <ul>
+                <li><strong>스키마 강화(Schema Enforcement)</strong>: 스키마 정확성 보장 (기본 동작).</li>
+                <li><strong>스키마 진화(Schema Evolution)</strong>: 새 컬럼을 자동으로 추가.</li>
+            </ul>
+            <pre><code># 스키마 진화 활성화하여 쓰기
+new_df.write.format("delta") \
+  .mode("append") \
+  .option("mergeSchema", "true") \  # 스키마 진화 활성화
+  .save("/path/to/table")
+
+# 또는 테이블 수준에서 자동 병합 활성화
+spark.sql("""
+ALTER TABLE my_table SET TBLPROPERTIES (
+  'spark.databricks.delta.schema.autoMerge.enabled' = 'true'
+)
+""")</code></pre>
+        </div>
+
+        <div class="callout warn">
+            <h4>⚠️ 주의 4: 동시 쓰기 충돼</h4>
+            <p><strong>증상</strong>: 여러 Spark 잡이나 사용자가 동시에 같은 테이블에 쓸 때 <code>ConcurrentAppendException</code> 또는 <code>ConcurrentUpdateException</code> 발생.</p>
+            <p><strong>해결</strong>:</p>
+            <ul>
+                <li><strong>트랜잭션 격리 수준 이해</strong>: Delta는 기본적으로 '직렬화 가능(Serializable)' 격리 수준 제공.</li>
+                <li><strong>테이블 잠금 활용</strong>: Databricks 환경에서는 <code>spark.databricks.delta.optimisticConcurrencyControl.enabled</code> 설정.</li>
+                <li><strong>작업 설계</strong>: 가능하면 쓰기 작업을 직렬화하거나, 파티션을 분리하여 충돌 영역 최소화.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="section7">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://docs.delta.io/latest/index.html" target="_blank">📘 Delta Lake 공식 문서</a> - 최신 API 및 개념 설명</li>
+            <li><a href="https://github.com/delta-io/delta" target="_blank">🐙 Delta Lake GitHub 레포지토리</a> - 소스 코드, 이슈, 컨트리뷰션</li>
+            <li><a href="https://docs.delta.io/latest/delta-batch.html" target="_blank">🔧 SQL 명령어 레퍼런스</a> - OPTIMIZE, VACUUM, HISTORY 등</li>
+            <li><a href="https://www.databricks.com/blog/2020/09/29/diving-into-delta-lake-unpacking-the-transaction-log.html" target="_blank">📖 트랜잭션 로그 심층 분석 (Databricks 블로그)</a></li>
+            <li><a href="https://delta.io/learn/" target="_blank">🎓 Delta Lake 학습 페이지</a> - 튜토리얼 및 웨비나</li>
+            <li><strong>도서</strong>: <em>"Data Lakehouse in Action"</em> (Manning), <em>"Spark: The Definitive Guide"</em> - Delta Lake 관련 챕터 참고</li>
+        </ul>
+    </section>
 
     <footer>
-        <p>본 문서는 데이터 엔지니어와 데이터 사이언티스트를 위한 Delta Lake 실무 요약 가이드입니다.</p>
-        <p>작성일: <span class="date">2026년 3월</span> | 지속적으로 업데이트되는 프로젝트에 참고하세요.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem;">© 2026 Delta Lake 실무 스터디 가이드. 교육 목적으로 작성되었습니다.</p>
+        <p>본 가이드는 Delta Lake 커뮤니티 문서와 실무 경험을 바탕으로 작성되었습니다.</p>
+        <p>작성일: <span class="date">2026년 03월</span> | 최신 업데이트를 위해 공식 문서를 항상 참조하세요.</p>
+        <p style="margin-top: 1rem;"><a href="#top">⬆ 맨 위로 이동</a></p>
     </footer>
 </body>
 </html>
