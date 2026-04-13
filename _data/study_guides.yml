@@ -184,3 +184,9 @@
   tags: ["lakehouse", "acid", "table-format"]
   date: "2026-04-13"
   url: "/study-guides/delta-lake-study-guide.html"
+- keyword: "Kafka Streams"
+  slug: "kafka-streams"
+  category: "data-engineering"
+  tags: ["stream-processing", "kafka", "library"]
+  date: "2026-04-13"
+  url: "/study-guides/kafka-streams-study-guide.html"

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Streams 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: -1;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            max-width: -1;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: IIII;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        /* TOC */
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        .toc h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.75rem;
+        }
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        /* Sections */
+        .section {
+            margin: 4rem 0;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem;
+            color: var(--accent2);
+        }
+        .section p, .section li {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        .section ul, .section ol {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        /* Concept Grid */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent3);
+        }
+        /* Callouts */
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+            background-color: rgba(240, 136, 62, 0.1);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: inherit;
+        }
+        /* Diagram */
+        .diagram {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 2rem 0;
+            color: var(--accent2);
+        }
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        /* Code */
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            color: var(--text);
+            border-radius: 4px;
+        }
+        code {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.9em;
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        /* Links */
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            .section h2 { font-size: 1.8rem; }
+            .toc ol { grid-template-columns: 1fr; }
+            .concept-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Kafka Streams 실무 스터디 가이드</h1>
+            <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+            <div class="meta-badges">
+                <span class="badge">stream-processing</span>
+                <span class="badge">kafka</span>
+                <span class="badge">library</span>
+                <span class="badge">2026.03</span>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <nav class="toc">
+            <h2>목차</h2>
+            <ol>
+                <li><a href="#section-1">Kafka Streams란?</a></li>
+                <li><a href="#section-2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+                <li><a href="#section-3">핵심 개념</a></li>
+                <li><a href="#section-4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
+                <li><a href="#section-5">핵심 설정 레퍼런스</a></li>
+                <li><a href="#section-6">실무 팁 & 트러블슈팅</a></li>
+                <li><a href="#section-7">참고 자료</a></li>
+            </ol>
+        </nav>
+
+        <!-- Section 1 -->
+        <section id="section-1" class="section">
+            <h2>1. Kafka Streams란?</h2>
+            <p>Apache Kafka의 클라이언트 라이브러리로, Kafka 클러스터를 입력 소스와 출력 대상으로 사용하여 스트림 처리 애플리케이션을 구축할 수 있게 해주는 경량 프레임워크입니다. 별도의 처리 클러스터 없이 표준 Java/Scala 애플리케이션으로 실행됩니다.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>1. 상태 저장 처리</h4>
+                    <p>윈도우링, 집계, 조인 연산을 위한 내부 상태 저장소(RocksDB)를 제공합니다. 키별 상태를 로컬 디스크에 유지하여 고성능 처리와 장애 복구를 가능하게 합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>2. Exactly-Once 의미론</h4>
+                    <p>트랜잭션 프로듀서/컨슈머와 통합되어 메시지 처리의 정확히 한 번(exactly-once) 전달을 보장합니다. 데이터 중복이나 유실 없이 안전한 스트림 처리가 가능합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>3. 탄력적 확장</h4>
+                    <p>애플리케이션 인스턴스를 추가하면 Kafka의 컨슈머 그룹 프로토콜을 통해 파티션 할당이 자동으로 재조정됩니다. 상태는 신규 인스턴스로 마이그레이션되어 무중단 확장이 가능합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="section-2" class="section">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>스트림 처리에는 여러 프레임워크가 존재합니다. Kafka Streams는 다음과 같은 이유로 선택됩니다.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>솔루션</th>
+                        <th>장점</th>
+                        <th>단점 / Kafka Streams 비교 포인트</th>
+                        <th>적합한 Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Kafka Streams</strong></td>
+                        <td>설치/운영 간소화, Exactly-Once, 상태 관리 내장, Kafka와 긴밀 통합</td>
+                        <td>Java/Scala에 제한됨, 복잡한 DAG 표현이 상대적 제약</td>
+                        <td>Kafka 중심의 실시간 ETL, 실시간 집계, 이벤트 기반 마이크로서비스</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Flink</td>
+                        <td>고급 창 및 상태 관리, 배치/스트림 통합, 복잡한 DAG 지원</td>
+                        <td>별도 클러스터 운영 필요, 설정/관리 복잡도 높음</td>
+                        <td>초저지연 복잡 이벤트 처리(CEP), 대규모 상태 처리</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Spark Streaming</td>
+                        <td>배치 처리와의 통일성, 머신러닝 라이브러리(MLlib) 활용</td>
+                        <td>마이크로배치 방식으로 인한 지연, Exactly-Once 보장 복잡</td>
+                        <td>배치와 스트림 로직 통합, 기존 Spark 환경 활용</td>
+                    </tr>
+                    <tr>
+                        <td>직접 Consumer/Producer 구현</td>
+                        <td>완전한 유연성</td>
+                        <td>상태 관리, 재처리, Exactly-Once 등 모든 것을 직접 구현해야 함</td>
+                        <td>매우 단순한 라우팅 또는 변환 작업</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <h4>결론: 언제 선택하는가?</h4>
+                <p>이미 Kafka 생태계를 사용 중이고, <strong>운영 오버헤드를 최소화</strong>하면서도 <strong>상태 저장 처리와 Exactly-Once 보장</strong>이 필요한 실시간 데이터 파이프라인 또는 이벤트 기반 애플리케이션을 구축할 때 Kafka Streams가 이상적입니다.</p>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="section-3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <h3>아키텍처 개요</h3>
+            <p>Kafka Streams 애플리케이션은 토폴로지(처리 논리)를 정의하고, 이를 태스크로 분해하여 실행합니다. 각 태스크는 입력 토픽의 특정 파티션 세트를 처리하며 로컬 상태 저장소를 가집니다.</p>
+
+            <div class="diagram">
+Application Instance 1 (StreamThread-1)      Application Instance 2 (StreamThread-1)
++-----------------------------------+      +-----------------------------------+
+| Topology:                         |      | Topology:                         |
+|  Source (Topic A)                |      |  Source (Topic A)                |
+|        |                          |      |        |                          |
+|  Processor (Map/Filter/Aggregate) |      |  Processor (Map/Filter/Aggregate) |
+|        |                          |      |        |                          |
+|  Sink (Topic B)                   |      |  Sink (Topic B)                   |
++-----------------------------------+      +-----------------------------------+
+| Tasks:                            |      | Tasks:                            |
+|  - Task 0 (Partitions A-0, A-2)   |      |  - Task 1 (Partitions A-1, A-3)   |
+|    State Store: RocksDB-0         |      |    State Store: RocksDB-1         |
++------------------+----------------+      +------------------+----------------+
+                   |                                          |
+                   +------------------+-----------------------+
+                                      |
+                              +-------v--------+
+                              |  Kafka Cluster |
+                              |  - Topic A     |
+                              |  - Topic B     |
+                              |  - __consumer_offsets |
+                              |  - __transaction_state |
+                              +-----------------+
+            </div>
+
+            <h3>주요 용어</h3>
+            <ul>
+                <li><strong>KStream</strong>: 레코드의 무한한 스트림을 나타냅니다. (키-값 쌍의 연속)</li>
+                <li><strong>KTable</strong>: 변경 로그 스트림에서 유도된 테이블(물질화된 뷰)입니다. 키의 최신 값만 유지합니다.</li>
+                <li><strong>GlobalKTable</strong>: 모든 태스크에 완전히 복제되는 KTable입니다. 조인 시 브로드캐스트 용도.</li>
+                <li><strong>Processor API</strong>: 저수준 API로, 상태 저장소 접근, 커스텀 로직 구현에 사용.</li>
+                <li><strong>DSL (Domain Specific Language)</strong>: 고수준 API로, map, filter, aggregate, join 등의 연산자 제공.</li>
+                <li><strong>State Store</strong>: 키-값, 창, 세션 저장소 등. 기본적으로 RocksDB 사용.</li>
+            </ul>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="section-4" class="section">
+            <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
+
+            <h3>4.1. 의존성 추가 (Python - kafka-python 활용 예시)</h3>
+            <p>Kafka Streams는 Java/Scala 라이브러리이지만, Python 환경에서는 Confluent의 kafka-python과 Faust 같은 라이브러리로 유사한 패턴을 구현할 수 있습니다. 여기서는 개념 설명을 위해 Python 유사 코드를 제시합니다.</p>
+            <div class="code-block-title">pom.xml (Java 예시) / requirements.txt (Python 유사 환경)</div>
+            <pre>&lt;!-- Java --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+    &lt;artifactId&gt;kafka-streams&lt;/artifactId&gt;
+    &lt;version&gt;3.6.0&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+            <pre># Python (Faust를 사용한 스트림 처리 예시)
+faust
+confluent-kafka</pre>
+
+            <h3>4.2. 기본 설정</h3>
+            <div class="code-block-title">config.py / application.properties</div>
+            <pre># Kafka Streams 애플리케이션 설정 (Python 유사 구조)
+APPLICATION_ID = "word-count-app"
+BOOTSTRAP_SERVERS = "localhost:9092"
+AUTO_OFFSET_RESET = "earliest"
+# 상태 저장소 디렉토리 (Java에서는 명시적 설정)
+# STATE_DIR = "/tmp/kafka-streams"</pre>
+
+            <h3>4.3. 첫 번째 애플리케이션: 단어 카운트</h3>
+            <p>텍스트 라인이 흘러 들어오는 토픽을 읽어 각 단어의 발생 횟수를 실시간으로 집계합니다.</p>
+            <div class="code-block-title">word_count_app.py (개념적 Python 유사 코드)</div>
+            <pre>from typing import Dict
+import logging
+# 가상의 Kafka Streams DSL을 Python 스타일로 표현
+
+class KafkaStreamsApp:
+    def __init__(self, config: Dict):
+        self.app_id = config['APPLICATION_ID']
+        self.bootstrap_servers = config['BOOTSTRAP_SERVERS']
+
+    def build_topology(self, input_topic: str, output_topic: str):
+        """토폴로지 정의 (개념적 흐름)"""
+        # 1. 소스: 텍스트 라인 스트림 읽기
+        # text_lines = stream_builder.stream(input_topic)
+        # 2. 변환: 라인 → 단어로 평탄화
+        # words = text_lines.flat_map_values(lambda line: line.lower().split())
+        # 3. 그룹화: 단어를 키로 사용
+        # grouped = words.group_by_key()
+        # 4. 집계: 카운트 (상태 저장)
+        # word_counts = grouped.count()
+        # 5. 싱크: 결과를 출력 토픽에 쓰기
+        # word_counts.to(output_topic)
+        logging.info(f"Topology built: {input_topic} -> {output_topic}")
+
+    def run(self):
+        """애플리케이션 실행"""
+        logging.info(f"Starting app {self.app_id}...")
+        # streams = KafkaStreams(self.build_topology(), config)
+        # streams.start()
+        # Runtime.getRuntime().addShutdownHook(...)
+
+if __name__ == "__main__":
+    config = {
+        "APPLICATION_ID": "word-count-python-demo",
+        "BOOTSTRAP_SERVERS": "localhost:9092"
+    }
+    app = KafkaStreamsApp(config)
+    app.build_topology("text-input-topic", "word-count-output-topic")
+    app.run()</pre>
+
+            <h3>4.4. 실행 및 테스트 CLI 명령어</h3>
+            <div class="code-block-title">Kafka 토픽 생성 및 데이터 주입</div>
+            <pre># Kafka 토픽 생성 (Confluent CLI 또는 kafka-topics.sh)
+kafka-topics.sh --create --topic text-input-topic \
+  --bootstrap-server localhost:9092 --partitions 2 --replication-factor 1
+kafka-topics.sh --create --topic word-count-output-topic \
+  --bootstrap-server localhost:9092 --partitions 2 --replication-factor 1
+
+# 테스트 데이터 프로듀스
+echo "hello world kafka streams" | kafka-console-producer.sh \
+  --topic text-input-topic --bootstrap-server localhost:9092
+echo "streams processing is powerful" | kafka-console-producer.sh \
+  --topic text-input-topic --bootstrap-server localhost:9092
+
+# 결과 컨슈밍
+kafka-console-consumer.sh --topic word-count-output-topic \
+  --from-beginning --bootstrap-server localhost:9092 \
+  --formatter kafka.tools.DefaultMessageFormatter \
+  --property print.key=true --property print.value=true</pre>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="section-5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>실무 권장값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>application.id</code></td>
+                        <td>(필수)</td>
+                        <td>애플리케이션 식별자. 컨슈머 그룹 ID 및 상태 저장소 디렉토리 이름으로 사용.</td>
+                        <td>비즈니스 의미를 담은 명칭 (e.g., <code>fraud-detection-service</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>bootstrap.servers</code></td>
+                        <td>(필수)</td>
+                        <td>연결할 Kafka 브로커 목록.</td>
+                        <td>프로덕션은 3개 이상 브로커 콤마 구분 (e.g., <code>broker1:9092,broker2:9092</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>num.stream.threads</code></td>
+                        <td>1</td>
+                        <td>애플리케이션 인스턴스 내 처리 스레드 수.</td>
+                        <td>입력 토픽의 총 파티션 수를 고려하여 설정 (일반적으로 파티션 수 ≤ 스레드 수)</td>
+                    </tr>
+                    <tr>
+                        <td><code>state.dir</code></td>
+                        <td>/tmp/kafka-streams</td>
+                        <td>로컬 상태 저장소(RocksDB) 디렉토리.</td>
+                        <td>전용 SSD 경로 지정 (e.g., <code>/data/kafka-streams-state</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>processing.guarantee</code></td>
+                        <td>at_least_once</td>
+                        <td>처리 보장 수준.</td>
+                        <td>Exactly-Once가 필요하면 <code>exactly_once_v2</code>로 설정 (성능 일부 트레이드오프)</td>
+                    </tr>
+                    <tr>
+                        <td><code>commit.interval.ms</code></td>
+                        <td>30000</td>
+                        <td>오프셋 커밋 간격(ms).</td>
+                        <td>Exactly-Once 사용 시 기본값 유지. 저지연 필요시 줄일 수 있으나 부하 증가.</td>
+                    </tr>
+                    <tr>
+                        <td><code>default.deserialization.exception.handler</code></td>
+                        <td>LogAndFail</td>
+                        <td>역직렬화 실패 처리 핸들러.</td>
+                        <td>데이터 품질 이슈 많을 시 <code>LogAndContinue</code>로 변경하여 파이프라인 중단 방지</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="section-6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+
+            <h3>자주 겪는 문제 + 해결책</h3>
+
+            <div class="callout warn">
+                <h4>문제 1: 상태 저장소 디렉토리 접근 오류 또는 디스크 부족</h4>
+                <p><strong>증상</strong>: 애플리케이션 시작 실패 또는 태스크 마이그레이션 실패.</p>
+                <p><strong>해결</strong>:
+                    <ul>
+                        <li><code>state.dir</code>을 용량이 충분한 전용 디스크로 설정.</li>
+                        <li>다른 애플리케이션과 디렉토리 공유하지 않기.</li>
+                        <li>정기적으로 애플리케이션을 안전히 종료 후 상태 디렉토리 백업/정리 (운영 중 삭제 금지).</li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="callout">
+                <h4>문제 2: 재처리(Reprocessing) 시 예상과 다른 결과</h4>
+                <p><strong>증상</strong>: 오프셋을 처음부터 재처리하면 기존 결과와 다른 값이 출력됨.</p>
+                <p><strong>해결</strong>:
+                    <ul>
+                        <li>입력 데이터에 키가 없거나 변경될 수 있는지 확인. KTable은 동일 키의 최신 값만 유지.</li>
+                        <li>상태 저장소를 초기화하고 재처리: 애플리케이션 종료 후 <code>state.dir</code> 삭제 (주의: 운영 데이터 손실 가능).</li>
+                        <li>변경 불가능한(immutable) 키 설계를 고려.</li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="callout warn">
+                <h4>문제 3: 처리 지연(Lag) 증가</h4>
+                <p><strong>증상</strong>: 출력이 느리거나 컨슈머 랙이 계속 증가.</p>
+                <p><strong>해결</strong>:
+                    <ul>
+                        <li><strong>병렬성 확인</strong>: <code>num.stream.threads</code>를 입력 토픽 파티션 수 이상으로 증가.</li>
+                        <li><strong>로직 최적화</strong>: 상태 저장소 접근(조회/업데이트)이 병목인지 프로파일링.</li>
+                        <li><strong>브로커/네트워크</strong>: 브로커 리소스, 네트워크 지연 확인.</li>
+                        <li><strong>Exactly-Once 비활성화 테스트</strong>: <code>processing.guarantee</code>를 <code>at_least_once</code>로 변경하여 성능 비교.</li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="callout">
+                <h4>팁 1: 운영 모니터링 필수 항목</h4>
+                <ul>
+                    <li><strong>메트릭</strong>: consumer lag, process-rate, commit-rate, state-store metrics (hit-ratio, size).</li>
+                    <li><strong>로그</strong>: rebalance 로그, 역직렬화 예외 로그 주시.</li>
+                    <li><strong>상태 저장소 디스크 사용량</strong>: 지속적 모니터링.</li>
+                </ul>
+            </div>
+
+            <div class="callout">
+                <h4>팁 2: 애플리케이션 롤링 업그레이드</h4>
+                <ol>
+                    <li>새 버전 JAR 준비.</li>
+                    <li>인스턴스 하나씩 순차적으로 종료(<code>kill -15</code>) → 기다림(상태 마이그레이션) → 새 버전 시작.</li>
+                    <li>Kafka의 리밸런싱 프로토콜이 상태를 새 인스턴스로 자동 전송.</li>
+                    <li>모든 인스턴스 교체 완료 후 검증.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="section-7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://kafka.apache.org/documentation/streams/" target="_blank">Apache Kafka Streams 공식 문서</a> - 가장 정확하고 최신의 정보원.</li>
+                <li><a href="https://docs.confluent.io/platform/current/streams/index.html" target="_blank">Confluent Kafka Streams 문서</a> - 상세한 튜토리얼과 개념 설명.</li>
+                <li><a href="https://github.com/confluentinc/kafka-streams-examples" target="_blank">공식 예제 GitHub 저장소</a> - 다양한 사용 패턴 코드 참고.</li>
+                <li><strong>도서</strong>: <em>Kafka: The Definitive Guide</em> (2nd Edition) - Kafka와 Streams 전반을 다룸.</li>
+                <li><strong>커뮤니티</strong>: Confluent Community Slack, Apache Kafka 메일링 리스트.</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>본 가이드는 Kafka Streams의 실무 적용을 위한 핵심 개념과 패턴을 요약했습니다. 상세 구현과 최신 변경사항은 공식 문서를 반드시 참고하세요.</p>
+            <p>© 2026.03 - 데이터 엔지니어 · AI 엔지니어 커뮤니티를 위해 작성됨.</p>
+        </footer>
+    </div>
+</body>
+</html>
