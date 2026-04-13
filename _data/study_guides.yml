@@ -178,3 +178,9 @@
   tags: ["integration", "connector", "kafka"]
   date: "2026-04-12"
   url: "/study-guides/kafka-connect-study-guide.html"
+- keyword: "Delta Lake"
+  slug: "delta-lake"
+  category: "data-engineering"
+  tags: ["lakehouse", "acid", "table-format"]
+  date: "2026-04-13"
+  url: "/study-guides/delta-lake-study-guide.html"
