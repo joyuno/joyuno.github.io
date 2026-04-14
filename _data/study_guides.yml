@@ -190,3 +190,9 @@
   tags: ["stream-processing", "kafka", "library"]
   date: "2026-04-13"
   url: "/study-guides/kafka-streams-study-guide.html"
+- keyword: "Apache Iceberg"
+  slug: "apache-iceberg"
+  category: "data-engineering"
+  tags: ["lakehouse", "table-format", "open-source"]
+  date: "2026-04-14"
+  url: "/study-guides/apache-iceberg-study-guide.html"
