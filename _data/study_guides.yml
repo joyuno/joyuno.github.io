@@ -208,3 +208,9 @@
   tags: ["ingestion", "elt", "connector"]
   date: "2026-04-15"
   url: "/study-guides/airbyte-study-guide.html"
+- keyword: "TensorFlow"
+  slug: "tensorflow"
+  category: "ai-ml"
+  tags: ["deep-learning", "framework", "production"]
+  date: "2026-04-15"
+  url: "/study-guides/tensorflow-study-guide.html"
