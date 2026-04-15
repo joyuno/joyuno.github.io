@@ -202,3 +202,9 @@
   tags: ["deep-learning", "framework", "training"]
   date: "2026-04-14"
   url: "/study-guides/pytorch-study-guide.html"
+- keyword: "Airbyte"
+  slug: "airbyte"
+  category: "data-engineering"
+  tags: ["ingestion", "elt", "connector"]
+  date: "2026-04-15"
+  url: "/study-guides/airbyte-study-guide.html"
