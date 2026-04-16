@@ -214,3 +214,9 @@
   tags: ["deep-learning", "framework", "production"]
   date: "2026-04-15"
   url: "/study-guides/tensorflow-study-guide.html"
+- keyword: "Fivetran"
+  slug: "fivetran"
+  category: "data-engineering"
+  tags: ["ingestion", "elt", "managed"]
+  date: "2026-04-16"
+  url: "/study-guides/fivetran-study-guide.html"
