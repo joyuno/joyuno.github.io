@@ -232,3 +232,9 @@
   tags: ["llm", "rag", "agent", "framework"]
   date: "2026-04-17"
   url: "/study-guides/langchain-study-guide.html"
+- keyword: "LlamaIndex"
+  slug: "llamaindex"
+  category: "ai-ml"
+  tags: ["llm", "rag", "data-framework"]
+  date: "2026-04-18"
+  url: "/study-guides/llamaindex-study-guide.html"
