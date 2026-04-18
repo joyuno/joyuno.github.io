@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LlamaIndex 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .toc li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 2rem 0;
+        }
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.03);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+        .date {
+            color: var(--accent4);
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero" id="top">
+        <h1>LlamaIndex 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">LLM</span>
+            <span class="badge">RAG</span>
+            <span class="badge">Data Framework</span>
+            <span class="badge">Python</span>
+            <span class="badge">AI Engineering</span>
+            <span class="badge">작성일: <span class="date">2026.03</span></span>
+        </div>
+    </section>
+
+    <section class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">LlamaIndex란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#section3">핵심 개념 (아키텍처 다이어그램 포함)</a></li>
+            <li><a href="#section4">퀵스타트 (설치 → 설정 → 첫 예제)</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </section>
+
+    <section class="section" id="section1">
+        <h2>1. LlamaIndex란?</h2>
+        <p>LlamaIndex는 구조화/비구조화 데이터를 LLM(Large Language Model) 애플리케이션에 통합하기 위한 데이터 프레임워크입니다. RAG(Retrieval-Augmented Generation) 파이프라인의 데이터 계층을 담당하며, 데이터 수집, 인덱싱, 검색, 통합을 위한 고수준 API를 제공합니다.</p>
+        
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>📁 데이터 커넥터</h4>
+                <p>파일, 데이터베이스, API, SaaS 애플리케이션 등 100개 이상의 데이터 소스에서 데이터를 로드하는 표준화된 인터페이스. `LlamaHub`를 통해 확장 가능.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🔍 인덱스 & 검색</h4>
+                <p>벡터 인덱스, 키워드 인덱스, 그래프 인덱스 등 다양한 인덱싱 전략과 하이브리드 검색을 지원. 복잡한 쿼리 엔진을 추상화.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🤖 LLM 통합</h4>
+                <p>OpenAI, Anthropic, Cohere, 로컬 모델 등 주요 LLM 제공자와의 통합. 프롬프트 템플릿, 출력 파싱, 에이전트 기능 내장.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="section2">
+        <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+        <p>RAG 구현에는 여러 접근법이 있지만, LlamaIndex는 프로덕션 환경에서의 유지보수성과 확장성에 초점을 맞춘 프레임워크입니다.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>도구/접근법</th>
+                    <th>장점</th>
+                    <th>단점</th>
+                    <th>LlamaIndex 차별점</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>직접 구현</strong><br>(LangChain + 벡터DB)</td>
+                    <td>완전한 제어권, 유연성</td>
+                    <td>보일러플레이트 코드多, 유지보수 비용高</td>
+                    <td>검증된 아키텍처 패턴, 프로덕션 레디 컴포넌트</td>
+                </tr>
+                <tr>
+                    <td><strong>LangChain</strong></td>
+                    <td>에이전트/체인 기능 강력, 생태계 큼</td>
+                    <td>데이터 계층 추상화 부족, 학습 곡선 가파름</td>
+                    <td>데이터 중심 설계, 간결한 고수준 API</td>
+                </tr>
+                <tr>
+                    <td><strong>Haystack</strong></td>
+                    <td>검색 중심, 파이프라인 구성 유연</td>
+                    <td>LLM 통합보다 NLP 검색에 특화</td>
+                    <td>LLM 네이티브 설계, 모델 제공자 통합 풍부</td>
+                </tr>
+                <tr>
+                    <td><strong>프리프로세싱 스크립트</strong></td>
+                    <td>단순한 경우 빠른 구현</td>
+                    <td>확장성 없음, 변경에 취약</td>
+                    <td>표준화된 데이터 계층, 점진적 복잡성 추가 가능</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="callout">
+            <p><strong>결론:</strong> 복잡한 데이터 소스, 다양한 검색 전략, 프로덕션 수준의 모니터링/관리가 필요한 RAG 애플리케이션에 LlamaIndex가 적합합니다.</p>
+        </div>
+    </section>
+
+    <section class="section" id="section3">
+        <h2>3. 핵심 개념 (아키텍처 다이어그램)</h2>
+        <p>LlamaIndex의 핵심은 <strong>인덱스(Index)</strong>, <strong>리트리버(Retriever)</strong>, <strong>쿼리 엔진(Query Engine)</strong>의 3계층 아키텍처입니다.</p>
+        
+        <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────┐
+│                        데이터 소스 (Documents)                       │
+│  (PDF, DB, API, Notion, Slack, 웹페이지, ...)                       │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ 로드 (Data Connectors)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                          노드 (Nodes)                                │
+│  (텍스트 청크 + 메타데이터 + 임베딩 벡터)                            │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ 인덱싱 (Indexing)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                          인덱스 (Index)                              │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐                    │
+│  │ VectorStore│  │ Keyword    │  │ Summary    │                    │
+│  │ Index      │  │ Index      │  │ Index      │                    │
+│  └────────────┘  └────────────┘  └────────────┘                    │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ 검색 (Retrieval)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         리트리버 (Retriever)                         │
+│  (Top-k, MMR, 시간 가중치, 사용자 정의 필터)                         │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ 쿼리/합성 (Query/Synthesis)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       쿼리 엔진 (Query Engine)                       │
+│  (LLM 호출, 프롬프트 구성, 응답 생성, 소스 인용)                     │
+└─────────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+                        최종 응답 (Response)
+        </div>
+        
+        <h3>주요 컴포넌트 설명</h3>
+        <ul>
+            <li><strong>Document</strong>: 원본 데이터 단위 (텍스트, 메타데이터).</li>
+            <li><strong>Node</strong>: Document를 처리 가능한 청크로 분할한 단위. 임베딩, 관계 정보 포함.</li>
+            <li><strong>Index</strong>: Node를 구조화하여 효율적인 검색을 가능하게 하는 데이터 구조.</li>
+            <li><strong>Retriever</strong>: Index에서 쿼리와 관련된 Node를 찾는 알고리즘.</li>
+            <li><strong>Query Engine</strong>: Retriever 결과를 LLM에 전달해 자연어 응답을 생성하는 최상위 인터페이스.</li>
+        </ul>
+    </section>
+
+    <section class="section" id="section4">
+        <h2>4. 퀵스타트 (설치 → 설정 → 첫 예제)</h2>
+        
+        <h3>4.1 설치</h3>
+        <pre><code># 핵심 패키지
+pip install llama-index
+
+# 선택적 의존성 (벡터 저장소, 데이터 커넥터 등)
+pip install llama-index-vector-stores-chroma
+pip install llama-index-embeddings-openai
+pip install llama-index-llms-openai</code></pre>
+        
+        <h3>4.2 환경 변수 설정</h3>
+        <pre><code># 터미널에서 설정 (Linux/macOS)
+export OPENAI_API_KEY="sk-..."
+
+# 또는 Python에서 설정
+import os
+os.environ["OPENAI_API_KEY"] = "sk-..."</code></pre>
+        
+        <h3>4.3 첫 번째 RAG 파이프라인 (5분 완성)</h3>
+        <pre><code>from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.openai import OpenAIEmbedding
+
+# 1. 데이터 로드 (로컬 디렉토리에서)
+documents = SimpleDirectoryReader("./data").load_data()
+
+# 2. 임베딩 모델 & LLM 설정
+embed_model = OpenAIEmbedding(model="text-embedding-3-small")
+llm = OpenAI(model="gpt-4-turbo")
+
+# 3. 벡터 인덱스 생성
+index = VectorStoreIndex.from_documents(
+    documents,
+    embed_model=embed_model
+)
+
+# 4. 쿼리 엔진 생성 (리트리버 + LLM)
+query_engine = index.as_query_engine(llm=llm)
+
+# 5. 질의응답
+response = query_engine.query("이 문서의 주요 내용은 무엇인가요?")
+print(response)</code></pre>
+        
+        <div class="callout">
+            <p><strong>참고:</strong> `./data` 디렉토리에 PDF, TXT, MD 파일을 넣으면 자동으로 파싱됩니다. 첫 실행 시 임베딩 생성에 시간이 소요될 수 있습니다.</p>
+        </div>
+    </section>
+
+    <section class="section" id="section5">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>프로덕션 환경에서 중요한 설정값들입니다.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>카테고리</th>
+                    <th>설정 키/파라미터</th>
+                    <th>권장값/예시</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="3">청킹</td>
+                    <td>chunk_size</td>
+                    <td>1024</td>
+                    <td>토큰 기준 청크 크기 (모델 컨텍스트 길이 고려)</td>
+                </tr>
+                <tr>
+                    <td>chunk_overlap</td>
+                    <td>200</td>
+                    <td>청크 간 중복 토큰 수 (문맥 유지)</td>
+                </tr>
+                <tr>
+                    <td>separator</td>
+                    <td>"\n\n"</td>
+                    <td>텍스트 분할 구분자</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">검색</td>
+                    <td>similarity_top_k</td>
+                    <td>5</td>
+                    <td>검색 결과 상위 k개 반환</td>
+                </tr>
+                <tr>
+                    <td>mmr_threshold</td>
+                    <td>0.5</td>
+                    <td>MMR(Maximal Marginal Relevance) 다양성 임계값</td>
+                </tr>
+                <tr>
+                    <td>alpha</td>
+                    <td>0.5</td>
+                    <td>하이브리드 검색 가중치 (벡터:키워드)</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">LLM</td>
+                    <td>temperature</td>
+                    <td>0.1 (RAG)</td>
+                    <td>낮을수록 사실적, 높을수록 창의적</td>
+                </tr>
+                <tr>
+                    <td>max_tokens</td>
+                    <td>1024</td>
+                    <td>응답 최대 토큰 수</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">임베딩</td>
+                    <td>embed_batch_size</td>
+                    <td>100</td>
+                    <td>배치 처리 크기 (API 호출 최적화)</td>
+                </tr>
+                <tr>
+                    <td>embed_model</td>
+                    <td>text-embedding-3-small</td>
+                    <td>성능/비용 균형 추천</td>
+                </tr>
+                <tr>
+                    <td>저장소</td>
+                    <td>persist_dir</td>
+                    <td>"./storage"</td>
+                    <td>인덱스 지속화 디렉토리</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="section" id="section6">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+        
+        <h3>자주 겪는 문제 + 해결책</h3>
+        
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>⚠️ 검색 품질 낮음</h4>
+                <p><strong>증상:</strong> 관련 없는 내용 반환, 핵심 정보 누락.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>청크 크기 조정 (512~2048 토큰 실험)</li>
+                    <li>하이브리드 검색 활성화 (벡터 + 키워드)</li>
+                    <li>MMR 적용으로 다양성 확보</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <h4>⚠️ 응답 속도 느림</h4>
+                <p><strong>증상:</strong> 쿼리당 10초 이상 소요.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>임베딩 캐시 활성화 (`cache=True`)</li>
+                    <li>`similarity_top_k` 값 줄이기 (5→3)</li>
+                    <li>로컬 임베딩 모델 고려 (BGE, sentence-transformers)</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <h4>⚠️ 토큰 제한 초과</h4>
+                <p><strong>증상:</strong> "context length exceeded" 에러.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>청크 크기 줄이기</li>
+                    <li>LLM 컨텍스트 창 확인 (gpt-4-128k 등)</li>
+                    <li>Map-Reduce 또는 Refine 방식을 사용한 쿼리</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <h4>⚠️ 비용 급증</h4>
+                <p><strong>증상:</strong> API 비용 예상보다 높음.</p>
+                <p><strong>해결:</strong></p>
+                <ul>
+                    <li>임베딩 모델 다운그레이드 (ada-002 → text-embedding-3-small)</li>
+                    <li>LLM 모델 변경 (gpt-4 → gpt-3.5-turbo)</li>
+                    <li>인덱스 지속화로 재임베딩 방지</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>프로덕션을 위한 필수 체크리스트</h3>
+        <div class="callout">
+            <ol>
+                <li>인덱스 버전 관리 (`persist`/`load` 정책 수립)</li>
+                <li>임베딩 캐시 필수 활성화 (비용/성능)</li>
+                <li>LLM 호출 재시도/폴백 로직 구현</li>
+                <li>검색 품질 지표 정의 및 모니터링 (Hit Rate, MRR)</li>
+                <li>데이터 새로고침 파이프라인 구축 (스케줄러)</li>
+            </ol>
+        </div>
+        
+        <div class="callout warn">
+            <p><strong>주의:</strong> LlamaIndex는 빠르게 발전하는 프로젝트로, 주요 API가 변경될 수 있습니다. 프로덕션 배포 시 버전을 고정하고 릴리즈 노트를 주시하세요.</p>
+        </div>
+    </section>
+
+    <section class="section" id="section7">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://docs.llamaindex.ai/" target="_blank">📘 공식 문서 (LlamaIndex Docs)</a> - 가장 최신의 공식 가이드</li>
+            <li><a href="https://github.com/run-llama/llama_index" target="_blank">🐙 GitHub 저장소</a> - 소스 코드, 이슈, 컨트리뷰션</li>
+            <li><a href="https://llamahub.ai/" target="_blank">🧩 LlamaHub</a> - 100+ 데이터 커넥터 및 도구</li>
+            <li><a href="https://blog.llamaindex.ai/" target="_blank">✍️ 공식 블로그</a> - 사용 사례, 튜토리얼, 발표 자료</li>
+            <li><a href="https://discord.gg/dGcwcsnxhU" target="_blank">💬 Discord 커뮤니티</a> - 실시간 Q&A 및 논의</li>
+        </ul>
+        <p style="margin-top: 1.5rem;">이 가이드는 LlamaIndex v0.10.x 기준으로 작성되었습니다. 최신 업데이트는 공식 문서를 참조하세요.</p>
+    </section>
+
+    <footer>
+        <p>LlamaIndex 실무 스터디 가이드 | 데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <p>본 문서는 교육 목적으로 작성되었으며, 공식 문서를 대체하지 않습니다.</p>
+        <p>© 2026 | <a href="#top">맨 위로 ↑</a></p>
+    </footer>
+</body>
+</html>
