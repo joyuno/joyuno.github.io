@@ -238,3 +238,9 @@
   tags: ["llm", "rag", "data-framework"]
   date: "2026-04-18"
   url: "/study-guides/llamaindex-study-guide.html"
+- keyword: "vLLM"
+  slug: "vllm"
+  category: "ai-ml"
+  tags: ["llm-serving", "inference", "performance"]
+  date: "2026-04-19"
+  url: "/study-guides/vllm-study-guide.html"
