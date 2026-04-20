@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 MLflow 핵심 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        .toc a {
+            color: var(--text);
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent2);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent4);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+            margin: 1.5rem 0;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .tag {
+            display: inline-block;
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>MLflow 실무 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">MLOps</span>
+            <span class="badge">Experiment Tracking</span>
+            <span class="badge">Model Registry</span>
+            <span class="badge">Production Ready</span>
+            <span class="badge">Updated: 2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">MLflow란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. MLflow란?</h2>
+            <p>MLflow는 머신러닝 라이프사이클을 관리하기 위한 오픈소스 플랫폼입니다. 실험 추적, 모델 패키징, 배포, 레지스트리 관리를 단일 인터페이스로 제공하여 재현성과 협업을 강화합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📊 실험 추적 (Tracking)</h4>
+                    <p>코드, 데이터, 설정, 메트릭을 기록하여 실험의 재현성을 보장합니다. 로컬 파일, 데이터베이스, 원격 서버에 저장 가능합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 프로젝트 (Projects)</h4>
+                    <p>재현 가능한 ML 코드 패키징 표준을 제공합니다. Conda, Docker를 활용해 환경을 정의하고, 프로젝트를 실행 가능한 단위로 묶습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🏷️ 모델 관리 (Models)</h4>
+                    <p>모델을 표준 포맷으로 패키징하여 다양한 배포 환경(Docker, REST API, Apache Spark 등)에서 사용할 수 있게 합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🗂️ 모델 레지스트리 (Registry)</h4>
+                    <p>모델의 버전 관리, 스테이징(Staging/Production/Archived), 협업 및 승인 워크플로우를 중앙에서 관리합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>MLflow는 기존의 자체 구축 솔루션 또는 다른 도구들에 비해 다음과 같은 장점을 제공합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>대안</th>
+                        <th>한계점</th>
+                        <th>MLflow의 해결책</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>스프레드시트/노트</strong></td>
+                        <td>수동 기록, 실수 가능성 높음, 재현성 낮음</td>
+                        <td>자동화된 실험 추적, 코드와 결과의 직접 연결</td>
+                    </tr>
+                    <tr>
+                        <td><strong>자체 구축 DB + 대시보드</strong></td>
+                        <td>유지보수 부담, 확장성 문제, 기능 제한</td>
+                        <td>오픈소스 생태계, 활발한 커뮤니티, 지속적 업데이트</td>
+                    </tr>
+                    <tr>
+                        <td><strong>상용 플랫폼 (e.g., Weights & Biases)</strong></td>
+                        <td>비용, Vendor Lock-in, 데이터 외부 유출 우려</td>
+                        <td>오픈소스/자체 호스팅 가능, 데이터 주권 보장</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Git만 사용</strong></td>
+                        <td>대용량 모델/데이터 관리 불가, 메트릭 비교 어려움</td>
+                        <td>대용량 아티팩트 저장소, 시각화된 메트릭 비교 UI</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>💡 핵심 가치:</strong> MLflow는 팀의 ML 개발 속도를 높이고, 모델 관리의 복잡성을 줄이며, 개발부터 운영까지의 간극(Gap)을 해소하는 데 초점을 맞춥니다.
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>MLflow의 아키텍처는 백엔드 저장소, 아티팩트 저장소, UI 서버로 구성됩니다.</p>
+            <div class="diagram">
++-----------------------------------------------------------------------+
+|                        MLflow Tracking Server                         |
+|  +-------------------+  +-------------------+  +-------------------+  |
+|  |   Backend Store   |  |  Artifact Store   |  |     UI/HTTP       |  |
+|  | (SQLite, MySQL,   |  | (Local, S3, ADLS, |  |    (Port 5000)    |  |
+|  |  PostgreSQL)      |  |    GCS, NFS)      |  |                   |  |
+|  +-------------------+  +-------------------+  +-------------------+  |
++-----------------------------------|-----------------------------------+
+                                    | (HTTP API)
++-----------------------------------|-----------------------------------+
+|              Client Code (Python, R, Java, etc.)                      |
+|  with mlflow.start_run():                                             |
+|      mlflow.log_param("lr", 0.01)                                     |
+|      mlflow.log_metric("accuracy", 0.95)                              |
+|      mlflow.log_artifact("model.pkl")                                 |
++-----------------------------------------------------------------------+
+            </div>
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>Run</strong>: 한 번의 실험 실행 단위. 파라미터, 메트릭, 태그, 아티팩트를 포함합니다.</li>
+                <li><strong>Experiment</strong>: 관련된 Run들의 집합 (예: "iris-classification").</li>
+                <li><strong>Backend Store</strong>: Run의 메타데이터(파라미터, 메트릭)를 저장하는 DB.</li>
+                <li><strong>Artifact Store</strong>: 모델 파일, 이미지, 데이터 등 대용량 파일을 저장하는 저장소.</li>
+                <li><strong>Model Registry</strong>: 모델의 버전, 스테이지, 설명을 관리하는 중앙 저장소.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <h3>4.1 설치</h3>
+            <div class="code-block-title">CLI / Python</div>
+            <pre><code># pip를 이용한 설치 (최소 설치)
+pip install mlflow
+
+# 추가 기능 포함 설치 (예: scikit-learn, PyTorch 지원)
+pip install mlflow[extras]
+
+# 또는 특정 라이브러리만
+pip install mlflow-skinny  # 최소 의존성 버전</code></pre>
+
+            <h3>4.2 로컬 서버 실행</h3>
+            <div class="code-block-title">CLI</div>
+            <pre><code># 기본 설정 (SQLite 백엔드, 로컬 아티팩트 저장소)
+mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns
+
+# 브라우저에서 http://localhost:5000 접속</code></pre>
+
+            <h3>4.3 첫 번째 실험 코드</h3>
+            <div class="code-block-title">Python Script (train.py)</div>
+            <pre><code>import mlflow
+import mlflow.sklearn
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# 실험 설정 (없으면 생성)
+mlflow.set_experiment("Iris-Classification-Quickstart")
+
+with mlflow.start_run(run_name="RF-Baseline"):
+    # 1. 데이터 로드 및 분할
+    iris = load_iris()
+    X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2)
+
+    # 2. 파라미터 정의 및 로깅
+    params = {"n_estimators": 100, "max_depth": 5, "random_state": 42}
+    mlflow.log_params(params)
+
+    # 3. 모델 학습
+    model = RandomForestClassifier(**params)
+    model.fit(X_train, y_train)
+
+    # 4. 평가 및 메트릭 로깅
+    y_pred = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    mlflow.log_metric("accuracy", acc)
+
+    # 5. 모델 아티팩트 로깅 (MLflow 형식)
+    mlflow.sklearn.log_model(model, "model")
+
+    # 6. 추가 아티팩트 (예: 평가 리포트 텍스트 파일)
+    with open("eval_report.txt", "w") as f:
+        f.write(f"Accuracy: {acc:.4f}")
+    mlflow.log_artifact("eval_report.txt")
+
+    print(f"Run saved. Accuracy: {acc:.4f}")
+    print(f"UI: http://localhost:5000")</code></pre>
+            <div class="callout">
+                <strong>실행:</strong> 터미널에서 <code>python train.py</code> 실행 후, 브라우저로 <code>http://localhost:5000</code> 접속하여 결과를 확인하세요.
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>환경 변수 / 설정</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>실무 예시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>MLFLOW_TRACKING_URI</code></td>
+                        <td><code>file:///./mlruns</code></td>
+                        <td>Tracking Server 주소</td>
+                        <td><code>http://10.0.0.100:5000</code>, <code>databricks</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MLFLOW_EXPERIMENT_NAME</code></td>
+                        <td>-</td>
+                        <td>기본 실험 이름</td>
+                        <td><code>prod-user-churn-v1</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MLFLOW_ARTIFACT_ROOT</code></td>
+                        <td>로컬 경로</td>
+                        <td>아티팩트 저장소 위치</td>
+                        <td><code>s3://my-mlflow-bucket/artifacts</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MLFLOW_REGISTRY_URI</code></td>
+                        <td>Tracking URI와 동일</td>
+                        <td>모델 레지스트리 URI</td>
+                        <td><code>postgresql://user:pass@host/db</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--backend-store-uri</code></td>
+                        <td><code>sqlite:///mlflow.db</code></td>
+                        <td>서버 실행 시 메타데이터 DB</td>
+                        <td><code>mysql://user:pass@host/mlflow</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--host</code></code></td>
+                        <td><code>127.0.0.1</code></td>
+                        <td>서버 바인딩 호스트</td>
+                        <td><code>0.0.0.0</code> (외부 접근 허용)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout warn">
+                <strong>⚠️ 보안 주의:</strong> 프로덕션 환경에서는 반드시 인증/권한 설정(<code>mlflow[server]</code>의 기본 인증 또는 프록시)과 안전한 백엔드 DB(PostgreSQL 등)를 사용하세요.
+            </div>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <h3>자주 겪는 문제</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🚫 아티팩트 업로드 실패 (S3/GCS)</h4>
+                    <p><strong>증상:</strong> <code>PermissionError</code> 또는 <code>Access Denied</code>.</p>
+                    <p><strong>해결:</strong> AWS CLI/GCloud SDK의 자격 증명이 설정되었는지 확인. 또는 <code>boto3</code> 세션을 직접 전달.<br>
+                    <code>mlflow.set_tracking_uri("http://...")</code><br>
+                    <code>mlflow.log_artifact(..., boto_session=my_session)</code></p>
+                </div>
+                <div class="concept-card">
+                    <h4>🐢 UI 로딩이 매우 느림</h4>
+                    <p><strong>증상:</strong> Run 목록을 불러오는 데 시간이 오래 걸림.</p>
+                    <p><strong>해결:</strong> SQLite 대신 PostgreSQL/MySQL 사용. 많은 Run이 있는 경우 백엔드 DB 인덱싱 확인. <code>--gunicorn-opts</code>로 워커 수 증가.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 모델 레지스트리 동기화 오류</h4>
+                    <p><strong>증상:</strong> 레지스트리에 모델이 보이지 않거나 스테이지 변경이 안 됨.</p>
+                    <p><strong>해결:</strong> <code>MLFLOW_REGISTRY_URI</code>가 올바르게 설정되었는지 확인. 레지스트리용 별도 DB 스키마 사용 권장.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>💾 대용량 파일 로깅 시 메모리 부족</h4>
+                    <p><strong>증상:</strong> <code>MemoryError</code> 발생.</p>
+                    <p><strong>해결:</strong> <code>mlflow.log_artifact()</code>를 사용해 파일 시스템의 파일을 직접 업로드. 모델은 <code>mlflow.*.log_model()</code> 사용.</p>
+                </div>
+            </div>
+            <h3>프로덕션을 위한 팁</h3>
+            <ul>
+                <li><strong>서버 배포:</strong> 단일 <code>mlflow ui</code> 명령어 대신, Gunicorn(Nginx 뒤에서) 또는 Docker 컨테이너로 배포.</li>
+                <li><strong>스케일 아웃:</strong> 아티팩트 저장소로 S3/GCS/ADLS 사용, 백엔드 DB는 관리형 서비스(RDS 등) 활용.</li>
+                <li><strong>모니터링:</strong> 서버 로그, DB 연결 수, 아티팩트 저장소 사용량을 모니터링하세요.</li>
+                <li><strong>CI/CD 통합:</strong> 학습 파이프라인 끝에서 <code>mlflow.register_model()</code>을 호출하여 자동으로 모델 레지스트리에 등록.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://mlflow.org/docs/latest/index.html" target="_blank">📘 MLflow 공식 문서</a> - 가장 정확하고 최신의 정보원</li>
+                <li><a href="https://github.com/mlflow/mlflow" target="_blank">🐙 MLflow GitHub 저장소</a> - 이슈, PR, 소스 코드 탐색</li>
+                <li><a href="https://mlflow.org/docs/latest/tutorials-and-examples/index.html" target="_blank">🧪 공식 튜토리얼 & 예제</a> - 다양한 프레임워크별 사용법</li>
+                <li><a href="https://www.mlflow.org/docs/latest/models.html#built-in-model-flavors" target="_blank">🍱 Built-in Model Flavors</a> - 지원되는 ML 라이브러리 목록</li>
+                <li><a href="https://databricks.com/blog/category/mlflow" target="_blank">🔗 Databricks 블로그 (MLflow)</a> - 고급 사용 사례 및 로드맵</li>
+            </ul>
+            <div class="callout">
+                <strong>학습 경로 제안:</strong> 1) 공식 문서 퀵스타트 따라하기 → 2) 주요 개념 (Tracking, Projects, Models, Registry) 깊이 이해 → 3) 백엔드/아티팩트 저장소 설정 변경 실습 → 4) 실제 프로젝트에 통합.
+            </div>
+            <div>
+                <span class="tag">mlops</span>
+                <span class="tag">experiment-tracking</span>
+                <span class="tag">model-registry</span>
+                <span class="tag">reproducibility</span>
+                <span class="tag">machine-learning</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 AI 개발 엔지니어 및 MLOps 엔지니어를 위한 MLflow 실무 스터디 가이드입니다.</p>
+        <p>정보는 2026년 3월 기준이며, 공식 문서를 최종 참고 자료로 활용하세요.</p>
+        <p style="margin-top: 1rem;"><a href="#top">⬆ 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
