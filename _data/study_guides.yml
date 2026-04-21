@@ -256,3 +256,9 @@
   tags: ["cdc", "kafka", "database"]
   date: "2026-04-21"
   url: "/study-guides/debezium-study-guide.html"
+- keyword: "Kubeflow"
+  slug: "kubeflow"
+  category: "ai-ml"
+  tags: ["mlops", "k8s", "pipeline"]
+  date: "2026-04-21"
+  url: "/study-guides/kubeflow-study-guide.html"
