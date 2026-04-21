@@ -250,3 +250,9 @@
   tags: ["mlops", "experiment-tracking", "model-registry"]
   date: "2026-04-20"
   url: "/study-guides/mlflow-study-guide.html"
+- keyword: "Debezium"
+  slug: "debezium"
+  category: "data-engineering"
+  tags: ["cdc", "kafka", "database"]
+  date: "2026-04-21"
+  url: "/study-guides/debezium-study-guide.html"
