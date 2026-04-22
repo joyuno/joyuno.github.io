@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dagster 실무 스터디 가이드 | 데이터 엔지니어 · AI 엔지니어</title>
+    <title>Dagster 실무 스터디 가이드 | 데이터 오케스트레이션</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -18,204 +18,276 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            padding: 0 20px;
+            padding: 20px;
             max-width: 1000px;
             margin: 0 auto;
         }
+
         a {
             color: var(--accent);
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         .hero {
             text-align: center;
-            padding: 4rem 1rem;
+            padding: 3rem 1rem;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
+
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(90deg, var(--accent), var(--accent3));
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
         }
+
         .hero .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
         }
+
         .meta-badges {
             display: flex;
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
         }
+
         .badge {
-            background-color: var(--surface2);
+            background-color: var(--surface);
             color: var(--text-muted);
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             border: 1px solid var(--border);
         }
+
+        .badge.accent {
+            background-color: var(--surface2);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
         .toc {
             background-color: var(--surface);
             padding: 1.5rem;
             border-radius: 8px;
+            margin-bottom: 2.5rem;
             border-left: 4px solid var(--accent);
-            margin-bottom: 3rem;
         }
+
         .toc h2 {
             margin-bottom: 1rem;
-        }
-        .toc ol {
-            list-style-position: inside;
-            padding-left: 1rem;
-        }
-        .toc li {
-            margin-bottom: 0.5rem;
-        }
-        .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
-        }
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
             color: var(--accent);
         }
-        .section h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent2);
+
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 8px;
         }
+
+        .toc li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+
+        .toc a {
+            color: var(--text);
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+        }
+
+        .section {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 20px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--accent);
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem;
+            color: var(--accent3);
+        }
+
         .concept-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
         }
+
         .concept-card {
             background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
             padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
         }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
+
         .concept-card h4 {
-            color: var(--accent3);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-        }
-        .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.2rem;
-            border-radius: 4px;
-            margin: 1.5rem 0;
-        }
-        .callout.warn {
-            border-left-color: var(--danger);
-        }
-        .diagram {
-            background-color: var(--surface);
-            font-family: 'Courier New', monospace;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre;
             color: var(--accent2);
-            border: 1px solid var(--border);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .callout {
+            background-color: var(--surface);
+            padding: 1.2rem;
+            border-radius: 6px;
             margin: 1.5rem 0;
+            border-left: 4px solid var(--accent2);
+        }
+
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent2);
+        }
+
+        .callout.warn h4 {
+            color: var(--accent4);
+        }
+
+        .diagram {
+            background-color: #0d1117;
+            padding: 1.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            color: var(--accent2);
             line-height: 1.4;
         }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent3);
+        }
+
+        pre {
+            background-color: #0d1117;
+            padding: 1.2rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
             background-color: var(--surface);
         }
-        table th, table td {
+
+        th, td {
             border: 1px solid var(--border);
-            padding: 0.8rem;
+            padding: 12px 15px;
             text-align: left;
         }
-        table th {
+
+        th {
             background-color: var(--surface2);
             color: var(--accent);
+            font-weight: 600;
         }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface2);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
+
+        tr:nth-child(even) {
+            background-color: rgba(22, 27, 34, 0.5);
         }
-        pre {
-            padding: 1.2rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        .code-block-title {
-            background-color: var(--surface);
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            margin-top: 1.5rem;
-            font-weight: bold;
-            color: var(--accent4);
-        }
+
         footer {
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
             border-top: 1px solid var(--border);
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        .date-tag {
+
+        .date {
             color: var(--accent4);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toc ol {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
+    <header class="hero">
         <h1>Dagster 실무 스터디 가이드</h1>
         <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
         <div class="meta-badges">
-            <span class="badge">Data Orchestration</span>
-            <span class="badge">Asset-Based</span>
-            <span class="badge">Modern Data Stack</span>
+            <span class="badge accent">orchestration</span>
+            <span class="badge accent">asset-based</span>
             <span class="badge">Python</span>
+            <span class="badge">DataOps</span>
             <span class="badge">실무 중심</span>
         </div>
-    </section>
+    </header>
 
-    <section class="toc">
-        <h2>목차</h2>
+    <nav class="toc">
+        <h2>📚 목차</h2>
         <ol>
             <li><a href="#section1">Dagster란?</a></li>
             <li><a href="#section2">왜 써야 하는가?</a></li>
@@ -225,256 +297,296 @@
             <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
             <li><a href="#section7">참고 자료</a></li>
         </ol>
-    </section>
+    </nav>
 
-    <section id="section1" class="section">
-        <h2>1. Dagster란?</h2>
-        <p>Dagster는 데이터 애플리케이션을 구축, 실행, 모니터링하기 위한 <strong>클라우드 네이티브 오케스트레이션 플랫폼</strong>입니다. 코드 중심의 개발 경험과 데이터 자산(Asset)을 일급 객체로 관리하는 철학이 특징입니다.</p>
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>1. 데이터 자산 중심 (Asset-Based)</h4>
-                <p>테이블, 파일, 모델 등 데이터 자산을 정의하고, 그 의존성과 라이프사이클을 명시적으로 관리합니다. "이 파이프라인이 무엇을 만드는가?"에 집중합니다.</p>
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Dagster란?</h2>
+            <p>Dagster는 데이터 애플리케이션을 구축, 실행, 모니터링하기 위한 <strong>클라우드 네이티브 데이터 오케스트레이션 플랫폼</strong>입니다. 기존의 DAG 스케줄러를 넘어 <strong>Asset(자산)</strong>을 중심으로 한 개발 경험과 데이터 품질 관리를 제공합니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📦 Asset 중심 개발</h4>
+                    <p>데이터 파이프라인을 '테이블', '파일', '모델' 같은 실제 데이터 자산 단위로 설계합니다. 코드와 데이터의 관계가 명확해지고, 데이터 계보(Lineage) 추적이 용이합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 개발자 경험 최적화</h4>
+                    <p>로컬 개발, 테스트, 디버깅을 위한 강력한 도구를 제공합니다. UI에서 직접 파이프라인을 실행하고, 로그를 확인하며, 실시간으로 모니터링할 수 있습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🛡️ 데이터 품질 내재화</h4>
+                    <p>Asset에 대한 검증(Expectation), 테스트, 모니터링을 파이프라인 정의에 직접 포함시킬 수 있습니다. 문제 발생 시 조기 감지와 자동화된 대응이 가능합니다.</p>
+                </div>
             </div>
-            <div class="concept-card">
-                <h4>2. 개발자 경험 최적화</h4>
-                <p>로컬 테스트, 타입 검증, 구성 관리, 디버깅 도구가 뛰어나 개발 및 유지보수 효율성을 높입니다. 강력한 UI/CLI를 제공합니다.</p>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>Airflow, Prefect, Luigi 등과 비교한 Dagster의 차별점:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>도구</th>
+                        <th>주요 개념</th>
+                        <th>강점</th>
+                        <th>Dagster 대비</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Apache Airflow</strong></td>
+                        <td>Task DAG</td>
+                        <td>성숙한 생태계, 다양한 연산자</td>
+                        <td>개발 경험 부족, Asset 관리 약함</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prefect</strong></td>
+                        <td>Flow, Task</td>
+                        <td>간결한 API, 동적 워크플로우</td>
+                        <td>데이터 중심성과 품질 기능 부족</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Luigi</strong></td>
+                        <td>Task, Target</td>
+                        <td>간단한 구조, Spotify 검증</td>
+                        <td>기능 제한적, 모니터링 약함</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dagster</strong></td>
+                        <td><strong>Asset, Op, Job</strong></td>
+                        <td>Asset 중심, 개발 경험 우수, 데이터 품질 내재화</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout">
+                <h4>💡 선택 가이드</h4>
+                <p><strong>Dagster를 선택할 때:</strong> 데이터 품질과 계보 관리가 중요할 때, 개발/테스트/디버깅 환경이 필요할 때, 클라우드 네이티브 환경에서 운영할 때.</p>
+                <p><strong>다른 도구를 고려할 때:</strong> 기존 Airflow 인프라가 이미 안정화되었을 때, 매우 단순한 배치 작업만 필요할 때.</p>
             </div>
-            <div class="concept-card">
-                <h4>3. 운영 견고성 (Operational Robustness)</h4>
-                <p>재시도, 알림, 리소스 관리, 데이터 품질 검증(Expectation)을 내장하여 프로덕션 환경에서의 안정성을 보장합니다.</p>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            
+            <div class="diagram">
++-------------------+       +----------------+       +----------------+
+|    Definitions    |       |    Assets      |       |     Jobs       |
+| (Repository)      |------>| (데이터 자산)   |------>| (실행 단위)     |
++-------------------+       +----------------+       +----------------+
+         |                           |                        |
+         v                           v                        v
++-------------------+       +----------------+       +----------------+
+|    Ops            |       |    Resources   |       |   Schedules    |
+| (작업 단위)        |       | (외부 연결)     |       | (스케줄)       |
++-------------------+       +----------------+       +----------------+
+         |                           |                        |
+         v                           v                        v
++-------------------+       +----------------+       +----------------+
+|    I/O Managers   |------>|   Sensors      |------>|   Runs         |
+| (저장소 관리)      |       | (이벤트 감지)   |       | (실행 기록)     |
++-------------------+       +----------------+       +----------------+
             </div>
-        </div>
-    </section>
+            
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>Asset</strong>: 데이터 자산(테이블, 파일, 모델)을 표현하는 객체. 데이터 계보의 중심.</li>
+                <li><strong>Op</strong>: 실제 작업을 수행하는 함수 단위. 순수 함수 권장.</li>
+                <li><strong>Job</strong>: Ops/Assets를 실행 가능한 단위로 묶은 것.</li>
+                <li><strong>Resource</strong>: 데이터베이스 연결, API 클라이언트 등 외부 의존성.</li>
+                <li><strong>I/O Manager</strong>: Asset의 로드/저장을 관리하는 저장소 추상화.</li>
+                <li><strong>Sensor</strong>: 파일 생성, API 응답 등 외부 이벤트를 감지하여 Job 실행.</li>
+            </ul>
+        </section>
 
-    <section id="section2" class="section">
-        <h2>2. 왜 써야 하는가?</h2>
-        <p>기존 오케스트레이션 도구와의 비교를 통해 Dagster의 차별점을 확인합니다.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>도구</th>
-                    <th>패러다임</th>
-                    <th>주요 강점</th>
-                    <th>Dagster와 비교</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Airflow</strong></td>
-                    <td>Task-Based (DAG)</td>
-                    <td>성숙한 생태계, 다양한 연산자</td>
-                    <td>Airflow는 "작업 실행"에 초점, Dagster는 "데이터 자산 생성"에 초점. Dagster의 개발 경험과 타입 안정성이 우수.</td>
-                </tr>
-                <tr>
-                    <td><strong>Prefect</strong></td>
-                    <td>Task-Based (동적 DAG)</td>
-                    <td>Pythonic API, 유연한 동적 워크플로</td>
-                    <td>Prefect는 작업 흐름 자체에 강점. Dagster는 데이터 자산 메타데이터, 데이터 계보, UI 통합에서 더 깊은 통찰 제공.</td>
-                </tr>
-                <tr>
-                    <td><strong>Luigi</strong></td>
-                    <td>Task-Based (의존성)</td>
-                    <td>간단한 설계, Spotify 검증</td>
-                    <td>Luigi는 단순함이 장점이지만, 모니터링, 구성, 자산 관리 기능이 제한적. Dagster는 현대적 요구사항을 충족.</td>
-                </tr>
-                <tr>
-                    <td><strong>Dagster</strong></td>
-                    <td><strong>Asset-Based</strong></td>
-                    <td><strong>통합 데이터 플랫폼 경험, 뛰어난 개발/운영 도구, 데이터 계보 및 품질 내장</strong></td>
-                    <td>-</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="callout">
-            💡 <strong>결론:</strong> 복잡한 데이터 플랫폼을 구축하고, 데이터 자산의 가시성과 신뢰성을 높이며, 팀의 개발 생산성을 향상시키고 싶다면 Dagster가 강력한 선택지입니다.
-        </div>
-    </section>
-
-    <section id="section3" class="section">
-        <h2>3. 핵심 개념</h2>
-        <p>Dagster 아키텍처의 핵심 구성 요소와 데이터 흐름을 이해합니다.</p>
-        <div class="diagram">
-            +---------------------+      +----------------------+      +-------------------+
-            |   User Code         |      |   Dagster Runtime    |      |   External Systems|
-            |                     |------|                      |------|                   |
-            |  - Assets           |      |  - Dagster Daemon    |      |  - Data Warehouse |
-            |  - Ops              |      |  - Run Coordinator   |      |  - Object Storage |
-            |  - Jobs             |      |  - Scheduler         |      |  - Compute (K8s)  |
-            |  - Resources        |      |  - Event Log         |      |                   |
-            +---------------------+      +----------------------+      +-------------------+
-                        ^                           ^                           ^
-                        |                           |                           |
-                        |                   +----------------------+            |
-                        +-------------------|   Dagster UI/CLI     |------------+
-                                            |                      |
-                                            |  - Asset Catalog     |
-                                            |  - Run Viewer        |
-                                            |  - Launchpad         |
-                                            +----------------------+
-        </div>
-        <h3>주요 용어</h3>
-        <ul style="padding-left: 2rem; margin: 1rem 0;">
-            <li><strong>Asset</strong>: 데이터 자산(테이블, 파일, ML 모델). 정의와 의존성을 명시.</li>
-            <li><strong>Op</strong>: 계산의 기본 단위. 순수 함수처럼 작성.</li>
-            <li><strong>Job</strong>: 실행 가능한 Op/Asset의 그래프.</li>
-            <li><strong>Resource</strong>: 외부 서비스(DB, API)에 대한 연결을 추상화.</li>
-            <li><strong>I/O Manager</strong>: Asset의 로드/저장 방식을 관리.</li>
-            <li><strong>Sensor / Schedule</strong>: Job 실행을 트리거.</li>
-        </ul>
-    </section>
-
-    <section id="section4" class="section">
-        <h2>4. 퀵스타트</h2>
-        <p>로컬 환경에서 첫 번째 Dagster 프로젝트를 설정하고 실행해봅니다.</p>
-
-        <div class="code-block-title">Step 1: 설치</div>
-        <pre><code># pip를 사용한 설치 (가상환경 권장)
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            
+            <h3>4.1 설치</h3>
+            <pre><code># pip를 이용한 설치 (최신 버전)
 pip install dagster dagster-webserver
 
-# 또는 Poetry 사용 시
-poetry add dagster dagster-webserver</code></pre>
+# 또는 poetry 사용
+poetry add dagster dagster-webserver
 
-        <div class="code-block-title">Step 2: 프로젝트 구조 생성</div>
-        <pre><code>mkdir my_first_dagster
-cd my_first_dagster
-touch my_first_dagster.py</code></pre>
-
-        <div class="code-block-title">Step 3: 첫 번째 Asset 정의 (my_first_dagster.py)</div>
-        <pre><code>from dagster import asset, Definitions
+# 추가 패키지 (데이터 처리용)
+pip install pandas dagster-pandas</code></pre>
+            
+            <h3>4.2 첫 번째 Asset 정의</h3>
+            <pre><code># my_first_dagster.py
+from dagster import asset, Definitions
 import pandas as pd
 
 @asset
 def raw_data() -> pd.DataFrame:
-    """CSV 파일에서 원본 데이터를 로드합니다."""
-    return pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
+    """원본 데이터를 생성하는 Asset"""
+    return pd.DataFrame({"id": [1, 2, 3], "value": [10, 20, 30]})
 
 @asset
 def processed_data(raw_data: pd.DataFrame) -> pd.DataFrame:
-    """원본 데이터를 처리합니다: 결측치 제거, 컬럼 선택."""
+    """raw_data를 가공하는 Asset"""
     df = raw_data.copy()
-    df = df[['Survived', 'Pclass', 'Sex', 'Age', 'Fare']].dropna()
-    df['Sex'] = df['Sex'].map({'male': 0, 'female': 1})
+    df["value_doubled"] = df["value"] * 2
     return df
 
 @asset
-def survival_report(processed_data: pd.DataFrame) -> str:
-    """생존률 분석 리포트를 생성합니다."""
-    survival_rate = processed_data['Survived'].mean() * 100
-    return f"탐승객 생존률: {survival_rate:.2f}%"
+def summary_report(processed_data: pd.DataFrame) -> str:
+    """최종 리포트 생성 Asset"""
+    total = processed_data["value_doubled"].sum()
+    return f"Total doubled value: {total}"
 
 defs = Definitions(
-    assets=[raw_data, processed_data, survival_report]
+    assets=[raw_data, processed_data, summary_report]
 )</code></pre>
+            
+            <h3>4.3 실행 및 UI 확인</h3>
+            <pre><code># Dagster UI 서버 실행
+dagster dev -f my_first_dagster.py
 
-        <div class="code-block-title">Step 4: Dagster UI 서버 실행</div>
-        <pre><code>dagster dev -f my_first_dagster.py</code></pre>
-        <p>명령어 실행 후, 브라우저에서 <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>으로 접속하여 UI를 확인하고 Asset을 Materialize 해보세요.</p>
-        <div class="callout">
-            ✅ <strong>성공:</strong> 이제 로컬에서 Dagster 파이프라인을 실행하고 UI에서 자산 계보를 확인할 수 있습니다.
-        </div>
-    </section>
-
-    <section id="section5" class="section">
-        <h2>5. 핵심 설정 레퍼런스</h2>
-        <p>실무에서 자주 사용하는 주요 설정을 표로 정리합니다.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>구성 요소</th>
-                    <th>설정 키 (YAML 예시)</th>
-                    <th>목적</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Resource</strong></td>
-                    <td><code>snowflake_io_manager</code></td>
-                    <td>Snowflake 연결 및 데이터 로드/저장 관리</td>
-                </tr>
-                <tr>
-                    <td><strong>I/O Manager</strong></td>
-                    <td><code>parquet_io_manager</code></td>
-                    <td>Asset을 Parquet 파일로 S3/로컬에 저장</td>
-                </tr>
-                <tr>
-                    <td><strong>Executor</strong></td>
-                    <td><code>multiprocess_executor</code></td>
-                    <td>병렬 실행을 위한 멀티프로세스 설정</td>
-                </tr>
-                <tr>
-                    <td><strong>Logger</strong></td>
-                    <td><code>json_console_logger</code></td>
-                    <td>로그를 JSON 형식으로 출력 (ELK 수집용)</td>
-                </tr>
-                <tr>
-                    <td><strong>Schedule</strong></td>
-                    <td><code>daily_3am_schedule</code></td>
-                    <td>매일 오전 3시에 Job 실행</td>
-                </tr>
-                <tr>
-                    <td><strong>Sensor</strong></td>
-                    <td><code>s3_file_sensor</code></td>
-                    <td>S3 버킷에 새 파일 도착 시 Job 트리거</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="callout warn">
-            ⚠️ <strong>주의:</strong> 프로덕션 배포 시에는 <code>dagster.yaml</code> 파일을 통해 중앙 설정을 관리하고, Secrets는 환경 변수나 전문 관리 도구를 사용하세요.
-        </div>
-    </section>
-
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
-        <h3>자주 겪는 문제와 해결책</h3>
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>문제 1: Asset이 UI에 보이지 않음</h4>
-                <p><strong>원인:</strong> <code>Definitions</code> 객체에 Asset이 등록되지 않았거나, 모듈 경로가 잘못됨.</p>
-                <p><strong>해결:</strong> <code>defs = Definitions(assets=[...])</code>를 확인하고, <code>dagster dev</code> 명령어에 정확한 파일 경로를 지정.</p>
+# 브라우저에서 http://localhost:3000 접속
+# Asset 그래프 확인 및 수동 실행 가능</code></pre>
+            
+            <div class="callout">
+                <h4>🚀 실무에서 바로 적용</h4>
+                <p>위 예제에서 <code>@asset</code> 데코레이터만 제거하면 일반 Python 함수입니다. Dagster는 기존 코드를 쉽게 통합할 수 있습니다.</p>
             </div>
-            <div class="concept-card">
-                <h4>문제 2: 외부 리소스(DB) 연결 실패</h4>
-                <p><strong>원인:</strong> Resource 구성 오류 또는 네트워크 문제.</p>
-                <p><strong>해결:</strong> <code>dagster instance migrate</code>로 스키마 업데이트. Resource의 <code>@resource</code> 데코레이터와 구성 YAML을 점검.</p>
-            </div>
-            <div class="concept-card">
-                <h4>문제 3: 병렬 실행 시 성능 저하</h4>
-                <p><strong>원인:</strong> Executor 설정 미비 또는 리소스 경합.</p>
-                <p><strong>해결:</strong> <code>multiprocess_executor</code> 사용 시 <code>max_concurrent</code> 값을 조정. 각 Op에 태그를 달아 리소스 제약을 명시.</p>
-            </div>
-            <div class="concept-card">
-                <h4>문제 4: 대용량 데이터 메모리 부족</h4>
-                <p><strong>원인:</strong> 단일 Op에서 모든 데이터를 메모리에 로드.</p>
-                <p><strong>해결:</strong> 청크 처리(Chunking) 구현 또는 Spark/DuckDB I/O Manager 사용으로 Out-of-Core 처리.</p>
-            </div>
-        </div>
-        <h3>실무 팁</h3>
-        <ul style="padding-left: 2rem; margin: 1rem 0;">
-            <li><strong>태그 활용:</strong> Op/Asset에 <code>tags={"team": "ml", "domain": "recommendation"}</code>을 추가하여 UI에서 필터링 및 모니터링.</li>
-            <li><strong>구성 분리:</strong> <code>ConfigSchema</code>를 사용해 런타임 매개변수(예: 날짜, 임계값)를 코드와 분리.</li>
-            <li><strong>로컬 테스트:</strong> <code>materialize_to_memory</code> 또는 <code>execute_in_process</code>로 유닛 테스트 작성.</li>
-            <li><strong>CI/CD 통합:</strong> GitHub Actions에서 <code>dagster job execute</code>를 이용한 파이프라인 검증 단계 추가.</li>
-        </ul>
-    </section>
+        </section>
 
-    <section id="section7" class="section">
-        <h2>7. 참고 자료</h2>
-        <ul style="padding-left: 2rem; margin: 1rem 0;">
-            <li><a href="https://docs.dagster.io/" target="_blank">📚 공식 문서 (한글 번역 일부 포함)</a> - 가장 완벽한 레퍼런스</li>
-            <li><a href="https://docs.dagster.io/concepts" target="_blank">🧠 개념 가이드</a> - Asset, Op, Resource 등 개념 심화 학습</li>
-            <li><a href="https://github.com/dagster-io/dagster/tree/master/examples" target="_blank">💻 공식 예제 저장소</a> - 다양한 사용 사례 코드</li>
-            <li><a href="https://dagster.io/blog" target="_blank">✍️ 공식 블로그</a> - 최신 기능과 사례 연구</li>
-            <li><a href="https://discord.com/invite/dagster" target="_blank">💬 Discord 커뮤니티</a> - 실시간 질문과 토론</li>
-        </ul>
-        <div class="callout">
-            🚀 <strong>다음 단계:</strong> 공식 문서의 "튜토리얼"을 따라가며 기본기를 다진 후, 본인의 데이터 스택(Snowflake, dbt, Spark 등)과의 통합을 탐구해보세요.
-        </div>
-    </section>
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>구성 요소</th>
+                        <th>설정 키</th>
+                        <th>기본값/예시</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>저장소</td>
+                        <td>dagster.yaml</td>
+                        <td><code>local_artifact_storage</code></td>
+                        <td>실행 기록과 아티팩트 저장 위치</td>
+                    </tr>
+                    <tr>
+                        <td>실행기</td>
+                        <td>execution</td>
+                        <td><code>multiprocess_executor</code></td>
+                        <td>작업 실행 방식 (동시성 제어)</td>
+                    </tr>
+                    <tr>
+                        <td>로그</td>
+                        <td>python_logs</td>
+                        <td><code>level: INFO</code></td>
+                        <td>로그 레벨 및 출력 설정</td>
+                    </tr>
+                    <tr>
+                        <td>스케줄러</td>
+                        <td>schedule_storage</td>
+                        <td><code>SqliteScheduleStorage</code></td>
+                        <td>스케줄 정보 저장소</td>
+                    </tr>
+                    <tr>
+                        <td>런 저장소</td>
+                        <td>run_storage</td>
+                        <td><code>SqliteRunStorage</code></td>
+                        <td>실행 기록 저장소</td>
+                    </tr>
+                    <tr>
+                        <td>클라우드</td>
+                        <td>dagster_cloud.yaml</td>
+                        <td><code>organization: "my-org"</code></td>
+                        <td>Dagster Cloud 전용 설정</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>설정 파일 예시 (dagster.yaml)</h3>
+            <pre><code># dagster.yaml
+storage:
+  postgres:
+    postgres_db:
+      username: { env: DAGSTER_PG_USERNAME }
+      password: { env: DAGSTER_PG_PASSWORD }
+      hostname: { env: DAGSTER_PG_HOST }
+      db_name: { env: DAGSTER_PG_DB }
+      port: 5432
 
-    <footer>
-        <p>Dagster 실무 스터디 가이드 | <span class="date-tag">작성일: 2026.03</span></p>
-        <p>본 문서는 실무 적용을 위한 핵심 요약입니다. 정확한 정보는 공식 문서를 참고하세요.</p>
-        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Tags: <strong>orchestration</strong>, <strong>asset-based</strong>, data-engineering, ai-engineering</p>
-    </footer>
-</body>
-</html>
+run_storage:
+  module: dagster_postgres.run_storage
+  class: PostgresRunStorage
+  config:
+    postgres_url: { env: DAGSTER_PG_URL }
+
+schedule_storage:
+  module: dagster_postgres.schedule_storage
+  class: PostgresScheduleStorage
+  config:
+    postgres_url: { env: DAGSTER_PG_URL }
+
+scheduler:
+  module: dagster.core.scheduler
+  class: DagsterDaemonScheduler
+
+run_launcher:
+  module: dagster.core.launcher
+  class: DefaultRunLauncher</code></pre>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <div class="callout">
+                <h4>✅ 팁 1: Asset 의존성 자동 추적</h4>
+                <p>함수 인자로 Asset을 전달하면 Dagster가 자동으로 의존성을 인식합니다. 명시적 의존성 설정은 <code>@asset(deps=[...])</code>를 사용하세요.</p>
+            </div>
+            
+            <div class="callout">
+                <h4>✅ 팁 2: Resource로 외부 연결 관리</h4>
+                <p>데이터베이스, API 클라이언트는 Resource로 정의하여 의존성 주입하세요. 테스트 시 Mock으로 쉽게 교체 가능합니다.</p>
+                <pre><code>from dagster import resource
+
+@resource
+def database_connection():
+    return create_engine("postgresql://...")</code></pre>
+            </div>
+            
+            <div class="callout warn">
+                <h4>⚠️ 문제 1: UI가 로드되지 않음 (localhost:3000)</h4>
+                <p><strong>원인:</strong> 포트 충돌 또는 설치 문제<br>
+                <strong>해결:</strong> 다른 포트로 실행: <code>dagster dev -f my_pipeline.py -p 3001</code></p>
+            </div>
+            
+            <div class="callout warn">
+                <h4>⚠️ 문제 2: Asset이 이전 버전으로 실행됨</h4>
+                <p><strong>원인:</strong> Dagster의 캐싱 동작<br>
+                <strong>해결:</strong> UI에서 "Reload definitions" 또는 코드에 <code>@asset(compute_kind="python")</code> 명시</p>
+            </div>
+            
+            <div class="callout warn">
+                <h4>⚠️ 문제 3: 대량 데이터 처리 시 메모리 부족</h4>
+                <p><strong>원인:</strong> 모든 데이터를 메모리에 로드<br>
+                <strong>해결:</strong> 청크 처리 또는 I/O Manager를 사용한 점진적 로드 구현</p>
+            </div>
+            
+            <h3>디버깅 명령어</h3>
+            <pre><code># 정의 로드 확인
+dagster job list -f my_pipeline.py
+
+# 특정 Job의 실행 계획 확인
+dagster job preview -j my_job -f my_pipeline.py
+
+# UI 없이 실행 (CLI)
+dagster job execute -j my_job -f my_pipeline.py</code></pre>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.dagster.io/" target="_blank">📘 공식 문서 (한글 부분 번역 포함)</a> - 개념, 튜토리얼, API 레퍼런스</li>
+                <li><a href="https://github.com/dagster-io/dagster" target="_blank
