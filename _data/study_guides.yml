@@ -262,3 +262,9 @@
   tags: ["mlops", "k8s", "pipeline"]
   date: "2026-04-21"
   url: "/study-guides/kubeflow-study-guide.html"
+- keyword: "Dagster"
+  slug: "dagster"
+  category: "data-engineering"
+  tags: ["orchestration", "asset-based"]
+  date: "2026-04-22"
+  url: "/study-guides/dagster-study-guide.html"
