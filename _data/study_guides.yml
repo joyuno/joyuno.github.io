@@ -268,3 +268,9 @@
   tags: ["orchestration", "asset-based"]
   date: "2026-04-22"
   url: "/study-guides/dagster-study-guide.html"
+- keyword: "Weights & Biases"
+  slug: "weights-biases"
+  category: "ai-ml"
+  tags: ["experiment-tracking", "visualization"]
+  date: "2026-04-22"
+  url: "/study-guides/weights-biases-study-guide.html"
