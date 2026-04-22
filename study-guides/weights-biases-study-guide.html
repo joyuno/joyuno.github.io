@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weights & Biases 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .toc a {
+            color: var(--text);
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.8rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--accent4);
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .step {
+            margin-bottom: 2.5rem;
+        }
+        .step h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Weights & Biases 실무 스터디</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">Experiment Tracking</span>
+            <span class="badge">Model Visualization</span>
+            <span class="badge">MLOps</span>
+            <span class="badge">Hyperparameter Tuning</span>
+            <span class="badge">Collaboration</span>
+        </div>
+        <p style="margin-top: 2rem; color: var(--text-muted);">작성일: 2026.03</p>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Weights & Biases란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Weights & Biases란?</h2>
+            <p>Weights & Biases(W&B)는 머신러닝 실험의 추적, 시각화, 관리를 위한 플랫폼입니다. 연구 및 프로덕션 환경에서 모델 개발 라이프사이클 전반을 가속화하고 재현성을 보장합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📊 실험 추적 (Experiment Tracking)</h4>
+                    <p>하이퍼파라미터, 메트릭, 코드 상태, 시스템 리소스를 자동으로 기록하고 비교할 수 있는 대시보드를 제공합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📈 모델 시각화 (Model Visualization)</h4>
+                    <p>학습 곡선, 예측 결과, 모델 그래프, 임베딩, 컨퓨전 매트릭스 등을 인터랙티브하게 시각화합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🤝 협업 & 버전 관리 (Collaboration)</h4>
+                    <p>팀원과 실험 결과, 모델 아티팩트, 노트북을 공유하고 피드백을 주고받을 수 있는 공동 작업 공간을 제공합니다.</p>
+                </div>
+            </div>
+            <div class="callout">
+                <h4>💡 핵심 가치</h4>
+                <p>W&B는 "MLOps의 GitHub"으로 불리며, 실험의 재현성과 협업 효율성을 극대화하는 것이 목표입니다. 로컬 파일이나 스프레드시트에 의존하는 방식을 벗어나 체계적인 ML 개발을 가능하게 합니다.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>ML 실험 관리의 기존 대안과 W&B를 비교합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>도구 / 방법</th>
+                        <th>장점</th>
+                        <th>단점</th>
+                        <th>W&B의 차별점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>텐서보드 (TensorBoard)</strong></td>
+                        <td>무료, TensorFlow와 긴밀한 통합</td>
+                        <td>협업 기능 부족, 실험 비교 기능 약함, 지속적 관리 어려움</td>
+                        <td>강력한 실험 비교, 팀 대시보드, 아티팩트 버전 관리</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MLflow</strong></td>
+                        <td>오픈소스, 모델 패키징 및 배포 기능</td>
+                        <td>UI/UX가 단순, 시각화 기능 제한적, 호스팅 필요</td>
+                        <td>뛰어난 사용자 경험, 리치한 인터랙티브 시각화, 클라우드 서비스</td>
+                    </tr>
+                    <tr>
+                        <td><strong>사내 구축 솔루션</strong></td>
+                        <td>커스터마이징 가능, 데이터 유출 위험 감소</td>
+                        <td>개발 및 유지보수 비용 큼, 기능 발전 속도 느림</td>
+                        <td>즉시 사용 가능한 완성도 높은 플랫폼, 지속적인 기능 업데이트</td>
+                    </tr>
+                    <tr>
+                        <td><strong>스프레드시트 + 로그 파일</strong></td>
+                        <td>간단함, 추가 도구 불필요</td>
+                        <td>확장 불가능, 실수 많음, 재현성 낮음, 비교 분석 어려움</td>
+                        <td>자동화된 추적, 중앙 집중식 관리, 재현성 보장</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout warn">
+                <h4>⚠️ 선택 기준</h4>
+                <p>소규모 개인 프로젝트라면 MLflow나 TensorBoard로 시작해도 좋습니다. 그러나 팀 단위 협업, 수백 수천 번의 실험, 프로덕션 모델 관리가 필요하다면 W&B의 생산성 향상 효과가 매우 큽니다.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>W&B의 아키텍처와 주요 컴포넌트를 이해합니다.</p>
+            <div class="diagram">
+    +-------------------+       logs       +----------------------+
+    |   Your Training   |----------------->|   W&B Local Agent    |
+    |   Script (Python) |                  |   (Optional)         |
+    +-------------------+                  +-----------+----------+
+                                                       | syncs
+    +-------------------+                  +-----------v----------+
+    |  Config (params)  |                  |   W&B Cloud Service  |
+    |  Metrics (loss)   |                  |  (Dashboard, API)    |
+    |  Artifacts (model)|<-----------------+                      |
+    |  System (GPU)     |      queries     | - Projects           |
+    +-------------------+      & reports   | - Experiments (Runs) |
+                                           | - Artifacts          |
+                                           | - Sweeps             |
+                                           +----------------------+
+                                                       |
+                                           +-----------v----------+
+                                           |   Team Collaboration  |
+                                           |   (Compare, Share)    |
+                                           +----------------------+
+            </div>
+            <h3>주요 용어</h3>
+            <ul style="padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Run</strong>: 한 번의 학습 실험 단위. 하이퍼파라미터, 메트릭, 로그가 기록됩니다.</li>
+                <li><strong>Project</strong>: 관련된 Run들을 그룹화하는 컨테이너입니다.</li>
+                <li><strong>Artifact</strong>: 모델 가중치, 데이터셋, 평가 결과 등 버전 관리가 필요한 파일이나 디렉토리입니다.</li>
+                <li><strong>Sweep</strong>: 하이퍼파라미터 최적화를 자동화하는 기능입니다.</li>
+                <li><strong>Dashboard</strong>: 프로젝트 내 Run들을 비교하고 시각화하는 웹 인터페이스입니다.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <p>5분 안에 첫 실험을 W&B에 기록해보세요.</p>
+
+            <div class="step">
+                <h4>단계 1: 설치 및 로그인</h4>
+                <div class="code-block-title">Terminal</div>
+                <pre><code># pip를 통한 설치
+pip install wandb
+
+# CLI 로그인 (API 키 입력)
+wandb login
+# 또는 환경변수 설정
+# export WANDB_API_KEY='your-api-key-here'</code></pre>
+                <p>API 키는 <a href="https://wandb.ai/authorize" target="_blank">https://wandb.ai/authorize</a>에서 얻을 수 있습니다.</p>
+            </div>
+
+            <div class="step">
+                <h4>단계 2: 기본 Python 스크립트 작성</h4>
+                <div class="code-block-title">train.py</div>
+                <pre><code>import wandb
+import random
+
+# 1. 실험 초기화
+wandb.init(
+    project="my-first-wandb-project", # 프로젝트명
+    config={                          # 하이퍼파라미터 기록
+        "learning_rate": 0.01,
+        "architecture": "CNN",
+        "dataset": "CIFAR-10",
+        "epochs": 10,
+    }
+)
+
+config = wandb.config
+
+# 2. 모의 학습 루프
+for epoch in range(config.epochs):
+    # 모의 메트릭 생성
+    loss = random.random() / (epoch + 1)
+    accuracy = 1 - loss + random.random() / 10
+
+    # 3. 메트릭 로깅
+    wandb.log({
+        "epoch": epoch,
+        "loss": loss,
+        "accuracy": accuracy,
+        "val_loss": loss * 0.9,
+        "val_accuracy": accuracy * 0.95
+    })
+
+    # 모의 모델 저장 (Artifact 예시)
+    if epoch % 5 == 0:
+        model_name = f"model_epoch_{epoch}.pth"
+        # 실제로는 torch.save(model.state_dict(), model_name) 등
+        with open(model_name, 'w') as f:
+            f.write(f"mock model at epoch {epoch}")
+
+        # 4. 아티팩트로 모델 업로드
+        artifact = wandb.Artifact(name=f"run-model-{wandb.run.id}", type="model")
+        artifact.add_file(model_name)
+        wandb.log_artifact(artifact)
+
+# 5. 실험 종료
+wandb.finish()
+print("실험이 W&B 대시보드에 동기화되었습니다!")</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>단계 3: 실행 및 결과 확인</h4>
+                <pre><code>python train.py</code></pre>
+                <p>스크립트 실행 후 터미널에 출력된 URL(예: <code>https://wandb.ai/your-username/my-first-wandb-project/runs/...</code>)을 클릭하여 대시보드에서 실시간으로 메트릭과 아티팩트를 확인하세요.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p><code>wandb.init()</code> 및 주요 함수의 필수/자주 쓰는 설정 옵션입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>매개변수</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>실무 예시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>project</code></td>
+                        <td>None</td>
+                        <td>실험을 그룹화할 프로젝트 이름. 필수.</td>
+                        <td><code>project="sentiment-analysis-2026"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>랜덤 생성</td>
+                        <td>Run의 고유 이름. 식별용.</td>
+                        <td><code>name="bert-base-0.001-lr"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>config</code></td>
+                        <td>{}</td>
+                        <td>하이퍼파라미터 딕셔너리. 자동 기록/비교.</td>
+                        <td><code>config={"lr":0.01, "batch":64}</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>entity</code></td>
+                        <td>개인 계정</td>
+                        <td>팀 또는 조직 이름. 협업 시 설정.</td>
+                        <td><code>entity="my-company-ml-team"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>tags</code></td>
+                        <td>[]</td>
+                        <td>Run을 필터링하기 위한 태그 리스트.</td>
+                        <td><code>tags=["baseline", "transformer"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>notes</code></td>
+                        <td>""</td>
+                        <td>Run에 대한 설명 메모.</td>
+                        <td><code>notes="첫 번째 베이스라인 실험"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>resume</code></td>
+                        <td>False</td>
+                        <td>중단된 Run 재개 시 "allow", "must", True 등.</td>
+                        <td><code>resume="allow"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>mode</code></td>
+                        <td>"online"</td>
+                        <td>"online", "offline", "disabled".</td>
+                        <td><code>mode="offline"</code> (인터넷 없을 때)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>🔧 환경변수 설정 (고급)</h4>
+                <p>Docker 또는 클라우드 환경에서 자주 사용합니다.</p>
+                <pre><code>export WANDB_API_KEY=your_key
+export WANDB_PROJECT=production-models
+export WANDB_ENTITY=team-name
+export WANDB_SILENT=true  # 로그 최소화
+export WANDB_DIR=/path/to/logs  # 로컬 저장 경로</code></pre>
+            </div>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+
+            <h3>🚀 실무 팁</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>오프라인 실행 후 동기화</h4>
+                    <p>인터넷이 안 되는 환경(클러스터)에서는 오프라인 모드로 실행한 후, 결과를 동기화하세요.</p>
+                    <pre><code>wandb.init(mode="offline")
+# ... 학습 코드 ...
+wandb.finish()
+# 이후 동기화: wandb sync ./wandb/offline-run-... </code></pre>
+                </div>
+                <div class="concept-card">
+                    <h4>대용량 파일은 Artifact로</h4>
+                    <p>모델 체크포인트, 데이터셋 등 대용량 파일은 <code>wandb.log_artifact()</code>를 사용하세요. <code>wandb.log()</code>에 파일을 직접 넣지 마십시오.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>Sweep으로 HPO 자동화</h4>
+                    <p>하이퍼파라미터 최적화는 Sweep 기능을 사용하면 편리합니다. Bayesian 최적화, 그리드 서치 등을 지원합니다.</p>
+                </div>
+            </div>
+
+            <h3>🔧 트러블슈팅</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>문제</th>
+                        <th>원인</th>
+                        <th>해결책</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>"wandb: Network error..."</strong> 연결 실패</td>
+                        <td>프록시, 방화벽, 인터넷 문제.</td>
+                        <td>1. <code>mode="offline"</code> 후 동기화.<br>2. <code>export WANDB_BASE_URL=http://내부-서버</code> (온프레미스 설치 시)<br>3. 프록시 설정: <code>export HTTPS_PROXY=...</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>실행이 느리다</strong></td>
+                        <td>너무 빈번한 <code>wandb.log()</code> 호출.</td>
+                        <td>매 스텝마다 로깅하지 말고, N 스텝마다 또는 epoch 종료 시 한 번에 로깅하세요.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>디스크 공간 부족</strong></td>
+                        <td>로컬 <code>wandb/</code> 디렉토리에 캐시가 쌓임.</td>
+                        <td>정기적으로 <code>wandb artifact cache cleanup</code> 실행. 또는 <code>export WANDB_CACHE_DIR=/큰_디스크</code> 설정.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PyTorch Lightning 통합 시 중복 실행</strong></td>
+                        <td>Trainer에서 <code>logger=WandbLogger()</code>를 설정하고, 스크립트에서도 <code>wandb.init()</code>을 호출하는 경우.</td>
+                        <td>PyTorch Lightning 사용 시 <strong>WandbLogger만 사용</strong>하고, 직접 <code>wandb.init()</code>을 호출하지 마세요.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>동일한 Run 이름 충돌</strong></td>
+                        <td>고정된 이름으로 여러 작업을 병렬 실행.</td>
+                        <td><code>name</code> 파라미터를 설정하지 말거나, <code>uuid</code> 등을 추가해 고유하게 만드세요. 또는 <code>wandb.util.generate_id()</code> 사용.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul style="padding-left: 2rem; margin: 1rem 0;">
+                <li><a href="https://docs.wandb.ai/" target="_blank">📚 공식 문서 (한글 부분 있음)</a> - 가장 자세하고 최신 정보</li>
+                <li><a href="https://wandb.ai/site/experiment-tracking" target="_blank">🎯 Experiment Tracking 가이드</a> - 실험 추적 심화 학습</li>
+                <li><a href="https://wandb.ai/site/sweeps" target="_blank">⚙️ Sweeps 문서</a> - 하이퍼파라미터 최적화 자동화</li>
+                <li><a href="https://github.com/wandb/examples" target="_blank">💻 공식 예제 리포지토리 (GitHub)</a> - 다양한 프레임워크 통합 코드</li>
+                <li><a href="https://wandb.ai/pricing" target="_blank">🏷️ 요금제 (Free Tier 충분함)</a> - 팀/기업용 요금 확인</li>
+                <li><a href="https://community.wandb.ai/" target="_blank">🧑‍💻 커뮤니티 포럼</a> - 질문과 답변</li>
+            </ul>
+            <div class="callout">
+                <h4>🎯 학습 로드맵 제안</h4>
+                <p>1. 기본 로깅 (<code>init</code>, <code>config</code>, <code>log</code>) → 2. 아티팩트로 모델/데이터 관리 → 3. 대시보드에서 비교/분석 → 4. Sweep으로 HPO → 5. 팀 프로젝트 및 협업 기능 탐색</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 AI/ML 엔지니어의 빠른 실무 적용을 위해 핵심 내용을 요약하였습니다.</p>
+        <p>지속적인 업데이트는 공식 문서를 참고하세요. © 2026.03 실무 스터디 가이드</p>
+        <p style="margin-top: 1rem;"><a href="#top">▲ 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
