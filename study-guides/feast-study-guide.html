@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Feast 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .badge.accent {
+            background-color: var(--surface);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 8px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        .section {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout h4 {
+            margin-top: 0;
+            color: var(--text);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        pre, code {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            border-radius: 4px;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .step {
+            margin-bottom: 2rem;
+        }
+        .step h4 {
+            color: var(--accent4);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Feast: 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge accent">Feature Store</span>
+            <span class="badge">Online-Offline Serving</span>
+            <span class="badge">MLOps</span>
+            <span class="badge">Python 3.8+</span>
+            <span class="badge">버전: 0.31+</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Feast란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Feast란?</h2>
+            <p>Feast(Feature Store)는 머신러닝 피처를 관리, 서빙, 검색하기 위한 오픈소스 플랫폼입니다. ML 시스템에서 피처 데이터의 <strong>일관성, 재현성, 접근성</strong>을 보장하는 데 중점을 둡니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📦 피처 레지스트리</h4>
+                    <p>피처 정의, 데이터 소스, 엔티티, 온라인/오프라인 스토어를 중앙에서 관리합니다. Git 기반 버전 관리를 지원합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 오프라인 서빙</h4>
+                    <p>모델 학습/평가를 위해 대규모 히스토리 데이터를 배치 형태로 제공합니다. Spark, BigQuery 등과 통합됩니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ 온라인 서빙</h4>
+                    <p>실시간 예측을 위해 초저지연 피처 조회를 제공합니다. Redis, DynamoDB 등을 백엔드로 사용합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 ML 파이프라인 대비 Feast가 해결하는 문제점을 비교합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>비교 항목</th>
+                        <th>전통적 방식 (직접 구현)</th>
+                        <th>Feast 사용 시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>피처 일관성</td>
+                        <td>학습/서빙 시 피처 계산 로직이 달라 훈련-서빙 편향 발생 가능성 높음</td>
+                        <td>단일 소스로 정의되어 온라인/오프라인 일관성 보장</td>
+                    </tr>
+                    <tr>
+                        <td>피처 검색 & 재사용</td>
+                        <td>팀/프로젝트 간 피처 공유 어려움, 중복 계산 발생</td>
+                        <td>중앙 레지스트리를 통한 피처 검색 및 재사용 용이</td>
+                    </tr>
+                    <tr>
+                        <td>운영 오버헤드</td>
+                        <td>피처 파이프라인, 서빙 인프라 각각 구축 및 유지보수 필요</td>
+                        <td>표준화된 아키텍처와 커넥터 제공으로 운영 부담 감소</td>
+                    </tr>
+                    <tr>
+                        <td>실시간 서빙</td>
+                        <td>낮은 지연 시간 요구 시 별도 키-값 저장소 설계 필요</td>
+                        <td>내장 온라인 스토어 지원으로 실시간 피처 조회 간소화</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>Feast 아키텍처의 주요 구성 요소와 데이터 흐름입니다.</p>
+            <div class="diagram">
++-------------------------------------------------------------------+
+|                      Feature Definitions (YAML/Repo)              |
+|                      +---------------------------+                |
+|                      |  Entity | Feature View    |                |
+|                      |  Data Source | Registry   |                |
++---------------------------^---------------------------------------+
+                            | (Apply)
++-------------------------------------------------------------------+
+|                         FEAST CORE                                |
+|              +---------------------+------------------+           |
+|              |                     |                  |           |
+|        Offline Store          Online Store      Registry          |
+|       (BigQuery, Snowflake)  (Redis, DynamoDB)  (File, GCS)      |
++--------------^---------------------^-----------------------------+
+               |                     |
+        +------v-----+       +-------v------+
+        |  Training  |       |   Serving    |
+        |  (Batch)   |       |  (Real-time) |
+        +------------+       +--------------+
+            </div>
+            <div class="callout">
+                <h4>핵심 용어</h4>
+                <ul>
+                    <li><strong>Entity</strong>: 피처의 기본 키 (예: user_id, driver_id).</li>
+                    <li><strong>Feature View</strong>: 하나 이상의 피처와 데이터 소스, 엔티티를 그룹화한 논리적 단위.</li>
+                    <li><strong>Data Source</strong>: 원본 데이터 위치 (파일, 데이터 웨어하우스, 스트림).</li>
+                    <li><strong>Offline Store</strong>: 히스토리 데이터 저장소 (학습용).</li>
+                    <li><strong>Online Store</strong>: 실시간 서빙을 위한 저지연 저장소.</li>
+                    <li><strong>Registry</strong>: 피처 정의와 메타데이터를 저장하는 중앙 저장소.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            <div class="step">
+                <h4>Step 1: 설치</h4>
+                <pre><code># 기본 설치 (파일 기반 레지스트리 + 로컬 온라인 스토어)
+pip install feast
+
+# 추가 제공자 설치 (예: GCP, AWS, Snowflake)
+pip install feast[gcp]
+# 또는
+pip install feast[aws]</code></pre>
+            </div>
+            <div class="step">
+                <h4>Step 2: 프로젝트 초기화</h4>
+                <pre><code># feast 프로젝트 생성
+feast init my_feature_repo
+cd my_feature_repo
+
+# 디렉토리 구조 확인
+ls -la
+# feature_repo/
+#   ├── feature_store.yaml  # Feast 설정
+#   ├── example.py          # 예제 코드
+#   └── data/               # 예제 데이터</code></pre>
+            </div>
+            <div class="step">
+                <h4>Step 3: 피처 정의 (example.py 수정)</h4>
+                <pre><code>from datetime import timedelta
+from feast import Entity, FeatureView, Field, FileSource
+from feast.types import Float32, Int64
+import pandas as pd
+
+# 1. 엔티티 정의
+driver = Entity(name="driver", join_keys=["driver_id"])
+
+# 2. 데이터 소스 정의 (예: Parquet 파일)
+driver_stats_source = FileSource(
+    path="data/driver_stats.parquet",
+    timestamp_field="event_timestamp",
+    created_timestamp_column="created",
+)
+
+# 3. 피처 뷰 정의
+driver_stats_fv = FeatureView(
+    name="driver_hourly_stats",
+    entities=[driver],
+    ttl=timedelta(days=1),
+    schema=[
+        Field(name="conv_rate", dtype=Float32),
+        Field(name="acc_rate", dtype=Float32),
+        Field(name="avg_daily_trips", dtype=Int64),
+    ],
+    online=True,
+    source=driver_stats_source,
+    tags={"team": "driver_matching"},
+)</code></pre>
+            </div>
+            <div class="step">
+                <h4>Step 4: 적용 및 머티리얼라이즈</h4>
+                <pre><code># 레지스트리에 피처 정의 적용
+feast apply
+
+# 오프라인 스토어에서 온라인 스토어로 데이터 적재 (머티리얼라이즈)
+feast materialize-incremental $(date -u +"%Y-%m-%dT%H:%M:%S")</code></pre>
+            </div>
+            <div class="step">
+                <h4>Step 5: 피처 조회</h4>
+                <pre><code>from feast import FeatureStore
+import pandas as pd
+
+store = FeatureStore(repo_path=".")
+
+# 오프라인 조회 (학습 데이터 생성)
+training_df = store.get_historical_features(
+    entity_df=pd.DataFrame({
+        "driver_id": [1001, 1002, 1003],
+        "event_timestamp": pd.to_datetime(["2024-01-01", "2024-01-01", "2024-01-01"])
+    }),
+    features=["driver_hourly_stats:conv_rate", "driver_hourly_stats:avg_daily_trips"]
+).to_df()
+
+# 온라인 조회 (실시간 예측)
+online_features = store.get_online_features(
+    features=["driver_hourly_stats:conv_rate", "driver_hourly_stats:acc_rate"],
+    entity_rows=[{"driver_id": 1001}]
+).to_dict()</code></pre>
+            </div>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p><code>feature_store.yaml</code>의 주요 구성 옵션입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 키</th>
+                        <th>설명</th>
+                        <th>예시 값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>project</td>
+                        <td>프로젝트 이름 (네임스페이스)</td>
+                        <td>my_ml_project</td>
+                    </tr>
+                    <tr>
+                        <td>registry</td>
+                        <td>레지스트리 저장소 위치 (파일, GCS, S3)</td>
+                        <td>gs://my-bucket/registry.db</td>
+                    </tr>
+                    <tr>
+                        <td>provider</td>
+                        <td>클라우드 제공자 (local, gcp, aws)</td>
+                        <td>gcp</td>
+                    </tr>
+                    <tr>
+                        <td>online_store</td>
+                        <td>온라인 스토어 타입과 설정</td>
+                        <td>type: redis<br>connection_string: "localhost:6379"</td>
+                    </tr>
+                    <tr>
+                        <td>offline_store</td>
+                        <td>오프라인 스토어 타입과 설정</td>
+                        <td>type: bigquery<br>dataset: feast_dataset</td>
+                    </tr>
+                    <tr>
+                        <td>entity_key_serialization_version</td>
+                        <td>엔티티 키 직렬화 버전 (호환성)</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="callout">
+                <h4>✅ 실무 팁</h4>
+                <ul>
+                    <li><strong>피처 그룹화</strong>: 동일한 데이터 소스와 엔티티를 공유하는 피처는 하나의 FeatureView로 묶어 관리 효율성을 높이세요.</li>
+                    <li><strong>TTL 설정</strong>: 온라인 스토어의 저장 비용과 데이터 신선도를 고려해 적절한 TTL(Time To Live)을 설정하세요.</li>
+                    <li><strong>CI/CD 통합</strong>: <code>feast apply</code>를 CI 파이프라인에 통합해 피처 정의 변경을 자동으로 적용하세요.</li>
+                    <li><strong>모니터링</strong>: 온라인 스토어의 지연 시간, 적재 지표, 피처 누락 비율을 모니터링하세요.</li>
+                </ul>
+            </div>
+            <div class="callout warn">
+                <h4>⚠️ 자주 겪는 문제 & 해결책</h4>
+                <ul>
+                    <li><strong>문제</strong>: <code>feast apply</code> 시 "Registry at path X is not initialized" 오류.<br>
+                        <strong>해결</strong>: <code>feast init</code>으로 초기화했는지 확인하고, registry 경로가 올바른지 <code>feature_store.yaml</code>에서 점검하세요.
+                    </li>
+                    <li><strong>문제</strong>: 온라인 조회 시 피처 값이 null로 반환됨.<br>
+                        <strong>해결</strong>: 1) <code>feast materialize</code>로 데이터가 온라인 스토어에 적재되었는지 확인. 2) FeatureView의 <code>online=True</code> 설정 확인. 3) 엔티티 키가 정확히 매칭되는지 확인.
+                    </li>
+                    <li><strong>문제</strong>: 대규모 히스토리 데이터 조회 시 메모리 부족.<br>
+                        <strong>해결</strong>: Spark 또는 BigQuery 오프라인 스토어를 사용하고, 배치 단위로 데이터를 처리하세요.
+                    </li>
+                    <li><strong>문제</strong>: 피처 피벗(Pivot) 시 성능 저하.<br>
+                        <strong>해결</strong>: 와이드 포맷(wide format) 데이터 소스를 사용하거나, Feast의 변환 기능 대신 원본 데이터를 피벗된 형태로 준비하세요.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.feast.dev/" target="_blank">📘 공식 문서</a> - 개념, API 레퍼런스, 튜토리얼</li>
+                <li><a href="https://github.com/feast-dev/feast" target="_blank">🐙 GitHub 저장소</a> - 소스 코드, 이슈, 컨트리뷰션 가이드</li>
+                <li><a href="https://feast.dev/slack" target="_blank">💬 Slack 커뮤니티</a> - 실시간 질문 및 토론</li>
+                <li><a href="https://www.feast.dev/blog" target="_blank">✍️ 기술 블로그</a> - 사례 연구, 아키텍처 심화 분석</li>
+                <li><a href="https://github.com/feast-dev/feast-workshop" target="_blank">🛠️ 공식 워크샵</a> - 실습 예제 코드</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 Feast 공식 문서와 커뮤니티 경험을 바탕으로 작성되었습니다.</p>
+        <p>작성일: 2026.03 | 태그: <strong>feature-store</strong>, <strong>online-offline</strong>, <strong>serving</strong></p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--border);">© 2026 AI/ML 엔지니어를 위한 실무 가이드 시리즈</p>
+    </footer>
+</body>
+</html>
