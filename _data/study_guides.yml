@@ -280,3 +280,9 @@
   tags: ["orchestration", "event-driven"]
   date: "2026-04-23"
   url: "/study-guides/prefect-study-guide.html"
+- keyword: "Feast"
+  slug: "feast"
+  category: "ai-ml"
+  tags: ["feature-store", "online-offline", "serving"]
+  date: "2026-04-23"
+  url: "/study-guides/feast-study-guide.html"
