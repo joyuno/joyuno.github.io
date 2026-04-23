@@ -274,3 +274,9 @@
   tags: ["experiment-tracking", "visualization"]
   date: "2026-04-22"
   url: "/study-guides/weights-biases-study-guide.html"
+- keyword: "Prefect"
+  slug: "prefect"
+  category: "data-engineering"
+  tags: ["orchestration", "event-driven"]
+  date: "2026-04-23"
+  url: "/study-guides/prefect-study-guide.html"
