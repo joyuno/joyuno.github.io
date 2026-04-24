@@ -286,3 +286,9 @@
   tags: ["feature-store", "online-offline", "serving"]
   date: "2026-04-23"
   url: "/study-guides/feast-study-guide.html"
+- keyword: "Ray Serve"
+  slug: "ray-serve"
+  category: "ai-ml"
+  tags: ["distributed", "serving", "scaling"]
+  date: "2026-04-24"
+  url: "/study-guides/ray-serve-study-guide.html"
