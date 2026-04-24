@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray Serve 실무 스터디 가이드 | AI/MLOps 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .badge.accent {
+            background-color: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            line-height: 2;
+        }
+        .toc a {
+            color: var(--text);
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        pre, code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: var(--surface2);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .date {
+            color: var(--accent3);
+        }
+        .keyword-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .keyword-tags .badge {
+            background-color: transparent;
+            border-color: var(--accent3);
+            color: var(--accent3);
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Ray Serve 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge accent">Ray 2.10+</span>
+            <span class="badge">Production Ready</span>
+            <span class="badge">Kubernetes Native</span>
+            <span class="badge">Python First</span>
+        </div>
+        <div class="keyword-tags">
+            <span class="badge">distributed</span>
+            <span class="badge">serving</span>
+            <span class="badge">scaling</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Ray Serve란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Ray Serve란?</h2>
+            <p>Ray Serve는 <strong>Ray</strong> 생태계의 고성능 모델 서빙 프레임워크로, Python으로 작성된 머신러닝 모델 및 임의의 비즈니스 로직을 위한 <strong>확장 가능한 모델 서빙 레이어</strong>를 제공합니다. 단일 머신에서 대규모 클러스터까지 일관된 API로 서비스를 배포하고 관리할 수 있습니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🚀 분산 서빙</h4>
+                    <p>단일 애플리케이션으로 여러 모델(Ensemble, Pipeline)을 하나의 통합 서비스로 배포. 자동 로드 밸런싱과 내결함성을 제공합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚙️ 동적 스케일링</h4>
+                    <p>트래픽 패턴에 따라 replica 수를 자동으로 조정(Autoscaler). 리소스 사용률을 최적화하면서도 짧은 지연 시간을 보장합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 다중 프레임워크</h4>
+                    <p>PyTorch, TensorFlow, Scikit-learn, XGBoost, 임의의 Python 코드를 동일한 서빙 인프라 위에서 운영. Vendor Lock-in을 피할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 모델 서빙 솔루션 대비 Ray Serve가 제공하는 실무적 이점을 비교합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>솔루션</th>
+                        <th>주요 특징</th>
+                        <th>Ray Serve 대비 차이점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Flask/FastAPI + Gunicorn</strong></td>
+                        <td>간단한 REST API, 친숙한 생태계</td>
+                        <td>수동 스케일링, 분산 처리 부재, 모델 관리 기능 미비</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TensorFlow Serving</strong></td>
+                        <td>TF 모델 전용, 고성능</td>
+                        <td>프레임워크 종속적, 멀티 프레임워크 지원 안 됨</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KServe (KFServing)</strong></td>
+                        <td>Kubernetes 네이티브, 표준 인터페이스</td>
+                        <td>설정 복잡도 높음, Ray Serve는 KServe 위에서도 실행 가능</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Seldon Core</strong></td>
+                        <td>엔터프라이즈 기능, Advanced Metrics</td>
+                        <td>학습 곡선 가파름, Ray Serve는 더 경량화된 개발자 경험</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>💡 선택 가이드</h4>
+                <p><strong>Ray Serve를 선택해야 할 때:</strong> (1) Python 중심의 빠른 프로토타이핑과 프로덕션 전환을 원할 때, (2) 단일 인프라로 다양한 프레임워크의 모델을 서빙할 때, (3) Ray의 분산 컴퓨팅 생태계(예: Ray Train, Ray Tune)와 통합이 필요할 때.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>Ray Serve의 아키텍처는 사용자 정의 가능한 <strong>Deployment</strong>를 기본 빌딩 블록으로 하여, <strong>Ray Cluster</strong> 위에서 분산 실행됩니다.</p>
+            
+            <div class="diagram">
+Client (HTTP/gRPC) 
+        |
+        v
++-------------------------------+
+|     Ray Serve API Gateway     |
+|  (HTTP Proxy, gRPC Proxy)     |
++-------------------------------+
+        |
+        | (내부 RPC)
+        v
++-------------------------------+
+|     Deployment Graph          |
+|  +---------+  +---------+     |
+|  |   DAG   |  |  Model  |     |
+|  |  Node   |  |  A      |     |
+|  +---------+  +---------+     |
+|        |              |       |
+|        v              v       |
+|  +---------+  +---------+     |
+|  |  Model  |  |  Model  |     |
+|  |  B      |  |  C      |     |
+|  +---------+  +---------+     |
++-------------------------------+
+        |
+        | (Ray GCS - Global Control Store)
+        v
++------------------------------------------------+
+|            Ray Cluster                         |
+|  +-------------+    +-------------+            |
+|  |  Head Node  |    |  Worker     |            |
+|  |  - Serve    |    |  Node 1     |            |
+|  |  Controller |    |  - Replica  |            |
+|  |  - API      |    |  - Model A  |            |
+|  |  Gateway    |    |  + Replica  |            |
+|  +-------------+    |  - Model B  |            |
+|         |           +-------------+            |
+|         |-------------------------> +-------------+
+|                                     |  Worker     |
+|                                     |  Node N     |
+|                                     |  - Replica  |
+|                                     |  - Model C  |
+|                                     +-------------+
++------------------------------------------------+
+            </div>
+
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>Deployment</strong>: 서빙할 모델이나 로직의 단위. Python Class로 정의.</li>
+                <li><strong>Replica</strong>: Deployment의 인스턴스. 수평 확장의 기본 단위.</li>
+                <li><strong>API Gateway</strong>: 외부 요청을 받아 적절한 Replica로 라우팅.</li>
+                <li><strong>Serve Controller</strong>: Deployment의 라이프사이클(생성, 스케일링, 업데이트) 관리.</li>
+                <li><strong>Ray Cluster</strong>: 분산 실행을 위한 기반 인프라.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <p>5분 안에 첫 Ray Serve 애플리케이션을 배포해봅니다.</p>
+
+            <h3>Step 1: 설치</h3>
+            <pre><code># Ray Core + Serve 설치
+pip install "ray[serve]"</code></pre>
+            <div class="callout warn">
+                <h4>⚠️ 호환성 확인</h4>
+                <p>Python 3.8 이상 필요. Linux/macOS 환경을 권장하며, Windows는 WSL2에서 실행해야 완전한 기능을 사용할 수 있습니다.</p>
+            </div>
+
+            <h3>Step 2: 기본 애플리케이션 작성 (app.py)</h3>
+            <pre><code>from ray import serve
+from ray.serve.handle import DeploymentHandle
+import requests
+
+# 1. Deployment 정의
+@serve.deployment
+class TextProcessor:
+    def __init__(self):
+        self.prefix = "Processed: "
+
+    def process(self, text: str) -> str:
+        return self.prefix + text.upper()
+
+# 2. Deployment 그래프 구성 (Ensemble 예제)
+@serve.deployment
+class EnsembleDeployment:
+    def __init__(self, processor: DeploymentHandle):
+        self.processor = processor
+
+    async def __call__(self, request) -> dict:
+        data = await request.json()
+        text = data.get("text", "")
+        # 다른 Deployment 호출
+        processed = await self.processor.process.remote(text)
+        return {"original": text, "result": processed}
+
+# 3. 애플리케이션 빌드 및 바인딩
+processor_app = TextProcessor.bind()
+ensemble_app = EnsembleDeployment.bind(processor_app)
+
+# 또는 최신 ServeApplication API 사용
+app = ensemble_app</code></pre>
+
+            <h3>Step 3: 로컬에서 서비스 실행</h3>
+            <pre><code># 터미널 1: Ray 클러스터 시작
+ray start --head
+
+# 터미널 2: Serve 애플리케이션 배포
+serve run app:ensemble_app
+# 또는 특정 포트와 호스트 지정
+# serve run --host 0.0.0.0 --port 8000 app:ensemble_app</code></pre>
+
+            <h3>Step 4: 요청 테스트</h3>
+            <pre><code># Python 클라이언트
+import requests
+response = requests.post("http://localhost:8000/",
+                         json={"text": "hello ray serve"})
+print(response.json())
+# 출력: {"original": "hello ray serve", "result": "Processed: HELLO RAY SERVE"}
+
+# curl 사용
+curl -X POST http://localhost:8000/ \
+     -H "Content-Type: application/json" \
+     -d '{"text": "test input"}'</code></pre>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>프로덕션 배포를 위해 알아야 할 주요 Deployment 설정 옵션입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>옵션</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>실무 예시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>num_replicas</code></td>
+                        <td>1</td>
+                        <td>Deployment의 복제본 수. 수평 확장 기본 매개변수.</td>
+                        <td><code>@serve.deployment(num_replicas=4)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>autoscaling_config</code></td>
+                        <td>None</td>
+                        <td>자동 스케일링 정책. target_num_ongoing_requests_per_replica로 트래픽 기반 조정.</td>
+                        <td><code>autoscaling_config={"target_num_ongoing_requests_per_replica": 10, "min_replicas": 2, "max_replicas": 10}</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ray_actor_options</code></td>
+                        <td>{}</td>
+                        <td>Replica Actor의 리소스 설정 (num_cpus, num_gpus, memory).</td>
+                        <td><code>ray_actor_options={"num_cpus": 2, "num_gpus": 1}</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>max_concurrent_queries</code></td>
+                        <td>100</td>
+                        <td>Replica당 동시 처리 가능한 요청 수. 배치 처리 시 중요.</td>
+                        <td><code>max_concurrent_queries=5</code> (무거운 모델용)</td>
+                    </tr>
+                    <tr>
+                        <td><code>health_check_period_s</code></td>
+                        <td>10</td>
+                        <td>헬스 체크 주기(초). 비정상 Replica 자동 재시작.</td>
+                        <td><code>health_check_period_s=30</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>graceful_shutdown_timeout_s</code></td>
+                        <td>20</td>
+                        <td>우아한 종료 대기 시간. 진행 중인 요청 완료 보장.</td>
+                        <td><code>graceful_shutdown_timeout_s=60</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>📝 설정 팁</h4>
+                <p><code>@serve.deployment</code> 데코레이터의 설정은 런타임에 <code>serve.status()</code> 또는 Dashboard에서 확인 가능합니다. Kubernetes 환경에서는 <code>serve config</code>를 YAML로 익스포트하여 GitOps에 활용하세요.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <h3>🔧 자주 겪는 문제와 해결책</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제: GPU 메모리 누수</h4>
+                    <p>PyTorch/TF 모델 서빙 시 GPU 메모리가 서서히 증가.</p>
+                    <p><strong>해결:</strong> Deployment 클래스의 <code>__call__</code> 메서드 내에서 <code>torch.cuda.empty_cache()</code> 호출. 또는 <code>ray_actor_options={"num_gpus": 1}</code>로 GPU 격리.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: Cold Start 지연</h4>
+                    <p>첫 요청 시 모델 로딩으로 인한 높은 지연 시간.</p>
+                    <p><strong>해결:</strong> <code>@serve.deployment(ray_actor_options={"lifetime": "detached"})</code>로 Actor 재사용. 또는 <code>min_replicas</code>를 1 이상으로 설정하여 상시 대기.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 의존성 패키지 충돌</h4>
+                    <p>서로 다른 모델의 라이브러리 버전 요구사항 충돌.</p>
+                    <p><strong>해결:</strong> 각 Deployment를 별도의 <a href="https://docs.ray.io/en/latest/ray-core/handling-dependencies.html#runtime-environments" target="_blank">Runtime Environment</a>로 격리. <code>ray_actor_options={"runtime_env": {"pip": ["torch==1.13.1"]}}</code></p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 배포 업데이트 실패</h4>
+                    <p>새 버전 배포 시 일부 Replica가 오래된 코드 실행.</p>
+                    <p><strong>해결:</strong> Rolling Update 정책 사용. <code>serve deploy config.yaml --yes</code> 전에 <code>serve status</code>로 현재 상태 확인. 단계적 업데이트를 위해 <code>--num-old-versions-to-keep</code> 옵션 활용.</p>
+                </div>
+            </div>
+
+            <h3>🚀 성능 최적화 팁</h3>
+            <ul>
+                <li><strong>배치 처리:</strong> <code>@serve.batch</code> 데코레이터로 여러 요청을 묶어 처리하여 처리량(throughput) 극대화.</li>
+                <li><strong>메트릭 수집:</strong> 내장 <code>Counter</code>, <code>Histogram</code> 또는 Prometheus 통합으로 성능 모니터링.</li>
+                <li><strong>Ingress 컨트롤러:</strong> 프로덕션에서는 Nginx/Istio 앞에 두고, Ray Serve는 ClusterIP로 내부 서비스화.</li>
+                <li><strong>설정 관리:</strong> 모든 배포 설정을 <code>serve build</code>로 YAML 파일 생성 후 버전 관리.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.ray.io/en/latest/serve/index.html" target="_blank">📘 Ray Serve 공식 문서</a> - 가장 최신의 공식 가이드</li>
+                <li><a href="https://github.com/ray-project/ray/tree/master/python/ray/serve/examples" target="_blank">🔧 공식 예제 저장소</a> - 다양한 사용 사례 코드</li>
+                <li><a href="https://docs.ray.io/en/latest/serve/production-guide.html" target="_blank">🏭 프로덕션 가이드</a> - Kubernetes, 모니터링, 보안</li>
+                <li><a href="https://github.com/ray-project/kuberay" target="_blank">☸️ KubeRay 오퍼레이터</a> - Kubernetes에서 Ray 클러스터 운영</li>
+                <li><a href="https://serve-ray.readthedocs.io/en/latest/" target="_blank">🧪 실험적 기능</a> - 최신 알파/베타 기능 (주의 필요)</li>
+            </ul>
+            <div class="callout">
+                <h4>🎯 학습 로드맵 제안</h4>
+                <p>1. 기본 Deployment 작성 → 2. 여러 모델을 그래프로 연결 → 3. Autoscaling 및 리소스 제한 설정 → 4. Kubernetes에 배포 (KubeRay) → 5. 고급 패턴 (A/B 테스트, Canary 배포) 구현.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 Ray Serve의 핵심 개념과 실무 적용법을 요약한 것입니다. 지속적으로 발전하는 오픈소스 프로젝트이므로 공식 문서를 꼭 참고하세요.</p>
+        <p>작성일: <span class="date">2026년 3월</span> | 대상: AI 개발 엔지니어 · MLOps 엔지니어</p>
+        <p><a href="#top">▲ 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
