@@ -292,3 +292,9 @@
   tags: ["distributed", "serving", "scaling"]
   date: "2026-04-24"
   url: "/study-guides/ray-serve-study-guide.html"
+- keyword: "BentoML"
+  slug: "bentoml"
+  category: "ai-ml"
+  tags: ["model-serving", "packaging", "deployment"]
+  date: "2026-04-25"
+  url: "/study-guides/bentoml-study-guide.html"
