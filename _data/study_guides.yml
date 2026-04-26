@@ -298,3 +298,9 @@
   tags: ["model-serving", "packaging", "deployment"]
   date: "2026-04-25"
   url: "/study-guides/bentoml-study-guide.html"
+- keyword: "Triton Inference Server"
+  slug: "triton-inference-server"
+  category: "ai-ml"
+  tags: ["nvidia", "inference", "multi-framework"]
+  date: "2026-04-26"
+  url: "/study-guides/triton-inference-server-study-guide.html"
