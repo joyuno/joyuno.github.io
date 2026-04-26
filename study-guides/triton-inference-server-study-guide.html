@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Triton Inference Server 핵심 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            display: grid;
+            gap: 0.5rem;
+        }
+        .toc li {
+            padding-left: 0.5rem;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent2);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent4);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        table th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--accent4);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        .step {
+            margin-bottom: 2.5rem;
+        }
+        .step h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Triton Inference Server</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">NVIDIA</span>
+            <span class="badge">Inference</span>
+            <span class="badge">Multi-Framework</span>
+            <span class="badge">MLOps</span>
+            <span class="badge">Production</span>
+            <span class="badge">v2.41</span>
+        </div>
+        <p style="margin-top: 1rem; color: var(--text-muted);">작성일: 2026.03</p>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Triton Inference Server란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Triton Inference Server란?</h2>
+            <p>Triton Inference Server는 NVIDIA에서 개발한 오픈소스 추론 서빙 솔루션입니다. TensorFlow, PyTorch, ONNX Runtime, TensorRT 등 다양한 프레임워크와 백엔드에서 훈련된 모델을 통합적으로 서빙할 수 있는 플랫폼을 제공합니다. 클라우드, 데이터센터, 엣지 및 임베디드 환경에서 고성능 추론을 위한 설계되었습니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>다중 프레임워크 지원</h4>
+                    <p>단일 서버에서 TensorFlow, PyTorch, ONNX, TensorRT, OpenVINO, Python, DALI 등 다양한 백엔드를 동시에 실행할 수 있습니다. 모델 재훈련 시 프레임워크 전환 비용이 최소화됩니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>고성능 추론</h4>
+                    <p>동시성 모델(Concurrent Model Execution), 동적 배칭(Dynamic Batching), 모델 병렬화(Model Parallelism)를 통해 GPU 활용도를 극대화하고 처리량(Throughput)을 높입니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>생산 환경 준비</h4>
+                    <p>gRPC/HTTP 엔드포인트, 상태 점검, 모델 버전 관리, 모니터링(Metrics), Kubernetes 통합 등 MLOps 파이프라인에 바로 적용 가능한 기능을 내장하고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존의 단순한 모델 서빙 방식(TF Serving, TorchServe 단독)이나 직접 구현한 API 서버와 비교했을 때 Triton의 차별화된 가치를 확인할 수 있습니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>솔루션</th>
+                        <th>다중 프레임워크</th>
+                        <th>동적 배칭</th>
+                        <th>모델 분석기</th>
+                        <th>K8s 네이티브</th>
+                        <th>적합 시나리오</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Triton</strong></td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>복잡한 멀티프레임워크 환경, 고성능 추론</td>
+                    </tr>
+                    <tr>
+                        <td>TensorFlow Serving</td>
+                        <td>❌ (TF Only)</td>
+                        <td>⭕ (제한적)</td>
+                        <td>❌</td>
+                        <td>⭕</td>
+                        <td>TensorFlow 모델 전용 환경</td>
+                    </tr>
+                    <tr>
+                        <td>TorchServe</td>
+                        <td>❌ (PyTorch Only)</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>PyTorch 모델 전용 환경</td>
+                    </tr>
+                    <tr>
+                        <td>직접 구현 (FastAPI/Flask)</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>⭕</td>
+                        <td>단순 PoC, 제한된 트래픽</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout">
+                <p><strong>결론:</strong> 여러 프레임워크의 모델을 통합 관리하고, GPU 자원을 최대한 활용해야 하는 프로덕션 환경에서는 Triton이 명확한 이점을 가집니다.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념</h2>
+            <p>Triton의 아키텍처는 모델, 스케줄러, 백엔드로 구성된 모듈식 설계를 따릅니다. 클라이언트 요청은 스케줄러를 통해 적절한 백엔드로 라우팅되고, 백엔드는 실제 모델을 실행합니다.</p>
+            
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────┐
+│                    Triton Inference Server                          │
+├─────────────────┬─────────────────┬─────────────────┬──────────────┤
+│   HTTP/gRPC     │   Metrics       │   Health/Ready  │   Logging    │
+│   Endpoints     │   Endpoint      │   Endpoints     │              │
+└─────────────────┴────────┬────────┴─────────────────┴──────────────┘
+                           │
+            ┌──────────────▼──────────────┐
+            │      Inference Scheduler     │
+            │  ┌────────────────────────┐  │
+            │  │  Dynamic Batching      │  │
+            │  │  Sequence Batcher      │  │
+            │  │  Ensemble Scheduler    │  │
+            │  └────────────────────────┘  │
+            └──────────────┬──────────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+┌───────▼──────┐ ┌────────▼───────┐ ┌───────▼──────┐
+│   Backend    │ │    Backend     │ │   Backend    │
+│  TensorRT    │ │   PyTorch      │ │   ONNX       │
+│              │ │                │ │   Runtime    │
+└───────┬──────┘ └────────┬───────┘ └───────┬──────┘
+        │                  │                  │
+┌───────▼──────┐ ┌────────▼───────┐ ┌───────▼──────┐
+│   Model      │ │    Model       │ │   Model      │
+│  Repository  │ │  Repository    │ │  Repository  │
+│  (/models)   │ │  (/models)     │ │  (/models)   │
+└──────────────┘ └────────────────┘ └──────────────┘
+            </div>
+            
+            <h3>주요 컴포넌트</h3>
+            <ul style="padding-left: 1.5rem; margin: 1rem 0;">
+                <li><strong>모델 저장소(Model Repository)</strong>: 서빙할 모델과 설정 파일이 저장되는 디렉토리 구조.</li>
+                <li><strong>백엔드(Backend)</strong>: 특정 프레임워크(TensorRT, PyTorch 등)를 실행하는 런타임 엔진.</li>
+                <li><strong>스케줄러(Scheduler)</strong>: 요청을 배치하고 백엔드로 전달하는 정책 관리자 (동적 배칭, 시퀀스 배칭).</li>
+                <li><strong>엔드포인트</strong>: HTTP/REST (포트 8000), gRPC (포트 8001), Metrics (포트 8002)를 제공.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트</h2>
+            <p>Docker를 이용한 가장 빠른 시작 방법입니다. 5분 내에 첫 추론을 실행해봅니다.</p>
+            
+            <div class="step">
+                <h4>Step 1: Docker 컨테이너 실행</h4>
+                <div class="code-block-title">CLI</div>
+                <pre><code># 최신 Triton 서버 컨테이너 실행
+docker run --gpus=all --rm -p 8000:8000 -p 8001:8001 -p 8002:8002 \
+  -v /path/to/your/model/repository:/models \
+  nvcr.io/nvidia/tritonserver:24.01-py3 \
+  tritonserver --model-repository=/models</code></pre>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">`/path/to/your/model/repository`를 실제 모델 저장소 경로로 변경하세요.</p>
+            </div>
+
+            <div class="step">
+                <h4>Step 2: 모델 저장소 준비 (예: ONNX 모델)</h4>
+                <div class="code-block-title">디렉토리 구조</div>
+                <pre><code>model_repository/
+└── resnet50_onnx
+    ├── 1
+    │   └── model.onnx
+    └── config.pbtxt</code></pre>
+                
+                <div class="code-block-title">config.pbtxt (최소 구성)</div>
+                <pre><code>name: "resnet50_onnx"
+platform: "onnxruntime_onnx"
+max_batch_size: 8
+input [
+  {
+    name: "input"
+    data_type: TYPE_FP32
+    dims: [ 3, 224, 224 ]
+  }
+]
+output [
+  {
+    name: "output"
+    data_type: TYPE_FP32
+    dims: [ 1000 ]
+  }
+]</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 3: Python 클라이언트로 추론 요청</h4>
+                <div class="code-block-title">Python (tritonclient 사용)</div>
+                <pre><code>import tritonclient.http as httpclient
+import numpy as np
+
+# 클라이언트 연결
+client = httpclient.InferenceServerClient(url="localhost:8000")
+
+# 입력 데이터 준비 (예: 더미 이미지)
+input_data = np.random.randn(1, 3, 224, 224).astype(np.float32)
+
+# 요청 생성
+inputs = [httpclient.InferInput("input", input_data.shape, "FP32")]
+inputs[0].set_data_from_numpy(input_data)
+outputs = [httpclient.InferRequestedOutput("output")]
+
+# 추론 실행
+response = client.infer(model_name="resnet50_onnx", inputs=inputs, outputs=outputs)
+
+# 결과 확인
+result = response.as_numpy("output")
+print(f"추론 결과 shape: {result.shape}")
+print(f"예측 클래스: {np.argmax(result)}")</code></pre>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">`pip install tritonclient[http] numpy`로 클라이언트 라이브러리를 설치하세요.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>모델 설정 파일(`config.pbtxt`)에서 자주 사용하는 주요 옵션들입니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>옵션</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>예시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>platform</code></td>
+                        <td>- (필수)</td>
+                        <td>사용할 백엔드 플랫폼</td>
+                        <td><code>"onnxruntime_onnx"</code>, <code>"pytorch_libtorch"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>max_batch_size</code></td>
+                        <td>0 (배치 비활성화)</td>
+                        <td>동적 배칭 시 최대 배치 크기</td>
+                        <td><code>32</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>instance_group</code></td>
+                        <td>count:1, KIND:GPU</td>
+                        <td>모델 인스턴스 배치 방식</td>
+                        <td><code>{ count: 2, kind: KIND_GPU }</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>dynamic_batching</code></td>
+                        <td>비활성화</td>
+                        <td>동적 배칭 설정</td>
+                        <td><code>{ preferred_batch_size: [4,8], max_queue_delay_microseconds: 1000 }</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>optimization</code></td>
+                        <td>-</td>
+                        <td>실행 최적화 설정</td>
+                        <td><code>{ cuda { graphs: true } }</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>model_warmup</code></td>
+                        <td>-</td>
+                        <td>서버 시작 시 모델 워밍업</td>
+                        <td><code>[ { batch_size: 1, inputs: {...} } ]</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout">
+                <p><strong>동적 배칭 설정 예시:</strong> 지연 시간을 희생하여 처리량을 극대화할 때 유용합니다. `max_queue_delay_microseconds`를 조절하여 latency-throughput 트레이드오프를 관리하세요.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <h3>자주 겪는 문제</h3>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제 1: 모델 로드 실패 (UNSUPPORTED)</h4>
+                    <p><strong>증상:</strong> "Unsupported model platform ..." 에러.</p>
+                    <p><strong>원인:</strong> `config.pbtxt`의 `platform` 값이 잘못되었거나 해당 백엔드가 컨테이너에 포함되지 않음.</p>
+                    <p><strong>해결:</strong>
+                        1. 공식 문서로 정확한 platform 문자열 확인.<br>
+                        2. 필요한 백엔드가 포함된 컨테이너 태그 사용 (예: `-py3` 태그는 Python 백엔드 포함).
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 2: GPU 메모리 부족 (OOM)</h4>
+                    <p><strong>증상:</strong> CUDA out of memory 에러.</p>
+                    <p><strong>원인:</strong> 너무 많은 모델 인스턴스 또는 큰 `max_batch_size` 설정.</p>
+                    <p><strong>해결:</strong>
+                        1. `instance_group`의 `count`를 줄이기.<br>
+                        2. `max_batch_size`를 낮추기.<br>
+                        3. `optimization { cuda { graphs: true } }`로 메모리 재사용 활성화.
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 3: 높은 지연 시간(Latency)</h4>
+                    <p><strong>증상:</strong> 개별 요청 처리 시간이 너무 김.</p>
+                    <p><strong>원인:</strong> 동적 배칭 대기 시간, 작은 배치 크기, CPU-GPU 데이터 전송 병목.</p>
+                    <p><strong>해결:</strong>
+                        1. `dynamic_batching`의 `max_queue_delay_microseconds`를 줄이기.<br>
+                        2. 클라이언트에서 배치 요청을 보내기.<br>
+                        3. 입력 데이터를 GPU 메모리에 유지(Zero-copy).
+                    </p>
+                </div>
+            </div>
+            
+            <h3>성능 최적화 팁</h3>
+            <ul style="padding-left: 1.5rem; margin: 1rem 0;">
+                <li><strong>모델 분석기 사용:</strong> `perf_analyzer` 도구로 병목 지점을 찾고 최적의 배치 크기를 결정하세요.</li>
+                <li><strong>TensorRT 백엔드:</strong> 가능하면 모델을 TensorRT로 변환하여 최대 성능을 끌어내세요.</li>
+                <li><strong>모니터링:</strong> Prometheus 메트릭(포트 8002)을 수집하여 리소스 사용량과 처리량을 지속적으로 관찰하세요.</li>
+                <li><strong>Kubernetes 배포:</strong> NVIDIA Kubernetes Device Plugin과 함께 사용하여 GPU 리소스 관리를 효율화하세요.</li>
+            </ul>
+            
+            <div class="callout warn">
+                <p><strong>주의:</strong> 프로덕션 배포 전 반드시 부하 테스트를 수행하세요. Triton의 동적 배칭은 트래픽 패턴에 민감하게 반응합니다.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul style="padding-left: 1.5rem; margin: 1rem 0;">
+                <li><a href="https://github.com/triton-inference-server/server" target="_blank">공식 GitHub 레포지토리</a> - 소스 코드 및 이슈 트래킹</li>
+                <li><a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs" target="_blank">공식 사용자 가이드</a> - 가장 상세한 문서</li>
+                <li><a href="https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver" target="_blank">NGC 컨테이너 카탈로그</a> - 공식 Docker 이미지</li>
+                <li><a href="https://github.com/triton-inference-server/client" target="_blank">클라이언트 라이브러리</a> - 다양한 언어용 클라이언트</li>
+                <li><a href="https://github.com/triton-inference-server/tutorials" target="_blank">공식 튜토리얼</a> - 단계별 학습 자료</li>
+                <li><a href="https://developer.nvidia.com/blog/optimizing-inference-performance-with-nvidia-triton-inference-server/" target="_blank">성능 최적화 블로그</a> - NVIDIA 기술 블로그</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 Triton Inference Server의 실무 적용을 위한 핵심 요약입니다. 지속적인 업데이트를 위해 공식 문서를 참고하세요.</p>
+        <p style="margin-top: 1rem;">© 2026 AI/MLOps Engineering Study Group | <a href="#top">맨 위로</a></p>
+    </footer>
+</body>
+</html>
