@@ -304,3 +304,9 @@
   tags: ["nvidia", "inference", "multi-framework"]
   date: "2026-04-26"
   url: "/study-guides/triton-inference-server-study-guide.html"
+- keyword: "Pinecone"
+  slug: "pinecone"
+  category: "ai-ml"
+  tags: ["vector-db", "rag", "managed"]
+  date: "2026-04-27"
+  url: "/study-guides/pinecone-study-guide.html"
