@@ -310,3 +310,9 @@
   tags: ["vector-db", "rag", "managed"]
   date: "2026-04-27"
   url: "/study-guides/pinecone-study-guide.html"
+- keyword: "Great Expectations"
+  slug: "great-expectations"
+  category: "data-engineering"
+  tags: ["data-quality", "validation", "testing"]
+  date: "2026-04-28"
+  url: "/study-guides/great-expectations-study-guide.html"
