@@ -316,3 +316,9 @@
   tags: ["data-quality", "validation", "testing"]
   date: "2026-04-28"
   url: "/study-guides/great-expectations-study-guide.html"
+- keyword: "Qdrant"
+  slug: "qdrant"
+  category: "ai-ml"
+  tags: ["vector-db", "rust", "open-source"]
+  date: "2026-04-28"
+  url: "/study-guides/qdrant-study-guide.html"
