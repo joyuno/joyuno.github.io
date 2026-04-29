@@ -322,3 +322,9 @@
   tags: ["vector-db", "rust", "open-source"]
   date: "2026-04-28"
   url: "/study-guides/qdrant-study-guide.html"
+- keyword: "Monte Carlo"
+  slug: "monte-carlo"
+  category: "data-engineering"
+  tags: ["data-observability", "monitoring"]
+  date: "2026-04-29"
+  url: "/study-guides/monte-carlo-study-guide.html"
