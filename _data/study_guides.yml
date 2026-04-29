@@ -328,3 +328,9 @@
   tags: ["data-observability", "monitoring"]
   date: "2026-04-29"
   url: "/study-guides/monte-carlo-study-guide.html"
+- keyword: "Milvus"
+  slug: "milvus"
+  category: "ai-ml"
+  tags: ["vector-db", "distributed", "open-source"]
+  date: "2026-04-29"
+  url: "/study-guides/milvus-study-guide.html"
