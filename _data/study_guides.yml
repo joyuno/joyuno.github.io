@@ -340,3 +340,9 @@
   tags: ["unified-processing", "batch", "stream"]
   date: "2026-04-30"
   url: "/study-guides/apache-beam-study-guide.html"
+- keyword: "Weaviate"
+  slug: "weaviate"
+  category: "ai-ml"
+  tags: ["vector-db", "multimodal", "rag"]
+  date: "2026-04-30"
+  url: "/study-guides/weaviate-study-guide.html"
