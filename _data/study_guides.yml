@@ -334,3 +334,9 @@
   tags: ["vector-db", "distributed", "open-source"]
   date: "2026-04-29"
   url: "/study-guides/milvus-study-guide.html"
+- keyword: "Apache Beam"
+  slug: "apache-beam"
+  category: "data-engineering"
+  tags: ["unified-processing", "batch", "stream"]
+  date: "2026-04-30"
+  url: "/study-guides/apache-beam-study-guide.html"
