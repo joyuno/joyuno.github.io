@@ -352,3 +352,9 @@
   tags: ["query-engine", "distributed-sql", "federation"]
   date: "2026-05-01"
   url: "/study-guides/trino-study-guide.html"
+- keyword: "Evidently AI"
+  slug: "evidently-ai"
+  category: "ai-ml"
+  tags: ["model-monitoring", "drift-detection"]
+  date: "2026-05-01"
+  url: "/study-guides/evidently-ai-study-guide.html"
