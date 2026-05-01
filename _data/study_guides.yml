@@ -346,3 +346,9 @@
   tags: ["vector-db", "multimodal", "rag"]
   date: "2026-04-30"
   url: "/study-guides/weaviate-study-guide.html"
+- keyword: "Trino"
+  slug: "trino"
+  category: "data-engineering"
+  tags: ["query-engine", "distributed-sql", "federation"]
+  date: "2026-05-01"
+  url: "/study-guides/trino-study-guide.html"
