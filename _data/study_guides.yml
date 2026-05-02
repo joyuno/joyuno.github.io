@@ -358,3 +358,9 @@
   tags: ["model-monitoring", "drift-detection"]
   date: "2026-05-01"
   url: "/study-guides/evidently-ai-study-guide.html"
+- keyword: "ClickHouse"
+  slug: "clickhouse"
+  category: "data-engineering"
+  tags: ["olap", "columnar", "analytics"]
+  date: "2026-05-02"
+  url: "/study-guides/clickhouse-study-guide.html"
