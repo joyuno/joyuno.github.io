@@ -364,3 +364,9 @@
   tags: ["olap", "columnar", "analytics"]
   date: "2026-05-02"
   url: "/study-guides/clickhouse-study-guide.html"
+- keyword: "ZenML"
+  slug: "zenml"
+  category: "ai-ml"
+  tags: ["mlops", "llmops", "pipeline"]
+  date: "2026-05-02"
+  url: "/study-guides/zenml-study-guide.html"
