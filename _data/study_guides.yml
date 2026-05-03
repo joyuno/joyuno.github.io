@@ -376,3 +376,9 @@
   tags: ["olap", "embedded", "analytics"]
   date: "2026-05-03"
   url: "/study-guides/duckdb-study-guide.html"
+- keyword: "DVC"
+  slug: "dvc"
+  category: "ai-ml"
+  tags: ["data-versioning", "experiment", "git"]
+  date: "2026-05-03"
+  url: "/study-guides/dvc-study-guide.html"
