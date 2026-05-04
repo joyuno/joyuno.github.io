@@ -382,3 +382,9 @@
   tags: ["data-versioning", "experiment", "git"]
   date: "2026-05-03"
   url: "/study-guides/dvc-study-guide.html"
+- keyword: "Polars"
+  slug: "polars"
+  category: "data-engineering"
+  tags: ["dataframe", "rust", "performance"]
+  date: "2026-05-04"
+  url: "/study-guides/polars-study-guide.html"

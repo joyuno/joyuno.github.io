@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실무자를 위한 Polars 핵심 가이드</title>
+    <title>Polars에 대한 실무 스터디 가이드</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -19,18 +19,18 @@
             --danger: #f85149;
         }
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         body {
-            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
             color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            padding: 0 20px;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem 1rem;
         }
         a {
             color: var(--accent);
@@ -39,512 +39,452 @@
         a:hover {
             text-decoration: underline;
         }
+        h1, h2, h3 {
+            color: var(--text);
+        }
         .hero {
             text-align: center;
-            padding: 4rem 1rem;
-            border-bottom: 1px solid var(--border);
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+            border-radius: 1rem;
             margin-bottom: 3rem;
+            border: 1px solid var(--border);
         }
         .hero h1 {
             font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            margin: 0 0 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
         }
         .hero .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            margin: 0 0 2rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
         }
-        .meta-badges {
+        .hero .badges {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 1rem;
             flex-wrap: wrap;
         }
         .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
         }
         .toc {
-            background-color: var(--surface);
-            padding: 1.5rem 2rem;
-            border-radius: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
             margin-bottom: 3rem;
-            border-left: 4px solid var(--accent);
         }
         .toc ol {
-            list-style-position: inside;
-            margin-left: 1rem;
+            list-style: none;
+            padding: 0;
         }
         .toc li {
-            margin-bottom: 0.5rem;
+            margin: 1rem 0;
+        }
+        .toc a {
+            font-size: 1.1rem;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background 0.2s;
+        }
+        .toc a:hover {
+            background: var(--surface2);
         }
         .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
         }
         .section h2 {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--accent);
+            margin: 0 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .section h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent2);
+        .section h2::before {
+            content: attr(data-num);
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
         }
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             margin: 2rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
+            background: var(--surface2);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            border-radius: 0.5rem;
             padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: box-shadow 0.2s;
         }
         .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            box-shadow: 0 0 1rem rgba(88, 166, 255, 0.2);
         }
-        .concept-card h4 {
-            color: var(--accent3);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
+        .concept-card h3 {
+            margin: 0 0 1rem;
+            color: var(--accent);
         }
         .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.2rem;
-            border-radius: 0 8px 8px 0;
-            margin: 1.5rem 0;
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
         }
         .callout.warn {
             border-left-color: var(--danger);
         }
         .diagram {
-            background-color: var(--surface);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
             padding: 1.5rem;
-            border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
-            line-height: 1.4;
-            overflow-x: auto;
             white-space: pre;
+            overflow-x: auto;
             margin: 2rem 0;
-            border: 1px solid var(--border);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background-color: var(--surface);
+            background: var(--surface2);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
         }
         th, td {
-            border: 1px solid var(--border);
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             text-align: left;
+            border-bottom: 1px solid var(--border);
         }
         th {
-            background-color: var(--surface2);
+            background: var(--surface);
             color: var(--accent);
+            font-weight: bold;
         }
         tr:nth-child(even) {
-            background-color: rgba(255,255,255,0.03);
+            background: var(--bg);
         }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        tr:hover {
+            background: var(--surface2);
         }
         pre {
-            padding: 1.2rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
             overflow-x: auto;
-            margin: 1rem 0;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        .code-block-title {
-            background-color: var(--surface2);
-            color: var(--accent4);
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
+            margin: 1.5rem 0;
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
-            margin-top: 1.5rem;
         }
-        footer {
+        code {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            color: var(--accent);
+        }
+        ul, ol {
+            padding-left: 2rem;
+        }
+        .footer {
             text-align: center;
             padding: 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            margin-top: 3rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
         }
         @media (max-width: 768px) {
-            body {
-                padding: 0 10px;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .concept-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero h1 { font-size: 2rem; }
+            .section { padding: 1.5rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <section class="hero" id="top">
-        <h1>Polars 실무 스터디 가이드</h1>
+    <section class="hero">
+        <h1>Polars에 대한 실무 스터디 가이드</h1>
         <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">DataFrame</span>
-            <span class="badge">Rust</span>
-            <span class="badge">Performance</span>
-            <span class="badge">빅데이터</span>
-            <span class="badge">Python</span>
-            <span class="badge">2026.03</span>
+        <div class="badges">
+            <span class="badge">dataframe</span>
+            <span class="badge">rust</span>
+            <span class="badge">performance</span>
         </div>
     </section>
 
-    <section class="toc">
+    <nav class="toc">
         <h2>목차</h2>
         <ol>
-            <li><a href="#section1">Polars란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#sec1">1. Polars란?</a></li>
+            <li><a href="#sec2">2. 왜 써야 하는가?</a></li>
+            <li><a href="#sec3">3. 핵심 개념</a></li>
+            <li><a href="#sec4">4. 퀵스타트</a></li>
+            <li><a href="#sec5">5. 핵심 설정 레퍼런스</a></li>
+            <li><a href="#sec6">6. 실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#sec7">7. 참고 자료</a></li>
         </ol>
-    </section>
+    </nav>
 
-    <section class="section" id="section1">
-        <h2>1. Polars란?</h2>
-        <p>Polars는 <strong>Rust</strong>로 작성된 고성능 DataFrame 라이브러리로, Apache Arrow 칼럼형 메모리 포맷을 기반으로 합니다. Python, Rust, Node.js에서 사용 가능하며, 특히 대용량 데이터 처리와 멀티코어 연산에 최적화되어 있습니다.</p>
+    <section class="section" id="sec1">
+        <h2 data-num="1">Polars란?</h2>
+        <p>Polars는 Rust로 작성된 고성능 <strong>DataFrame 라이브러리</strong>입니다. Pandas와 유사한 API를 제공하면서도, Rust의 메모리 안전성과 병렬 처리 능력을 활용해 대규모 데이터 처리에 최적화되어 있습니다. 데이터 엔지니어와 데이터 사이언티스트가 실무에서 자주 마주하는 빅데이터 워크로드를 10~100배 빠르게 처리할 수 있습니다.</p>
+        <p>Polars의 3대 핵심 능력을 카드로 요약하면 다음과 같습니다:</p>
         <div class="concept-grid">
             <div class="concept-card">
-                <h4>⚡ 벡터화 & 지연 실행</h4>
-                <p>쿼리 최적화를 위한 지연 실행(Lazy API)과 SIMD를 활용한 벡터화 연산으로 Pandas 대비 수십 배 빠른 성능을 제공합니다.</p>
+                <h3>🔥 Blazing Fast Performance</h3>
+                <p>Rust 기반의 쿼리 엔진으로, Pandas 대비 10~30배 빠른 속도. Arrow 메모리 포맷을 사용해 제로-카피 연산 지원.</p>
             </div>
             <div class="concept-card">
-                <h4>📊 아웃오브코어 처리</h4>
-                <p>메모리보다 큰 데이터셋을 스트리밍 방식으로 처리할 수 있습니다. 자동 청킹과 병렬 I/O로 대용량 파일 처리에 강점이 있습니다.</p>
+                <h3>💤 Lazy Evaluation</h3>
+                <p>연산을 즉시 실행하지 않고 쿼리 플랜을 최적화한 후 한 번에 실행. 메모리 효율성과 성능 극대화.</p>
             </div>
             <div class="concept-card">
-                <h4>🔗 멀티코어 병렬화</h4>
-                <p>Rust의 안전한 동시성 모델을 기반으로 데이터 파티션을 여러 스레드에 분배하여 모든 CPU 코어를 효율적으로 활용합니다.</p>
+                <h3>⚡ Multi-threaded</h3>
+                <p>자동 멀티스레딩 지원. CPU 코어 수에 따라 병렬 처리로 대용량 데이터셋을 효율적으로 핸들링.</p>
             </div>
+        </div>
+        <div class="callout">
+            <strong>실무 포인트:</strong> Polars는 Python, Rust, Node.js 등 다중 언어 바인딩을 지원하며, Apache Arrow와 완벽 호환되어 ETL 파이프라인에 이상적입니다.
         </div>
     </section>
 
-    <section class="section" id="section2">
-        <h2>2. 왜 써야 하는가?</h2>
-        <p>기존 도구 대비 Polars의 장점을 비교합니다.</p>
+    <section class="section" id="sec2">
+        <h2 data-num="2">왜 써야 하는가?</h2>
+        <p>Pandas가 표준이지만, GB 단위 데이터에서 메모리 초과와 느린 속도가 문제입니다. Polars는 이러한 한계를 극복하며, Dask나 Vaex 같은 대안과 비교해도 우수합니다.</p>
         <table>
             <thead>
                 <tr>
-                    <th>도구</th>
-                    <th>장점</th>
-                    <th>단점</th>
-                    <th>Polars 대비</th>
+                    <th>라이브러리</th>
+                    <th>언어</th>
+                    <th>속도 (상대적)</th>
+                    <th>메모리 효율</th>
+                    <th>Lazy Eval</th>
+                    <th>멀티스레드</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Pandas</strong></td>
-                    <td>풍부한 생태계, 쉬운 문법</td>
-                    <td>단일 스레드, 메모리 제한, 대용량 데이터 느림</td>
-                    <td>성능 5~50배 향상, 아웃오브코어 지원</td>
+                    <td>Pandas</td>
+                    <td>Python</td>
+                    <td>1x</td>
+                    <td>낮음</td>
+                    <td>없음</td>
+                    <td>부분</td>
                 </tr>
                 <tr>
-                    <td><strong>PySpark</strong></td>
-                    <td>분산 처리, 빅데이터 생태계</td>
-                    <td>설정 복잡, 오버헤드 큼, 작은 데이터에 비효율</td>
-                    <td>설정 간단, 싱글 머신에서 더 빠름, Python 네이티브</td>
+                    <td>Dask</td>
+                    <td>Python</td>
+                    <td>2~5x</td>
+                    <td>중간 (분산)</td>
+                    <td>있음</td>
+                    <td>있음 (분산)</td>
                 </tr>
                 <tr>
-                    <td><strong>Dask</strong></td>
-                    <td>분산 처리, Pandas API 호환</td>
-                    <td>오버헤드 존재, 최적화 제한적</td>
-                    <td>더 낮은 오버헤드, Rust 기반 최적화</td>
+                    <td>Polars</td>
+                    <td>Rust/Python</td>
+                    <td>10~100x</td>
+                    <td>높음</td>
+                    <td>있음</td>
+                    <td>완전</td>
+                </tr>
+                <tr>
+                    <td>Modin</td>
+                    <td>Python</td>
+                    <td>3~10x</td>
+                    <td>중간</td>
+                    <td>부분</td>
+                    <td>부분</td>
                 </tr>
             </tbody>
         </table>
-        <div class="callout">
-            <strong>💡 선택 가이드:</strong> 싱글 머신에서 GB~TB급 데이터를 빠르게 처리해야 한다면 Polars가 최선의 선택입니다. 클러스터 환경에서 PB급 데이터를 다루거나 기존 Spark 파이프라인이 있다면 PySpark를 고려하세요.
-        </div>
+        <p><strong>결론:</strong> 실무에서 1GB+ 데이터셋 처리 시 Polars가 압도적. Pandas 코드 80% 호환으로 마이그레이션 용이.</p>
     </section>
 
-    <section class="section" id="section3">
-        <h2>3. 핵심 개념</h2>
-        <p>Polars의 아키텍처는 지연 실행 엔진을 중심으로 구성됩니다.</p>
-        <div class="diagram">
-    [사용자 코드: Lazy API]
-            |
-            v
-    +-----------------------+
-    | 논리적 실행 계획 생성 |
-    |  - 필터, 조인, 그룹화 |
-    +-----------------------+
-            |
-            v
-    +-----------------------+
-    |   최적화 엔진         |
-    |  - Predicate Pushdown |
-    |  - Projection Pruning |
-    |  - 연산 재정렬        |
-    +-----------------------+
-            |
-            v
-    +-----------------------+
-    | 물리적 실행 계획 변환 |
-    |  - 스레드 풀 분배     |
-    |  - 메모리 관리        |
-    +-----------------------+
-            |
-            v
-    +-----------------------+
-    |  멀티코어 실행        |
-    |  (Apache Arrow 메모리)|
-    +-----------------------+
-        </div>
-        <h3>주요 용어</h3>
+    <section class="section" id="sec3">
+        <h2 data-num="3">핵심 개념</h2>
+        <p>Polars의 아키텍처는 <strong>Query Engine</strong> 중심입니다. Eager 모드(DataFrame)와 Lazy 모드(LazyFrame)를 지원하며, Streaming 모드로 초대용량 데이터 처리 가능.</p>
         <ul>
-            <li><strong>LazyFrame</strong>: 지연 실행 모드의 DataFrame. <code>.collect()</code> 호출 시까지 실행되지 않음.</li>
-            <li><strong>Expression</strong>: 컬럼에 대한 변환/집계 연산을 정의하는 객체. (<code>pl.col("col") * 2</code>)</li>
-            <li><strong>Predicate Pushdown</strong>: 필터를 데이터 읽기 단계로 밀어내어 I/O 줄이는 최적화.</li>
-            <li><strong>Projection Pruning</strong>: 필요한 컬럼만 선택적으로 읽어오는 최적화.</li>
+            <li><strong>DataFrame:</strong> 즉시 실행(Eager).</li>
+            <li><strong>LazyFrame:</strong> 쿼리 최적화 후 실행.</li>
+            <li><strong>Expression:</strong> 컬럼 단위 연산.</li>
+            <li><strong>GroupBy / Join:</strong> 고성능 집계/조인.</li>
         </ul>
+        <div class="diagram">
++-------------------+       +-------------------+
+|     DataFrame     |       |    LazyFrame      |
+|  (Eager Mode)     | ----> |  (Lazy Mode)      |
++-------------------+       +-------------------+
+                                 |
+                                 v
+                       +-------------------+
+                       |   Query Optimizer |
+                       | (Predicate Push-  |
+                       |     down, etc.)   |
+                       +-------------------+
+                                 |
+                                 v
+                       +-------------------+
+                       |  Execution Engine |
+                       |   (Multi-thread)  |
+                       +-------------------+
+                                 |
+                                 v
+                       +-------------------+
+                       |   Result (DF)     |
+                       +-------------------+
+        </div>
+        <p>위 다이어그램처럼 LazyFrame은 쿼리를 최적화(프레디케이트 푸시다운, 프로젝션 푸시다운)한 후 병렬 실행됩니다.</p>
     </section>
 
-    <section class="section" id="section4">
-        <h2>4. 퀵스타트</h2>
-        <h3>단계 1: 설치</h3>
-        <div class="code-block-title">Terminal</div>
-        <pre><code># 기본 설치
-pip install polars
-
-# 모든 기능 포함 (파케이, 아로우 등)
-pip install "polars[all]"
-
-# 또는 conda
-conda install -c conda-forge polars</code></pre>
-
-        <h3>단계 2: 기본 사용법</h3>
-        <div class="code-block-title">Python</div>
+    <section class="section" id="sec4">
+        <h2 data-num="4">퀵스타트</h2>
+        <p>단계별로 시작해 보세요.</p>
+        <h3>1. 설치</h3>
+        <pre><code>pip install polars[all]</code></pre>
+        <p>CLI 도구(pv) 포함 설치.</p>
+        <h3>2. 기본 설정</h3>
         <pre><code>import polars as pl
 
-# 데이터 읽기 (CSV, Parquet, JSON 등)
-df = pl.read_csv("large_data.csv")
-
-# 지연 실행 모드 (대용량에 권장)
-lazy_df = pl.scan_csv("very_large_data.csv")
-
-# 필터, 선택, 집계
-result = (lazy_df
-          .filter(pl.col("price") > 100)
-          .group_by("category")
-          .agg(pl.col("sales").sum())
-          .collect()  # 실제 실행
-        )
-
-print(result)</code></pre>
-
-        <h3>단계 3: 첫 실습 예제</h3>
-        <div class="code-block-title">Python</div>
+pl.Config.set_tbl_rows(100)  # 테이블 출력 행 수
+pl.Config.set_tbl_width_chars(120)  # 테이블 너비
+</code></pre>
+        <h3>3. 첫 예제</h3>
         <pre><code>import polars as pl
 import numpy as np
 
-# 샘플 데이터 생성
+# DataFrame 생성
 df = pl.DataFrame({
-    "id": range(100_000),
-    "value": np.random.randn(100_000),
-    "group": np.random.choice(["A", "B", "C"], 100_000)
+    "a": [1, 2, 3, 4],
+    "b": ["w", "x", "y", "z"]
 })
 
-# 성능 비교: 즉시 실행 vs 지연 실행
-# 1. 즉시 실행 (Eager)
-eager_time = %timeit -o df.filter(pl.col("value") > 0).group_by("group").agg(pl.mean("value"))
+print(df)
 
-# 2. 지연 실행 (Lazy)
-lazy_df = df.lazy()
-lazy_time = %timeit -o lazy_df.filter(pl.col("value") > 0).group_by("group").agg(pl.mean("value")).collect()
+# LazyFrame으로 변환
+lf = df.lazy()
 
-print(f"지연 실행이 {eager_time.average / lazy_time.average:.1f}배 빠름")</code></pre>
+# 필터 + 그룹바이
+result = lf.filter(pl.col("a") > 2).group_by("b").agg(pl.col("a").sum()).collect()
+print(result)
+</code></pre>
+        <h3>4. CSV 로드 (CLI 예제)</h3>
+        <pre><code>pv read-csv data.csv --infer-schema-length 10000 | pv group-by category --agg sum(value) > output.csv</code></pre>
+        <p>이제 대규모 CSV를 1분 만에 처리해 보세요!</p>
     </section>
 
-    <section class="section" id="section5">
-        <h2>5. 핵심 설정 레퍼런스</h2>
+    <section class="section" id="sec5">
+        <h2 data-num="5">핵심 설정 레퍼런스</h2>
         <table>
             <thead>
                 <tr>
                     <th>설정</th>
-                    <th>기본값</th>
                     <th>설명</th>
-                    <th>실무 권장값</th>
+                    <th>기본값</th>
+                    <th>예제</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><code>pl.Config.set_streaming_chunk_size</code></td>
-                    <td>50,000</td>
-                    <td>스트리밍 처리 시 청크 크기</td>
-                    <td>100,000 ~ 500,000 (메모리 여유에 따라)</td>
+                    <td>pl.Config.set_tbl_rows</td>
+                    <td>테이블 출력 행 수</td>
+                    <td>100</td>
+                    <td>pl.Config.set_tbl_rows(50)</td>
                 </tr>
                 <tr>
-                    <td><code>pl.Config.set_global_string_cache</code></td>
-                    <td>False</td>
-                    <td>전역 문자열 캐시 (카테고리 데이터에 유리)</td>
-                    <td>True (범주형 데이터 많을 때)</td>
+                    <td>pl.Config.set_tbl_cols</td>
+                    <td>테이블 출력 컬럼 수</td>
+                    <td>auto</td>
+                    <td>pl.Config.set_tbl_cols(10)</td>
                 </tr>
                 <tr>
-                    <td><code>pl.Config.set_tbl_rows</code></td>
-                    <td>20</td>
-                    <td>표시할 행 수</td>
-                    <td>100 (디버깅 시)</td>
+                    <td>pl.Config.set_tbl_width_chars</td>
+                    <td>테이블 너비 (chars)</td>
+                    <td>80</td>
+                    <td>pl.Config.set_tbl_width_chars(200)</td>
                 </tr>
                 <tr>
-                    <td><code>pl.Config.set_fmt_str_lengths</code></td>
-                    <td>없음</td>
-                    <td>문자열 표시 길이 제한</td>
-                    <td>50 (가독성)</td>
+                    <td>pl.Config.set_fmt_str_lengths</td>
+                    <td>문자열 길이 포맷</td>
+                    <td>50</td>
+                    <td>pl.Config.set_fmt_str_lengths(25)</td>
                 </tr>
                 <tr>
-                    <td><code>pl.Config.set_verbose</code></td>
-                    <td>False</td>
-                    <td>실행 계획 상세 출력</td>
-                    <td>True (성능 분석 시)</td>
+                    <td>pl.Config.set_float_precision</td>
+                    <td>부동소수점 정밀도</td>
+                    <td>3</td>
+                    <td>pl.Config.set_float_precision(6)</td>
                 </tr>
             </tbody>
         </table>
-        <div class="code-block-title">Python: 설정 적용 예시</div>
-        <pre><code># 성능 최적화 설정
-pl.Config.set_global_string_cache(True)
-pl.Config.set_streaming_chunk_size(100_000)
-
-# 메모리 사용량 모니터링 활성화
-pl.Config.set_verbose(True)
-
-# 실행 계획 시각화 (그래프 생성)
-lazy_df = pl.scan_csv("data.csv").filter(pl.col("x") > 0)
-print(lazy_df.show_graph())</code></pre>
-    </section>
-
-    <section class="section" id="section6">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
         <div class="callout">
-            <strong>🚀 성능 팁</strong>
-            <ul>
-                <li><code>.scan_parquet()</code>가 <code>.read_parquet()</code>보다 대용량에서 효율적입니다.</li>
-                <li>조인 시 작은 테이블을 왼쪽에 배치하면 성능이 향상됩니다.</li>
-                <li>반복적인 필터링보다 한 번에 여러 조건을 결합하세요.</li>
-            </ul>
+            <strong>팁:</strong> pl.Config를 컨텍스트 매니저로 사용: <code>with pl.Config(tbl_rows=20): print(df)</code>
         </div>
-
-        <div class="callout warn">
-            <strong>⚠️ 자주 겪는 문제</strong>
-            <ul>
-                <li><strong>메모리 부족</strong>: <code>streaming=True</code> 옵션으로 스트리밍 모드 사용.</li>
-                <li><strong>Pandas 호환성</strong>: <code>.to_pandas()</code>는 메모리 복사가 발생하므로 필요한 경우만 사용.</li>
-                <li><strong>문자열 처리 느림</strong>: 정규식 대신 <code>.str.contains()</code>의 리터럴 모드 사용.</li>
-                <li><strong>조인 실패</strong>: 문자열 컬럼 조인 시 <code>set_global_string_cache(True)</code> 설정 확인.</li>
-            </ul>
-        </div>
-
-        <h3>디버깅 예시</h3>
-        <div class="code-block-title">Python: 실행 계획 분석</div>
-        <pre><code>lazy_df = (pl.scan_csv("sales.csv")
-           .filter(pl.col("amount") > 1000)
-           .group_by("region", "product")
-           .agg(pl.sum("amount").alias("total"))
-           .sort("total", descending=True))
-
-# 실행 계획 출력
-print(lazy_df.explain())
-
-# 최적화된 계획 출력
-print(lazy_df.explain(optimized=True))
-
-# 실제 실행 및 프로파일링
-result = lazy_df.collect(profile=True)
-print(result.profile)</code></pre>
     </section>
 
-    <section class="section" id="section7">
-        <h2>7. 참고 자료</h2>
+    <section class="section" id="sec6">
+        <h2 data-num="6">실무 팁 & 트러블슈팅</h2>
+        <h3>자주 겪는 문제 1: 메모리 초과 (OOM)</h3>
+        <div class="callout warn">
+            <strong>문제:</strong> 대용량 데이터 로드 시 OOM.<br>
+            <strong>해결:</strong> LazyFrame + Streaming 사용. <code>lf.sink_parquet("output.parquet", compression="lz4")</code>
+        </div>
+        <h3>문제 2: Join 성능 저하</h3>
+        <p><strong>팁:</strong> Join 전에 sort() 호출. <code>df.join(other.sort("key"), on="key")</code></p>
+        <pre><code># 최적화된 조인
+lf = df.lazy().sort("key").join(other.lazy().sort("key"), on="key")
+</code></pre>
+        <h3>문제 3: Pandas 변환 느림</h3>
+        <p><strong>팁:</strong> <code>df.to_pandas(use_pyarrow_extension_array=True)</code> 사용. PyArrow로 제로-카피.</p>
+        <h3>기타 팁</h3>
         <ul>
-            <li><a href="https://pola-rs.github.io/polars-book/user-guide/" target="_blank">📘 공식 사용자 가이드 (가장 추천)</a></li>
-            <li><a href="https://pola-rs.github.io/polars/py-polars/html/reference/index.html" target="_blank">📚 Python API 레퍼런스</a></li>
-            <li><a href="https://github.com/pola-rs/polars" target="_blank">🐙 GitHub 저장소 (이슈/PR 참여)</a></li>
-            <li><a href="https://pola-rs.github.io/polars-examples/" target="_blank">🔬 예제 갤러리</a></li>
-            <li><a href="https://arrow.apache.org/" target="_blank">🏹 Apache Arrow (기반 기술)</a></li>
-            <li><strong>커뮤니티</strong>: GitHub Discussions, Stack Overflow (#polars 태그)</li>
+            <li>Expression 캐싱: <code>pl.col("col").sum().alias("total").over("group")</code></li>
+            <li>Streaming 모드: <code>lf.sink_ipc("stream.arrow")</code>로 메모리 절약.</li>
+            <li>프로파일링: <code>pl.threadpool_size()</code> 확인 후 조정.</li>
+        </ul>
+    </section>
+
+    <section class="section" id="sec7">
+        <h2 data-num="7">참고 자료</h2>
+        <ul>
+            <li><a href="https://pola.rs/" target="_blank">공식 사이트 (pola.rs)</a></li>
+            <li><a href="https://docs.pola.rs/" target="_blank">공식 문서 (User Guide)</a></li>
+            <li><a href="https://docs.pola.rs/py-polars/html/reference/index.html" target="_blank">API 레퍼런스</a></li>
+            <li><a href="https://github.com/pola-rs/polars" target="_blank">GitHub 저장소</a></li>
+            <li><a href="https://arrow.apache.org/" target="_blank">Apache Arrow (기반 기술)</a></li>
+            <li>커뮤니티: <a href="https://discord.gg/pola-rs" target="_blank">Discord</a></li>
         </ul>
         <div class="callout">
-            <strong>🎯 학습 로드맵</strong>
-            <ol>
-                <li>기본 DataFrame 조작 (필터, 선택, 집계) 마스터</li>
-                <li>지연 실행(Lazy API)과 최적화 패턴 이해</li>
-                <li>대용량 파일(Parquet/CSV) 처리와 스트리밍</li>
-                <li>고급 조인 및 윈도우 함수 학습</li>
-                <li>실제 프로젝트에 적용 및 성능 측정</li>
-            </ol>
+            <strong>추천:</strong> 공식 벤치마크 페이지에서 Pandas vs Polars 비교 확인.
         </div>
     </section>
 
-    <footer>
-        <p>© 2026.03 데이터 엔지니어 · AI 엔지니어 커뮤니티</p>
-        <p>본 문서는 Polars 공식 문서와 실무 경험을 바탕으로 작성되었습니다.</p>
-        <p style="margin-top: 1rem;"><a href="#top">↑ 맨 위로 이동</a></p>
+    <footer class="footer">
+        <p>&copy; 2026.03 작성. Polars 실무 스터디 가이드.</p>
     </footer>
-
-    <script>
-        // 간단한 TOC 하이라이트
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('.toc a');
-            const sections = document.querySelectorAll('.section');
-
-            function highlightTOC() {
-                let current = '';
-                sections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= 150) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                links.forEach(link => {
-                    link.style.fontWeight = 'normal';
-                    link.style.color = var('--text-muted');
-                    if (link.getAttribute('href').substring(1) === current) {
-                        link.style.fontWeight = 'bold';
-                        link.style.color = var('--accent');
-                    }
-                });
-            }
-
-            window.addEventListener('scroll', highlightTOC);
-            highlightTOC();
-        });
-    </script>
 </body>
 </html>
