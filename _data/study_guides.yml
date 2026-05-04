@@ -388,3 +388,9 @@
   tags: ["dataframe", "rust", "performance"]
   date: "2026-05-04"
   url: "/study-guides/polars-study-guide.html"
+- keyword: "NeMo Guardrails"
+  slug: "nemo-guardrails"
+  category: "ai-ml"
+  tags: ["llm-safety", "guardrails", "nvidia"]
+  date: "2026-05-04"
+  url: "/study-guides/nemo-guardrails-study-guide.html"
