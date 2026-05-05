@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataHub 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트</title>
+    <title>DataHub에 대한 실무 스터디 가이드</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -19,594 +19,559 @@
             --danger: #f85149;
         }
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         body {
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            padding: 0 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+            font-size: 16px;
         }
         .hero {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+            padding: 4rem 2rem;
             text-align: center;
-            padding: 80px 20px 60px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, var(--accent)20, transparent 50%), radial-gradient(circle at 80% 20%, var(--accent2)20, transparent 50%);
+            opacity: 0.1;
+        }
+        .hero > * {
+            position: relative;
+            z-index: 1;
         }
         .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin: 0 0 1rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
         .hero .subtitle {
             font-size: 1.5rem;
+            margin: 0 0 2rem;
             color: var(--text-muted);
-            margin-bottom: 30px;
+            font-weight: 400;
         }
         .meta-badges {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 1rem;
             flex-wrap: wrap;
         }
         .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 6px 14px;
+            background: var(--surface2);
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
             font-size: 0.9rem;
+            color: var(--accent3);
             border: 1px solid var(--border);
+            font-weight: 500;
         }
         .toc {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 50px;
+            background: var(--surface);
+            padding: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .toc h2 {
-            margin-bottom: 20px;
             color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
         .toc ol {
-            list-style-type: decimal;
-            padding-left: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 12px;
+            list-style: none;
+            padding: 0;
+            counter-reset: toc-counter;
         }
         .toc li {
-            margin-bottom: 10px;
-            padding-left: 8px;
+            margin: 0.75rem 0;
+            counter-increment: toc-counter;
         }
-        .section {
-            margin-bottom: 70px;
-            scroll-margin-top: 30px;
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding-left: 0.5rem;
+            display: block;
+            transition: color 0.2s;
         }
-        .section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
+        .toc a:hover {
             color: var(--accent);
         }
-        .section h3 {
-            font-size: 1.6rem;
-            margin: 30px 0 15px;
+        .toc a::before {
+            content: counter(toc-counter) ".";
             color: var(--accent2);
+            font-weight: 600;
+            margin-right: 0.5rem;
         }
-        .section p {
-            margin-bottom: 18px;
-            font-size: 1.1rem;
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        .section h2 {
+            color: var(--accent);
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent2);
+            border-radius: 50%;
+        }
+        .section h3 {
+            color: var(--text);
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem;
+            font-weight: 600;
+        }
+        .section p, .section li {
+            margin-bottom: 1rem;
+            color: var(--text);
         }
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface);
+            padding: 2.5rem;
             border-radius: 12px;
-            padding: 25px;
-            transition: transform 0.2s, border-color 0.2s;
+            border-left: 3px solid var(--accent);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(88, 166, 255, 0.2);
         }
-        .concept-card h4 {
+        .concept-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
             font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: var(--accent3);
         }
         .callout {
-            background-color: var(--surface2);
-            border-left: 5px solid var(--accent);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
+            background: var(--surface2);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-left: 4px solid var(--accent2);
+            border-radius: 0 12px 12px 0;
+            position: relative;
+        }
+        .callout::before {
+            content: '💡';
+            position: absolute;
+            left: -1.2rem;
+            top: 1.5rem;
+            font-size: 1.5rem;
         }
         .callout.warn {
             border-left-color: var(--danger);
         }
+        .callout.warn::before {
+            content: '⚠️';
+        }
+        .callout > * {
+            margin-left: 2rem;
+        }
         .diagram {
-            background-color: var(--surface);
-            padding: 25px;
-            border-radius: 12px;
+            background: var(--surface);
+            padding: 2.5rem;
             border: 1px solid var(--border);
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.4;
+            border-radius: 12px;
+            font-family: 'Courier New', 'Consolas', monospace;
             white-space: pre;
             overflow-x: auto;
-            margin: 25px 0;
-            color: var(--accent2);
-        }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface);
-            padding: 2px 6px;
-            border-radius: 4px;
+            color: var(--accent3);
+            margin: 3rem 0;
             font-size: 0.95rem;
-        }
-        pre {
-            padding: 20px;
-            overflow-x: auto;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            line-height: 1.4;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            margin: 3rem 0;
+            background: var(--surface);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
         th, td {
-            border: 1px solid var(--border);
-            padding: 16px 20px;
+            padding: 1.25rem 1.5rem;
             text-align: left;
+            border-bottom: 1px solid var(--border);
         }
         th {
-            background-color: var(--surface2);
+            background: var(--surface2);
             color: var(--accent);
             font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-        tr:nth-child(even) {
-            background-color: rgba(255,255,255,0.03);
+        tr:nth-child(even) td {
+            background: rgba(88, 166, 255, 0.05);
+        }
+        tr:hover td {
+            background: rgba(88, 166, 255, 0.1);
+        }
+        pre {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        pre::before {
+            content: '$';
+            position: absolute;
+            left: 1.5rem;
+            top: 1rem;
+            color: var(--accent4);
+            font-family: 'Courier New', monospace;
+            z-index: 1;
+        }
+        code {
+            font-family: 'Courier New', 'Consolas', monospace;
+            color: var(--accent3);
+            background: rgba(210, 168, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        ul, ol {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.75rem;
         }
         footer {
+            background: var(--surface);
+            padding: 3rem 2rem;
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
+            color: var(--text-muted);
             border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            margin-top: 4rem;
+            font-size: 0.95rem;
         }
-        .code-block-title {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 8px 20px;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
-            border-bottom: none;
-            margin-top: 20px;
-            margin-bottom: 0;
-        }
-        .step {
-            margin-bottom: 35px;
-        }
-        .step h4 {
-            color: var(--accent4);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .section { padding: 2rem 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <section class="hero" id="top">
-        <h1>DataHub 실무 스터디 가이드</h1>
+    <header class="hero">
+        <h1>DataHub에 대한 실무 스터디 가이드</h1>
         <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
         <div class="meta-badges">
-            <span class="badge">데이터 카탈로그</span>
-            <span class="badge">메타데이터 관리</span>
-            <span class="badge">데이터 거버넌스</span>
-            <span class="badge">실무 중심</span>
-            <span class="badge">2026.03 작성</span>
+            <span class="badge">data-catalog</span>
+            <span class="badge">metadata</span>
+            <span class="badge">governance</span>
         </div>
-    </section>
+    </header>
 
-    <section class="toc">
-        <h2>📚 목차</h2>
+    <nav class="toc">
+        <h2>목차</h2>
         <ol>
-            <li><a href="#section1">DataHub란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#what-is-datahub">1. DataHub란?</a></li>
+            <li><a href="#why-datahub">2. 왜 써야 하는가?</a></li>
+            <li><a href="#core-concepts">3. 핵심 개념</a></li>
+            <li><a href="#quickstart">4. 퀵스타트</a></li>
+            <li><a href="#config-reference">5. 핵심 설정 레퍼런스</a></li>
+            <li><a href="#tips-troubleshooting">6. 실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#resources">7. 참고 자료</a></li>
         </ol>
-    </section>
+    </nav>
 
-    <section class="section" id="section1">
-        <h2>1. DataHub란?</h2>
-        <p>DataHub는 LinkedIn에서 개발한 오픈소스 메타데이터 플랫폼으로, 데이터 탐색, 협업, 거버넌스를 위한 통합 카탈로그입니다. 마이크로서비스 아키텍처로 설계되어 확장성과 유연성이 뛰어납니다.</p>
-        
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>🔍 데이터 발견</h4>
-                <p>데이터셋, 피플, 파이프라인, 대시보드 등을 검색하고 라인리지를 추적합니다. 강력한 검색과 필터링으로 필요한 데이터를 빠르게 찾을 수 있습니다.</p>
+    <main>
+        <section id="what-is-datahub" class="section">
+            <h2>1. DataHub란?</h2>
+            <p>DataHub는 LinkedIn에서 개발한 오픈소스 메타데이터 플랫폼으로, 현대 데이터 스택의 핵심인 데이터 발견(discovery), 거버넌스(governance), 라인티지(lineage)를 통합적으로 지원합니다. 데이터 엔지니어와 데이터 사이언티스트가 데이터 자산을 효율적으로 관리하고, AI/ML 워크플로우에서 메타데이터를 활용할 수 있도록 설계되었습니다.</p>
+            <p>주요 특징으로는 Python 기반의 강력한 인제스션 프레임워크, GraphQL API, React 기반 UI가 있으며, 대규모 엔터프라이즈 환경에서 검증되었습니다. Kubernetes, Docker로 쉽게 배포 가능합니다.</p>
+
+            <h3>3대 핵심 능력</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>📊 Unified Metadata Platform</h3>
+                    <p>다양한 소스(Apache Atlas, Amundsen, DBT 등)에서 메타데이터를 중앙화. Dataset, User, Pipeline 등 엔티티를 그래프 모델로 관리하여 관계성을 직관적으로 탐색.</p>
+                </div>
+                <div class="concept-card">
+                    <h3>🔍 Search & Discovery</h3>
+                    <p>Elasticsearch 통합으로 풀텍스트 검색, 태그, 용도(usage) 기반 추천. AI/ML 모델의 데이터 소스 추적에 최적화.</p>
+                </div>
+                <div class="concept-card">
+                    <h3>🛡️ Governance & Lineage</h3>
+                    <p>데이터 라인티지 시각화, 정책 기반 거버넌스, 감사 로그. PII/민감 데이터 태깅으로 컴플라이언스 지원.</p>
+                </div>
             </div>
-            <div class="concept-card">
-                <h4>🤝 협업</h4>
-                <p>데이터에 대한 설명(Description), 태그(Tag), 용어집(Glossary Term)을 추가하고, 소유자(Owner)를 지정하여 팀 간 협업을 촉진합니다.</p>
+
+            <div class="callout">
+                <p>DataHub는 2020년 오픈소스화 이후 Acryl Data가 유지보수 중이며, 2024년 기준 10K+ GitHub 스타를 기록. 데이터 메쉬 아키텍처에 필수 도구.</p>
             </div>
-            <div class="concept-card">
-                <h4>🛡️ 거버넌스</h4>
-                <p>데이터 품질, 개인정보 식별(PII) 태그, 수명주기 관리, 접근 제어 정책을 적용하여 데이터 거버넌스를 체계화합니다.</p>
+        </section>
+
+        <section id="why-datahub" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>기존 데이터 카탈로그 도구(Amundsen, Atlas 등)는 부분적 기능만 제공하지만, DataHub는 통합 플랫폼으로 비용과 운영 복잡도를 줄입니다. 특히 Python 생태계와의 호환성이 뛰어나 데이터 엔지니어의 생산성을 극대화합니다.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>기능</th>
+                        <th>DataHub</th>
+                        <th>Amundsen</th>
+                        <th>Atlas</th>
+                        <th>Collibra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>오픈소스</td>
+                        <td>✅ (완전)</td>
+                        <td>✅</td>
+                        <td>✅ (Hadoop 중심)</td>
+                        <td>❌ (상용)</td>
+                    </tr>
+                    <tr>
+                        <td>라인티지</td>
+                        <td>✅ (시각화+API)</td>
+                        <td>❌</td>
+                        <td>✅ (부분)</td>
+                        <td>✅ (고가)</td>
+                    </tr>
+                    <tr>
+                        <td>인제스션</td>
+                        <td>✅ (100+ 커넥터)</td>
+                        <td>✅ (제한)</td>
+                        <td>✅ (Hadoop)</td>
+                        <td>✅ (커스텀)</td>
+                    </tr>
+                    <tr>
+                        <td>스케일</td>
+                        <td>✅ (Kubernetes)</td>
+                        <td>⚠️</td>
+                        <td>✅</td>
+                        <td>✅ (클라우드)</td>
+                    </tr>
+                    <tr>
+                        <td>Python SDK</td>
+                        <td>✅ (공식)</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <p>ROI: DataHub 도입 시 데이터 검색 시간 70% 단축 (LinkedIn 사례). AI 엔지니어는 모델 입력 데이터의 출처를 즉시 확인 가능.</p>
             </div>
-        </div>
-        
-        <div class="callout">
-            <strong>핵심 가치:</strong> DataHub는 단순한 카탈로그가 아닌, 데이터 스택의 모든 메타데이터를 실시간으로 연결하고 동기화하는 "메타데이터 그래프"를 제공합니다.
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="section2">
-        <h2>2. 왜 써야 하는가?</h2>
-        <p>기존 수동 문서화나 지엽적인 도구의 한계를 넘어, 확장 가능한 중앙화된 메타데이터 플랫폼이 필요한 이유입니다.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>대안 / 접근법</th>
-                    <th>한계점</th>
-                    <th>DataHub의 해결책</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>위키/Confluence 수동 문서화</td>
-                    <td>데이터 변경 시 동기화 어려움, 검색 기능 부족, 실시간 정보 아님</td>
-                    <td>자동 메타데이터 수집, 실시간 동기화, 강력한 검색</td>
-                </tr>
-                <tr>
-                    <td>각 팀별 독립 카탈로그</td>
-                    <td>데이터 소산(Silo)화, 전사적 뷰 부재, 중복 관리</td>
-                    <td>전사적 통합 카탈로그, 일관된 메타데이터 모델</td>
-                </tr>
-                <tr>
-                    <td>상용 메타데이터 도구</td>
-                    <td>높은 비용, 벤더 종속, 유연성 부족</td>
-                    <td>오픈소스(아파치 2.0), 커뮤니티 기반, 확장 가능</td>
-                </tr>
-                <tr>
-                    <td>메타데이터 관리 없음</td>
-                    <td>데이터 신뢰도 하락, 분석가/과학자의 시간 낭비, 규제 대응 어려움</td>
-                    <td>데이터 발견성과 신뢰도 향상, 거버넌스 체계 구축</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+        <section id="core-concepts" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>DataHub의 세계관은 <strong>Entity-Aspects-Relationships</strong>로 구성됩니다. Entity(예: Dataset)는 Aspects(속성: schema, tags 등)로 확장되며, Relationships로 연결됩니다.</p>
 
-    <section class="section" id="section3">
-        <h2>3. 핵심 개념</h2>
-        <p>DataHub의 아키텍처는 프론트엔드, 메타데이터 서비스, 스토리지, 수집 프레임워크로 구성됩니다.</p>
-        
-        <div class="diagram">
- +-----------------------------------------------------------------------+
- |                        DataHub Frontend (React)                      |
- |                         (UI & User Interactions)                      |
- +-----------------------------+-----------------------------------------+
-                               | HTTP/GraphQL
- +-----------------------------v-----------------------------------------+
- |                    DataHub GMS (General Metadata Service)            |
- |          (Metadata Store, GraphQL API, Authentication)               |
- +-----------------------------+-----------------------------------------+
-                               | Kafka
- +-----------------------------v-----------------------------------------+
- |                         Metadata Storage                             |
- |              (MySQL/PostgreSQL, Elasticsearch, Neo4j*)               |
- +-----------------------------------------------------------------------+
-         ^                                  ^
-         | MAE (Metadata Audit Event)       | MCE (Metadata Change Event)
- +-------|----------------------------------|----------------------------+
- |       |                                  |                            |
- | +-----v------+                  +--------v--------+                   |
- | |   Ingestion                   |   Ingestion     |                   |
- | |   Sources  |                  |   Transformers  |                   |
- | | (Snowflake,|                  | (Custom Logic)  |                   |
- | |  BigQuery, |                  +-----------------+                   |
- | |  Kafka...) |                                                       |
- | +------------+                                                       |
- |                     DataHub Ingestion Framework                      |
- |                     (Python-based, Extensible)                       |
- +-----------------------------------------------------------------------+
-        </div>
-        
-        <h3>주요 컴포넌트</h3>
-        <ul>
-            <li><strong>GMS (General Metadata Service)</strong>: 메타데이터 CRUD 및 GraphQL API 제공</li>
-            <li><strong>MAE/MCE</strong>: 메타데이터 변경 이벤트를 Kafka 통해 전파</li>
-            <li><strong>Ingestion Framework</strong>: 다양한 소스로부터 메타데이터 추출</li>
-            <li><strong>Storage</strong>: 관계형 DB(메타데이터), ES(검색), Neo4j(관계)</li>
-        </ul>
-    </section>
+            <h3>주요 엔티티</h3>
+            <ul>
+                <li><strong>Dataset</strong>: 테이블/뷰/파일. platform(예: BigQuery), name, schema.</li>
+                <li><strong>Dashboard</strong>: Looker/Superset 등. 차트 라인티지 지원.</li>
+                <li><strong>ML Model</strong>: SageMaker 등 모델 카탈로그.</li>
+                <li><strong>Domain</strong>: 데이터 도메인 기반 거버넌스.</li>
+            </ul>
 
-    <section class="section" id="section4">
-        <h2>4. 퀵스타트</h2>
-        <p>Docker Compose를 이용한 로컬 개발 환경 구축부터 첫 메타데이터 수집까지.</p>
-        
-        <div class="step">
-            <h4>Step 1: DataHub 설치 (Docker)</h4>
-            <p class="code-block-title">CLI</p>
-            <pre><code># 최신 DataHub Docker 이미지 가져오기
-docker pull acryldata/datahub:latest
+            <h3>아키텍처 개요</h3>
+            <div class="diagram">
++----------------+     +-------------------+     +-----------------+
+|   Clients      |     |   Ingestion       |     |   Kafka Topics  |
+| - UI (React)   |<--->| - Python CLI/SDK  |<--->| - Metadata V2   |
+| - GraphQL API  |     | - 100+ Sources    |     | - Audit Events  |
++----------------+     +-------------------+     +-----------------+
+                                 |                          |
+                                 v                          v
+                       +-------------------+     +-----------------+
+                       |     GMS (Java)     |<--->| Metadata Store  |
+                       | - Metadata Service |     | - MySQL (Graph) |
+                       | - Metadata Models  |     | - Elasticsearch |
+                       +-------------------+     |   (Search)      |
+                                 ^                 +-----------------+
+                                 |                           |
+                       +-------------------+                 |
+                       |   Action Service   |<----------------+
+                       | - Notifications    |
+                       +-------------------+
+            </div>
 
-# 공식 docker-compose.yml 파일 다운로드
-curl -O https://raw.githubusercontent.com/datahub-project/datahub/master/docker/quickstart/docker-compose.yml
+            <p>인제스션 → Kafka → GMS → 스토어. UI는 GMS의 GraphQL 엔드포인트 호출.</p>
+        </section>
 
-# 서비스 시작 (약 2-3분 소요)
-docker-compose -p datahub up -d
+        <section id="quickstart" class="section">
+            <h2>4. 퀵스타트</h2>
+            <p>로컬에서 5분 만에 시작. Docker Compose 사용.</p>
 
-# 상태 확인
-docker-compose -p datahub ps</code></pre>
-        </div>
+            <h3>1. 설치</h3>
+            <pre><code>git clone https://github.com/datahub-project/datahub
+cd datahub
+docker compose up -d</code></pre>
 
-        <div class="step">
-            <h4>Step 2: 기본 설정 및 접속</h4>
-            <p>브라우저에서 <a href="http://localhost:9002" target="_blank">http://localhost:9002</a> 접속 (기본 계정: datahub, 비밀번호: datahub).</p>
-            <p class="code-block-title">환경 변수 설정 (선택)</p>
-            <pre><code># .env 파일 생성
-echo "DATAHUB_VERSION=latest" > .env
-echo "DATAHUB_MAPPED_PORT=9002" >> .env</code></pre>
-        </div>
+            <h3>2. DataHub CLI 설치</h3>
+            <pre><code>pip install 'acryl-datahub[datahub-rest]'</code></pre>
 
-        <div class="step">
-            <h4>Step 3: 첫 메타데이터 수집 (Python 예제)</h4>
-            <p class="code-block-title">Python (datahub CLI 설치 및 예제 수집)</p>
-            <pre><code># datahub CLI 설치
-pip install 'acryl-datahub[datahub-rest]'
-
-# 기본 PostgreSQL 메타데이터 수집 (예제)
-datahub ingest -c ./examples/recipes/postgres_to_datahub.dhub.yaml
-
-# 커스텀 YAML 파일 예제 (my_source.yaml)
-cat > my_source.yaml << EOF
-source:
-  type: "mysql"
+            <h3>3. 첫 인제스션 (PostgreSQL 예제)</h3>
+            <p>config.yaml 작성:</p>
+            <pre><code>source:
+  type: postgres
   config:
-    username: "user"
-    password: "pass"
-    host_port: "localhost:3306"
-    database: "my_db"
-
+    host_port: localhost:5432
+    database: postgres
+    username: postgres
+    password: datahub
 sink:
-  type: "datahub-rest"
+  type: datahub-rest
   config:
-    server: "http://localhost:8080"
-EOF
+    server: http://localhost:8080</code></pre>
 
-# 수집 실행
-datahub ingest -c my_source.yaml</code></pre>
-        </div>
+            <pre><code>datahub ingest -c config.yaml</code></pre>
 
-        <div class="step">
-            <h4>Step 4: Python SDK로 메타데이터 추가</h4>
-            <p class="code-block-title">Python SDK 예제</p>
-            <pre><code>from datahub.emitter.mce_builder import make_dataset_urn
-from datahub.emitter.rest_emitter import DatahubRestEmitter
+            <h3>4. Python SDK 예제 (라인티지 추가)</h3>
+            <pre><code>from datahub.emitter.mcp import MetadataChangeProposalWrapper
 from datahub.metadata.schema_classes import (
-    DatasetPropertiesClass,
-    ChangeTypeClass,
-    MetadataChangeProposalClass,
+    DatasetLineageClass,
+    UpstreamLineageClass,
 )
 
-# DataHub 서버에 연결
-emitter = DatahubRestEmitter("http://localhost:8080")
-
-# 데이터셋 URN 생성
-dataset_urn = make_dataset_urn(platform="postgres", name="public.users")
-
-# 데이터셋 설명 추가
-metadata_change_proposal = MetadataChangeProposalClass(
-    entityType="dataset",
-    changeType=ChangeTypeClass.UPSERT,
-    entityUrn=dataset_urn,
-    aspectName="datasetProperties",
-    aspect=DatasetPropertiesClass(
-        description="사용자 마스터 테이블. 개인정보(PII) 포함."
-    )
+# 예제: Dataset A -> B 라인티지
+lineage = DatasetLineageClass(
+    upstreams=[UpstreamLineageClass(
+        dataset="urn:li:dataset:(urn:li:dataPlatform:postgres,test_db.tableA,PROD)"
+    )]
 )
+mcp = MetadataChangeProposalWrapper(entityUrn="urn:li:dataset:(urn:li:dataPlatform:postgres,test_db.tableB,PROD)", aspect=lineage)
+# GMS로 emit</code></pre>
 
-# 메타데이터 전송
-emitter.emit(metadata_change_proposal)
-print(f"메타데이터 업데이트 완료: {dataset_urn}")</code></pre>
-        </div>
-    </section>
+            <div class="callout">
+                <p>UI 접속: http://localhost:9002. 로그인 없이 탐색 가능.</p>
+            </div>
+        </section>
 
-    <section class="section" id="section5">
-        <h2>5. 핵심 설정 레퍼런스</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>구성 요소</th>
-                    <th>설정 키/파일</th>
-                    <th>기본값/예시</th>
-                    <th>설명</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Ingestion</td>
-                    <td>recipe.yaml</td>
-                    <td>source.type, sink.type</td>
-                    <td>수집 소스와 싱크 정의 (file, rest, kafka)</td>
-                </tr>
-                <tr>
-                    <td>GMS 서버</td>
-                    <td>application.yml</td>
-                    <td>server.port: 8080</td>
-                    <td>메타데이터 서버 포트 및 DB 연결 설정</td>
-                </tr>
-                <tr>
-                    <td>인증</td>
-                    <td>authentication.*</td>
-                    <td>type: "SESSION"</td>
-                    <td>JWT, OIDC, LDAP 등 인증 방식 설정</td>
-                </tr>
-                <tr>
-                    <td>스토리지</td>
-                    <td>storage.*</td>
-                    <td>neo4j.uri, es.host</td>
-                    <td>Neo4j, Elasticsearch, RDBMS 연결 정보</td>
-                </tr>
-                <tr>
-                    <td>Kafka</td>
-                    <td>kafka.bootstrap</td>
-                    <td>localhost:9092</td>
-                    <td>MAE/MCE 이벤트 전송용 Kafka 브로커</td>
-                </tr>
-                <tr>
-                    <td>Frontend</td>
-                    <td>env.js/config.js</td>
-                    <td>REACT_APP_GMS_HOST</td>
-                    <td>UI에서 접속할 GMS 서버 주소</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+        <section id="config-reference" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>docker-compose.yml 및 ingestion config 주요 옵션.</p>
 
-    <section class="section" id="section6">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
-        
-        <div class="callout warn">
-            <strong>주의: </strong> 프로덕션 환경에서는 반드시 인증/권한 설정을 완료하고, 백업 전략을 수립하세요.
-        </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 키</th>
+                        <th>설명</th>
+                        <th>기본값</th>
+                        <th>예제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>metadata-store.host</td>
+                        <td>MySQL 호스트</td>
+                        <td>localhost:19324</td>
+                        <td>mysql.datahub.com:3306</td>
+                    </tr>
+                    <tr>
+                        <td>elasticsearch.hosts</td>
+                        <td>검색 인덱스</td>
+                        <td>http://localhost:9200</td>
+                        <td>https://es-cluster:9200</td>
+                    </tr>
+                    <tr>
+                        <td>ingestion.batch.size</td>
+                        <td>배치 크기</td>
+                        <td>1000</td>
+                        <td>5000</td>
+                    </tr>
+                    <tr>
+                        <td>playbook.config.retentionDays</td>
+                        <td>사용량 보존</td>
+                        <td>30</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>security.enableRbac</td>
+                        <td>RBAC 활성</td>
+                        <td>false</td>
+                        <td>true</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h3>자주 겪는 문제</h3>
-        
-        <h4>문제 1: 수집 실패 "Connection refused"</h4>
-        <p><strong>증상:</strong> datahub ingest 실행 시 GMS 서버(8080) 연결 실패.</p>
-        <p><strong>해결:</strong></p>
-        <pre><code># GMS 서버 상태 확인
-curl http://localhost:8080/health
+        <section id="tips-troubleshooting" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
 
-# Docker 네트워크 확인 (동일 네트워크 사용)
-docker network create datahub-network
-docker-compose -p datahub down
-docker-compose -p datahub --project-directory . up -d
+            <h3>팁</h3>
+            <ul>
+                <li>K8s 배포 시 Helm 차트 사용: <code>helm repo add datahub https://datahubproject.github.io/helm-chart/</code></li>
+                <li>Airflow/Dagster 통합: 공식 인제스터로 자동 라인티지 수집.</li>
+                <li>커스텀 Aspect: Python으로 확장 가능.</li>
+            </ul>
 
-# 또는 sink 설정을 datahub-kafka로 변경
-sink:
-  type: "datahub-kafka"
-  config:
-    connection:
-      bootstrap: "localhost:9092"</code></pre>
+            <div class="callout warn">
+                <p><strong>자주 발생 문제: Elasticsearch 연결 실패</strong><br>해결: docker logs datahub-elasticsearch 확인 후, network_mode: host 설정. 메모리 부족 시 -Xmx 조정.</p>
+            </div>
 
-        <h4>문제 2: 검색이 안 됨</h4>
-        <p><strong>증상:</strong> UI에서 데이터셋 검색 시 결과 없음.</p>
-        <p><strong>해결:</strong></p>
-        <pre><code># Elasticsearch 인덱스 상태 확인
-curl http://localhost:9200/_cat/indices?v
+            <div class="callout warn">
+                <p><strong>Ingest 실패 (401 Unauthorized)</strong><br>CLI 버전 mismatch: <code>pip install --upgrade acryl-datahub</code>. Server URL에 /api 확인.</p>
+            </div>
 
-# 검색 인덱스 재생성 (CLI)
-datahub docker nuke    # 주의: 모든 데이터 삭제
-datahub docker quickstart
+            <div class="callout">
+                <p>성능 최적화: GMS 클러스터링, Kafka 파티션 증가. 대규모(1M+ 엔티티) 시 MySQL 샤딩.</p>
+            </div>
+        </section>
 
-# 또는 수집 후 검색 인덱스 업데이트 지연 확인
-# 대량 수집 시 --no-default-report 플래그 사용
-datahub ingest -c recipe.yaml --no-default-report</code></pre>
-
-        <h4>문제 3: 메모리 부족 오류</h4>
-        <p><strong>증상:</strong> Docker 컨테이너가 자주 재시작되거나 OOM 발생.</p>
-        <p><strong>해결:</strong></p>
-        <pre><code># docker-compose.yml 메모리 제한 증가
-services:
-  datahub-gms:
-    mem_limit: '2g'
-    mem_reservation: '1g'
-  elasticsearch:
-    mem_limit: '4g'
-    environment:
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-
-# 또는 호스트 메모리 확인 후 필요 시 스왑 추가
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile</code></pre>
-
-        <h3>실무 팁</h3>
-        <ul>
-            <li><strong>점진적 수집:</strong> 모든 소스를 한번에 수집하지 말고, 중요 데이터 소스부터 단계적으로 확장.</li>
-            <li><strong>태그 전략:</strong> 팀별, 프로젝트별, 민감도(PII) 태그 체계를 사전에 설계.</li>
-            <li><strong>CI/CD 통합:</strong> 데이터 파이프라인 CI에서 datahub CLI로 메타데이터 자동 등록.</li>
-            <li><strong>모니터링:</strong> datahub-actions 프레임워크로 메타데이터 변경 알림(Slack, 이메일) 설정.</li>
-        </ul>
-    </section>
-
-    <section class="section" id="section7">
-        <h2>7. 참고 자료</h2>
-        <ul>
-            <li><a href="https://datahubproject.io/docs" target="_blank">📘 공식 문서</a> - 가장 최신의 공식 가이드</li>
-            <li><a href="https://github.com/datahub-project/datahub" target="_blank">🐙 GitHub 저장소</a> - 소스 코드 및 이슈 트래킹</li>
-            <li><a href="https://datahubproject.io/docs/metadata-modeling" target="_blank">🛠️ 메타데이터 모델링</a> - 엔티티/관계 확장 방법</li>
-            <li><a href="https://datahubproject.io/docs/api/graphql" target="_blank">🔗 GraphQL API 레퍼런스</a> - 프로그램적 접근</li>
-            <li><a href="https://datahubproject.io/slack" target="_blank">💬 Slack 커뮤니티</a> - 실시간 질문 및 토론</li>
-            <li><a href="https://www.youtube.com/c/DataHubProject" target="_blank">🎥 YouTube 채널</a> - 데모 및 발표 영상</li>
-        </ul>
-    </section>
+        <section id="resources" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://datahubproject.io/docs/" style="color: var(--accent);">공식 문서</a> - Quickstart & Recipes</li>
+                <li><a href="https://datahubproject.io/docs/metadata-model/" style="color: var(--accent);">Metadata Model</a></li>
+                <li><a href="https://github.com/datahub-project/datahub" style="color: var(--accent);">GitHub Repo</a> - 100+ Ingestion Sources</li>
+                <li><a href="https://datahubproject.io/docs/ingestion/" style="color: var(--accent);">Ingestion Guide</a> - Python SDK</li>
+                <li><a href="https://acryl.io/datahub/" style="color: var(--accent);">Acryl Data (상용 지원)</a></li>
+            </ul>
+        </section>
+    </main>
 
     <footer>
-        <p>DataHub 실무 스터디 가이드 | 데이터 엔지니어 · 데이터 사이언티스트를 위한 핵심 요약</p>
-        <p>작성일: 2026년 3월 | 태그: #data-catalog #metadata #governance</p>
-        <p style="margin-top: 15px;"><a href="#top">▲ 맨 위로 이동</a></p>
+        <p>&copy; 2026.03 작성. DataHub 실무 스터디 가이드. 모든 권리 보유.</p>
     </footer>
-
-    <script>
-        // 부드러운 스크롤
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 30,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // TOC 현재 섹션 하이라이트 (기본 구현)
-        window.addEventListener('scroll', function() {
-            // 간단한 구현 예시
-        });
-    </script>
 </body>
 </html>
