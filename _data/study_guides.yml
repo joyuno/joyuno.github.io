@@ -394,3 +394,9 @@
   tags: ["llm-safety", "guardrails", "nvidia"]
   date: "2026-05-04"
   url: "/study-guides/nemo-guardrails-study-guide.html"
+- keyword: "DataHub"
+  slug: "datahub"
+  category: "data-engineering"
+  tags: ["data-catalog", "metadata", "governance"]
+  date: "2026-05-05"
+  url: "/study-guides/datahub-study-guide.html"
