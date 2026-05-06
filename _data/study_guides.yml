@@ -400,3 +400,9 @@
   tags: ["data-catalog", "metadata", "governance"]
   date: "2026-05-05"
   url: "/study-guides/datahub-study-guide.html"
+- keyword: "lakeFS"
+  slug: "lakefs"
+  category: "data-engineering"
+  tags: ["data-versioning", "git-for-data"]
+  date: "2026-05-06"
+  url: "/study-guides/lakefs-study-guide.html"
