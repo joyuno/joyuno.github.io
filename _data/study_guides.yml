@@ -406,3 +406,9 @@
   tags: ["data-versioning", "git-for-data"]
   date: "2026-05-06"
   url: "/study-guides/lakefs-study-guide.html"
+- keyword: "Dify"
+  slug: "dify"
+  category: "ai-ml"
+  tags: ["llm-platform", "rag", "agent"]
+  date: "2026-05-06"
+  url: "/study-guides/dify-study-guide.html"
