@@ -415,6 +415,33 @@
       font-size: 1.1rem; cursor: pointer; padding: 0.4rem;
     }
 
+    /* ─── View Counter (top-right, very small) ─── */
+    .view-counter {
+      position: fixed;
+      top: 0.6rem; right: 0.6rem;
+      z-index: 200;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.68rem;
+      line-height: 1;
+      color: var(--text-muted);
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      opacity: 0.65;
+      transition: opacity 0.2s, border-color 0.2s;
+      pointer-events: auto;
+      user-select: none;
+    }
+    .view-counter:hover { opacity: 1; border-color: var(--accent-color); }
+    .view-counter[hidden] { display: none; }
+    .view-counter .vc-key { color: var(--text-muted); opacity: 0.7; margin-right: 0.15rem; }
+    .view-counter .vc-num { color: var(--text-color); font-variant-numeric: tabular-nums; }
+    .view-counter .vc-sep { color: var(--text-muted); opacity: 0.4; }
+    @media (max-width: 768px) {
+      .view-counter { top: 0.7rem; right: 3.2rem; font-size: 0.62rem; padding: 0.15rem 0.45rem; }
+    }
+
     /* Utilities */
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
@@ -441,6 +468,13 @@
   </style>
 </head>
 <body>
+  <!-- View counter (top-right; 헤더 제일 끝, 아주 작게) -->
+  <div id="view-counter" class="view-counter" hidden aria-label="블로그 조회수" title="총 누적 조회수">
+    <span class="vc-key">오늘</span><span id="vc-today" class="vc-num">—</span>
+    <span class="vc-sep">·</span>
+    <span class="vc-key">주간</span><span id="vc-week" class="vc-num">—</span>
+  </div>
+
   <!-- Mobile Header -->
   <header class="mobile-header">
     <button class="menu-toggle" onclick="toggleSidebar()" aria-label="메뉴 열기"><i data-lucide="menu" class="icon"></i></button>
@@ -700,6 +734,39 @@
 
     // Lucide 아이콘 초기화
     if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // ─── View Counter (GoatCounter via Cloudflare Worker proxy) ───
+    // 셋업 후 아래 두 값을 본인 것으로 교체. 그전까지는 위젯 자동 숨김.
+    //   1) GoatCounter 사이트 가입 → 사이트 코드를 GOATCOUNTER_SITE 에
+    //   2) cloudflare-worker/ 배포 후 그 URL을 VIEWS_PROXY_URL 에
+    const GOATCOUNTER_SITE = '';  // 예: 'joyuno'
+    const VIEWS_PROXY_URL  = '';  // 예: 'https://joyuno-views-proxy.your-handle.workers.dev/'
+
+    (function setupViewCounter() {
+      // 1) GoatCounter pageview 트래킹 (사이트 코드 있을 때만 로드)
+      if (GOATCOUNTER_SITE) {
+        const s = document.createElement('script');
+        s.dataset.goatcounter = 'https://' + GOATCOUNTER_SITE + '.goatcounter.com/count';
+        s.async = true;
+        s.src = '//gc.zgo.at/count.js';
+        document.head.appendChild(s);
+      }
+
+      // 2) 통계 fetch + 위젯 표시
+      const widget = document.getElementById('view-counter');
+      if (!widget || !VIEWS_PROXY_URL) return;  // 셋업 전이면 숨긴 상태로 둠
+
+      fetch(VIEWS_PROXY_URL, { cache: 'default' })
+        .then(r => r.ok ? r.json() : Promise.reject('proxy ' + r.status))
+        .then(d => {
+          const fmt = n => Number(n || 0).toLocaleString('ko-KR');
+          document.getElementById('vc-today').textContent = fmt(d.today);
+          document.getElementById('vc-week').textContent  = fmt(d.week);
+          widget.title = '총 ' + fmt(d.total) + '회';
+          widget.hidden = false;
+        })
+        .catch(() => { /* 실패하면 조용히 숨김 유지 */ });
+    })();
 
     // ─── SimpleJekyllSearch ───
     window.addEventListener('DOMContentLoaded', function() {

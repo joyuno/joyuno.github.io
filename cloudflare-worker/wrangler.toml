@@ -1,0 +1,11 @@
+name = "joyuno-views-proxy"
+main = "views-proxy.js"
+compatibility_date = "2026-01-01"
+
+# 시크릿은 코드에 박지 말고 wrangler secret put으로 주입:
+#   wrangler secret put GOATCOUNTER_TOKEN
+#   wrangler secret put GOATCOUNTER_SITE
+#
+# 비-시크릿 변수는 [vars] 아래에:
+[vars]
+ALLOWED_ORIGIN = "https://joyuno.github.io"
