@@ -418,3 +418,9 @@
   tags: ["streaming", "kafka-compatible", "cpp"]
   date: "2026-05-07"
   url: "/study-guides/redpanda-study-guide.html"
+- keyword: "Terraform"
+  slug: "terraform"
+  category: "infra"
+  tags: ["iac", "multi-cloud", "provisioning"]
+  date: "2026-05-07"
+  url: "/study-guides/terraform-study-guide.html"
