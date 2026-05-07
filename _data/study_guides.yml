@@ -412,3 +412,9 @@
   tags: ["llm-platform", "rag", "agent"]
   date: "2026-05-06"
   url: "/study-guides/dify-study-guide.html"
+- keyword: "Redpanda"
+  slug: "redpanda"
+  category: "data-engineering"
+  tags: ["streaming", "kafka-compatible", "cpp"]
+  date: "2026-05-07"
+  url: "/study-guides/redpanda-study-guide.html"
