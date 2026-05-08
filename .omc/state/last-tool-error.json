@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"find ~ -type d -name \\\"pulse\\\" 2>/dev/null | grep -v node_modules | grep -v cache | head -10; echo \\\"---also---\\\"; ls ~/Downloads/pulse 2>/dev/null; ls ~/Documents/pulse 2>/dev/null; ls ~/...",
+  "error": "Exit code 1\n/Users/admin/Downloads/하네스/pulse\n/Users/admin/Downloads/하네스/pulse/skills/pulse\n/Users/admin/.claude/plugins/marketplaces/joyuno-pulse/skills/pulse\n/Users/admin/Library/Caches/com.apple.python/Users/admin/Downloads/하네스/pulse\n---also---",
+  "timestamp": "2026-05-08T05:21:43.306Z",
+  "retry_count": 1
+}
