@@ -424,3 +424,9 @@
   tags: ["iac", "multi-cloud", "provisioning"]
   date: "2026-05-07"
   url: "/study-guides/terraform-study-guide.html"
+- keyword: "GitHub Actions"
+  slug: "github-actions"
+  category: "infra"
+  tags: ["ci-cd", "automation", "devops"]
+  date: "2026-05-08"
+  url: "/study-guides/github-actions-study-guide.html"
