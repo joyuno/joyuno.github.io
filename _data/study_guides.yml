@@ -430,3 +430,9 @@
   tags: ["ci-cd", "automation", "devops"]
   date: "2026-05-08"
   url: "/study-guides/github-actions-study-guide.html"
+- keyword: "Amazon Redshift"
+  slug: "amazon-redshift"
+  category: "data-engineering"
+  tags: ["data-warehouse", "aws", "mpp"]
+  date: "2026-05-09"
+  url: "/study-guides/amazon-redshift-study-guide.html"
