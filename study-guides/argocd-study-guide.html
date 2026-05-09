@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+   <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>ArgoCD 실무 스터디 가이드</title>
+ <style>
+ :root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-two: #1c2333;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58b6ff;
+  --accent-two: #3fb950;
+  --accent-three: #1f6d8ff;
+  --accent-four: #f0883e;
+  --danger: #f85149;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans", "Droid Sans", 'Helvetica Neue", sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.toc {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.toc h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--accent-two);
+}
+
+.toc ol {
+  margin-left: 2.5rem;
+}
+
+.toc li {
+  margin-bottom: 0.8rem;
+}
+
+.toc a {
+  color: var(--accent-three);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.section {
+  margin-bottom: 4rem;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent-two);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section p {
+  margin-bottom: 1rem;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.concept-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.concept-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--accent-three);
+}
+
+.concept-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.callout {
+  background-color: var(--surface-two);
+  border-left: 4px solid var(--accent);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px;
+}
+
+.callout.warn {
+  border-left-color: var(--danger);
+}
+
+.diagram {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.diagram pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  text-align: left;
+}
+
+table th {
+  background-color: var(--surface-two);
+  color: var(--accent-two);
+}
+
+table tr:nth-child(even) {
+  background-color: var(--surface);
+}
+
+footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tag {
+  display: inline-block;
+  background-color: var(--surface-two);
+  color: var(--accent-three);
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+</style>
+</head>
+<body>
+ <div class="hero">
+ <h1>ArgoCD 실무 스터디 가이드</h1>
+ <p>데브옵스 · 인프라 엔지니어를 위한 ArgoCD에 대한 실무 중심 핵심 안내서</p>
+</div>
+
+<nav class="toc">
+ <h2>목차</h2>
+ <ol>
+  <li><a href="#chapter-1">1. ArgoCD란?</a></li>
+  <li><a href="#chapter-2">2. 왜 써야 하나요?</a></li>
+  <li><a href="#chapter-3">3. 핵심 개념</a></li>
+  <li><a href="#chapter-4">4. 시작하기</a></li>
+  <li><a href="#chapter-5">5. 핵심 설정</a></li>
+  <li><a href="#chapter-6">6. 실무 팁 & 트러블슈팅</a></li>
+  <li><a href="#chapter-7">7. 참고 자료</a></li>
+ </ol>
+</nav>
+
+<main>
+ <section id="chapter-1" class="section">
+  <h2>1. ArgoCD란?</h2>
+  <p>ArgoCD는 쿠버네티스 환경에서 GitOps 접근법을 구현하기 위한 선언적(Declarative), GitOps 지속적 딜리버리(Continuous Delivery) 도구입니다.</p>
+  <div class="concept-grid">
+   <div class="concept-card">
+   <h3>정의</h3>
+   <p>Git 저장소를 "단 진리 소스 오브 트루스(Single Source of Truth)으로 간주하여,쿠버네티스 클러스터의 상태를 지속적으 로 동기화하고 원하는 상태를 유지합니다.</p>
+   </div>
+   <div class="concept-card">
+    <h3>핵심 능력</h3>
+    <p>
+     <ul>
+      <li>Git 저장소와의 상태 동기</li>
+      <li>자동 동기/롤백/롤</li>
+      <li>헬치 다시 보드/웹 보드</li>
+      <li>다중 클러스터 관라</li>
+      <li>RBAC, SSO 통합</li>
+     </ul>
+    </p>
+   </div>
+  </div>
+ </section>
+
+ <section id="chapter-2" class="section">
+  <h2>2. 왜 써야 하나요?</h2>
+  <p>기존의 CI/CD 파이프라인과 수동 kubectl 적용 방식의 한계를 해결합니다.</p>
+  <table>
+   <thead>
+   <tr>
+     <th>비교 항목</th>
+      <th>기존 방식 (CI/CD + kubectl)</th>
+      <th>ArgoCD (GitOps)</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>배포 주기</td>
+      <td>CI 파이프라인 트리거 시 (주로 수동)</td>
+      <td>Git 커밋 시 자동 (선언적 상태 동기)</td>
+     </tr>
+     <tr>
+      <td>관리 포인트</td>
+      <td>다중 (여러 클러스터/네임스페이스)</td>
+      <td>중앙 집중식 웹 UI, CLI</td>
+     </tr>
+     <tr>
+      <td>드리프트 감지</td>
+      <td>수동 감지/대응</td>
+      <td>자동 감지 및 시각화, 자동 복구 옵션</td>
+     </tr>
+     <tr>
+      <td>롤백</td>
+      <td>복잡한 수동 절차</td>
+      <td>Git 리비전 간 단계 롤백</td>
+     </tr>
+     <tr>
+      <td>보안/감사</td>
+      <td>개별 툴/스크립트 의존</td>
+      <td>Git 커밋 기반 감사 로그</td>
+     </tr>
+   </tbody>
+   </table>
+ </section>
+
+ <section id="chapter-3" class="section">
+  <h2>3. 핵심 개념</h2>
+  <p>ArgoCD 아키텍처의 기본 구성 요소와 데이터 흐름을 이해합니다.</p>
+  <div class="diagram">
+   <pre>
+                 +-----------------+
+                 |   Git 저장소    |
+                 | (선언적 매니페스트) |
+                 +--------+--------+
+                          |
+                          | (Push/Pull)
+                          v
+                 +--------+--------+
+                 |   ArgoCD 서버    |
+                 | (컨트롤러) |
+                 +--------+--------+
+                          |
+                          | (쿠버네티스 API)
+                          v
+                 +-----------------+
+                 | 버네티스 클러스터 |
+                 | (실제 상태) |
+                 +-----------------+
+   </pre>
+  </div>
+  <div class="concept-grid">
+   <div class="concept-card">
+    <h3>Application</h3>
+    <p>배포할 애플리케이션의 논리적 단위. Git 저장소의 특정 경로 (소스)와 쿠버네티스 클러스터 내 대상 (대상)을 연결합니다.</p>
+   </div>
+   <div class="concept-card">
+    <h3>AppProject</h3>
+   <p>애플리케이션의 논리 그룹. RBAC, 소스/대상 제한, 정책을 정의합니다.</p>
+   </div>
+   <div class="concept-card">
+   <h3>Sync Policy</h3>
+   <p>동기 동작 방식을 정의 (자동/수동, 수동 동기 시 자동 동기/병합 등).</p>
+   </div>
+  </div>
+ </section>
+
+ <section id="chapter-4" class="section">
+  <h2>4. 시작하기</h2>
+  <p>CLI 명령어를 통한 빠른 시작 가이드.</p>
+  <div class="callout">
+   <p><strong>1. ArgoCD 설치 (쿠버네티스 클러스터 내)</strong></p>
+   <pre>kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</pre>
+  </div>
+  <div class="callout">
+   <p><strong>2. CLI 도구 설치 (로컬)</strong></p>
+   <pre># 맥OS
+brew install argocd
+
+# 리눅스 (예: Ubuntu)
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd</pre>
+  </div>
+  <div class="callout warn">
+   <p><strong>주의:</strong> 설치 후 초기 비밀번호는 ArgoCD 서버 포드 로그에서 확인하거나 <code>kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --d</code> 명령어로 얻을 수 있습니다.</p>
+  </div>
+  <div class="callout">
+   <p><strong>3. 웹 UI 접속</strong></p>
+   <pre># 포트 포워딩
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# 브라우저에서 접속: https://localhost:8080
+# 사용자: admin, 비밀번호: 위에서 확인한 초기 비밀번호</pre>
+  </div>
+ </section>
+
+ <section id="chapter-5" class="section">
+  <h2>5. 핵심 설정</h2>
+  <p>애플리케이션을 정의하고 관리하는 주요 설정들입니다.</p>
+  <table>
+   <thead>
+    <tr>
+     <th>설정</th>
+     <th>설명</th>
+     <th>예시/기본값</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>source.repoURL</td>
+     <td>매니페스트가 위치한 Git 저장소 URL</td>
+     <td>https://github.com/my-org/my-app.git</td>
+   </tr>
+   <tr>
+     <td>source.targetRevision</td>
+     <td>동기할 Git 브랜치/태그/커밋 해시</td>
+     <td>main, HEAD</td>
+    </tr>
+    <tr>
+     <td>destination.server</td>
+     <td>대상 쿠버네티스 클러스터 API 서버 주소</td>
+     <td>https://kubernetes.default.svc</td>
+   </tr>
+    <tr>
+     <td>destination.namespace</td>
+     <td>대상 쿠버네티스 네임스페이스</td>
+     <td>default</td>
+   </tr>
+   <tr>
+     <td>syncPolicy.automated</td>
+     <td>자동 동기 여부</td>
+     <td>true (권장)</td>
+   </tr>
+   <tr>
+     <td>syncPolicy.automated.prune</td>
+     <td>Git에 정의되지 않은 리소스 자동 삭제 여부</td>
+     <td>false (주의 요구)</td>
+    </tr>
+   </tbody>
+  </table>
+  <div class="callout">
+   <p><strong>애플리케이션 생성 예시 (YAML)</strong></p>
+   <pre>apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-nginx-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/my-org/my-nginx-conf.git
+    path: k8manifests/
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true</pre>
+  </div>
+ </section>
+
+ <section id="chapter-6" class="section">
+  <h2>6. 실무 팁 & 트러블슈팅</h2>
+  <div class="concept-grid">
+   <div class="concept-card">
+    <h3>자주 겪는 문제 + 해결책</h3>
+    <p><strong>문제:</strong> Application이 "OutOfSync" 상태지만 Sync 실패.</p>
+    <p><strong>원인/해결:</strong> 매니페스트 오류, k8bectl apply --dry-run=client -f .</p>
+   </div>
+   <div class="concept-card">
+    <h3>헬름 차트 연동</h3>
+    <p><strong>팁:</strong> 헬름 차트를 사용할 경우 <code>source.helm</code> 섹션을 사용하고, <code>valueFiles</code>로 환경별 값을 관리하세요.</p>
+   </div>
+   <div class="concept-card">
+    <h3>대형 배포 관리</h3>
+    <p><strong>팁:</strong> AppProject와 애플리케이션 세트를 활용하여 팀/환경별로 논리적 격리와 권한 관리를 구현하세요.</p>
+   </div>
+   <div class="concept-card">
+   <h3>헬스 체크 커스터마이즈</h3>
+   <p><strong>팁:</strong> ArgoCD의 헬치 다시 보드는 버네티스의 Liveiness/Readiness 프로브에 의존합니다. 정확한 헬치를 위해 커스텀 헬스 스크립트를 고려하세요.</p>
+   </div>
+  </div>
+  <div class="callout warn">
+   <p><strong>주의: Sync 실패 시</strong> 즉시 "자동 복구 (selfHeal)를 시도하지 마세요. 먼저 Git 저장소의 매니페스트 오류를 확인하고,수동 Sync"를 통해 신중히 조치하세요.</p>
+  </div>
+ </section>
+
+ <section id="chapter-7" class="section">
+  <h2>7. 참고 자료</h2>
+  <ul>
+   <li><a href="https://argo-cd.readthedocs.io/" target="_blank">공식 문서</a></li>
+   <li><a href="https://github.com/argoproj/argo-cd" target="_blank">GitHub 저장소</a></li>
+   <li><a href="https://www.youtube.com/watch?v=MeU5_k9ssrs" target="_blank">GitOps with ArgoCD - CNCF Webinar (YouTube)</a></li>
+   <li><a href="https://codefresh.io/learn/argo-cd/" target="_blank">ArgoCD Best Practices (Codefresh)</a></li>
+  </ul>
+ </section>
+</main>
+
+<footer>
+ <p>본 가이드는 ArgoCD 실무 적용의 핵심을 빠르게 익히기 위해 제작되었습니다.</p>
+ <p>관련 태그: <span class="tag">gitops</span> <span class="tag">k8s</span> <span class="tag">cd</span></p>
+ <p>© 2024. 작성: 데브옵스 엔지니어</p>
+</footer>
+</body>
+</html>
