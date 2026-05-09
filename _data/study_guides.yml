@@ -436,3 +436,9 @@
   tags: ["data-warehouse", "aws", "mpp"]
   date: "2026-05-09"
   url: "/study-guides/amazon-redshift-study-guide.html"
+- keyword: "ArgoCD"
+  slug: "argocd"
+  category: "infra"
+  tags: ["gitops", "k8s", "cd"]
+  date: "2026-05-09"
+  url: "/study-guides/argocd-study-guide.html"
