@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Helm 완전 정복 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc ol {
+            list-style-position: inside;
+            columns: 2;
+        }
+        .toc li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            line-height: 1.4;
+            color: var(--accent2);
+        }
+        pre, code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background-color: var(--surface);
+            border-radius: 4px;
+        }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-family: monospace;
+            color: var(--accent4);
+            margin-top: 1.5rem;
+            margin-bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .toc ol {
+                columns: 1;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero" id="top">
+        <h1>Helm 실무 스터디 가이드</h1>
+        <p class="subtitle">데브옵스 · 인프라 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">Kubernetes</span>
+            <span class="badge">Package Manager</span>
+            <span class="badge">Charts</span>
+            <span class="badge">DevOps</span>
+            <span class="badge">Infra as Code</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </section>
+
+    <section class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#helm이란">Helm이란?</a></li>
+            <li><a href="#왜-써야-하는가">왜 써야 하는가?</a></li>
+            <li><a href="#핵심-개념">핵심 개념</a></li>
+            <li><a href="#퀵스타트">퀵스타트</a></li>
+            <li><a href="#핵심-설정-레퍼런스">핵심 설정 레퍼런스</a></li>
+            <li><a href="#실무-팁-트러블슈팅">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#참고-자료">참고 자료</a></li>
+        </ol>
+    </section>
+
+    <section class="section" id="helm이란">
+        <h2>1. Helm이란?</h2>
+        <p>Helm은 Kubernetes용 패키지 매니저입니다. 복잡한 Kubernetes 애플리케이션을 정의, 설치, 업그레이드하는 프로세스를 단순화하는 "차트(Charts)"라는 패키지 형식을 제공합니다.</p>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>📦 패키지 매니저</h4>
+                <p>apt, yum, pip와 유사하게 Kubernetes 애플리케이션(Deployment, Service, ConfigMap 등)을 하나의 패키지(Chart)로 묶어 배포, 버전 관리, 의존성 해결을 가능하게 합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🛠 템플릿 엔진</h4>
+                <p>Go 템플릿을 사용하여 동적인 Kubernetes 매니페스트를 생성합니다. 환경별(dev/stage/prod) 값(value) 주입을 통해 재사용성을 극대화합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>🔄 릴리스 관리자</h4>
+                <p>Kubernetes에 배포된 애플리케이션의 릴리스(설치 인스턴스)를 추적하고, 롤백, 업그레이드, 삭제를 관리합니다. <code>helm list</code>로 모든 릴리스를 확인할 수 있습니다.</p>
+            </div>
+        </div>
+        <div class="callout">
+            <strong>핵심:</strong> Helm은 "Kubernetes 애플리케이션의 생명주기 관리"를 표준화하고 자동화하는 도구입니다.
+        </div>
+    </section>
+
+    <section class="section" id="왜-써야-하는가">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>기존의 kubectl apply 방식과 Helm을 비교해보면 생산성 차이가 명확합니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>비교 항목</th>
+                    <th>kubectl apply (Raw YAML)</th>
+                    <th>Helm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>재사용성</strong></td>
+                    <td>환경별 YAML 복사/수정 필요. 중복 코드 발생.</td>
+                    <td>단일 Chart 템플릿 + values.yaml 파일로 모든 환경 관리.</td>
+                </tr>
+                <tr>
+                    <td><strong>배포 관리</strong></td>
+                    <td>배포 히스토리 추적 어려움. 롤백이 수동.</td>
+                    <td>릴리스 버전 자동 기록. <code>helm rollback</code>으로 한 줄 롤백.</td>
+                </tr>
+                <tr>
+                    <td><strong>의존성</strong></td>
+                    <td>수동으로 순서대로 apply. (e.g., ConfigMap → Deployment)</td>
+                    <td>Chart.yaml에 의존성 정의. Helm이 순서대로 설치/업데이트.</td>
+                </tr>
+                <tr>
+                    <td><strong>공유 및 배포</strong></td>
+                    <td>Git 저장소에 YAML 파일을 올리는 것이 일반적.</td>
+                    <td>공식/사설 Chart 저장소(Repository)로 패키지 공유 및 버전 관리.</td>
+                </tr>
+                <tr>
+                    <td><strong>템플릿 기능</strong></td>
+                    <td>Kustomize, envsubst 등 별도 도구 필요.</td>
+                    <td>내장된 강력한 템플릿 엔진 제공.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout warn">
+            <strong>주의:</strong> 간단한 단일 Pod나 학습용 배포에는 오버헤드가 될 수 있습니다. 복잡성과 팀의 운영 규모에 맞게 도입을 결정하세요.
+        </div>
+    </section>
+
+    <section class="section" id="핵심-개념">
+        <h2>3. 핵심 개념</h2>
+        <p>Helm의 아키텍처와 핵심 구성 요소를 이해해야 실무 적용이 수월합니다.</p>
+        <div class="diagram">
++-------------------+      +----------------------+      +-------------------+
+|   Helm Client     |----->|   Tiller (v2) /      |----->|   Kubernetes      |
+|   (helm CLI)      |      |   Helm Library (v3)  |      |   API Server      |
++-------------------+      +----------------------+      +-------------------+
+         |                           |                              |
+         v                           v                              v
+[차트 저장소 조회]           [템플릿 렌더링]                [리소스 생성/관리]
+[명령어 실행]               [릴리스 관리]                  (Deploy, SVC, 등)
+        </div>
+        <h3>주요 용어</h3>
+        <ul style="padding-left: 2rem; margin: 1rem 0;">
+            <li><strong>Chart</strong>: Helm 패키지. 애플리케이션을 실행하는 데 필요한 모든 리소스 정의의 집합.</li>
+            <li><strong>Repository (Repo)</strong>: Chart가 저장되고 공유되는 곳.</li>
+            <li><strong>Release</strong>: Kubernetes 클러스터에 배포된 Chart의 인스턴스. 하나의 Chart로 여러 Release 생성 가능.</li>
+            <li><strong>Values</strong>: Chart에 전달되는 구성 값. 템플릿을 구체화합니다. (values.yaml, --set)</li>
+            <li><strong>Template</strong>: Kubernetes 매니페스트를 생성하는 Go 템플릿 파일들 (templates/ 디렉토리).</li>
+        </ul>
+        <p><strong>Helm v3 이후 Tiller가 제거</strong>되어 아키텍처가 단순화되었으며, 보안과 운영이 개선되었습니다. 본 가이드는 v3 기준입니다.</p>
+    </section>
+
+    <section class="section" id="퀵스타트">
+        <h2>4. 퀵스타트: 5분 안에 첫 Chart 배포하기</h2>
+
+        <h3>Step 1: 설치</h3>
+        <p class="code-block-title">macOS (Homebrew) / Linux (스크립트) / Windows (Chocolatey)</p>
+        <pre><code># macOS
+brew install helm
+
+# Linux
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# 설치 확인
+helm version --short</code></pre>
+
+        <h3>Step 2: 기본 저장소 추가</h3>
+        <pre><code># 공식 안정화(stable) 저장소 추가 (최신 v3에서는 bitnami를 권장)
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update  # 저장소 메타데이터 갱신
+
+# 저장소 목록 확인
+helm repo list</code></pre>
+
+        <h3>Step 3: 첫 번째 Chart 검색 및 설치</h3>
+        <pre><code># nginx 차트 검색
+helm search repo bitnami/nginx
+
+# nginx 설치 (my-nginx라는 릴리스 이름으로)
+helm install my-nginx bitnami/nginx
+
+# 릴리스 상태 확인
+helm list
+kubectl get pods,svc -l app.kubernetes.io/instance=my-nginx</code></pre>
+
+        <h3>Step 4: 나만의 간단한 Chart 생성하기</h3>
+        <pre><code># Chart 스캐폴딩 생성
+helm create my-first-app
+cd my-first-app
+tree .  # 구조 확인
+
+# templates/ 디렉토리의 YAML 파일들을 values.yaml 값으로 렌더링 테스트
+helm template . --debug
+
+# 로컬에 설치 (--dry-run으로 시뮬레이션 가능)
+helm install my-release . --dry-run
+helm install my-release . --namespace=default --create-namespace</code></pre>
+
+        <h3>Step 5: Python 애플리케이션을 위한 Chart 예제 (values.yaml)</h3>
+        <p class="code-block-title">values.yaml</p>
+        <pre><code># my-first-app/values.yaml
+replicaCount: 3
+
+image:
+  repository: my-registry/python-api
+  tag: "v1.2.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+env:
+  - name: DEBUG
+    value: "false"
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: url</code></pre>
+        <p class="code-block-title">템플릿 예시 (templates/deployment.yaml 일부)</p>
+        <pre><code># my-first-app/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+        {{- toYaml .Values.env | nindent 8 }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}</code></pre>
+    </section>
+
+    <section class="section" id="핵심-설정-레퍼런스">
+        <h2>5. 핵심 설정 레퍼런스 (values.yaml)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>경로</th>
+                    <th>기본값/예시</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>replicaCount</code></td>
+                    <td>1</td>
+                    <td>Pod 복제본 수</td>
+                </tr>
+                <tr>
+                    <td><code>image.repository</code></td>
+                    <td>nginx</td>
+                    <td>컨테이너 이미지 레포지토리</td>
+                </tr>
+                <tr>
+                    <td><code>image.tag</code></td>
+                    <td>"latest"</td>
+                    <td>이미지 태그 (고정 버전 사용 권장)</td>
+                </tr>
+                <tr>
+                    <td><code>image.pullPolicy</code></td>
+                    <td>IfNotPresent</td>
+                    <td>Always, IfNotPresent, Never</td>
+                </tr>
+                <tr>
+                    <td><code>service.type</code></td>
+                    <td>ClusterIP</td>
+                    <td>ClusterIP, NodePort, LoadBalancer</td>
+                </tr>
+                <tr>
+                    <td><code>service.port</code></td>
+                    <td>80</td>
+                    <td>서비스 노출 포트</td>
+                </tr>
+                <tr>
+                    <td><code>ingress.enabled</code></td>
+                    <td>false</td>
+                    <td>Ingress 리소스 생성 여부</td>
+                </tr>
+                <tr>
+                    <td><code>resources.limits</code></td>
+                    <td>{}</td>
+                    <td>CPU/Memory 상한</td>
+                </tr>
+                <tr>
+                    <td><code>nodeSelector</code></td>
+                    <td>{}</td>
+                    <td>Pod를 특정 노드에 스케줄링</td>
+                </tr>
+                <tr>
+                    <td><code>tolerations</code></td>
+                    <td>[]</td>
+                    <td>테인트(taint) 허용 설정</td>
+                </tr>
+                <tr>
+                    <td><code>affinity</code></td>
+                    <td>{}</td>
+                    <td>Pod/Node 어피니티/안티-어피니티 규칙</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="section" id="실무-팁-트러블슈팅">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+
+        <h3>🚀 실무 팁</h3>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>1. Values 파일 전략</h4>
+                <p><code>values.yaml</code>을 기본으로, 환경별 <code>values-{env}.yaml</code> 파일을 만들어 <code>--values</code> 또는 <code>-f</code> 플래그로 오버라이드하세요.</p>
+                <pre><code>helm install -f values-production.yaml .</code></pre>
+            </div>
+            <div class="concept-card">
+                <h4>2. 릴리스 이름 관리</h4>
+                <p>자동 생성(<code>--generate-name</code>)보다는 CI/CD 파이프라인에서 고유한 릴리스 이름(예: <code>app-name-${GIT_SHA}</code>)을 사용하여 추적성을 높이세요.</p>
+            </div>
+            <div class="concept-card">
+                <h4>3. 의존성(Subchart) 관리</h4>
+                <p>공통 컴포넌트(로그 수집기, 모니터링 에이전트)는 Subchart로 분리하고 <code>Chart.yaml</code>의 <code>dependencies:</code> 섹션에서 관리하세요.</p>
+                <pre><code>helm dependency update .</code></pre>
+            </div>
+        </div>
+
+        <h3>🔧 자주 겪는 문제 & 해결책</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>문제</th>
+                    <th>원인</th>
+                    <th>해결 방법</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Error: rendered manifests contain a resource that already exists</code></td>
+                    <td>동일한 이름의 Kubernetes 리소스가 이미 존재.</td>
+                    <td>기존 리소스 삭제 또는 <code>helm upgrade</code> 사용. <code>--atomic</code> 플래그로 실패 시 자동 롤백.</td>
+                </tr>
+                <tr>
+                    <td><code>Error: unable to build kubernetes objects from release manifest</code></td>
+                    <td>템플릿 렌더링 오류 (형식 오류, 값 누락).</td>
+                    <td><code>helm template . --debug</code>로 렌더링 결과를 먼저 검증하세요.</td>
+                </tr>
+                <tr>
+                    <td>설치 후 Pod가 CrashLoopBackOff 상태</td>
+                    <td>values.yaml의 설정 오류 (예: 잘못된 환경 변수, 리소스 부족).</td>
+                    <td><code>kubectl describe pod</code>와 <code>kubectl logs</code>로 원인 확인. values.yaml의 <code>image.tag</code> 등을 점검.</td>
+                </tr>
+                <tr>
+                    <td><code>Error: release named "xxx" already exists</code></td>
+                    <td>동일한 릴리스 이름으로 이미 설치됨.</td>
+                    <td><code>helm list --all</code>로 확인 후, <code>helm uninstall xxx</code>로 삭제하거나 다른 이름으로 설치.</td>
+                </tr>
+                <tr>
+                    <td>템플릿 함수(<code>{{ .Values.foo }}</code>)가 작동 안 함</td>
+                    <td>값이 정의되지 않았거나 자료형 불일치.</td>
+                    <td>템플릿에 기본값 설정: <code>{{ .Values.foo | default "bar" }}</code>. <code>required</code> 함수로 필수값 강제.</td>
+                </tr>
+                <tr>
+                    <td>업그레이드가 너무 오래 걸리거나 멈춤</td>
+                    <td>리소스의 readinessProbe 실패 또는 리소스 할당 대기.</td>
+                    <td><code>--timeout</code> 플래그로 시간 제한 증가. <code>kubectl get events</code>로 클러스터 이벤트 확인.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <strong>디버깅 필수 명령어:</strong><br>
+            <code>helm get manifest &lt;RELEASE_NAME&gt;</code> : 배포된 실제 매니페스트 확인<br>
+            <code>helm get values &lt;RELEASE_NAME&gt;</code> : 해당 릴리스에 적용된 values 확인<br>
+            <code>helm history &lt;RELEASE_NAME&gt;</code> : 릴리스 변경 이력 확인
+        </div>
+    </section>
+
+    <section class="section" id="참고-자료">
+        <h2>7. 참고 자료</h2>
+        <ul style="padding-left: 2rem; margin: 1rem 0;">
+            <li><a href="https://helm.sh/docs" target="_blank">📘 Helm 공식 문서 (영문)</a> - 가장 정확하고 최신의 정보원</li>
+            <li><a href="https://artifacthub.io" target="_blank">📦 Artifact Hub</a> - 공개 Helm Chart 검색 및 탐색</li>
+            <li><a href="https://helm.sh/docs/chart_template_guide/" target="_blank">🛠 Chart Template Guide</a> - 템플릿 작성법 심화 학습</li>
+            <li><a href="https://github.com/helm/charts" target="_blank">🐙 (레거시) Helm Stable Charts GitHub</a> - 예제 코드 참고용</li>
+            <li><a href="https://helm.sh/blog/" target="_blank">✍️ Helm Blog</a> - 새 버전 소식 및 베스트 프랙티스</li>
+        </ul>
+        <div class="callout">
+            <strong>학습 로드맵 제안:</strong> 1) 기본 명령어 숙달 → 2) 공식 Chart 구조 분석 → 3) 간단한 Chart 직접 작성 → 4) 의존성, Hooks 등 고급 기능 탐색 → 5) CI/CD 파이프라인과 통합.
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Helm 실무 가이드. 데브옵스 및 인프라 엔지니어를 위한 요약 자료입니다.</p>
+        <p>본 문서는 Helm 공식 문서를 기반으로 실무 경험을 추가하여 작성되었습니다. 항상 최신 공식 문서를 참고하세요.</p>
+        <p style="margin-top: 1rem;"><a href="#top">🔝 맨 위로 이동</a></p>
+    </footer>
+</body>
+</html>
