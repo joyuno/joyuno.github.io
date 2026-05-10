@@ -442,3 +442,9 @@
   tags: ["gitops", "k8s", "cd"]
   date: "2026-05-09"
   url: "/study-guides/argocd-study-guide.html"
+- keyword: "Helm"
+  slug: "helm"
+  category: "infra"
+  tags: ["k8s", "package-manager", "charts"]
+  date: "2026-05-10"
+  url: "/study-guides/helm-study-guide.html"
