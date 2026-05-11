@@ -1,0 +1,262 @@
+---
+layout: default
+title: Statistics
+---
+
+<div class="page-header">
+  <h1><i data-lucide="bar-chart-3" class="icon"></i> Statistics</h1>
+  <p>전체 글의 키워드 흐름 — TF-IDF 핫 키워드 + 8주 트렌드 (devblog · til · 날짜 태그 제외)</p>
+</div>
+
+<div class="stats-grid">
+  <section class="stats-card">
+    <div class="stats-card-title">이번 주 뜬 키워드</div>
+    <div class="stats-card-sub">TF-IDF · 평소엔 드물다가 이번 주 유난히 자주 등장한 태그</div>
+    <ul id="stats-hot"><li class="stats-empty">분석 중…</li></ul>
+  </section>
+  <section class="stats-card">
+    <div class="stats-card-title">최근 8주 태그 추이</div>
+    <div class="stats-card-sub">이번 주 상위 5개 태그의 주별 등장 횟수</div>
+    <div class="stats-chart-wrap"><canvas id="stats-trend-chart"></canvas></div>
+  </section>
+</div>
+
+<style>
+  .stats-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .stats-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.7rem;
+    padding: 1.25rem 1.4rem;
+    box-shadow: var(--shadow);
+  }
+  .stats-card-title {
+    font-size: 0.78rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--heading-color);
+    font-family: monospace;
+    margin-bottom: 0.3rem;
+  }
+  .stats-card-sub {
+    font-size: 0.78rem; color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  #stats-hot { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .stats-hot-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 0.85rem;
+    row-gap: 0.18rem;
+    align-items: baseline;
+    padding: 0.55rem 0.8rem;
+    background: var(--main-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .stats-hot-item .stats-kw {
+    color: var(--accent-color);
+    font-family: monospace;
+    font-weight: 600;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .stats-hot-item .stats-count {
+    color: var(--text-color);
+    font-family: monospace;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-hot-item .stats-delta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: monospace;
+    grid-column: 1 / -1;
+  }
+  .stats-hot-item .stats-delta.up   { color: #10b981; }
+  .stats-hot-item .stats-delta.down { color: #ef4444; }
+  .stats-empty {
+    padding: 2rem 0;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 0.88rem;
+    list-style: none;
+  }
+  .stats-chart-wrap {
+    position: relative;
+    height: 380px;
+  }
+  @media (max-width: 820px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .stats-chart-wrap { height: 280px; }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  // 제외 태그 — 날짜성 (YYYY-MM, YYYY, year-YYYY) + 메타 (devblog, til, daily-report 등)
+  const EXCLUDE_RE = /^(?:20\d{2}-\d{2}|20\d{2}|year-20\d{2})$/i;
+  const EXCLUDE_SET = new Set(['devblog', 'dev-blog', 'til', 'daily-report', 'blog']);
+  function keepTag(t) {
+    const k = (t || '').trim().toLowerCase();
+    if (!k) return false;
+    if (EXCLUDE_RE.test(k)) return false;
+    if (EXCLUDE_SET.has(k)) return false;
+    return true;
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  }
+
+  // ISO week key = 그 주의 월요일 날짜 (YYYY-MM-DD)
+  function weekKeyOf(iso) {
+    const d = new Date(iso + 'T00:00:00Z');
+    const day = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() - (day - 1));
+    return d.toISOString().slice(0, 10);
+  }
+
+  function render(posts) {
+    const hotEl = document.getElementById('stats-hot');
+    const canvas = document.getElementById('stats-trend-chart');
+
+    // 각 post 의 tags 파싱 (search.json 은 comma-separated string 으로 저장)
+    const items = posts.map(p => {
+      const tagsRaw = typeof p.tags === 'string' ? p.tags.split(',') : (p.tags || []);
+      const tags = tagsRaw.map(t => t.trim()).filter(keepTag);
+      return { date: p.date, tags };
+    }).filter(p => p.date && p.tags.length);
+
+    if (!items.length) {
+      hotEl.innerHTML = '<li class="stats-empty">아직 키워드가 충분하지 않아요</li>';
+      return;
+    }
+
+    // 주별 카운트 + df + 첫 등장 case
+    const byWeek = new Map();
+    const wkFreq = new Map();
+    const displayCase = new Map();
+    items.forEach(p => {
+      const wk = weekKeyOf(p.date);
+      if (!byWeek.has(wk)) byWeek.set(wk, new Map());
+      const wMap = byWeek.get(wk);
+      p.tags.forEach(orig => {
+        const kw = orig.toLowerCase();
+        if (!displayCase.has(kw)) displayCase.set(kw, orig);
+        wMap.set(kw, (wMap.get(kw) || 0) + 1);
+        if (!wkFreq.has(kw)) wkFreq.set(kw, new Set());
+        wkFreq.get(kw).add(wk);
+      });
+    });
+
+    const allWeeks = Array.from(byWeek.keys()).sort();
+    const N = allWeeks.length;
+    const thisWeek = allWeeks[N - 1];
+    const thisWeekMap = byWeek.get(thisWeek) || new Map();
+
+    // TF-IDF
+    const scored = [];
+    thisWeekMap.forEach((tf, kw) => {
+      const df = wkFreq.get(kw).size;
+      const idf = Math.log(N / df);
+      scored.push({ kw, tf, df, score: tf * idf });
+    });
+    scored.sort((a, b) => b.score - a.score || b.tf - a.tf);
+
+    // Hot panel
+    const topHot = scored.slice(0, 8);
+    if (!topHot.length) {
+      hotEl.innerHTML = '<li class="stats-empty">이번 주는 태그가 없습니다</li>';
+    } else {
+      hotEl.innerHTML = topHot.map(s => {
+        let total = 0;
+        byWeek.forEach(m => { total += (m.get(s.kw) || 0); });
+        const avg = total / N;
+        const delta = s.tf - avg;
+        const cls = delta > 0.5 ? ' up' : delta < -0.5 ? ' down' : '';
+        const sign = delta > 0 ? '+' : '';
+        return (
+          '<li class="stats-hot-item">' +
+            '<span class="stats-kw">' + escapeHtml(displayCase.get(s.kw) || s.kw) + '</span>' +
+            '<span class="stats-count">' + s.tf + '건</span>' +
+            '<span class="stats-delta' + cls + '">평소 ' + avg.toFixed(1) + '건/주 · ' + sign + delta.toFixed(1) + '</span>' +
+          '</li>'
+        );
+      }).join('');
+    }
+
+    // Chart
+    if (typeof Chart === 'undefined') {
+      canvas.parentElement.innerHTML = '<div class="stats-empty">Chart.js 로드 실패</div>';
+      return;
+    }
+    const last8 = allWeeks.slice(-8);
+    const trendKws = scored.slice(0, 5).map(s => s.kw);
+    if (!trendKws.length) return;
+
+    const PALETTE = [
+      { line: '#2563eb', fill: 'rgba(37,99,235,0.12)' },
+      { line: '#06b6d4', fill: 'rgba(6,182,212,0.12)' },
+      { line: '#eab308', fill: 'rgba(234,179,8,0.12)' },
+      { line: '#10b981', fill: 'rgba(16,185,129,0.12)' },
+      { line: '#a855f7', fill: 'rgba(168,85,247,0.12)' },
+    ];
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const axisColor = isDark ? '#888' : '#666';
+    const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: last8.map(w => w.slice(5) + ' 주'),
+        datasets: trendKws.map((kw, i) => ({
+          label: displayCase.get(kw) || kw,
+          data: last8.map(w => (byWeek.get(w) || new Map()).get(kw) || 0),
+          borderColor: PALETTE[i].line,
+          backgroundColor: PALETTE[i].fill,
+          fill: false,
+          tension: 0.35,
+          pointRadius: 3,
+          pointHoverRadius: 6,
+          borderWidth: 2,
+        })),
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { color: axisColor, font: { family: 'monospace', size: 11 }, boxWidth: 10, boxHeight: 10, padding: 12 },
+          },
+          tooltip: { titleFont: { family: 'monospace' }, bodyFont: { family: 'monospace' } },
+        },
+        scales: {
+          x: { ticks: { color: axisColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 }, grid: { color: gridColor } },
+          y: { beginAtZero: true, ticks: { precision: 0, color: axisColor }, grid: { color: gridColor } },
+        },
+      },
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('{{ "/search.json" | relative_url }}')
+      .then(r => r.json())
+      .then(render)
+      .catch(e => {
+        console.error('search.json fetch 실패', e);
+        document.getElementById('stats-hot').innerHTML = '<li class="stats-empty">⚠️ 데이터 로드 실패</li>';
+      });
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+})();
+</script>
