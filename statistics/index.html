@@ -232,15 +232,20 @@ title: Statistics
     if (allWeeks.length === 0) return;
     const continuousWeeks = genWeekSequence(allWeeks[0], allWeeks[allWeeks.length - 1]);
     const last8 = continuousWeeks.slice(-8);
-    const trendKws = sortedAll.slice(0, 5).map(([kw]) => kw);
+    const trendKws = sortedAll.slice(0, 10).map(([kw]) => kw);
     if (!trendKws.length) return;
 
     const PALETTE = [
-      { line: '#2563eb', fill: 'rgba(37,99,235,0.12)' },
-      { line: '#06b6d4', fill: 'rgba(6,182,212,0.12)' },
-      { line: '#eab308', fill: 'rgba(234,179,8,0.12)' },
-      { line: '#10b981', fill: 'rgba(16,185,129,0.12)' },
-      { line: '#a855f7', fill: 'rgba(168,85,247,0.12)' },
+      { line: '#2563eb', fill: 'rgba(37,99,235,0.12)' },   // 파랑
+      { line: '#06b6d4', fill: 'rgba(6,182,212,0.12)' },   // 시안
+      { line: '#eab308', fill: 'rgba(234,179,8,0.12)' },   // 노랑
+      { line: '#10b981', fill: 'rgba(16,185,129,0.12)' },  // 초록
+      { line: '#a855f7', fill: 'rgba(168,85,247,0.12)' },  // 보라
+      { line: '#ef4444', fill: 'rgba(239,68,68,0.12)' },   // 빨강
+      { line: '#f97316', fill: 'rgba(249,115,22,0.12)' },  // 주황
+      { line: '#84cc16', fill: 'rgba(132,204,22,0.12)' },  // 라임
+      { line: '#0ea5e9', fill: 'rgba(14,165,233,0.12)' },  // 하늘
+      { line: '#ec4899', fill: 'rgba(236,72,153,0.12)' },  // 핑크
     ];
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
