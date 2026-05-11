@@ -3,28 +3,40 @@ layout: default
 title: Statistics
 ---
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+
 <div class="page-header">
   <h1><i data-lucide="bar-chart-3" class="icon"></i> Statistics</h1>
-  <p>전체 글의 키워드 흐름 — TF-IDF 핫 키워드 + 8주 트렌드 (devblog · til · 날짜 태그 제외)</p>
+  <p>전체 글의 태그 흐름 — 워드클라우드 + 8주 트렌드 (devblog · til · 날짜 태그 제외)</p>
 </div>
 
 <div class="stats-grid">
   <section class="stats-card">
-    <div class="stats-card-title">이번 주 뜬 키워드</div>
-    <div class="stats-card-sub">TF-IDF · 평소엔 드물다가 이번 주 유난히 자주 등장한 태그</div>
-    <ul id="stats-hot"><li class="stats-empty">분석 중…</li></ul>
+    <div class="stats-card-title">태그 워드클라우드</div>
+    <div class="stats-card-sub">전체 기간 등장 빈도순. 글자 크기 ∝ 빈도</div>
+    <div id="stats-cloud" class="stats-cloud"><span class="stats-empty">분석 중…</span></div>
   </section>
   <section class="stats-card">
     <div class="stats-card-title">최근 8주 태그 추이</div>
-    <div class="stats-card-sub">이번 주 상위 5개 태그의 주별 등장 횟수</div>
+    <div class="stats-card-sub">상위 5개 태그의 주별 등장 횟수 (월요일 시작 ISO 주, 글 없는 주는 0 으로 채움)</div>
     <div class="stats-chart-wrap"><canvas id="stats-trend-chart"></canvas></div>
   </section>
 </div>
 
 <style>
+  /* statistics 페이지 전용 — 사이트는 Noto Sans KR 사용하지만 이 영역만 ai-tech 와 동일하게 Pretendard 로 통일 */
+  .page-header h1,
+  .page-header p,
+  .stats-grid,
+  .stats-card,
+  .stats-cloud,
+  .stats-chart-wrap {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+
   .stats-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
     gap: 1.5rem;
     margin: 1.5rem 0;
   }
@@ -36,10 +48,10 @@ title: Statistics
     box-shadow: var(--shadow);
   }
   .stats-card-title {
-    font-size: 0.78rem;
-    letter-spacing: 0.15em; text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--heading-color);
-    font-family: monospace;
+    font-weight: 600;
     margin-bottom: 0.3rem;
   }
   .stats-card-sub {
@@ -47,46 +59,35 @@ title: Statistics
     margin-bottom: 1rem;
     line-height: 1.5;
   }
-  #stats-hot { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-  .stats-hot-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 0.85rem;
-    row-gap: 0.18rem;
-    align-items: baseline;
-    padding: 0.55rem 0.8rem;
-    background: var(--main-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
+
+  /* 워드클라우드 */
+  .stats-cloud {
+    display: flex; flex-wrap: wrap; gap: 0.45rem 0.7rem;
+    align-items: baseline; justify-content: flex-start;
+    line-height: 1.4;
+    min-height: 200px;
   }
-  .stats-hot-item .stats-kw {
+  .stats-cloud .cloud-tag {
     color: var(--accent-color);
-    font-family: monospace;
     font-weight: 600;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    transition: color 0.15s, transform 0.15s;
+    cursor: default;
+    user-select: none;
   }
-  .stats-hot-item .stats-count {
-    color: var(--text-color);
-    font-family: monospace;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-  }
-  .stats-hot-item .stats-delta {
-    font-size: 0.72rem;
+  .stats-cloud .cloud-tag:hover { color: var(--accent-hover); transform: translateY(-1px); }
+  .stats-cloud .cloud-tag .cnt {
     color: var(--text-muted);
-    font-family: monospace;
-    grid-column: 1 / -1;
+    font-size: 0.6em;
+    font-weight: 400;
+    margin-left: 0.15em;
+    vertical-align: super;
   }
-  .stats-hot-item .stats-delta.up   { color: #10b981; }
-  .stats-hot-item .stats-delta.down { color: #ef4444; }
   .stats-empty {
-    padding: 2rem 0;
     color: var(--text-muted);
-    text-align: center;
-    font-size: 0.88rem;
-    list-style: none;
+    font-size: 0.9rem;
+    margin: 1rem 0;
   }
+
   .stats-chart-wrap {
     position: relative;
     height: 380px;
@@ -100,6 +101,8 @@ title: Statistics
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function () {
+  const PRETENDARD = "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif";
+
   // 제외 태그 — 날짜성 (YYYY-MM, YYYY, year-YYYY) + 메타 (devblog, til, daily-report 등)
   const EXCLUDE_RE = /^(?:20\d{2}-\d{2}|20\d{2}|year-20\d{2})$/i;
   const EXCLUDE_SET = new Set(['devblog', 'dev-blog', 'til', 'daily-report', 'blog']);
@@ -123,11 +126,23 @@ title: Statistics
     return d.toISOString().slice(0, 10);
   }
 
+  // 두 monday 사이의 모든 주차 키 생성 (연속, 빈 주도 포함)
+  function genWeekSequence(firstKey, lastKey) {
+    const out = [];
+    const cur = new Date(firstKey + 'T00:00:00Z');
+    const end = new Date(lastKey + 'T00:00:00Z');
+    while (cur <= end) {
+      out.push(cur.toISOString().slice(0, 10));
+      cur.setUTCDate(cur.getUTCDate() + 7);
+    }
+    return out;
+  }
+
   function render(posts) {
-    const hotEl = document.getElementById('stats-hot');
+    const cloudEl = document.getElementById('stats-cloud');
     const canvas = document.getElementById('stats-trend-chart');
 
-    // 각 post 의 tags 파싱 (search.json 은 comma-separated string 으로 저장)
+    // 각 post 의 tags 파싱 (search.json 은 comma-separated string)
     const items = posts.map(p => {
       const tagsRaw = typeof p.tags === 'string' ? p.tags.split(',') : (p.tags || []);
       const tags = tagsRaw.map(t => t.trim()).filter(keepTag);
@@ -135,14 +150,14 @@ title: Statistics
     }).filter(p => p.date && p.tags.length);
 
     if (!items.length) {
-      hotEl.innerHTML = '<li class="stats-empty">아직 키워드가 충분하지 않아요</li>';
+      cloudEl.innerHTML = '<span class="stats-empty">아직 태그가 충분하지 않아요</span>';
       return;
     }
 
-    // 주별 카운트 + df + 첫 등장 case
-    const byWeek = new Map();
-    const wkFreq = new Map();
-    const displayCase = new Map();
+    // 주별 카운트 + 전체 빈도 + 첫 등장 case
+    const byWeek = new Map();        // wkKey → Map<kw, count>  (해당 주 글들의 tag count)
+    const totalFreq = new Map();     // kw → 전체 누적 count
+    const displayCase = new Map();   // 소문자키 → 원본 표기
     items.forEach(p => {
       const wk = weekKeyOf(p.date);
       if (!byWeek.has(wk)) byWeek.set(wk, new Map());
@@ -151,54 +166,44 @@ title: Statistics
         const kw = orig.toLowerCase();
         if (!displayCase.has(kw)) displayCase.set(kw, orig);
         wMap.set(kw, (wMap.get(kw) || 0) + 1);
-        if (!wkFreq.has(kw)) wkFreq.set(kw, new Set());
-        wkFreq.get(kw).add(wk);
+        totalFreq.set(kw, (totalFreq.get(kw) || 0) + 1);
       });
     });
 
-    const allWeeks = Array.from(byWeek.keys()).sort();
-    const N = allWeeks.length;
-    const thisWeek = allWeeks[N - 1];
-    const thisWeekMap = byWeek.get(thisWeek) || new Map();
-
-    // TF-IDF
-    const scored = [];
-    thisWeekMap.forEach((tf, kw) => {
-      const df = wkFreq.get(kw).size;
-      const idf = Math.log(N / df);
-      scored.push({ kw, tf, df, score: tf * idf });
-    });
-    scored.sort((a, b) => b.score - a.score || b.tf - a.tf);
-
-    // Hot panel
-    const topHot = scored.slice(0, 8);
-    if (!topHot.length) {
-      hotEl.innerHTML = '<li class="stats-empty">이번 주는 태그가 없습니다</li>';
+    // 워드클라우드 — 전체 빈도 상위 N 개, 크기는 sqrt 스케일링 (선두 차이가 너무 크면 글자 폭발 방지)
+    const sortedAll = Array.from(totalFreq.entries()).sort((a, b) => b[1] - a[1]);
+    const top = sortedAll.slice(0, 40);
+    if (!top.length) {
+      cloudEl.innerHTML = '<span class="stats-empty">표시할 태그가 없어요</span>';
     } else {
-      hotEl.innerHTML = topHot.map(s => {
-        let total = 0;
-        byWeek.forEach(m => { total += (m.get(s.kw) || 0); });
-        const avg = total / N;
-        const delta = s.tf - avg;
-        const cls = delta > 0.5 ? ' up' : delta < -0.5 ? ' down' : '';
-        const sign = delta > 0 ? '+' : '';
-        return (
-          '<li class="stats-hot-item">' +
-            '<span class="stats-kw">' + escapeHtml(displayCase.get(s.kw) || s.kw) + '</span>' +
-            '<span class="stats-count">' + s.tf + '건</span>' +
-            '<span class="stats-delta' + cls + '">평소 ' + avg.toFixed(1) + '건/주 · ' + sign + delta.toFixed(1) + '</span>' +
-          '</li>'
-        );
+      const maxCnt = top[0][1];
+      const minCnt = top[top.length - 1][1];
+      const MIN_SIZE = 0.85, MAX_SIZE = 2.4;
+      const sizeFor = (c) => {
+        if (maxCnt === minCnt) return (MIN_SIZE + MAX_SIZE) / 2;
+        const t = (Math.sqrt(c) - Math.sqrt(minCnt)) / (Math.sqrt(maxCnt) - Math.sqrt(minCnt));
+        return MIN_SIZE + t * (MAX_SIZE - MIN_SIZE);
+      };
+      cloudEl.innerHTML = top.map(([kw, cnt]) => {
+        const size = sizeFor(cnt).toFixed(2);
+        return '<span class="cloud-tag" style="font-size:' + size + 'rem;">' +
+                 escapeHtml(displayCase.get(kw) || kw) +
+                 '<span class="cnt">' + cnt + '</span>' +
+               '</span>';
       }).join('');
     }
 
-    // Chart
+    // 트렌드 차트 — 상위 5개 태그(전체 빈도 기준), 최근 8주, 빈 주는 0 으로 채움
     if (typeof Chart === 'undefined') {
-      canvas.parentElement.innerHTML = '<div class="stats-empty">Chart.js 로드 실패</div>';
+      canvas.parentElement.innerHTML = '<span class="stats-empty">Chart.js 로드 실패</span>';
       return;
     }
-    const last8 = allWeeks.slice(-8);
-    const trendKws = scored.slice(0, 5).map(s => s.kw);
+
+    const allWeeks = Array.from(byWeek.keys()).sort();
+    if (allWeeks.length === 0) return;
+    const continuousWeeks = genWeekSequence(allWeeks[0], allWeeks[allWeeks.length - 1]);
+    const last8 = continuousWeeks.slice(-8);
+    const trendKws = sortedAll.slice(0, 5).map(([kw]) => kw);
     if (!trendKws.length) return;
 
     const PALETTE = [
@@ -216,7 +221,7 @@ title: Statistics
     new Chart(canvas, {
       type: 'line',
       data: {
-        labels: last8.map(w => w.slice(5) + ' 주'),
+        labels: last8.map(w => w.slice(5)),  // "MM-DD"
         datasets: trendKws.map((kw, i) => ({
           label: displayCase.get(kw) || kw,
           data: last8.map(w => (byWeek.get(w) || new Map()).get(kw) || 0),
@@ -236,13 +241,20 @@ title: Statistics
         plugins: {
           legend: {
             position: 'top',
-            labels: { color: axisColor, font: { family: 'monospace', size: 11 }, boxWidth: 10, boxHeight: 10, padding: 12 },
+            labels: { color: axisColor, font: { family: PRETENDARD, size: 12 }, boxWidth: 10, boxHeight: 10, padding: 12 },
           },
-          tooltip: { titleFont: { family: 'monospace' }, bodyFont: { family: 'monospace' } },
+          tooltip: {
+            titleFont: { family: PRETENDARD },
+            bodyFont: { family: PRETENDARD },
+          },
         },
         scales: {
-          x: { ticks: { color: axisColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 }, grid: { color: gridColor } },
-          y: { beginAtZero: true, ticks: { precision: 0, color: axisColor }, grid: { color: gridColor } },
+          x: {
+            ticks: { color: axisColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 10, font: { family: PRETENDARD } },
+            grid: { color: gridColor },
+            title: { display: true, text: '주 시작 (월요일)', color: axisColor, font: { family: PRETENDARD, size: 11 } },
+          },
+          y: { beginAtZero: true, ticks: { precision: 0, color: axisColor, font: { family: PRETENDARD } }, grid: { color: gridColor } },
         },
       },
     });
@@ -254,7 +266,7 @@ title: Statistics
       .then(render)
       .catch(e => {
         console.error('search.json fetch 실패', e);
-        document.getElementById('stats-hot').innerHTML = '<li class="stats-empty">⚠️ 데이터 로드 실패</li>';
+        document.getElementById('stats-cloud').innerHTML = '<span class="stats-empty">⚠️ 데이터 로드 실패</span>';
       });
     if (typeof lucide !== 'undefined') lucide.createIcons();
   });
