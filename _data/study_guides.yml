@@ -448,3 +448,9 @@
   tags: ["k8s", "package-manager", "charts"]
   date: "2026-05-10"
   url: "/study-guides/helm-study-guide.html"
+- keyword: "Prometheus + Grafana"
+  slug: "prometheus-grafana"
+  category: "infra"
+  tags: ["monitoring", "metrics", "visualization"]
+  date: "2026-05-11"
+  url: "/study-guides/prometheus-grafana-study-guide.html"

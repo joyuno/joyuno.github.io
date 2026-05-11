@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무 스터디 가이드: Prometheus + Grafana</title>
+    <style>
+        /* CSS 변수 (다크 테마) */
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Hero 섹션 */
+        .hero {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .meta-badge {
+            display: inline-flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        /* 목차 */
+        .toc {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+        .toc h2 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: none;
+            counter-reset: toc-counter;
+            padding-left: 0;
+        }
+        .toc ol li {
+            counter-increment: toc-counter;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .toc ol li::before {
+            content: counter(toc-counter) ". ";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        /* 섹션 */
+        .section {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+        .section h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+        .section h3 {
+            color: var(--accent2);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        /* 개념 카드 그리드 */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .concept-card {
+            background-color: var(--surface2);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 10px;
+        }
+        /* Callout */
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        /* Diagram */
+        .diagram {
+            background-color: var(--surface2);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            color: var(--accent2);
+            line-height: 1.4;
+        }
+        /* 표 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--surface2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        table th {
+            background-color: var(--surface);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        /* 코드블록 */
+        code, pre {
+            font-family: monospace;
+            background-color: var(--surface2);
+            color: var(--text);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+        /* 링크 */
+        a {
+            color: var(--accent);
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero 섹션 -->
+    <section class="hero">
+        <h1>Prometheus + Grafana 실무 스터디 가이드</h1>
+        <p class="subtitle">데브옵스 · 인프라 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badge">
+            <span class="badge">모니터링</span>
+            <span class="badge">메트릭</span>
+            <span class="badge">시각화</span>
+            <span class="badge">데브옵스</span>
+        </div>
+    </section>
+
+    <!-- 목차 -->
+    <section class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Prometheus + Grafana란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </section>
+
+    <!-- 1. Prometheus + Grafana란? -->
+    <section id="section1" class="section">
+        <h2>1. Prometheus + Grafana란?</h2>
+        <p>Prometheus는 오픈소스 시스템 모니터링 및 알람 툴킷입니다. Grafana는 메트릭 데이터를 시각화하는 분석 플랫폼입니다. 두 도구를 결합하면 <strong>메트릭 수집 → 저장 → 분석 → 시각화 → 알람</strong>의 완전한 모니터링 파이프라인을 구축할 수 있습니다.</p>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>메트릭 수집</h4>
+                <p>Pull 모델 기반. 대상 시스템의 HTTP 엔드포인트를 스크래핑하여 메트릭을 수집합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>시계열 저장</h4>
+                <p>수집된 데이터를 자체 시계열 데이터베이스에 저장하며, 효율적인 쿼리 언어(PromQL)를 제공합니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>시각화 & 알람</h4>
+                <p>Grafana를 통해 다채로운 대시보드 생성, Prometheus Alertmanager를 통해 알람 규칙 정의 및 전송.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 왜 써야 하는가? -->
+    <section id="section2" class="section">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>다른 모니터링 솔루션과 비교한 Prometheus+Grafana의 강점.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>솔루션</th>
+                    <th>모델</th>
+                    <th>데이터 모델</th>
+                    <th>주요 강점</th>
+                    <th>주요 단점</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Prometheus</td>
+                    <td>Pull</td>
+                    <td>다차원 시계열</td>
+                    <td>높은 자율성, 강력한 쿼리 언어, Kubernetes 네이티브</td>
+                    <td>장기 저장 부족, 샘플링만 가능</td>
+                </tr>
+                <tr>
+                    <td>Graphite</td>
+                    <td>Push</td>
+                    <td>계층적 시계열</td>
+                    <td>간단한 아키텍처, 장기 데이터</td>
+                    <td>다차원 라벨 지원 미약, 확장성 문제</td>
+                </tr>
+                <tr>
+                    <td>InfluxDB</td>
+                    <td>Push/Pull</td>
+                    <td>시계열 + 태그</td>
+                    <td>고성능 쓰기, SQL-like 쿼리</td>
+                    <td>클러스터 관리 복잡, 라이선스 제한</td>
+                </tr>
+                <tr>
+                    <td>Datadog/New Relic</td>
+                    <td>Push (Agent)</td>
+                    <td>다양한 메트릭</td>
+                    <td>통합 플랫폼, AI 기반 분석</td>
+                    <td>비용 높음, 벤더 종속</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <strong>결론:</strong> 오픈소스, 커뮤니티 활발, Kubernetes 환경과의 자연스러운 통합, 강력한 쿼리 언어로 인해 현대 데브옵스 환경의 사실상 표준입니다.
+        </div>
+    </section>
+
+    <!-- 3. 핵심 개념 -->
+    <section id="section3" class="section">
+        <h2>3. 핵심 개념</h2>
+        <h3>아키텍처 다이어그램</h3>
+        <div class="diagram">
+            +-------------------+      +-------------------+      +-------------------+
+            |   Target Systems  |      |   Prometheus      |      |   Grafana         |
+            |   (Apps, Nodes)   |<-----|   (Server + TSDB) |<-----|   (Dashboard)     |
+            |                   |      |                   |      |                   |
+            |  /metrics 엔드포인트 |      |  Scrape / Store   |      |  Query / Visualize |
+            +-------------------+      +-------------------+      +-------------------+
+                    ^                          ^                          ^
+                    |                          |                          |
+            +-------------------+      +-------------------+      +-------------------+
+            |   Exporters       |      |   Alertmanager    |      |   Data Sources    |
+            |   (node_exporter) |      |   (Alerts Routing)|      |   (Prom, Loki)    |
+            +-------------------+      +-------------------+      +-------------------+
+        </div>
+        <h3>핵심 용어</h3>
+        <ul>
+            <li><strong>메트릭(Metric)</strong>: 측정값 (예: http_requests_total).</li>
+            <li><strong>라벨(Label)</strong>: 메트릭의 차원 (예: method="POST", status="200").</li>
+            <li><strong>샘플(Sample)</strong>: 특정 시간의 메트릭 값 (타임스탬프 + 값).</li>
+            <li><strong>스크래핑(Scraping)</strong>: Prometheus가 대상의 /metrics 엔드포인트에서 데이터를 가져오는 과정.</li>
+            <li><strong>익스포터(Exporter)</strong>: 비-Prometheus 시스템의 메트릭을 Prometheus 형식으로 변환하는 도구.</li>
+            <li><strong>PromQL</strong>: Prometheus Query Language. 시계열 데이터를 쿼리하는 강력한 언어.</li>
+            <li><strong>알람 규칙(Alerting Rule)</strong>: 특정 조건을 만족하면 알람을 생성하는 Prometheus 규칙.</li>
+        </ul>
+    </section>
+
+    <!-- 4. 퀵스타트 -->
+    <section id="section4" class="section">
+        <h2>4. 퀵스타트</h2>
+        <h3>단계 1: Prometheus 설치 (Docker)</h3>
+        <pre>docker run -d \
+  -p 9090:9090 \
+  -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
+  --name prometheus \
+  prom/prometheus</pre>
+        <h3>단계 2: 기본 설정 파일 (prometheus.yml)</h3>
+        <pre>global:
+  scrape_interval:15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100']</pre>
+        <h3>단계 3: Node Exporter 실행 (시스템 메트릭)</h3>
+        <pre>docker run -d \
+  -p 9100:9100 \
+  --name node_exporter \
+  prom/node-exporter</pre>
+        <h3>단계 4: Grafana 설치 (Docker)</h3>
+        <pre>docker run -d \
+  -p 3000:3000 \
+  --name grafana \
+  grafana/grafana</pre>
+        <h3>단계 5: Grafana 설정</h3>
+        <p>1. 브라우저에서 <code>http://localhost:3000</code> 접속 (초기 로그인: admin/admin).</p>
+        <p>2. "Configuration → Data Sources → Add data source → Prometheus" 선택.</p>
+        <p>3. URL에 <code>http://localhost:9090</code> 입력 후 Save & Test.</p>
+        <h3>단계 6: Python 애플리케이션 메트릭 노출 예제</h3>
+        <pre>from prometheus_client import start_http_server, Counter, Gauge
+import random
+import time
+
+REQUEST_COUNT = Counter('app_requests_total', 'Total app requests')
+CPU_USAGE = Gauge('app_cpu_usage', 'Simulated CPU usage')
+
+def process_request():
+    REQUEST_COUNT.inc()
+    CPU_USAGE.set(random.uniform(0.5, 1.5))
+
+if __name__ == '__main__':
+    start_http_server(8000)  # /metrics 엔드포인트를 8000포트에서 노출
+    while True:
+        process_request()
+        time.sleep(2)</pre>
+        <p>위 애플리케이션을 실행 후, prometheus.yml에 새로운 job을 추가:</p>
+        <pre>  - job_name: 'python_app'
+    static_configs:
+      - targets: ['localhost:8000']</pre>
+        <div class="callout">
+            <strong>확인:</strong> Prometheus 웹 UI (<code>http://localhost:9090</code>)에서 "Status → Targets" 페이지를 확인하여 모든 대상이 UP 상태인지 확인하세요.
+        </div>
+    </section>
+
+    <!-- 5. 핵심 설정 레퍼런스 -->
+    <section id="section5" class="section">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>구성 요소</th>
+                    <th>설정 키</th>
+                    <th>설명</th>
+                    <th>예시 값</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Global</td>
+                    <td>scrape_interval</td>
+                    <td>스크래핑 간격</td>
+                    <td>15s</td>
+                </tr>
+                <tr>
+                    <td>Global</td>
+                    <td>evaluation_interval</td>
+                    <td>알람 규칙 평가 간격</td>
+                    <td>30s</td>
+                </tr>
+                <tr>
+                    <td>Scrape Config</td>
+                    <td>job_name</td>
+                    <td>작업 식별자</td>
+                    <td>'kubernetes-pods'</td>
+                </tr>
+                <tr>
+                    <td>Scrape Config</td>
+                    <td>metrics_path</td>
+                    <td>메트릭 엔드포인트 경로</td>
+                    <td>/metrics</td>
+                </tr>
+                <tr>
+                    <td>Scrape Config</td>
+                    <td>static_configs / targets</td>
+                    <td>스크래핑 대상 목록</td>
+                    <td>['10.0.1.1:9100', '10.0.1.2:9100']</td>
+                </tr>
+                <tr>
+                    <td>Alerting</td>
+                    <td>rule_files</td>
+                    <td>알람 규칙 파일 경로</td>
+                    <td>['/etc/prometheus/alerts.yml']</td>
+                </tr>
+                <tr>
+                    <td>Alerting</td>
+                    <td>alertmanagers</td>
+                    <td>Alertmanager 대상</td>
+                    <td>static_configs: targets: ['localhost:9093']</td>
+                </tr>
+                <tr>
+                    <td>Storage</td>
+                    <td>retention</td>
+                    <td>데이터 보존 기간</td>
+                    <td>15d</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 6. 실무 팁 & 트러블슈팅 -->
+    <section id="section6" class="section">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+        <h3>자주 겪는 문제</h3>
+        <div class="callout warn">
+            <strong>문제 1: Prometheus 대상이 DOWN 상태</strong>
+            <p><strong>원인:</strong> 네트워크 문제, 대상 서비스 중단, 스크래핑 경로 오류.</p>
+            <p><strong>해결:</strong> Prometheus UI의 Targets 페이지에서 에러 메시지 확인. 대상의 /metrics 엔드포인트 직접 접속 테스트. firewall/network policy 확인.</p>
+        </div>
+        <div class="callout warn">
+            <strong>문제 2: 메트릭이 Grafana에 표시되지 않음</strong>
+            <p><strong>원인:</strong> 데이터 소스 연결 오류, 시간 범위 설정 문제, PromQL 쿼리 오류.</p>
+            <p><strong>해결:</strong> Grafana 데이터 소스 설정의 "Save & Test" 확인. 대시보드 시간 범위를 확장. Prometheus UI에서 직접 같은 쿼리 실행하여 데이터 존재 확인.</p>
+        </div>
+        <div class="callout warn">
+            <strong>문제 3: 높은 메모리 사용량</strong>
+            <p><strong>원인:</strong> 너무 많은 메트릭/라벨 수집, 긴 보존 기간, WAL 블록 축적.</p>
+            <p><strong>해결:</strong> 스크래핑 간격 증가, 불필요한 메트릭 필터링(relabel_configs), 보존 기간 조정.</p>
+        </div>
+        <h3>실무 팁</h3>
+        <ul>
+            <li><strong>라벨 설계:</strong> 라벨은 메트릭의 차원을 정의합니다. 과도한 라벨(high cardinality)은 성능을 급격히 저하시킵니다. 필요한 차원만 정의하세요.</li>
+            <li><strong>알람 설계:</strong> 알람은 상태(Alerting, OK, Pending)를 가지며, 중요한 알람만 정의하고 알람 그룹핑을 활용하세요.</li>
+            <li><strong>Grafana 대시보드:</strong> 재사용 가능한 대시보드를 템플릿 변수(Variables)와 함께 설계하여 팀 내 공유하세요.</li>
+            <li><strong>장기 저장:</strong> Prometheus는 장기 저장에 적합하지 않습니다. Thanos 또는 Cortex를 사용하여 장기 저장 및 글로벌 뷰를 구축하세요.</li>
+            <li><strong>Kubernetes 통합:</strong> Prometheus Operator를 사용하여 Kubernetes 환경에서의 배포와 관리를 간소화하세요.</li>
+        </ul>
+    </section>
+
+    <!-- 7. 참고 자료 -->
+    <section id="section7" class="section">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://prometheus.io/docs/prometheus/latest/getting_started/" target="_blank">Prometheus 공식 문서</a></li>
+            <li><a href="https://grafana.com/docs/grafana/latest/" target="_blank">Grafana 공식 문서</a></li>
+            <li><a href="https://prometheus.io/docs/alerting/latest/alertmanager/" target="_blank">Alertmanager 문서</a></li>
+            <li><a href="https://github.com/prometheus/client_python" target="_blank">Prometheus Python Client</a></li>
+            <li><a href="https://awesome-prometheus.com/" target="_blank">Awesome Prometheus (익스포터 목록)</a></li>
+            <li><a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" target="_blank">PromQL 가이드</a></li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>실무 스터디 가이드: Prometheus + Grafana | 데브옵스 · 인프라 엔지니어용</p>
+        <p>작성일: 2026년 03월 | 본 문서는 학습 참고용으로 작성되었습니다.</p>
+    </footer>
+</body>
+</html>
