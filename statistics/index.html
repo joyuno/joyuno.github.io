@@ -139,7 +139,7 @@ title: Statistics
     const canvas = document.getElementById('stats-trend-chart');
 
     // Blog 페이지에 해당하는 글들만 분석 — dev-report 카테고리 글은 제외
-    // (blog/index.html 의 {% unless post.categories contains "dev-report" %} 와 동일 로직)
+    // (blog/index.html 의 'unless post.categories contains dev-report' 와 동일 로직)
     const blogOnly = posts.filter(p => {
       const cats = (typeof p.categories === 'string' ? p.categories : '').toLowerCase();
       const catList = cats.split(',').map(s => s.trim());
