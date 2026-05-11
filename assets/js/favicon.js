@@ -1,19 +1,23 @@
 /* 회전하는 OIIA 고양이 파비콘 — canvas 로 매 프레임 favicon URL 갱신.
    Chrome/Safari 는 GIF/SVG 애니메이션 favicon 을 native 지원 안 함 → JS swap 이 유일.
 
-   사용:
-     window.faviconSpinner.start()  // 회전 시작 (예: 데이터 로드 시작)
-     window.faviconSpinner.stop()   // 정적 정지 프레임으로 복귀
+   동작 정책:
+   - idle 상태(평소): 레이아웃이 <link rel="icon" href=".../oiia-cat.gif"> 로 박아둔 정적 파비콘.
+     Chrome/Safari 에서는 GIF 첫 프레임이 멈춰 보이고, Firefox 에서는 자연스럽게 애니메이션 됨.
+   - 페이지 초기 로드(HTML/asset 다운로드 중): 회전 (window.load 이벤트까지).
+   - 데이터 fetch 중: 명시적으로 start()/stop() 호출.
 
-   이미지 경로는 레이아웃에서 미리 주입:
-     <script>window.OIIA_CAT_URL = '{{ "/assets/favicon/oiia-cat.png" | relative_url }}';</script>
+   API:
+     window.faviconSpinner.start()
+     window.faviconSpinner.stop()   // 정적 GIF URL 로 복귀
 
-   PNG 가 없거나 404 면 인라인 SVG 폴백 (간단한 주황 고양이) 으로 자동 전환.
+   이미지 경로는 레이아웃이 inline 으로 주입:
+     <script>window.OIIA_CAT_URL = '{{ "/assets/favicon/oiia-cat.gif" | relative_url }}';</script>
 */
 (function () {
-  const SIZE = 64;            // 고해상도로 그리고 브라우저가 favicon 크기로 다운스케일
-  const SPEED = 0.35;         // rad/frame — OIIA 처럼 빠르게 (60fps 기준 한바퀴 ~0.3s)
-  const FRAME_RATE = 24;      // CPU 절약 위해 24fps 로 throttle
+  const SIZE = 64;
+  const SPEED = 0.35;
+  const FRAME_RATE = 24;
 
   const CAT_FALLBACK_SVG =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
@@ -40,18 +44,18 @@
     return link;
   }
 
+  const STATIC_URL = window.OIIA_CAT_URL || '/assets/favicon/oiia-cat.gif';
+
   function loadImage() {
     return new Promise(function (resolve) {
       const img = new Image();
       img.onload = function () { resolve(img); };
       img.onerror = function () {
-        // fallback: 인라인 SVG 데이터 URL — PNG 없을 때 폴백
         const svg = new Image();
         svg.onload = function () { resolve(svg); };
         svg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(CAT_FALLBACK_SVG);
       };
-      // 레이아웃이 Jekyll relative_url 적용된 경로를 inline 으로 미리 주입한다
-      img.src = window.OIIA_CAT_URL || '/assets/favicon/oiia-cat.png';
+      img.src = STATIC_URL;
     });
   }
 
@@ -59,6 +63,7 @@
   canvas.width = canvas.height = SIZE;
   const ctx = canvas.getContext('2d');
   const link = getOrCreateLink();
+  if (!link.href) link.href = STATIC_URL;
 
   let img = null;
   let angle = 0;
@@ -94,19 +99,13 @@
   }
   function stop() {
     spinning = false;
-    if (img) drawAt(0);  // 정적 frame (각도 0) 으로 리셋
+    link.href = STATIC_URL;
   }
 
   window.faviconSpinner = { start: start, stop: stop };
 
-  // 자동 동작: 페이지 로드되면 잠깐 회전 (UX 살리기) — window.load 까지 + 최소 800ms 보장
-  const minSpin = 800;
-  const startedAt = Date.now();
-  start();
-  function autoStop() {
-    const elapsed = Date.now() - startedAt;
-    setTimeout(stop, Math.max(0, minSpin - elapsed));
+  if (document.readyState !== 'complete') {
+    start();
+    window.addEventListener('load', stop, { once: true });
   }
-  if (document.readyState === 'complete') autoStop();
-  else window.addEventListener('load', autoStop);
 })();
