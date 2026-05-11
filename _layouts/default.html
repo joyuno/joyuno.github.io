@@ -14,6 +14,29 @@
     window.OIIA_SPRITE_URL = '{{ "/assets/favicon/oiia-sprite.png" | relative_url }}';
   </script>
   <script src="{{ '/assets/js/favicon.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/list-pagination.js' | relative_url }}" defer></script>
+  <style>
+    /* List pagination — blog / dev-report 에서 사용 */
+    .list-pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.85rem;
+      margin: 2rem 0 1rem;
+      padding: 1rem 0;
+    }
+    .list-pagination .pg-btn {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      color: var(--text-color); border-radius: 0.5rem;
+      padding: 0.5rem 0.9rem; cursor: pointer;
+      font-size: 0.9rem; font-family: inherit;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .list-pagination .pg-btn:hover:not(:disabled) { border-color: var(--accent-color); color: var(--accent-color); }
+    .list-pagination .pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .list-pagination .page-num {
+      font-size: 0.9rem; color: var(--text-muted);
+      font-variant-numeric: tabular-nums; min-width: 4.5rem; text-align: center;
+    }
+  </style>
   <style>
     /* ─── Theme Variables ─── */
     :root {
