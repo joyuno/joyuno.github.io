@@ -47,7 +47,19 @@ title: Dev Blog
   {% endif %}
 </section>
 
+<nav class="list-pagination" id="post-pagination" hidden aria-label="페이지">
+  <button type="button" class="pg-btn" data-dir="prev">← 최신</button>
+  <span class="page-num"><span id="pg-cur">1</span> / <span id="pg-total">1</span></span>
+  <button type="button" class="pg-btn" data-dir="next">이전 →</button>
+</nav>
+
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.initListPagination) {
+      window.initListPagination({ itemSelector: '.post-card', pageSize: 30, navId: 'post-pagination' });
+    }
+  });
+
   function cardEdit(filename) {
     window.open('https://github.com/joyuno/joyuno.github.io/edit/main/_posts/' + filename, '_blank');
   }
