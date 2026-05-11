@@ -7,8 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <link rel="icon" type="image/gif" href="{{ '/assets/favicon/oiia-cat.gif' | relative_url }}">
-  <script>window.OIIA_CAT_URL = '{{ "/assets/favicon/oiia-cat.gif" | relative_url }}';</script>
+  <link rel="icon" type="image/png" href="{{ '/assets/favicon/oiia-cat.png' | relative_url }}">
+  <link rel="preload" as="image" href="{{ '/assets/favicon/oiia-sprite.png' | relative_url }}">
+  <script>
+    window.OIIA_CAT_URL    = '{{ "/assets/favicon/oiia-cat.png"    | relative_url }}';
+    window.OIIA_SPRITE_URL = '{{ "/assets/favicon/oiia-sprite.png" | relative_url }}';
+  </script>
   <script src="{{ '/assets/js/favicon.js' | relative_url }}" defer></script>
   <style>
     /* ─── Theme Variables ─── */
