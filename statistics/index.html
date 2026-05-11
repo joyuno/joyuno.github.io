@@ -142,8 +142,16 @@ title: Statistics
     const cloudEl = document.getElementById('stats-cloud');
     const canvas = document.getElementById('stats-trend-chart');
 
+    // Blog 페이지에 해당하는 글들만 분석 — dev-report 카테고리 글은 제외
+    // (blog/index.html 의 {% unless post.categories contains "dev-report" %} 와 동일 로직)
+    const blogOnly = posts.filter(p => {
+      const cats = (typeof p.categories === 'string' ? p.categories : '').toLowerCase();
+      const catList = cats.split(',').map(s => s.trim());
+      return !catList.includes('dev-report');
+    });
+
     // 각 post 의 tags 파싱 (search.json 은 comma-separated string)
-    const items = posts.map(p => {
+    const items = blogOnly.map(p => {
       const tagsRaw = typeof p.tags === 'string' ? p.tags.split(',') : (p.tags || []);
       const tags = tagsRaw.map(t => t.trim()).filter(keepTag);
       return { date: p.date, tags };
