@@ -460,3 +460,9 @@
   tags: ["stream-processing", "kafka", "library"]
   date: "2026-05-12"
   url: "/study-guides/kafka-streams-study-guide.html"
+- keyword: "ELK Stack"
+  slug: "elk-stack"
+  category: "infra"
+  tags: ["logging", "search", "observability"]
+  date: "2026-05-12"
+  url: "/study-guides/elk-stack-study-guide.html"
