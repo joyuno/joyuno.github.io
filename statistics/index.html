@@ -13,12 +13,12 @@ title: Statistics
 <div class="stats-stack">
   <section class="stats-card">
     <div class="stats-card-title">최근 8주 태그 추이</div>
-    <div class="stats-card-sub">상위 5개 태그의 주별 등장 횟수 (월요일 시작 ISO 주, 글 없는 주는 0 으로 채움)</div>
+    <div class="stats-card-sub">상위 10개 태그의 주별 등장 횟수 (월요일 시작 ISO 주, 글 없는 주는 0 으로 채움)</div>
     <div class="stats-chart-wrap"><canvas id="stats-trend-chart"></canvas></div>
   </section>
   <section class="stats-card">
     <div class="stats-card-title">태그 워드클라우드</div>
-    <div class="stats-card-sub">전체 기간 등장 빈도순. wordcloud2.js — Python WordCloud 와 동일 스타일</div>
+    <div class="stats-card-sub">전체 블로그 글의 태그 + 트렌드 차트 sub-tag 누적 빈도. wordcloud2.js — Python WordCloud 와 동일 스타일</div>
     <div class="stats-cloud-wrap">
       <canvas id="stats-cloud-canvas"></canvas>
       <span id="stats-cloud-empty" class="stats-empty">분석 중…</span>
@@ -101,12 +101,35 @@ title: Statistics
   // 제외 태그 — 날짜성 (YYYY-MM, YYYY, year-YYYY) + 메타 (devblog, til, daily-report 등)
   const EXCLUDE_RE = /^(?:20\d{2}-\d{2}|20\d{2}|year-20\d{2})$/i;
   const EXCLUDE_SET = new Set(['devblog', 'dev-blog', 'til', 'daily-report', 'blog']);
+  // 슬러그 토큰에서 추가로 거를 영문 stopword + 노이즈 숫자
+  const SLUG_STOP = new Set([
+    'vs', 'and', 'or', 'the', 'of', 'for', 'to', 'in', 'on', 'at', 'as', 'is', 'are', 'be', 'by',
+    'with', 'a', 'an', 'how', 'why', 'what', 'when', 'use', 'using',
+    'dev', 'report', 'daily', 'guide', 'study',
+  ]);
+
   function keepTag(t) {
     const k = (t || '').trim().toLowerCase();
     if (!k) return false;
     if (EXCLUDE_RE.test(k)) return false;
     if (EXCLUDE_SET.has(k)) return false;
     return true;
+  }
+
+  // 슬러그(파일명)에서 sub-tag 추출 — front-matter tags 가 너무 generic (ai/trend/news 위주)
+  // 이라 슬러그 토큰을 함께 카운트해야 워드클라우드가 풍성해진다.
+  // 예: "2026-05-10-v0-boltnew-ui-2026-5-2.md" → ["v0", "boltnew", "ui"]
+  function slugKeywords(path) {
+    if (!path) return [];
+    const slug = String(path).replace(/\.md$/i, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    return slug.split(/[-_]+/).map(s => s.toLowerCase().trim()).filter(w => {
+      if (!w || w.length < 3) return false;          // 너무 짧은 토큰 제외 (a, ai 등은 어차피 tags 에 있음)
+      if (/^\d+$/.test(w)) return false;             // 순수 숫자
+      if (EXCLUDE_RE.test(w)) return false;          // 날짜
+      if (EXCLUDE_SET.has(w)) return false;          // 메타 태그
+      if (SLUG_STOP.has(w)) return false;            // 영문 stopword
+      return true;
+    });
   }
 
   function escapeHtml(s) {
@@ -146,11 +169,22 @@ title: Statistics
       return !catList.includes('dev-report');
     });
 
-    // 각 post 의 tags 파싱 (search.json 은 comma-separated string)
+    // 각 post 의 tags + categories + slug-derived sub-tags 합치기
+    // — front-matter tags 만 쓰면 [ai, trend, news] 위주로 ~15종밖에 안 나옴
+    // — slug 토큰을 합쳐서 v0/boltnew/kubernetes/fastapi 같은 실질 키워드 확보
+    // 글 내부에서는 중복 1회로 통합 (같은 단어 두 번 카운트 방지)
     const items = blogOnly.map(p => {
       const tagsRaw = typeof p.tags === 'string' ? p.tags.split(',') : (p.tags || []);
-      const tags = tagsRaw.map(t => t.trim()).filter(keepTag);
-      return { date: p.date, tags };
+      const fmTags = tagsRaw.map(t => t.trim()).filter(keepTag);
+      const catsRaw = typeof p.categories === 'string' ? p.categories.split(',') : (p.categories || []);
+      const cats = catsRaw.map(c => c.trim()).filter(keepTag);
+      const slug = slugKeywords(p.path);
+      const merged = new Map();   // lowercase → 원본표기 (첫 등장)
+      [...fmTags, ...cats, ...slug].forEach(orig => {
+        const k = orig.toLowerCase();
+        if (!merged.has(k)) merged.set(k, orig);
+      });
+      return { date: p.date, tags: Array.from(merged.values()) };
     }).filter(p => p.date && p.tags.length);
 
     if (!items.length) {
@@ -175,8 +209,9 @@ title: Statistics
     });
 
     // 워드클라우드 — wordcloud2.js 로 Python WordCloud 스타일 렌더 (회전·랜덤 배치·색 다양)
+    // slug 토큰까지 합치면 키워드 풀이 ~150종 이상이 되니 top 120 까지 보여 풍성한 cloud.
     const sortedAll = Array.from(totalFreq.entries()).sort((a, b) => b[1] - a[1]);
-    const top = sortedAll.slice(0, 60);
+    const top = sortedAll.slice(0, 120);
     if (!top.length) {
       cloudEmpty.textContent = '표시할 태그가 없어요';
     } else if (typeof WordCloud === 'undefined') {
@@ -201,14 +236,16 @@ title: Statistics
 
       const list = top.map(([kw, cnt]) => [displayCase.get(kw) || kw, cnt]);
       const maxCnt = top[0][1];
+      const lnMax = Math.log(maxCnt + 1);
 
       WordCloud(cloudCanvas, {
         list: list,
         gridSize: Math.max(6, Math.round(8 * dpr)),
         weightFactor: function (size) {
-          // size 는 list 의 cnt — 최대치 대비 비율로 폰트 크기 산출
-          // 가장 큰 태그 ≈ 60-70px, 작은 태그 ≈ 12-14px
-          return Math.pow(size / maxCnt, 0.55) * 60 * dpr;
+          // log 스케일 — 'trend'·'ai'(수백건) 가 화면을 잡아먹지 않게 압축하고
+          // sub-tag(llm/agent/rag/coding 등, 20~25건) 도 30~40px 으로 또렷이 보이게.
+          const ratio = Math.log(size + 1) / lnMax;
+          return (ratio * 52 + 14) * dpr;
         },
         fontFamily: "'Pretendard Variable', Pretendard, sans-serif",
         color: function () { return palette[Math.floor(Math.random() * palette.length)]; },
