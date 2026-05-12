@@ -454,3 +454,9 @@
   tags: ["monitoring", "metrics", "visualization"]
   date: "2026-05-11"
   url: "/study-guides/prometheus-grafana-study-guide.html"
+- keyword: "Kafka Streams"
+  slug: "kafka-streams"
+  category: "data-engineering"
+  tags: ["stream-processing", "kafka", "library"]
+  date: "2026-05-12"
+  url: "/study-guides/kafka-streams-study-guide.html"
