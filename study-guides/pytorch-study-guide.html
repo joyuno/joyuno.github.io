@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyTorch 실무 스터디 가이드</title>
+    <title>PyTorch에 대한 실무 스터디 가이드</title>
     <style>
-        /* CSS 변수: 다크 테마 */
         :root {
             --bg: #0d1117;
             --surface: #161b22;
@@ -19,604 +18,497 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
-
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--bg);
+            margin: 0;
+            padding: 2rem;
+            background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
-
-        /* Hero 섹션 */
         .hero {
             text-align: center;
-            padding: 60px 20px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 40px;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--surface), var(--surface2));
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
         }
-
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 16px;
+            font-size: 2.5rem;
+            margin: 0 0 1rem;
             color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        .hero .subtitle {
-            font-size: 1.5rem;
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 0 2rem;
             color: var(--text-muted);
-            margin-bottom: 24px;
         }
-
-        .meta-badge {
-            display: inline-block;
-            background-color: var(--surface2);
-            color: var(--accent2);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
-
-        /* 목차 */
-        .toc {
-            background-color: var(--surface);
-            padding: 24px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 40px;
-        }
-
-        .toc h2 {
-            margin-bottom: 16px;
+        .badge {
+            background: var(--surface2);
             color: var(--accent);
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            border: 1px solid var(--border);
         }
-
+        .date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .toc {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
+        }
+        .toc h2 {
+            color: var(--accent);
+            margin-top: 0;
+        }
         .toc ol {
-            list-style: none;
-            padding-left: 0;
+            padding-left: 1.5rem;
+            counter-reset: section-counter;
         }
-
         .toc li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
+            margin-bottom: 0.75rem;
         }
-
-        .toc li::before {
-            content: counter(toc) ". ";
-            counter-increment: toc;
-            position: absolute;
-            left: 0;
-            color: var(--accent3);
-            font-weight: bold;
-        }
-
         .toc a {
             color: var(--text);
             text-decoration: none;
             transition: color 0.2s;
         }
-
         .toc a:hover {
             color: var(--accent);
         }
-
-        /* 섹션 공통 */
+        .toc li:before {
+            content: counter(section-counter) ".";
+            counter-increment: section-counter;
+            color: var(--accent2);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
         .section {
-            margin-bottom: 60px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
         }
-
         .section h2 {
-            font-size: 2rem;
-            margin-bottom: 24px;
             color: var(--accent);
+            font-size: 1.75rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
         }
-
-        .section h3 {
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--accent3);
-            margin-top: 32px;
-        }
-
-        /* 개념 카드 그리드 */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-top: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
-
         .concept-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface2);
+            padding: 1.75rem;
             border-radius: 8px;
-            padding: 24px;
-            transition: transform 0.2s, border-color 0.2s;
+            border-left: 3px solid var(--accent);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .concept-card:hover {
             transform: translateY(-4px);
-            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.15);
         }
-
-        .concept-card h4 {
-            color: var(--accent4);
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+        .concept-card h3 {
+            color: var(--accent);
+            margin-top: 0;
         }
-
-        /* 콜아웃 */
         .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 20px;
-            margin: 24px 0;
-            border-radius: 4px;
+            background: var(--surface2);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent2);
+            border-radius: 0 8px 8px 0;
         }
-
         .callout.warn {
             border-left-color: var(--danger);
         }
-
-        /* 다이어그램 */
-        .diagram {
-            background-color: var(--surface);
-            padding: 24px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-family: monospace;
-            white-space: pre;
-            overflow-x: auto;
-            margin: 24px 0;
+        .callout h4 {
             color: var(--accent2);
+            margin-top: 0;
+        }
+        .callout.warn h4 {
+            color: var(--danger);
+        }
+        .diagram {
+            background: var(--bg);
+            padding: 1.75rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow: auto;
+            border: 1px solid var(--border);
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
             line-height: 1.4;
         }
-
-        /* 테이블 */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 24px 0;
-            background-color: var(--surface);
+            margin: 1.5rem 0;
+            background: var(--surface2);
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
         }
-
         th, td {
-            padding: 16px;
+            padding: 1rem 1.25rem;
             text-align: left;
             border-bottom: 1px solid var(--border);
         }
-
         th {
-            background-color: var(--surface2);
+            background: var(--surface);
             color: var(--accent);
-            font-weight: bold;
+            font-weight: 600;
         }
-
-        tr:last-child td {
-            border-bottom: none;
+        tr:hover {
+            background: var(--border);
         }
-
-        /* 코드블록 */
-        code, pre {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface2);
-            border-radius: 4px;
-            padding: 2px 6px;
-        }
-
-        pre {
-            padding: 20px;
-            overflow-x: auto;
-            margin: 16px 0;
+        pre code {
+            background: var(--bg);
             border: 1px solid var(--border);
-            white-space: pre-wrap;
-            color: var(--accent3);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow: auto;
+            display: block;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1.5rem 0;
         }
-
-        /* Footer */
-        footer {
+        .footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 2.5rem;
+            background: var(--surface);
+            border-radius: 12px;
             color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            margin-top: 60px;
+            border: 1px solid var(--border);
+            margin-top: 3rem;
         }
-
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        /* 링크 */
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* 단계별 */
-        .step {
-            margin-bottom: 32px;
-        }
-
-        .step h4 {
-            color: var(--accent4);
-            margin-bottom: 8px;
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero 섹션 -->
     <section class="hero">
-        <h1>PyTorch 실무 스터디 가이드</h1>
-        <div class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</div>
-        <div class="meta-badge">AI 개발 엔지니어 · MLOps 엔지니어 대상 · 작성일: 2026.03</div>
+        <h1>PyTorch에 대한 실무 스터디 가이드</h1>
+        <p>AI 개발 엔지니어 · MLOps 엔지니어를 위한 핵심 요약</p>
+        <div class="badges">
+            <span class="badge">AI 개발 엔지니어</span>
+            <span class="badge">MLOps 엔지니어</span>
+            <span class="badge">deep-learning</span>
+            <span class="badge">framework</span>
+            <span class="badge">training</span>
+        </div>
+        <div class="date">2026.03 작성</div>
     </section>
 
-    <!-- 목차 -->
-    <section class="toc">
+    <nav class="toc">
         <h2>목차</h2>
         <ol>
-            <li><a href="#section1">PyTorch란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#section1">1. PyTorch란?</a></li>
+            <li><a href="#section2">2. 왜 써야 하는가?</a></li>
+            <li><a href="#section3">3. 핵심 개념</a></li>
+            <li><a href="#section4">4. 퀵스타트</a></li>
+            <li><a href="#section5">5. 핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">6. 실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">7. 참고 자료</a></li>
         </ol>
-    </section>
+    </nav>
 
-    <!-- 1. PyTorch란? -->
     <section id="section1" class="section">
         <h2>1. PyTorch란?</h2>
-        <p>PyTorch는 Python 기반의 오픈소스 딥러닝 프레임워크로, <strong>동적 계산 그래프(Dynamic Computational Graph)</strong>와 <strong>직관적인 API</strong>를 특징으로 합니다. 연구와 프로덕션 환경 모두에서 널리 사용됩니다.</p>
-
+        <p>PyTorch는 Facebook AI Research(현 Meta AI)에서 개발된 오픈소스 머신러닝 프레임워크로, 동적 계산 그래프(Dynamic Computational Graph)를 기반으로 합니다. Pythonic한 API를 통해 연구자와 엔지니어가 직관적으로 딥러닝 모델을 프로토타이핑하고 배포할 수 있도록 설계되었습니다. TensorFlow의 정적 그래프와 달리 런타임에 그래프를 동적으로 구성해 디버깅과 실험이 용이합니다.</p>
+        <p>실무에서 PyTorch는 컴퓨터 비전, NLP, 추천 시스템 등 다양한 AI 프로젝트의 표준으로 자리 잡았으며, Hugging Face Transformers, Detectron2 등 생태계가 풍부합니다.</p>
         <div class="concept-grid">
             <div class="concept-card">
-                <h4>1. 동적 계산 그래프</h4>
-                <p>연산이 실행되는 순간 그래프가 정의되며, 조건문/반복문을 자연스럽게 포함할 수 있습니다. 이는 모델 구조가 실행 중에 변경될 수 있는 연구 및 복잡한 모델에 유리합니다.</p>
+                <h3>동적 계산 그래프</h3>
+                <p>코드 실행 시 그래프를 동적으로 빌드. if/loop 등 제어 흐름을 자연스럽게 지원해 연구 프로토타이핑에 최적화.</p>
             </div>
             <div class="concept-card">
-                <h4>2. 직관적인 Pythonic API</h4>
-                <p>NumPy와 유사한 인터페이스를 제공하며, Python 프로그래머가 쉽게 접근할 수 있습니다. `torch.Tensor`는 NumPy 배열과 호환성이 높습니다.</p>
+                <h3>GPU 가속 & 분산 학습</h3>
+                <p>CUDA/cuDNN 백엔드 지원. DataParallel, DistributedDataParallel(DDP)로 멀티-GPU/노드 분산 훈련 효율적 구현.</p>
             </div>
             <div class="concept-card">
-                <h4>3. 강력한 GPU 지원 및 분산 학습</h4>
-                <p>CUDA를 통해 GPU 연산을 완벽 지원하며, `torch.distributed` 모듈으로 다중 GPU/다중 노드 분산 학습을 효율적으로 구현할 수 있습니다.</p>
+                <h3>생산 배포 용이</h3>
+                <p>TorchScript, TorchServe, ONNX export로 연구 모델을 프로덕션에 전환. C++ 런타임으로 고속 추론.</p>
             </div>
+        </div>
+        <div class="callout">
+            <h4>📊 실무 통계</h4>
+            <p>2025년 기준, Kaggle 대회 70% 이상 PyTorch 사용. Papers with Code에서 SOTA 모델 80% PyTorch 기반.</p>
         </div>
     </section>
 
-    <!-- 2. 왜 써야 하는가? -->
     <section id="section2" class="section">
         <h2>2. 왜 써야 하는가?</h2>
-        <p>다양한 딥러닝 프레임워크가 존재하지만, PyTorch는 특정 장점으로 실무에서 선택됩니다.</p>
-
+        <p>TensorFlow나 JAX 같은 대안이 있지만, PyTorch는 Python 개발자 친화적 API와 생태계로 실무 생산성을 극대화합니다. 아래 비교표에서 핵심 차이점을 확인하세요.</p>
         <table>
             <thead>
                 <tr>
-                    <th>대안</th>
-                    <th>특징</th>
-                    <th>PyTorch 비교</th>
+                    <th>기능</th>
+                    <th>PyTorch</th>
+                    <th>TensorFlow</th>
+                    <th>JAX</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>TensorFlow/Keras</strong></td>
-                    <td>정적 그래프 (TF1), 프로덕션 강점, Keras의 간결함</td>
-                    <td>PyTorch는 동적 그래프로 연구/실험 유연성 높음. 코드가 더 Pythonic.</td>
+                    <td>계산 그래프</td>
+                    <td>동적 (Eager by default)</td>
+                    <td>정적 (Graph mode 필요)</td>
+                    <td>동적 + JIT 컴파일</td>
                 </tr>
                 <tr>
-                    <td><strong>JAX</strong></td>
-                    <td>함수형, 자동 미분, 고성능 (XLA)</td>
-                    <td>PyTorch는 더 넓은 생태계와 프로덕션 도구(TorchServe)를 갖춤.</td>
+                    <td>디버깅 용이성</td>
+                    <td>높음 (Python debugger 호환)</td>
+                    <td>중간 (tf.debugging)</td>
+                    <td>중간 (XLA 컴파일)</td>
                 </tr>
                 <tr>
-                    <td><strong>ONNX Runtime</strong></td>
-                    <td>최적화된 추론 엔진, 멀티 플랫폼</td>
-                    <td>PyTorch는 학습부터 추론까지의 전체 파이프라인 통합 제공.</td>
+                    <td>분산 훈련</td>
+                    <td>DDP (쉬움)</td>
+                    <td>Strategy API (복잡)</td>
+                    <td>pmap/spmd (연구 중심)</td>
                 </tr>
                 <tr>
-                    <td><strong>Custom C++/CUDA</strong></td>
-                    <td>극대화된 성능, 완전한 제어</td>
-                    <td>PyTorch는 C++ 확장 가능하며, 대부분의 경우 성능과 편의성 균형 우수.</td>
+                    <td>생태계</td>
+                    <td>최대 (Hugging Face, TorchVision)</td>
+                    <td>대형 (TF Hub)</td>
+                    <td>작음 (Flax/Equinox)</td>
+                </tr>
+                <tr>
+                    <td>배포</td>
+                    <td>TorchServe/ONNX</td>
+                    <td>TensorFlow Serving/TFLite</td>
+                    <td>ONNX/JAX2TF</td>
+                </tr>
+                <tr>
+                    <td>학습 곡선</td>
+                    <td>가장 낮음</td>
+                    <td>높음</td>
+                    <td>중간 (함수형 프로그래밍)</td>
                 </tr>
             </tbody>
         </table>
-
         <div class="callout">
-            <strong>결론:</strong> 연구의 빠른 프로토타이핑과 프로덕션의 안정성을 모두 필요로 하는 조직에서 PyTorch는 균형 잡힌 선택입니다. 특히 MLOps 파이프라인과의 통합(예: TorchServe, MLflow)이 잘 지원됩니다.
+            <p><strong>추천 시나리오</strong>: 프로토타이핑/연구 → PyTorch, 대규모 프로덕션 → PyTorch + TorchServe.</p>
         </div>
     </section>
 
-    <!-- 3. 핵심 개념 -->
     <section id="section3" class="section">
         <h2>3. 핵심 개념</h2>
-        <p>PyTorch의 아키텍처는 여러 핵심 모듈로 구성됩니다.</p>
-
-        <div class="diagram">
-            +-------------------------------+
-            |      PyTorch Core Architecture |
-            +-------------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.Tensor         |  -- 기본 데이터 구조 (CPU/GPU)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.autograd       |  -- 자동 미분 엔진 (동적 그래프)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.nn             |  -- 신경망 모델 구성 (Layer, Module)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.optim          |  -- 옵티마이저 (SGD, Adam 등)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.utils.data     |  -- 데이터 로딩 (Dataset, DataLoader)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.distributed    |  -- 분산 학습 (DDP, RPC)
-            |  +------------------------+
-            |
-            |  +------------------------+
-            |  |   torch.jit            |  -- 추론 최적화 (TorchScript)
-            |  +------------------------+
-            |
-            +-------------------------------+
-        </div>
-
-        <h3>핵심 용어</h3>
+        <p>PyTorch의 핵심은 <strong>Tensor</strong>(다차원 배열), <strong>Autograd</strong>(자동 미분), <strong>nn.Module</strong>(모델 빌더), <strong>Optimizer</strong>, <strong>DataLoader</strong>입니다. 이들을 조합해 모델을 구성합니다.</p>
         <ul>
-            <li><strong>Tensor:</strong> 다차원 배열, PyTorch의 기본 데이터 단위. `.to(device)`로 GPU 이동.</li>
-            <li><strong>Module (nn.Module):</strong> 모든 네트워크 층과 모델의 기본 클래스. 상태(파라미터)와 연산을 정의.</li>
-            <li><strong>Autograd:</strong> 연산에 대한 자동 미분 기록. `requires_grad=True` 텐서의 연산을 추적.</li>
-            <li><strong>DataLoader:</strong> 데이터셋을 배치 형태로 로드하며, 멀티프로세싱 지원.</li>
-            <li><strong>DistributedDataParallel (DDP):</strong> 다중 GPU에서 모델을 복제하고 데이터를 분배하여 병렬 학습.</li>
+            <li><strong>Tensor</strong>: NumPy ndarray 확장. GPU 호환, requires_grad=True로 그래디언트 추적.</li>
+            <li><strong>Autograd</strong>: backward()로 그래디언트 자동 계산. 동적 그래프로 복잡한 제어 흐름 지원.</li>
+            <li><strong>nn.Module</strong>: 모델 상속. forward() 정의로 레이어 구성.</li>
+            <li><strong>DataLoader</strong>: Dataset 래퍼. 배치/셔플/멀티워커 로딩.</li>
         </ul>
+        <p>아래는 PyTorch 아키텍처의 ASCII 다이어그램입니다.</p>
+        <div class="diagram">
++-----------------------------+
+|        User Code            |
+|     (torch.nn, Python)      |
++-----------------------------+
+            |
+            v
++-----------------------------+
+|      Autograd Engine        |
+|  (Dynamic Graph, Backward)  |
++-----------------------------+
+            |
+            v
++-----------------------------+
+|   ATen/C++ Core             |
+|  (Tensor Ops, Dispatch)     |
++-----------------------------+
+            |
+            +------------------> Backend (CUDA, CPU, ROCm)
+            |
+            v
++-----------------------------+
+|     Hardware (GPU/TPU)      |
++-----------------------------+
+        </div>
+        <div class="callout">
+            <h4>⚡ 핵심 팁</h4>
+            <p>모든 연산은 Tensor에서 이뤄지며, .detach()로 그래디언트 추적 중지. no_grad() 컨텍스트로 추론 시 메모리 절약.</p>
+        </div>
     </section>
 
-    <!-- 4. 퀵스타트 -->
     <section id="section4" class="section">
         <h2>4. 퀵스타트</h2>
-
-        <div class="step">
-            <h4>Step 1: 설치</h4>
-            <p>CUDA 지원 GPU 환경을 기준으로 설치합니다.</p>
-            <pre># 기본 설치 (최신 버전)
-pip install torch torchvision torchaudio
-
-# 특정 CUDA 버전 지정 (예: CUDA 12.1)
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-
-# CPU-only 설치
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu</pre>
-        </div>
-
-        <div class="step">
-            <h4>Step 2: 환경 확인</h4>
-            <pre>import torch
-
-print(f"PyTorch 버전: {torch.__version__}")
-print(f"CUDA 가능: {torch.cuda.is_available()}")
-print(f"CUDA 버전: {torch.version.cuda}")
-print(f"GPU 개수: {torch.cuda.device_count()}")
-print(f"현재 GPU 이름: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None'}")</pre>
-        </div>
-
-        <div class="step">
-            <h4>Step 3: 첫 예제 - 간단한 선형 회귀</h4>
-            <pre>import torch
+        <p>PyTorch를 5분 만에 시작하세요. 단계별 가이드입니다.</p>
+        <ol>
+            <li><strong>설치 (Conda 추천)</strong></li>
+        </ol>
+<pre><code>conda create -n pytorch python=3.10
+conda activate pytorch
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+# 또는 pip
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121</code></pre>
+        <ol start="2">
+            <li><strong>환경 설정 확인</strong></li>
+        </ol>
+<pre><code>import torch
+print(torch.__version__)  # 2.3.0+cu121
+print(torch.cuda.is_available())  # True
+print(torch.cuda.get_device_name(0))  # NVIDIA A100 등</code></pre>
+        <ol start="3">
+            <li><strong>첫 모델 예제 (Linear Regression)</strong></li>
+        </ol>
+<pre><code>import torch
 import torch.nn as nn
 import torch.optim as optim
 
-# 1. 데이터 준비
-X = torch.randn(100, 1)  # 100개의 샘플, 1개 특징
-y = 3 * X + 2 + 0.1 * torch.randn(100, 1)  # 실제 관계 + 노이즈
+# 데이터
+X = torch.randn(100, 1, requires_grad=True)
+y = 3 * X + 1 + 0.1 * torch.randn(100, 1)
 
-# 2. 모델 정의
-model = nn.Linear(1, 1)  # 입력 1, 출력 1
-
-# 3. 손실 함수와 옵티마이저
+# 모델
+model = nn.Linear(1, 1)
 criterion = nn.MSELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
-# 4. 학습 루프
+# 훈련 루프
 for epoch in range(100):
-    # 순전파
-    predictions = model(X)
-    loss = criterion(predictions, y)
-
-    # 역전파
+    pred = model(X)
+    loss = criterion(pred, y)
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
+    if epoch % 20 == 0:
+        print(f'Epoch {epoch}, Loss: {loss.item():.4f}')
 
-    if epoch % 10 == 0:
-        print(f'Epoch {epoch}, Loss: {loss.item()}')
-
-# 5. 결과 확인
-print(f'학습된 가중치: {model.weight.data.item()}')
-print(f'학습된 편향: {model.bias.data.item()}')</pre>
-        </div>
-
+print(model.weight.item(), model.bias.item())  # ~3, ~1</code></pre>
         <div class="callout">
-            <strong>참고:</strong> 실제 프로젝트에서는 `Dataset`과 `DataLoader`를 사용하여 데이터를 관리하고, `nn.Module`을 상속하여 복잡한 모델을 구성합니다.
+            <p>이 예제는 동적 그래프의 힘을 보여줍니다. CUDA로 전환: model.to('cuda'), X.to('cuda').</p>
         </div>
     </section>
 
-    <!-- 5. 핵심 설정 레퍼런스 -->
     <section id="section5" class="section">
         <h2>5. 핵심 설정 레퍼런스</h2>
-        <p>실무에서 자주 설정하는 환경 및 코드 구성 요소입니다.</p>
-
+        <p>실무에서 자주 사용하는 설정을 표로 정리했습니다.</p>
         <table>
             <thead>
                 <tr>
-                    <th>설정 항목</th>
-                    <th>코드 예시 / 명령어</th>
-                    <th>설명</th>
+                    <th>설정</th>
+                    <th>코드</th>
+                    <th>용도</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>GPU 메모리 최적화</td>
-                    <td><code>torch.cuda.empty_cache()</code></td>
-                    <td>사용되지 않는 GPU 메모리 캐시 정리</td>
+                    <td>Device 설정</td>
+                    <td>device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')</td>
+                    <td>GPU 자동 감지</td>
                 </tr>
                 <tr>
-                    <td>디버그 모드 (NaN 감지)</td>
-                    <td><code>torch.autograd.set_detect_anomaly(True)</code></td>
-                    <td>역전파 중 NaN 발생 시 경고 출력</td>
+                    <td>Seed 고정</td>
+                    <td>torch.manual_seed(42); torch.cuda.manual_seed_all(42)</td>
+                    <td>재현성 보장</td>
                 </tr>
                 <tr>
-                    <td>분산 학습 초기화</td>
-                    <td><pre>torch.distributed.init_process_group(
-    backend='nccl',
-    init_method='env://'
-)</pre></td>
-                    <td>다중 GPU 학습 시작 (NCCL 백엔드)</td>
+                    <td>Mixed Precision</td>
+                    <td>from torch.cuda.amp import autocast, GradScaler; scaler = GradScaler()</td>
+                    <td>메모리 50% 절약, 속도 2x</td>
                 </tr>
                 <tr>
-                    <td>DataLoader 설정</td>
-                    <td><pre>loader = DataLoader(
-    dataset,
-    batch_size=32,
-    shuffle=True,
-    num_workers=4,
-    pin_memory=True
-)</pre></td>
-                    <td>병렬 데이터 로딩 (num_workers), GPU 전송 최적화 (pin_memory)</td>
+                    <td>DDP 설정</td>
+                    <td>torch.distributed.launch --nproc_per_node=4 train.py</td>
+                    <td>멀티 GPU 분산</td>
                 </tr>
                 <tr>
-                    <td>모델 저장/불러오기</td>
-                    <td><pre># 전체 모델 저장
-torch.save(model, 'model.pth')
-
-# 상태만 저장
-torch.save(model.state_dict(), 'state.pth')
-
-# 불러오기
-model.load_state_dict(torch.load('state.pth'))</pre></td>
-                    <td>학습된 모델 보관. 상태만 저장하면 모델 구조가 필요.</td>
+                    <td>cuDNN 벤치마크</td>
+                    <td>torch.backends.cudnn.benchmark = True</td>
+                    <td>입력 크기 고정 시 최적화</td>
                 </tr>
                 <tr>
-                    <td>Mixed Precision 학습</td>
-                    <td><pre>from torch.cuda.amp import autocast, GradScaler
-scaler = GradScaler()
-with autocast():
-    outputs = model(inputs)
-    loss = criterion(outputs, targets)
-scaler.scale(loss).backward()
-scaler.step(optimizer)
-scaler.update()</pre></td>
-                    <td>FP16/FP32 혼합으로 메모리 절감 및 속도 향상</td>
+                    <td>Gradient Clipping</td>
+                    <td>torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)</td>
+                    <td>Gradient Explosion 방지</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <!-- 6. 실무 팁 & 트러블슈팅 -->
     <section id="section6" class="section">
         <h2>6. 실무 팁 & 트러블슈팅</h2>
-
-        <h3>자주 겪는 문제와 해결책</h3>
-
+        <p>AI 엔지니어가 자주 겪는 문제와 해결책입니다.</p>
         <div class="callout warn">
-            <strong>문제 1: GPU 메모리 부족 (CUDA out of memory)</strong>
-            <p><strong>해결책:</strong></p>
-            <ul>
-                <li>배치 크기 줄이기.</li>
-                <li>`torch.cuda.empty_cache()` 호출.</li>
-                <li>Mixed Precision (`autocast`) 사용.</li>
-                <li>모델의 불필요한 중간 출력 저장 방지 (`torch.no_grad()` 활용).</li>
-            </ul>
+            <h4>🚨 CUDA Out of Memory (OOM)</h4>
+            <p><strong>원인</strong>: 배치 크기 과다, 그래디언트 누적.<br>
+            <strong>해결</strong>: torch.cuda.empty_cache(), gradient_checkpointing 사용, 배치 크기 줄임. mixed precision 적용.</p>
+<pre><code>from torch.utils.checkpoint import checkpoint
+output = checkpoint(model.layer, x)  # 메모리 30% 절약</code></pre>
         </div>
-
         <div class="callout">
-            <strong>문제 2: DataLoader가 너무 느림</strong>
-            <p><strong>해결책:</strong></p>
-            <ul>
-                <li>`num_workers` 증가 (시스템 CPU 코어 수 고려).</li>
-                <li>`pin_memory=True` 설정 (GPU 전송 속도 향상).</li>
-                <li>데이터 전처리를 최대한 간소화 또는 GPU에서 수행.</li>
-            </ul>
+            <h4>⚡ DataLoader 속도 최적화</h4>
+            <p>num_workers=8, pin_memory=True 설정. 멀티프로세스 로딩으로 CPU-GPU 전송 병목 해소.</p>
+<pre><code>loader = DataLoader(dataset, batch_size=32, num_workers=8, pin_memory=True)</code></pre>
         </div>
-
         <div class="callout warn">
-            <strong>문제 3: 학습 중 Loss가 NaN으로 변함</strong>
-            <p><strong>해결책:</strong></p>
-            <ul>
-                <li>입력 데이터 정규화/스케일링 확인.</li>
-                <li>학습률(learning rate)을 낮춰보기.</li>
-                <li>`torch.autograd.set_detect_anomaly(True)`로 문제 위치 찾기.</li>
-                <li>손실 함수 또는 모델 연산에 불안정한 수학 연산(예: log(0)) 확인.</li>
-            </ul>
+            <h4>🚨 NaN/Inf Loss</h4>
+            <p><strong>해결</strong>: torch.nan_to_num(), gradient clipping, learning rate scheduler (CosineAnnealingLR).</p>
         </div>
-
         <div class="callout">
-            <strong>문제 4: 다중 GPU 학습 시 속도 향상 미비</strong>
-            <p><strong>해결책:</strong></p>
-            <ul>
-                <li>DDP 사용 시 `torch.distributed.init_process_group` 백엔드 확인 (NCCL 권장).</li>
-                <li>각 GPU의 배치 크기 균등 분배 확인.</li>
-                <li>네트워크 병목 (특히 multi-node) 확인.</li>
-            </ul>
+            <h4>📈 MLOps 통합</h4>
+            <p>WandB/Weights&Biases로 로깅: wandb.log({'loss': loss}). TorchServe로 서빙: torch-model-archiver.</p>
         </div>
-
-        <h3>일반 팁</h3>
-        <ul>
-            <li><strong>버전 관리:</strong> PyTorch와 CUDA 드라이버 버전 호환성을 항상 확인하세요. 공식 PyTorch 웹사이트의 설치 명령어를 사용.</li>
-            <li><strong>프로파일링:</strong> `torch.profiler` 또는 `cProfile`을 사용하여 연산 시간과 메모리 사용을 분석.</li>
-            <li><strong>모델 배포:</strong> 추론 단계에서는 `torch.jit.trace` 또는 `torch.jit.script`로 TorchScript 모델을 생성하여 성능 향상.</li>
-            <li><strong>MLOps 통합:</strong> 모델 버전 관리 및 배포에는 TorchServe 또는 MLflow와 PyTorch 통합을 고려.</li>
-        </ul>
+        <p>추가 팁: torch.compile(model) (Torch 2.0+)로 20-50% 속도 향상. Dynamo 그래프 최적화.</p>
     </section>
 
-    <!-- 7. 참고 자료 -->
     <section id="section7" class="section">
         <h2>7. 참고 자료</h2>
         <ul>
-            <li><a href="https://pytorch.org/docs/stable/index.html" target="_blank">PyTorch 공식 문서</a> - 가장 완벽한 레퍼런스</li>
-            <li><a href="https://pytorch.org/tutorials/" target="_blank">PyTorch Tutorials</a> - 시작부터 고급 주제까지 튜토리얼</li>
-            <li><a href="https://github.com/pytorch/examples" target="_blank">PyTorch Examples GitHub</a> - 다양한 모델 구현 예제</li>
-            <li><a href="https://pytorch.org/vision/stable/index.html" target="_blank">TorchVision</a> - 이미지 관련 모델 및 데이터셋</li>
-            <li><a href="https://pytorch.org/audio/stable/index.html" target="_blank">TorchAudio</a> - 오디오 처리</li>
-            <li><a href="https://pytorch.org/text/stable/index.html" target="_blank">TorchText</a> - 텍스트 처리</li>
-            <li><a href="https://pytorch.org/serve/" target="_blank">TorchServe</a> - 모델 서빙 및 배포</li>
-            <li><a href="https://mlflow.org/docs/latest/python_api/mlflow.pytorch.html" target="_blank">MLflow PyTorch 통합</a> - 실험 관리 및 배포</li>
+            <li><a href="https://pytorch.org/docs/stable/index.html" style="color: var(--accent);">공식 문서 (Docs)</a> - 모든 API 레퍼런스</li>
+            <li><a href="https://pytorch.org/tutorials/" style="color: var(--accent);">공식 튜토리얼</a> - 초보자부터 고급</li>
+            <li><a href="https://pytorch.org/get-started/locally/" style="color: var(--accent);">설치 가이드</a></li>
+            <li><a href="https://pytorch.org/blog/" style="color: var(--accent);">PyTorch Blog</a> - 최신 업데이트</li>
+            <li><a href="https://github.com/pytorch/examples" style="color: var(--accent);">예제 리포</a></li>
+            <li>Hugging Face: <a href="https://huggingface.co/docs/transformers/index" style="color: var(--accent);">Transformers</a></li>
+            <li>MLOps: <a href="https://pytorch.org/serve/" style="color: var(--accent);">TorchServe</a></li>
         </ul>
+        <div class="callout">
+            <p>커뮤니티: PyTorch Forums, Reddit r/MachineLearning.</p>
+        </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>본 가이드는 AI 개발 엔지니어와 MLOps 엔지니어의 실무 적용을 위한 핵심 요약입니다.</p>
-        <p>작성일: 2026.03 | 태그: deep-learning, framework, training</p>
-        <p>공식 문서와 최신 커뮤니티 트렌드를 참고하여 항상 업데이트하세요.</p>
+    <footer class="footer">
+        <p>&copy; 2026 PyTorch 실무 스터디 가이드. AI 엔지니어를 위한 오픈 자료.</p>
+        <p>deep-learning | framework | training</p>
     </footer>
 </body>
 </html>
