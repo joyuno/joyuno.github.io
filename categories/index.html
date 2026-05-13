@@ -48,26 +48,57 @@ title: Categories
     {% if sub_cats.size > 0 %}
       {% for sub in sub_cats %}
         {% assign sub_posts = parent_posts | where_exp: "p", "p.categories[1] == sub" %}
-        <div class="cat-child-row">
+        {% assign sub_key = parent | slugify | append: "--" | append: sub | slugify %}
+        <div class="cat-child-row" onclick="toggleSub('{{ sub_key }}')">
           <span class="cat-child-icon"><i data-lucide="file" class="icon"></i></span>
           <span class="cat-child-label">{{ sub }}</span>
           <span class="cat-badge cat-badge-sm">{{ sub_posts.size }}</span>
+          <span class="cat-chevron cat-chevron-sm" id="sub-chev-{{ sub_key }}">›</span>
+        </div>
+        <div class="cat-posts" id="posts-{{ sub_key }}">
+          {% for post in sub_posts %}
+          <a href="{{ post.url | relative_url }}" class="cat-post-row">
+            <span class="cat-post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+            <span class="cat-post-title">{{ post.title }}</span>
+          </a>
+          {% endfor %}
         </div>
       {% endfor %}
       {% comment %} 서브카테고리 없는 포스트 (카테고리가 1개뿐) {% endcomment %}
       {% assign no_sub_posts = parent_posts | where_exp: "p", "p.categories.size == 1" %}
       {% if no_sub_posts.size > 0 %}
-        <div class="cat-child-row">
+        {% assign misc_key = parent | slugify | append: "--misc" %}
+        <div class="cat-child-row" onclick="toggleSub('{{ misc_key }}')">
           <span class="cat-child-icon"><i data-lucide="file" class="icon"></i></span>
           <span class="cat-child-label">기타</span>
           <span class="cat-badge cat-badge-sm">{{ no_sub_posts.size }}</span>
+          <span class="cat-chevron cat-chevron-sm" id="sub-chev-{{ misc_key }}">›</span>
+        </div>
+        <div class="cat-posts" id="posts-{{ misc_key }}">
+          {% for post in no_sub_posts %}
+          <a href="{{ post.url | relative_url }}" class="cat-post-row">
+            <span class="cat-post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+            <span class="cat-post-title">{{ post.title }}</span>
+          </a>
+          {% endfor %}
         </div>
       {% endif %}
     {% else %}
-      {% comment %} 서브카테고리 없는 경우 직접 포스트 수만 표시 {% endcomment %}
-      <div class="cat-child-row cat-no-sub">
+      {% comment %} 서브카테고리 없는 경우 — 부모 직속 포스트 목록을 한 단계 expand 로 보여줌 {% endcomment %}
+      {% assign only_key = parent | slugify | append: "--only" %}
+      <div class="cat-child-row" onclick="toggleSub('{{ only_key }}')">
         <span class="cat-child-icon"><i data-lucide="file" class="icon"></i></span>
-        <span class="cat-child-label">포스트 {{ parent_posts.size }}개</span>
+        <span class="cat-child-label">포스트 목록</span>
+        <span class="cat-badge cat-badge-sm">{{ parent_posts.size }}</span>
+        <span class="cat-chevron cat-chevron-sm" id="sub-chev-{{ only_key }}">›</span>
+      </div>
+      <div class="cat-posts" id="posts-{{ only_key }}">
+        {% for post in parent_posts %}
+        <a href="{{ post.url | relative_url }}" class="cat-post-row">
+          <span class="cat-post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+          <span class="cat-post-title">{{ post.title }}</span>
+        </a>
+        {% endfor %}
       </div>
     {% endif %}
   </div>
@@ -144,8 +175,12 @@ title: Categories
     gap: 0.5rem;
     padding: 0.5rem 1.25rem 0.5rem 2.8rem;
     border-bottom: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
   }
-  .cat-child-row:last-child { border-bottom: none; }
+  .cat-child-row:hover { background: color-mix(in srgb, var(--accent-color) 6%, transparent); }
+  .cat-child-row:last-of-type { border-bottom: none; }
 
   .cat-child-icon { font-size: 0.85rem; flex-shrink: 0; opacity: 0.7; }
 
@@ -155,7 +190,50 @@ title: Categories
     flex: 1;
   }
 
+  .cat-chevron-sm { font-size: 0.95rem; }
+
   .cat-no-sub .cat-child-label { font-style: italic; }
+
+  /* 3단계: 글 목록 (sub-category 클릭 시 펼침) */
+  .cat-posts {
+    display: none;
+    background: color-mix(in srgb, var(--bg-color) 60%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 40%, transparent);
+  }
+  .cat-posts.open { display: block; }
+
+  .cat-post-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.45rem 1.25rem 0.45rem 4.4rem;
+    border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 40%, transparent);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.12s;
+  }
+  .cat-post-row:last-child { border-bottom: none; }
+  .cat-post-row:hover { background: color-mix(in srgb, var(--accent-color) 10%, transparent); }
+
+  .cat-post-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    min-width: 5.5rem;
+  }
+  .cat-post-title {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .cat-post-row:hover .cat-post-title { color: var(--accent-color); }
+
+  @media (max-width: 600px) {
+    .cat-post-row { padding-left: 3rem; flex-wrap: wrap; gap: 0.25rem 0.6rem; }
+    .cat-post-date { min-width: 0; }
+  }
 </style>
 
 <script>
@@ -170,20 +248,33 @@ title: Categories
     closeIcon.style.display = isOpen ? 'none' : 'inline';
   }
 
-  // 기본으로 모든 카테고리 펼치기
+  function toggleSub(key) {
+    const posts = document.getElementById('posts-' + key);
+    const chev = document.getElementById('sub-chev-' + key);
+    if (!posts) return;
+    const isOpen = posts.classList.toggle('open');
+    if (chev) chev.classList.toggle('open', isOpen);
+  }
+
+  // 기본으로 모든 부모 카테고리 펼치기 (서브는 기본 닫힘)
   window.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.cat-parent-row').forEach(function(row) {
       const slug = row.getAttribute('onclick').match(/'([^']+)'/)[1];
       toggleParent(slug);
     });
 
-    // URL 해시로 특정 카테고리 스크롤
+    // URL 해시로 특정 카테고리/서브카테고리 자동 expand
+    //   #ai             → parent 'ai' 의 children 으로 스크롤
+    //   #ai--coding     → sub-cat 까지 펼치고 글 목록 스크롤
     const hash = location.hash.replace('#', '');
-    if (hash) {
+    if (!hash) return;
+    if (hash.indexOf('--') !== -1) {
+      toggleSub(hash);
+      const posts = document.getElementById('posts-' + hash);
+      if (posts) posts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
       const children = document.getElementById('children-' + hash);
-      if (children) {
-        children.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (children) children.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 </script>
