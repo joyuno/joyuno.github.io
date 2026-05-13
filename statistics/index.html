@@ -209,9 +209,10 @@ title: Statistics
     });
 
     // 워드클라우드 — wordcloud2.js 로 Python WordCloud 스타일 렌더 (회전·랜덤 배치·색 다양)
-    // slug 토큰까지 합치면 키워드 풀이 ~150종 이상이 되니 top 120 까지 보여 풍성한 cloud.
+    // top 은 30 으로 — wordcloud2.js 가 너무 많은 item + shrinkToFit 재귀로 스택 오버플로우
+    // 나는 패턴이 있어서 안전선 유지. (이전 120 으로 두면 "Maximum call stack size exceeded")
     const sortedAll = Array.from(totalFreq.entries()).sort((a, b) => b[1] - a[1]);
-    const top = sortedAll.slice(0, 120);
+    const top = sortedAll.slice(0, 30);
     if (!top.length) {
       cloudEmpty.textContent = '표시할 태그가 없어요';
     } else if (typeof WordCloud === 'undefined') {
@@ -255,7 +256,7 @@ title: Statistics
         shuffle: true,
         minSize: 10 * dpr,
         drawOutOfBound: false,
-        shrinkToFit: true,
+        shrinkToFit: false,   // ← true 일 때 fit 실패 → 재귀 shrink → 스택 오버플로우. 못 들어가는 단어는 그냥 drop.
       });
     }
 
