@@ -472,3 +472,9 @@
   tags: ["deep-learning", "framework", "training"]
   date: "2026-05-13"
   url: "/study-guides/pytorch-study-guide.html"
+- keyword: "HashiCorp Vault"
+  slug: "hashicorp-vault"
+  category: "infra"
+  tags: ["secrets", "security", "encryption"]
+  date: "2026-05-13"
+  url: "/study-guides/hashicorp-vault-study-guide.html"
