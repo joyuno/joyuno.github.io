@@ -466,3 +466,9 @@
   tags: ["logging", "search", "observability"]
   date: "2026-05-12"
   url: "/study-guides/elk-stack-study-guide.html"
+- keyword: "PyTorch"
+  slug: "pytorch"
+  category: "ai-ml"
+  tags: ["deep-learning", "framework", "training"]
+  date: "2026-05-13"
+  url: "/study-guides/pytorch-study-guide.html"
