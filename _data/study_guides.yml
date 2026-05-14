@@ -478,3 +478,9 @@
   tags: ["secrets", "security", "encryption"]
   date: "2026-05-13"
   url: "/study-guides/hashicorp-vault-study-guide.html"
+- keyword: "TensorFlow"
+  slug: "tensorflow"
+  category: "ai-ml"
+  tags: ["deep-learning", "framework", "production"]
+  date: "2026-05-15"
+  url: "/study-guides/tensorflow-study-guide.html"
