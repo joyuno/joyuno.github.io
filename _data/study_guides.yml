@@ -484,3 +484,9 @@
   tags: ["deep-learning", "framework", "production"]
   date: "2026-05-15"
   url: "/study-guides/tensorflow-study-guide.html"
+- keyword: "OpenTelemetry"
+  slug: "opentelemetry"
+  category: "infra"
+  tags: ["observability", "tracing", "metrics"]
+  date: "2026-05-14"
+  url: "/study-guides/opentelemetry-study-guide.html"
