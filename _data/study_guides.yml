@@ -490,3 +490,9 @@
   tags: ["observability", "tracing", "metrics"]
   date: "2026-05-14"
   url: "/study-guides/opentelemetry-study-guide.html"
+- keyword: "MITRE ATT&CK Framework"
+  slug: "mitre-att-ck-framework"
+  category: "security"
+  tags: ["threat-modeling", "tactics", "techniques"]
+  date: "2026-05-15"
+  url: "/study-guides/mitre-att-ck-framework-study-guide.html"
