@@ -502,3 +502,9 @@
   tags: ["siem", "log-analysis", "threat-detection"]
   date: "2026-05-16"
   url: "/study-guides/splunk-enterprise-security-study-guide.html"
+- keyword: "CrowdStrike Falcon"
+  slug: "crowdstrike-falcon"
+  category: "security"
+  tags: ["xdr", "edr", "endpoint"]
+  date: "2026-05-17"
+  url: "/study-guides/crowdstrike-falcon-study-guide.html"
