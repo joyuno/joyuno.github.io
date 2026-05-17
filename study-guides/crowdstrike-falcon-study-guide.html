@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무 스터디 가이드: CrowdStrike Falcon | AI 정보보안 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.5rem;
+        }
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        .toc a {
+            color: var(--text);
+            display: block;
+            padding: 5px 0;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            color: var(--accent2);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .section h3 {
+            font-size: 1.4rem;
+            color: var(--accent4);
+            margin: 1.5rem 0 1rem 0;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .diagram {
+            background-color: var(--surface);
+            font-family: 'Courier New', monospace;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 1.5rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            border-radius: 4px;
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .step {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        .step:before {
+            content: counter(step-counter);
+            background-color: var(--accent);
+            color: var(--bg);
+            font-weight: bold;
+            border-radius: 50%;
+            width: 1.8rem;
+            height: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        ol.steps-list {
+            counter-reset: step-counter;
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>CrowdStrike Falcon 실무 스터디 가이드</h1>
+        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">XDR</span>
+            <span class="badge">EDR</span>
+            <span class="badge">Endpoint Security</span>
+            <span class="badge">Cloud-Native</span>
+            <span class="badge">AI/ML 기반</span>
+            <span class="badge">2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">CrowdStrike Falcon란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#section3">핵심 개념 & 아키텍처</a></li>
+            <li><a href="#section4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. CrowdStrike Falcon란?</h2>
+            <p>CrowdStrike Falcon은 클라우드 네이티브 아키텍처 기반의 차세대 엔드포인트 보안 플랫폼입니다. 단일 가벼운 에이전트(Falcon Sensor)를 통해 EDR(Endpoint Detection and Response), AV, Threat Intelligence, IT Hygiene 등을 통합 제공하는 XDR(eXtended Detection and Response) 솔루션입니다.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>1. AI/ML 기반 위협 탐지</h4>
+                    <p>Falcon 플랫폼의 핵심은 클라우드 기반의 인공지능 엔진입니다. 1초에 1조 개 이상의 이벤트를 처리하며, 실시간으로 위협 인디케이터(IoCs)와 행위 기반 이상 징후를 분석합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>2. 단일 에이전트 아키텍처</h4>
+                    <p>기존 보안 제품군이 여러 에이전트를 필요로 했던 것과 달리, Falcon Sensor 하나로 모든 기능(방어, 탐지, 대응, 가시성)을 수행합니다. 리소스 사용률이 극도로 낮습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>3. 통합 XDR 플랫폼</h4>
+                    <p>엔드포인트, 클라우드 워크로드, ID, 이메일, 네트워크 데이터를 하나의 대시보드에서 통합하여 조사 및 대응할 수 있습니다. 데이터 실효화(Silo) 문제를 해결합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>전통적인 시그니처 기반 AV와 EDR, 그리고 현대적인 XDR 플랫폼 간의 차이점을 이해하는 것이 중요합니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>기능/특징</th>
+                        <th>전통적 AV (예: McAfee)</th>
+                        <th>기존 EDR (예: Carbon Black)</th>
+                        <th>CrowdStrike Falcon (XDR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>아키텍처</td>
+                        <td>온프레미스 중앙 서버</td>
+                        <td>하이브리드 (온프레미스+클라우드)</td>
+                        <td><strong>완전 클라우드 네이티브 (SaaS)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>탐지 방식</td>
+                        <td>시그니처, 휴리스틱</td>
+                        <td>행위 기반 + 시그니처</td>
+                        <td><strong>AI/ML 기반 실시간 분석 + Threat Graph</strong></td>
+                    </tr>
+                    <tr>
+                        <td>에이전트 부하</td>
+                        <td>높음 (주기적 전체 검사)</td>
+                        <td>중간</td>
+                        <td><strong>매우 낮음 (스트리밍 이벤트)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>대응 자동화</td>
+                        <td>제한적 (격리/삭제)</td>
+                        <td>플레이북 기반 반자동</td>
+                        <td><strong>완전 자동화 (SOAR 통합)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>데이터 통합</td>
+                        <td>엔드포인트만</td>
+                        <td>엔드포인트 중심</td>
+                        <td><strong>통합 XDR (엔드포인트, 클라우드, ID, 네트워크)</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout">
+                <h4>핵심 차별점</h4>
+                <p><strong>Threat Graph</strong>: 모든 엔드포인트, 사용자, 프로세스 간의 관계를 실시간 그래프 데이터베이스로 모델링하여 공격자의 TTP(Tactics, Techniques, Procedures)를 시각적으로 추적할 수 있습니다. 이는 기존 제품이 단일 이벤트 로그만 제공하는 것과 근본적으로 다릅니다.</p>
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념 & 아키텍처</h2>
+            <p>Falcon의 동작 원리를 이해하기 위한 간소화된 아키텍처 다이어그램입니다.</p>
+            
+            <div class="diagram">
+    +-----------------------------------------------------------------------+
+    |                    CrowdStrike Falcon Cloud                          |
+    |  +----------------+  +----------------+  +----------------+         |
+    |  |  AI/ML 엔진    |  |  Threat Intel  |  |  Threat Graph  |         |
+    |  |  (실시간 분석) |  |  (격리/공격지)  |  |  (관계 매핑)   |         |
+    |  +----------------+  +----------------+  +----------------+         |
+    |            ^                   ^                   ^                |
+    |            |                   |                   |                |
+    +------------|-------------------|-------------------|----------------+
+                 |                   |                   |
+                 |             (REST API / Stream)      |
+                 |                                       |
+    +------------|---------------------------------------|----------------+
+    |            |                                       |                |
+    |            v                                       v                |
+    |  +----------------+                      +----------------+        |
+    |  |  Falcon Sensor |                      |  Falcon Console|        |
+    |  |  (에이전트)     |<------------------->|  (관리 콘솔)   |        |
+    |  +----------------+   이벤트 스트리밍    +----------------+        |
+    |           ^                                                    |
+    |           | (커널/유저 모드 후크)                               |
+    +-----------|--------------------------------------------------------+
+                |
+                v
+    +------------------------------------------------------------------------+
+    |                         호스트 (엔드포인트)                            |
+    |  프로세스 생성, 파일 쓰기, 네트워크 연결, 레지스트리 변경 등 모든 활동  |
+    +------------------------------------------------------------------------+
+            </div>
+            
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>Falcon Sensor</strong>: 커널 레벨에서 시스템 활동을 모니터링하고 이벤트를 클라우드로 스트리밍하는 가벼운 에이전트.</li>
+                <li><strong>Falcon Cloud</strong>: 모든 분석, 상관관계, 위협 인텔리전스가 이루어지는 백엔드 플랫폼.</li>
+                <li><strong>Threat Graph</strong>: 실시간 그래프 데이터베이스로, 모든 엔드포인트와 이벤트 간 관계를 저장/분석.</li>
+                <li><strong>Falcon Console</strong>: 웹 기반 관리 인터페이스. 대시보드, 인시던트 관리, 조사 도구 제공.</li>
+            </ul>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
+            <p>Falcon API를 이용한 기본적인 자동화 예제를 통해 플랫폼과의 상호작용을 시작해보세요.</p>
+            
+            <ol class="steps-list">
+                <li class="step">
+                    <h3>사전 준비: API 클라이언트 생성</h3>
+                    <p>Falcon Console에서 <code>Support & Resources → API Clients and Keys</code>로 이동하여 새 클라이언트를 생성합니다. <strong>Detections Read, Hosts Read</strong> 권한을 부여하세요.</p>
+                    <div class="code-block-title">CLI: 환경변수 설정</div>
+                    <pre><code># Bash (Linux/macOS)
+export FALCON_CLIENT_ID="your_client_id_here"
+export FALCON_CLIENT_SECRET="your_client_secret_here"
+export FALCON_CLOUD="us-1"  # 또는 eu-1, us-2 등 리전 코드
+
+# PowerShell (Windows)
+$env:FALCON_CLIENT_ID="your_client_id_here"
+$env:FALCON_CLIENT_SECRET="your_client_secret_here"
+$env:FALCON_CLOUD="us-1"</code></pre>
+                </li>
+                
+                <li class="step">
+                    <h3>Python SDK 설치 및 인증</h3>
+                    <div class="code-block-title">Python: 패키지 설치 및 기본 인증</div>
+                    <pre><code># crowdstrike-falconpy 패키지 설치
+pip install crowdstrike-falconpy
+
+# 기본 인증 및 서비스 클래스 생성
+from falconpy import OAuth2, Hosts, Detects
+
+# 인증 객체 생성
+auth = OAuth2(client_id=os.getenv('FALCON_CLIENT_ID'),
+              client_secret=os.getenv('FALCON_CLIENT_SECRET'),
+              base_url=os.getenv('FALCON_CLOUD'))
+
+# Hosts 및 Detects 서비스 클라이언트 생성
+hosts = Hosts(auth_object=auth)
+detects = Detects(auth_object=auth)
+
+print("인증 성공!")</code></pre>
+                </li>
+                
+                <li class="step">
+                    <h3>첫 번째 쿼리: 최근 위협 탐지 조회</h3>
+                    <div class="code-block-title">Python: 최근 10개 탐지 이벤트 가져오기</div>
+                    <pre><code>def get_recent_detections(limit=10):
+        """최근 탐지 이벤트를 조회합니다."""
+        # 쿼리 파라미터 설정
+        parameters = {
+            'limit': limit,
+            'sort': 'first_behavior|desc',  # 최신 순 정렬
+            'filter': 'status:"new"'  # 새로 발생한 탐지만
+        }
+        
+        try:
+            response = detects.query_detects(parameters=parameters)
+            if response['status_code'] == 200:
+                detection_ids = response['body']['resources']
+                if detection_ids:
+                    details = detects.get_detect_summaries(
+                        body={'ids': detection_ids}
+                    )
+                    return details['body']['resources']
+                else:
+                    print("최근 탐지 이벤트가 없습니다.")
+                    return []
+            else:
+                print(f"쿼리 실패: {response['status_code']}")
+                return []
+        except Exception as e:
+            print(f"오류 발생: {e}")
+            return []
+
+# 실행 예제
+recent_detects = get_recent_detections(5)
+for detect in recent_detects:
+    print(f"[{detect.get('first_behavior', '')}] {detect.get('technique', '')}")
+    print(f"  호스트: {detect.get('device', {}).get('hostname', 'N/A')}")
+    print(f"  심각도: {detect.get('max_severity', 'N/A')}")
+    print()</code></pre>
+                </li>
+                
+                <li class="step">
+                    <h3>호스트 정보 일괄 조회</h3>
+                    <div class="code-block-title">Python: 특정 OS의 모든 호스트 정보 가져오기</div>
+                    <pre><code>def get_hosts_by_os(os_platform="Windows"):
+        """특정 OS 플랫폼의 호스트 목록을 조회합니다."""
+        filter_query = f"platform_name:'{os_platform}'"
+        
+        response = hosts.query_devices_by_filter(filter=filter_query, limit=100)
+        
+        if response['status_code'] == 200:
+            host_ids = response['body']['resources']
+            if host_ids:
+                host_details = hosts.get_device_details(ids=host_ids)
+                return host_details['body']['resources']
+        return []
+
+# 실행 예제
+windows_hosts = get_hosts_by_os("Windows")
+print(f"총 {len(windows_hosts)}개의 Windows 호스트 발견")
+for host in windows_hosts[:3]:  # 처음 3개만 출력
+    print(f"- {host.get('hostname')} | {host.get('local_ip')} | "
+          f"Sensor: {host.get('agent_version')}")</code></pre>
+                </li>
+            </ol>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <p>Falcon Console에서 자주 설정하는 주요 정책과 그 의미입니다.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>정책 카테고리</th>
+                        <th>키 설정</th>
+                        <th>권장값</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">예방 정책</td>
+                        <td>Cloud Machine Learning</td>
+                        <td>Block (High Threshold)</td>
+                        <td>클라우드 ML이 악성으로 판단하면 실행 차단</td>
+                    </tr>
+                    <tr>
+                        <td>On-Sensor Machine Learning</td>
+                        <td>Detect (Medium Threshold)</td>
+                        <td>오프라인 환경을 위한 온디바이스 ML 탐지</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">탐지 정책</td>
+                        <td>IOA (Indicator of Attack) Rules</td>
+                        <td>Enabled (All)</td>
+                        <td>공격 지표 기반 실시간 탐지 활성화</td>
+                    </tr>
+                    <tr>
+                        <td>Behavioral Threat Detection</td>
+                        <td>Enabled (Aggressive)</td>
+                        <td>이상 행위 기반 탐지 민감도</td>
+                    </tr>
+                    <tr>
+                        <td>데이터 수집</td>
+                        <td>Sensor Data Collection</td>
+                        <td>Enhanced (or Full)</td>
+                        <td>조사를 위한 상세 이벤트 수집 레벨</td>
+                    </tr>
+                    <tr>
+                        <td>대응 정책</td>
+                        <td>Automated Response</td>
+                        <td>Contain (Critical Severity)</td>
+                        <td>심각도 Critical 시 자동 격리</td>
+                    </tr>
+                    <tr>
+                        <td>관리</td>
+                        <td>Sensor Update Policy</td>
+                        <td>Maintenance Window 설정</td>
+                        <td>에이전트 자동 업데이트 시간대</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout warn">
+                <h4>주의: 데이터 수집 레벨 트레이드오프</h4>
+                <p><strong>Enhanced/Full</strong> 모드는 포렌식 조사에 필수적이지만, 네트워크 대역폭과 클라우드 스토리지 사용량을 증가시킵니다. 조직의 네트워크 용량과 보안 요구사항을 고려하여 균형을 잡아 설정하세요.</p>
+            </div>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            
+            <h3>자주 겪는 문제</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제 1: Sensor 상태 "Offline"</h4>
+                    <p><strong>증상</strong>: 호스트가 Falcon Console에서 오프라인으로 표시됨.</p>
+                    <p><strong>원인</strong>: 네트워크 연결 문제, Sensor 프로세스 중단, 호스트 방화벽 정책.</p>
+                    <p><strong>해결</strong>:
+                        1. 호스트에서 <code>sc query csfalconservice</code> (Windows) 또는 <code>systemctl status falcon-sensor</code> (Linux)로 서비스 상태 확인.
+                        2. Sensor 로그 확인: <code>C:\ProgramData\CrowdStrike\Logs</code> 또는 <code>/var/log/crowdstrike/</code>.
+                        3. 아웃바운드 방화벽이 <code>*.crowdstrike.com:443</code> 허용하는지 확인.
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 2: API 호출 Rate Limit 초과</h4>
+                    <p><strong>증상</strong>: 429 Too Many Requests 에러 반환.</p>
+                    <p><strong>원인</strong>: Falcon API는 분당/일별 호출 제한이 있음.</p>
+                    <p><strong>해결</strong>:
+                        1. 응답 헤더의 <code>X-Ratelimit-Remaining</code> 확인.
+                        2. 대량 작업 시 <code>time.sleep()</code>으로 호출 간 지연 추가.
+                        3. 가능하면 배치 API (예: <code>/devices/entities/devices/v2</code>) 사용.
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 3: False Positive 탐지</h4>
+                    <p><strong>증상</strong>: 합법적인 내부 도구가 악성으로 탐지됨.</p>
+                    <p><strong>원인</strong>: ML 모델이 특정 행위 패턴을 악성으로 오판별.</p>
+                    <p><strong>해결</strong>:
+                        1. 탐지 이벤트에서 "Exclude" 버튼으로 일시적 제외.
+                        2. IOC Management에서 해당 파일 해시를 허용 목록에 추가.
+                        3. 필요한 경우 Prevention Policy의 ML 민감도 조정.
+                    </p>
+                </div>
+            </div>
+            
+            <h3>성능 최적화 팁</h3>
+            <ul>
+                <li><strong>API 사용</strong>: 반복적인 호출은 캐시 구현 (예: 호스트 정보는 5분 캐시).</li>
+                <li><strong>대량 조회</strong>: <code>limit</code> 파라미터와 <code>offset</code>을 사용한 페이지네이션 구현.</li>
+                <li><strong>실시간 모니터링</strong>: Detection Streams API를 사용한 이벤트 스트리밍 (WebSocket).</li>
+                <li><strong>자동화</strong>: Critical 심각도 탐지 시 Slack/Teams 알림 자동화 구축.</li>
+            </ul>
+            
+            <div class="callout">
+                <h4>팁: Detection Streams API로 실시간 모니터링</h4>
+                <pre><code># 실시간 탐지 이벤트 스트리밍 예제 (개념 코드)
+from falconpy import EventStreams
+
+stream = EventStreams(auth_object=auth)
+# 스트림 앱 ID 생성 (한 번만)
+# app_id = stream.list_available_streams()['body']['resources'][0]
+# 이후 해당 app_id로 스트림 연결
+# for event in stream.stream_events(app_id=app_id):
+#     process_event(event)</code></pre>
+                <p>이 방식은 폴링(polling) 대신 푸시(push) 기반으로 실시간 이벤트를 수신하여 효율적입니다.</p>
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://falcon.crowdstrike.com/" target="_blank">공식 Falcon Console</a> - 주요 작업 대시보드</li>
+                <li><a href="https://github.com/CrowdStrike/falconpy" target="_blank">FalconPy GitHub</a> - 공식 Python SDK 및 예제</li>
+                <li><a href="https://www.crowdstrike.com/blog/tech-center/falcon-apis-overview/" target="_blank">Falcon APIs Overview</a> - API 개념 및 아키텍처 가이드</li>
+                <li><a href="https://falcon.us-1.crowdstrike.com/documentation" target="_blank">공식 API 문서</a> - 상세 엔드포인트 레퍼런스</li>
+                <li><a href="https://www.crowdstrike.com/blog/category/threat-research/" target="_blank">CrowdStrike Threat Research Blog</a> - 최신 위협 동향 및 TTP 분석</li>
+                <li><a href="https://www.crowdstrike.com/endpoint-security-products/falcon-platform/thor/" target="_blank">Falcon Fusion (SOAR)</a> - 자동화 플레이북 문서</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 문서는 AI 정보보안 엔지니어와 보안 전문가를 위한 실무 중심 스터디 가이드입니다.</p>
+        <p>공식 문서와 실제 환경 테스트를 병행하는 것을 권장합니다. | 작성일: 2026년 3월</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--border);">
+            이 문서는 교육 목적으로 작성되었으며, 공식 CrowdStrike 문서를 대체하지 않습니다.<br>
+            실제 운영 환경에 적용하기 전에 충분한 테스트와 검증을 거치십시오.
+        </p>
+    </footer>
+
+    <script>
+        // 간단한 TOC 클릭 시 부드러운 스크롤
+        document.querySelectorAll('.toc a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 코드 블록에 라인 번호 표시 (간단한 버전)
+        document.querySelectorAll('pre').forEach(pre => {
+            const code = pre.querySelector('code');
+            if (code) {
+                const lines = code.textContent.split('\n').length - 1;
+                if (lines > 5) {
+                    pre.style.position = 'relative';
+                    pre.style.paddingLeft = '3.5em';
+                    pre.setAttribute('data-line-count', lines);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
