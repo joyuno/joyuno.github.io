@@ -508,3 +508,9 @@
   tags: ["xdr", "edr", "endpoint"]
   date: "2026-05-17"
   url: "/study-guides/crowdstrike-falcon-study-guide.html"
+- keyword: "Hugging Face Transformers"
+  slug: "hugging-face-transformers"
+  category: "ai-ml"
+  tags: ["nlp", "llm", "pretrained-models"]
+  date: "2026-05-19"
+  url: "/study-guides/hugging-face-transformers-study-guide.html"
