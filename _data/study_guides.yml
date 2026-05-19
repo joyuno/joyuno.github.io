@@ -514,3 +514,9 @@
   tags: ["nlp", "llm", "pretrained-models"]
   date: "2026-05-19"
   url: "/study-guides/hugging-face-transformers-study-guide.html"
+- keyword: "Palo Alto Cortex XDR"
+  slug: "palo-alto-cortex-xdr"
+  category: "security"
+  tags: ["xdr", "soar", "detection"]
+  date: "2026-05-19"
+  url: "/study-guides/palo-alto-cortex-xdr-study-guide.html"
