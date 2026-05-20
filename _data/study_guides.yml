@@ -520,3 +520,9 @@
   tags: ["xdr", "soar", "detection"]
   date: "2026-05-19"
   url: "/study-guides/palo-alto-cortex-xdr-study-guide.html"
+- keyword: "SentinelOne Singularity"
+  slug: "sentinelone-singularity"
+  category: "security"
+  tags: ["xdr", "ai", "autonomous"]
+  date: "2026-05-20"
+  url: "/study-guides/sentinelone-singularity-study-guide.html"
