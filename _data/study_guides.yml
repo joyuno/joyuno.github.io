@@ -526,3 +526,9 @@
   tags: ["xdr", "ai", "autonomous"]
   date: "2026-05-20"
   url: "/study-guides/sentinelone-singularity-study-guide.html"
+- keyword: "LangChain"
+  slug: "langchain"
+  category: "ai-ml"
+  tags: ["llm", "rag", "agent", "framework"]
+  date: "2026-05-21"
+  url: "/study-guides/langchain-study-guide.html"
