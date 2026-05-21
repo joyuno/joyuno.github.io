@@ -532,3 +532,9 @@
   tags: ["llm", "rag", "agent", "framework"]
   date: "2026-05-21"
   url: "/study-guides/langchain-study-guide.html"
+- keyword: "Metasploit Framework"
+  slug: "metasploit-framework"
+  category: "security"
+  tags: ["pentest", "exploitation", "red-team"]
+  date: "2026-05-21"
+  url: "/study-guides/metasploit-framework-study-guide.html"
