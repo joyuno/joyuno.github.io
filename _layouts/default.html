@@ -533,7 +533,7 @@
       <div class="profile-avatar">
         <img src="/assets/img/profile.jpeg" alt="profile">
       </div>
-      <div class="profile-name">{{ site.author | default: "Joyuno" }}</div>
+      <div class="profile-name">{{ site.author.name | default: site.author | default: "Joyuno" }}</div>
       <div class="profile-tagline">AI Engineer</div>
     </div>
 
@@ -587,7 +587,7 @@
       {{ content }}
     </main>
     <footer class="site-footer">
-      <p>© {{ site.time | date: '%Y' }} {{ site.author | default: "Joyuno" }}. Powered by Jekyll &amp; GitHub Pages.</p>
+      <p>© {{ site.time | date: '%Y' }} {{ site.author.name | default: site.author | default: "Joyuno" }}. Powered by Jekyll &amp; GitHub Pages.</p>
     </footer>
   </div>
 
