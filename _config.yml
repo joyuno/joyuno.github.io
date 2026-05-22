@@ -1,8 +1,24 @@
 # Jekyll 설정
 title: Joyuno's Dev Blog
-description: 일일 개발 작업 리포트 및 기술 블로그
-author: joyuno
+tagline: AI 활용 개발 회고 + 기술 노트
+description: >-
+  주니어 AI 엔지니어 joyuno 의 개발 회고 블로그.
+  Claude / OpenAI / DeepSeek 등 AI 도구 활용 노하우, 프롬프팅 패턴,
+  AI 활용 개발일지(dev-blog) 자동 생성 기록을 매일 공유합니다.
+author:
+  name: joyuno
+  email: yhjang@terasys.kr
 url: "https://joyuno.github.io"
+twitter:
+  username: joyuno
+  card: summary_large_image
+social:
+  name: Joyuno
+  links:
+    - https://github.com/joyuno
+# Google Search Console 인증 (사용자 콘솔에서 받은 verification code 를 여기에 박으면
+# jekyll-seo-tag 가 <meta name="google-site-verification"> 자동 생성).
+# google_site_verification: "<여기에 코드>"
 
 # 빌드 설정
 markdown: kramdown
