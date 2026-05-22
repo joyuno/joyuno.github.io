@@ -538,3 +538,9 @@
   tags: ["pentest", "exploitation", "red-team"]
   date: "2026-05-21"
   url: "/study-guides/metasploit-framework-study-guide.html"
+- keyword: "LlamaIndex"
+  slug: "llamaindex"
+  category: "ai-ml"
+  tags: ["llm", "rag", "data-framework"]
+  date: "2026-05-22"
+  url: "/study-guides/llamaindex-study-guide.html"
