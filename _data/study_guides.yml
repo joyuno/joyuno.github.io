@@ -544,3 +544,9 @@
   tags: ["llm", "rag", "data-framework"]
   date: "2026-05-22"
   url: "/study-guides/llamaindex-study-guide.html"
+- keyword: "Burp Suite"
+  slug: "burp-suite"
+  category: "security"
+  tags: ["web-security", "pentest", "scanner"]
+  date: "2026-05-22"
+  url: "/study-guides/burp-suite-study-guide.html"
