@@ -810,8 +810,8 @@
         "vulnerability-scanner",
         "compliance"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-05-23"
     },
     {
       "id": 69,
