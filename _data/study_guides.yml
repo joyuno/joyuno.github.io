@@ -550,3 +550,9 @@
   tags: ["web-security", "pentest", "scanner"]
   date: "2026-05-22"
   url: "/study-guides/burp-suite-study-guide.html"
+- keyword: "Nessus"
+  slug: "nessus"
+  category: "security"
+  tags: ["vulnerability-scanner", "compliance"]
+  date: "2026-05-23"
+  url: "/study-guides/nessus-study-guide.html"
