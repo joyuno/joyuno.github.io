@@ -834,8 +834,8 @@
         "k8s",
         "threat-detection"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-05-25"
     },
     {
       "id": 71,

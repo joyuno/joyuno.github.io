@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Falco 스터디 가이드 | 클라우드 네이티브 런타임 보안</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { box-sizing: border-box; margin: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: -1px;
+            max-width: -1px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .hero {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+            border: 1px solid var(--border);
+            border-radius: (12px);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .badge.accent { background-color: var(--accent); color: white; }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: (8px);
+            padding: 1.5rem 2rem;
+            margin-bottom: -1px;
+        }
+        .toc ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.5rem;
+        }
+        .toc li { margin-bottom: 0.5rem; }
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .toc a:hover { text-decoration: underline; }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            color: var(--accent2);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: (8px);
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 (8px) (8px) 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+            background-color: rgba(248, 81, 73, 0.1);
+        }
+        .diagram {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: (8px);
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 1.5rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            border-radius: (4px);
+        }
+        code { padding: 0.2rem 0.4rem; color: var(--accent3); }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            margin: 1rem 0;
+        }
+        pre code { color: var(--text); background-color: transparent; padding: 0; }
+        .code-block-title {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            padding: 0.5rem 1rem;
+            border-radius: (8px) (8px) 0 0;
+            font-family: 'Courier New', monospace;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a { color: var(--accent); }
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero .subtitle { font-size: 1.1rem; }
+            .toc ol { grid-template-columns: 1fr; }
+            .concept-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <h1>Falco 실무 스터디 가이드</h1>
+            <p class="subtitle">클라우드 네이티브 런타임 보안을 위한 핵심 요약</p>
+            <div class="meta-badges">
+                <span class="badge accent">Runtime Security</span>
+                <span class="badge">Kubernetes</span>
+                <span class="badge">Threat Detection</span>
+                <span class="badge">CNCF Graduated</span>
+                <span class="badge">2026.03</span>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <h3>목차</h3>
+            <ol>
+                <li><a href="#section1">Falco란?</a></li>
+                <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+                <li><a href="#section3">핵심 개념과 아키텍처</a></li>
+                <li><a href="#section4">퀵스타트: 설치부터 첫 탐지까지</a></li>
+                <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+                <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+                <li><a href="#section7">참고 자료</a></li>
+            </ol>
+        </nav>
+
+        <main>
+            <section id="section1" class="section">
+                <h2>1. Falco란?</h2>
+                <p>Falco는 <strong>클라우드 네이티브 런타임 보안</strong>을 위한 오픈소스 위협 탐지 엔진입니다. Linux 시스템 호출(syscall)을 실시간으로 모니터링하여 이상 행위를 탐지하고 알림을 생성합니다. CNCF(Cloud Native Computing Foundation) 졸업 프로젝트로, Kubernetes 환경에서의 보안 표준 도구로 자리잡았습니다.</p>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>실시간 Syscall 모니터링</h4>
+                        <p>커널 수준에서 시스템 호출을 직접 수집(eBPF/드라이버)하여 모든 프로세스, 파일, 네트워크 활동을 가시화합니다. 기존 호스트 기반 침입 탐지 시스템(HIDS)보다 더 낮은 수준에서 동작합니다.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>규칙 기반 위협 탐지</h4>
+                        <p>YAML 형식의 선언적 규칙(Falco Rules)을 통해 정상/비정상 행위를 정의. 컨테이너 내 권한 상승, 민감 파일 접근, 이상 네트워크 연결 등을 탐지할 수 있습니다.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>클라우드 네이티브 통합</h4>
+                        <p>Kubernetes Audit Logs, 클라우드 제공자 로그(CloudTrail, Azure Activity Log 등)를 추가 컨텍스트로 활용하여 다계층 보안 분석이 가능합니다.</p>
+                    </div>
+                </div>
+                <div class="callout">
+                    <strong>핵심 가치:</strong> Falco는 "침입 탐지"가 아닌 "위협 탐지"에 초점을 맞춥니다. 알려진 악성 패턴뿐만 아니라 조직의 정책 위반, 구성 오류, 비정상적 활동을 실시간으로 식별합니다.
+                </div>
+            </section>
+
+            <section id="section2" class="section">
+                <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+                <p>Falco는 기존 보안 모니터링 도구와 비교했을 때 다음과 같은 차별점을 가집니다.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>도구/접근법</th>
+                            <th>주요 특징</th>
+                            <th>Falco와의 비교</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>전통적 HIDS (OSSEC, Tripwire)</td>
+                            <td>파일 무결성 검사, 로그 분석, 정기적 스캔</td>
+                            <td>Falco는 <strong>실시간</strong> syscall 모니터링으로 지연 시간이 짧고, 컨테이너/쿠버네티스 인식력이 높음.</td>
+                        </tr>
+                        <tr>
+                            <td>Network IDS (Suricata, Snort)</td>
+                            <td>네트워크 패킷 분석, 프로토콜 이상 탐지</td>
+                            <td>Falco는 호스트/컨테이너 내부 활동에 초점. 네트워크 IDS와 <strong>상호 보완적</strong>으로 사용 권장.</td>
+                        </tr>
+                        <tr>
+                            <td>CSPM (Cloud Security Posture Management)</td>
+                            <td>구성 오류, 정책 준수 검사 (예: Prisma Cloud, Wiz)</td>
+                            <td>CSPM은 정적 구성을, Falco는 <strong>런타임 동작</strong>을 모니터링. 함께 사용 시 완전한 보안 상태 관리 가능.</td>
+                        </tr>
+                        <tr>
+                            <td>eBPF 기반 모니터링 (Tetragon)</td>
+                            <td>eBPF를 이용한 실시간 시각화 및 정책 실행</td>
+                            <td>Falco도 eBPF를 지원하며, 더 <strong>풍부한 규칙 언어와 커뮤니티 규칙셋</strong>을 강점으로 함.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout warn">
+                    <strong>주의:</strong> Falco는 방화벽이나 EDR(Endpoint Detection and Response)의 완전한 대체제가 아닙니다. <strong>심층 방어(Defense in Depth)</strong> 전략의 한 구성 요소로 통합해야 합니다.
+                </div>
+            </section>
+
+            <section id="section3" class="section">
+                <h2>3. 핵심 개념과 아키텍처</h2>
+                <h3>아키텍처 개요</h3>
+                <p>Falco는 이벤트 소스, 규칙 엔진, 출력 처리기의 3계층으로 구성됩니다.</p>
+                <div class="diagram">
++-----------------------------------------------------------------------+
+|                     데이터 소스 (Event Sources)                       |
++-------------------+-------------------+-------------------------------+
+| Syscall (eBPF)    | Kubernetes Audit  | Cloud Provider Logs          |
+| 드라이버          | Events            | (AWS, GCP, Azure)             |
++-------------------+-------------------+-------------------------------+
+                            |
+                            v
++-----------------------------------------------------------------------+
+|                     규칙 엔진 (Falco Engine)                         |
+|  +---------------------+    +---------------------+                  |
+|  | 조건 평가           | -> | 출력 포맷팅         |                  |
+|  | (Rule Conditions)   |    | (Output Formatting) |                  |
+|  +---------------------+    +---------------------+                  |
++-----------------------------------------------------------------------+
+                            |
+                            v
++-----------------------------------------------------------------------+
+|                     출력 처리기 (Outputs)                            |
++-----------+-----------+-----------+-----------+----------------------+
+| Stdout    | File      | Syslog    | HTTP      | 프로그램             |
+|           |           |           | Endpoint  | (Custom Program)     |
++-----------+-----------+-----------+-----------+----------------------+
+                </div>
+                <h3>핵심 구성 요소</h3>
+                <ul>
+                    <li><strong>Falco 드라이버:</strong> syscall을 캡처하기 위한 커널 모듈 또는 eBPF 프로그램. 최신 커널에서는 eBPF를 권장.</li>
+                    <li><strong>규칙 파일(.yaml):</strong> 탐지 로직 정의. 조건(condition), 출력(output), 우선순위(priority)로 구성.</li>
+                    <li><strong>출력:</strong> 탐지 이벤트를 전달할 채널. Slack, PagerDuty, 웹훅 등으로 연동 가능.</li>
+                </ul>
+            </section>
+
+            <section id="section4" class="section">
+                <h2>4. 퀵스타트: 설치부터 첫 탐지까지</h2>
+                <h3>단계 1: Linux에 Falco 설치 (Ubuntu/Debian 예시)</h3>
+                <div class="code-block-title">터미널</div>
+                <pre><code># 공식 저장소 키 추가 및 설정
+curl -s https://falco.org/repo/falcosecurity-3672BA8F.asc | apt-key add -
+echo "deb https://download.falco.org/packages/deb stable main" | tee -a /etc/apt/sources.list.d/falcosecurity.list
+
+# Falco 설치
+apt-get update
+apt-get install -y falco
+
+# eBPF 드라이버 사용 (권장, 커널 4.14+)
+apt-get install -y linux-headers-$(uname -r)
+falco-driver-loader bpf</code></pre>
+
+                <h3>단계 2: 기본 설정 확인 및 서비스 시작</h3>
+                <pre><code># 주요 설정 파일 위치 확인
+ls -la /etc/falco/  # falco.yaml, rules files
+
+# Falco 서비스 시작
+systemctl start falco
+systemctl enable falco
+
+# 실시간 로그 확인 (다른 터미널에서)
+journalctl -u falco -f</code></pre>
+
+                <h3>단계 3: 첫 번째 테스트 규칙 트리거</h3>
+                <p>기본 규칙셋에 포함된 "Shell in a container" 규칙을 테스트해봅니다.</p>
+                <div class="code-block-title">터미널 - 테스트 명령어 실행</div>
+                <pre><code># 컨테이너 내에서 쉘 실행 (Falco가 탐지해야 함)
+docker run --rm -it alpine /bin/sh</code></pre>
+                <p>위 명령어 실행 후, Falco 로그에서 다음과 같은 경고를 확인할 수 있습니다.</p>
+                <pre><code># journalctl 출력 예시
+{"output": "17:20:01.123456789: Warning Shell spawned in a container ...",
+ "priority": "Warning",
+ "rule": "Terminal shell in container",
+ "time": "2026-03-15T17:20:01.123456789Z",
+ "container": "alpine"}</code></pre>
+
+                <h3>단계 4: 간단한 커스텀 규칙 작성</h3>
+                <p>/etc/falco/custom_rules.yaml 파일을 생성합니다.</p>
+                <div class="code-block-title">/etc/falco/custom_rules.yaml</div>
+                <pre><code>- rule: Sensitive File Access in Production
+  desc: Production 네임스페이스에서 /etc/shadow 접근 감지
+  condition: >
+    container.image.repository != "falco" and
+    k8s.ns.name = "production" and
+    evt.type = open and
+    fd.name = "/etc/shadow"
+  output: >
+    Production에서 민감 파일 접근 (user=%user.name container=%container.name
+    image=%container.image.repository file=%fd.name)
+  priority: CRITICAL
+  tags: [filesystem, production, k8s]
+  append: true</code></pre>
+                <pre><code># 변경사항 적용
+systemctl restart falco</code></pre>
+            </section>
+
+            <section id="section5" class="section">
+                <h2>5. 핵심 설정 레퍼런스</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>설정 항목 (falco.yaml)</th>
+                            <th>기본값/예시</th>
+                            <th>설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>rules_file</td>
+                            <td>["/etc/falco/falco_rules.yaml", "/etc/falco/custom_rules.yaml"]</td>
+                            <td>로드할 규칙 파일 목록. 순서 중요.</td>
+                        </tr>
+                        <tr>
+                            <td>outputs.console.enabled</td>
+                            <td>true</td>
+                            <td>표준 출력에 이벤트 출력 여부.</td>
+                        </tr>
+                        <tr>
+                            <td>outputs.http.url</td>
+                            <td>"https://webhook.example.com"</td>
+                            <td>HTTP 웹훅 엔드포인트. JSON 형식으로 이벤트 전송.</td>
+                        </tr>
+                        <tr>
+                            <td>json_output</td>
+                            <td>true</td>
+                            <td>출력을 JSON 형식으로 포맷팅. 머신 파싱에 유용.</td>
+                        </tr>
+                        <tr>
+                            <td>log_level</td>
+                            <td>info</td>
+                            <td>로그 상세도 (debug, info, warn, error, critical).</td>
+                        </tr>
+                        <tr>
+                            <td>webserver.enabled</td>
+                            <td>false</td>
+                            <td>내장 웹 서버 활성화 (메트릭, 건강 상태).</td>
+                        </tr>
+                        <tr>
+                            <td>webserver.listen_port</td>
+                            <td>8765</td>
+                            <td>웹 서버 포트.</td>
+                        </tr>
+                        <tr>
+                            <td>syscall_event_drops</td>
+                            <td>action: log, rate: 0.01, max_burst: 1</td>
+                            <td>이벤트 드롭 발생 시 동작 설정.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>규칙 조건 필드 예시</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>필드 카테고리</th>
+                            <th>예시 필드</th>
+                            <th>설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>이벤트 기본</td>
+                            <td>evt.type, evt.dir, evt.arg</td>
+                            <td>이벤트 타입 (open, execve 등), 방향, 인자.</td>
+                        </tr>
+                        <tr>
+                            <td>프로세스</td>
+                            <td>proc.name, proc.pid, proc.cmdline</td>
+                            <td>프로세스 이름, PID, 전체 명령어.</td>
+                        </tr>
+                        <tr>
+                            <td>파일 디스크립터</td>
+                            <td>fd.name, fd.type, fd.num</td>
+                            <td>파일 경로, 타입 (file, directory, IPv4 등), 번호.</td>
+                        </tr>
+                        <tr>
+                            <td>컨테이너</td>
+                            <td>container.id, container.image, container.name</td>
+                            <td>런타임(도커, containerd)에서 제공하는 정보.</td>
+                        </tr>
+                        <tr>
+                            <td>Kubernetes</td>
+                            <td>k8s.pod.name, k8s.ns.name, k8s.deployment.name</td>
+                            <td>K8s Audit Logs 또는 Falco K8s Metadata Fetcher에서 수집.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="section6" class="section">
+                <h2>6. 실무 팁 & 트러블슈팅</h2>
+                <h3>자주 겪는 문제</h3>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>문제: "Unable to load the driver"</h4>
+                        <p><strong>원인:</strong> 커널 헤더가 없거나, eBPF/드라이버 컴파일 실패.</p>
+                        <p><strong>해결:</strong></p>
+                        <pre><code># 커널 헤더 설치
+apt-get install -y linux-headers-$(uname -r)
+# 드라이버 로더 재시도 (자동으로 최적 방법 선택)
+falco-driver-loader auto</code></pre>
+                    </div>
+                    <div class="concept-card">
+                        <h4>문제: 너무 많은 경고 (노이즈)</h4>
+                        <p><strong>원인:</strong> 기본 규칙이 특정 환경에 과도하게 반응.</p>
+                        <p><strong>해결:</strong> 규칙 비활성화 또는 조건 수정.</p>
+                        <pre><code># /etc/falco/falco_rules.yaml 또는 custom_rules.yaml에서
+# 특정 규칙에 `enabled: false` 추가 또는
+# condition에 예외 추가 (예: and not proc.name in (nginx, app_process))</code></pre>
+                    </div>
+                    <div class="concept-card">
+                        <h4>문제: Kubernetes 메타데이터 누락</h4>
+                        <p><strong>원인:</strong> Falco K8s Metadata Fetcher가 실행되지 않거나 연결 실패.</p>
+                        <p><strong>해결:</strong> K8s 배포 시 서비스 계정 권한 및 네트워크 폴리시 확인.</p>
+                        <pre><code># Helm으로 설치 시 메타데이터 페처 활성화
+helm install falco falcosecurity/falco \
+  --set falco.grpc.enabled=true \
+  --set falco.grpcOutput.enabled=true \
+  --set falco.k8sAuditEndpoint=http://kube-apiserver:8080</code></pre>
+                    </div>
+                </div>
+                <h3>성능 최적화 팁</h3>
+                <ul>
+                    <li><strong>드라이버 선택:</strong> 최신 커널(4.14+)에서는 eBPF가 성능 및 안정성 면에서 우수.</li>
+                    <li><strong>규칙 최적화:</strong> 복잡한 조건을 가진 규칙은 가능한 간소화. 불필요한 매크로 사용 피하기.</li>
+                    <li><strong>샘플링 고려:</strong> 매우 빈번한 이벤트(예: 특정 네트워크 연결)에 대해 <code>sample</code> 키워드로 샘플링 적용.</li>
+                    <li><strong>출력 큐 관리:</strong> 대량 이벤트 발생 시 <code>outputs.queue</code> 설정으로 버퍼링.</li>
+                </ul>
+                <div class="callout">
+                    <strong>디버깅 명령어:</strong>
+                    <pre><code># Falco 디버그 모드 실행 (일회성)
+falco --disable-cri-async -u
+
+# 규칙 테스트 (실제 이벤트 없이)
+falco --list -r /etc/falco/custom_rules.yaml
+
+# eBPF 프로그램 상태 확인
+bpftool prog list | grep falco</code></pre>
+                </div>
+            </section>
+
+            <section id="section7" class="section">
+                <h2>7. 참고 자료</h2>
+                <ul>
+                    <li><a href="https://falco.org/docs/" target="_blank">📘 공식 문서</a> - 가장 완전하고 최신의 정보源.</li>
+                    <li><a href="https://github.com/falcosecurity/rules" target="_blank">🔗 공식 규칙 저장소</a> - 커뮤니티에서 관리하는 규칙 모음.</li>
+                    <li><a href="https://artifacthub.io/packages/search?kind=0&org=falcosecurity" target="_blank">📦 ArtifactHub Falco 패키지</a> - Helm 차트 및 규칙 번들.</li>
+                    <li><a href="https://github.com/falcosecurity/falcosidekick" target="_blank">🔄 Falcosidekick</a> - Falco 알림을 30+ 이상의 플랫폼으로 라우팅하는 도구.</li>
+                    <li><a href="https://sysdig.com/blog/falco-rules-writing/" target="_blank">✍️ 규칙 작성 가이드 (Sysdig 블로그)</a> - 실용적인 규칙 작성 방법.</li>
+                    <li><strong>책:</strong> "Cloud Native Security" (O'Reilly) - Falco를 포함한 클라우드 네이티브 보안 전략.</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>본 가이드는 Falco 공식 문서 및 커뮤니티 경험을 기반으로 작성되었습니다. 지속적인 업데이트를 위해 공식 문서를 참고하세요.</p>
+            <p>© 2026 AI 정보보안 엔지니어를 위한 실무 스터디 시리즈 | 작성일: 2026년 3월</p>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--border);">
+                태그: #runtime-security #k8s #threat-detection #falco #cncf #devsecops
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
