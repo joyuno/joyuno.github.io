@@ -568,3 +568,9 @@
   tags: ["mlops", "experiment-tracking", "model-registry"]
   date: "2026-05-25"
   url: "/study-guides/mlflow-study-guide.html"
+- keyword: "Falco"
+  slug: "falco"
+  category: "security"
+  tags: ["runtime-security", "k8s", "threat-detection"]
+  date: "2026-05-25"
+  url: "/study-guides/falco-study-guide.html"
