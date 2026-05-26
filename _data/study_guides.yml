@@ -574,3 +574,9 @@
   tags: ["runtime-security", "k8s", "threat-detection"]
   date: "2026-05-25"
   url: "/study-guides/falco-study-guide.html"
+- keyword: "Kubeflow"
+  slug: "kubeflow"
+  category: "ai-ml"
+  tags: ["mlops", "k8s", "pipeline"]
+  date: "2026-05-26"
+  url: "/study-guides/kubeflow-study-guide.html"
