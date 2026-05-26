@@ -580,3 +580,9 @@
   tags: ["mlops", "k8s", "pipeline"]
   date: "2026-05-26"
   url: "/study-guides/kubeflow-study-guide.html"
+- keyword: "IDA Pro"
+  slug: "ida-pro"
+  category: "security"
+  tags: ["reverse-engineering", "disassembler", "malware"]
+  date: "2026-05-26"
+  url: "/study-guides/ida-pro-study-guide.html"
