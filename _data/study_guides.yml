@@ -598,3 +598,9 @@
   tags: ["reverse-engineering", "nsa", "open-source"]
   date: "2026-05-27"
   url: "/study-guides/ghidra-study-guide.html"
+- keyword: "Feast"
+  slug: "feast"
+  category: "ai-ml"
+  tags: ["feature-store", "online-offline", "serving"]
+  date: "2026-05-28"
+  url: "/study-guides/feast-study-guide.html"
