@@ -604,3 +604,9 @@
   tags: ["feature-store", "online-offline", "serving"]
   date: "2026-05-28"
   url: "/study-guides/feast-study-guide.html"
+- keyword: "Darktrace"
+  slug: "darktrace"
+  category: "security"
+  tags: ["ai-security", "ndr", "anomaly-detection"]
+  date: "2026-05-28"
+  url: "/study-guides/darktrace-study-guide.html"
