@@ -610,3 +610,9 @@
   tags: ["ai-security", "ndr", "anomaly-detection"]
   date: "2026-05-28"
   url: "/study-guides/darktrace-study-guide.html"
+- keyword: "Ray Serve"
+  slug: "ray-serve"
+  category: "ai-ml"
+  tags: ["distributed", "serving", "scaling"]
+  date: "2026-05-29"
+  url: "/study-guides/ray-serve-study-guide.html"
