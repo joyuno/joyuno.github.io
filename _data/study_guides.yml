@@ -622,3 +622,9 @@
   tags: ["ai-security", "ndr", "threat-detection"]
   date: "2026-05-29"
   url: "/study-guides/vectra-ai-study-guide.html"
+- keyword: "OWASP ZAP"
+  slug: "owasp-zap"
+  category: "security"
+  tags: ["web-security", "scanner", "open-source"]
+  date: "2026-05-30"
+  url: "/study-guides/owasp-zap-study-guide.html"

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 정보보안 엔지니어를 위한 OWASP ZAP 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height:, 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            padding: -4rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: -3rem;
+        }
+        .toc ol {
+            list-style-position: inside;
+            column-count: 2;
+            column-gap: 3rem;
+        }
+        .toc li {
+            margin-bottom: 0.8rem;
+            break-inside: avoid;
+        }
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            color: var(--accent2);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .section h3 {
+            font-size: 1.6rem;
+            color: var(--accent3);
+            margin: 1.5rem 0 1rem;
+        }
+        p {
+            margin-bottom: 1rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(28, 35, 51, 0.3);
+        }
+        .callout {
+            background-color: var(--surface2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        code, pre {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        code {
+            background-color: var(--surface2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent3);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a {
+            color: var(--accent);
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: var(--border);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>OWASP ZAP 실무 스터디 가이드</h1>
+        <div class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</div>
+        <div class="meta-badges">
+            <span class="badge">Web Security</span>
+            <span class="badge">Dynamic Scanner</span>
+            <span class="badge">Open Source</span>
+            <span class="badge">DAST</span>
+            <span class="badge">2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h3>목차</h3>
+        <ol>
+            <li><a href="#sec1">OWASP ZAP란?</a></li>
+            <li><a href="#sec2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#sec3">핵심 개념과 아키텍처</a></li>
+            <li><a href="#sec4">퀵스타트: 설치부터 첫 스캔까지</a></li>
+            <li><a href="#sec5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#sec6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#sec7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="sec1" class="section">
+            <h2>1. OWASP ZAP란?</h2>
+            <p><strong>OWASP ZAP(Zed Attack Proxy)</strong>는 OWASP 재단이 주도하는 세계적으로 가장 인기 있는 오픈 소스 웹 애플리케이션 보안 테스트 도구입니다. 매뉴얼 테스트부터 자동화된 스캔까지 지원하는 통합 <strong>DAST(Dynamic Application Security Testing)</strong> 도구로, 프록시, 스파이더, 스캐너, 퍼저 등 다양한 모듈을 제공합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>1. 프록시 기반 인터셉션</h4>
+                    <p>브라우저와 서버 사이의 모든 HTTP/HTTPS 트래픽을 가로채고 수정할 수 있습니다. 수동 테스트와 자동화 테스트의 핵심 인프라 역할을 합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>2. 자동화된 액티브/패시브 스캐너</h4>
+                    <p><strong>패시브 스캔</strong>: 트래픽을 모니터링하며 자동으로 취약점을 탐지.<br><strong>액티브 스캔</strong>: 의도적으로 악성 페이로드를 전송하여 취약점을 공격적으로 탐지.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>3. 확장 가능한 API & 자동화</h4>
+                    <p>REST API, CLI, Python/ZAP API를 제공하여 CI/CD 파이프라인에 쉽게 통합할 수 있습니다. AI/ML 모델과의 연동에도 유리한 구조입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec2" class="section">
+            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+            <p>상용 도구 대비 ZAP의 선택은 비용, 유연성, 통합성 측면에서 명확한 장점을 제공합니다. 특히 AI/자동화 워크플로우에 적합합니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>도구</th>
+                        <th>장점</th>
+                        <th>단점</th>
+                        <th>ZAP 대비 포지션</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OWASP ZAP</strong></td>
+                        <td>무료 오픈소스, 강력한 API/자동화, 커뮤니티 활성, 플러그인 확장성</td>
+                        <td>상용 도구 대비 일부 고급 보고 기능 부족, 초기 학습 곡선</td>
+                        <td>본 가이드의 핵심. 자동화/통합 중심 프로젝트에 최적.</td>
+                    </tr>
+                    <tr>
+                        <td>Burp Suite Pro</td>
+                        <td>산업 표준, 정교한 수동 테스트 도구, 강력한 인트루더/퍼저</td>
+                        <td>고가의 라이선스, 자동화 API 제한적</td>
+                        <td>심층 수동 테스트 필요 시 보완 도구. ZAP은 자동화/스케일링 우위.</td>
+                    </tr>
+                    <tr>
+                        <td>Nessus, Qualys</td>
+                        <td>인프라/네트워크 취약점 스캔에 특화, 폭넓은 CVE 커버리지</td>
+                        <td>웹 앱 특화 취약점 탐지 능력 제한적, 가격 부담</td>
+                        <td>ZAP은 웹 앱 레이어에 특화. 상호 보완적 사용 가능.</td>
+                    </tr>
+                    <tr>
+                        <td>상용 SAST 도구</td>
+                        <td>소스 코드 레벨 취약점 조기 발견, 정적 분석 정확도</td>
+                        <td>높은 False Positive, 런타임 환경 반영 불가</td>
+                        <td>ZAP(DAST)는 런타임 동작을 테스트. DevSecOps에서 SAST/DAST 병행 권장.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>AI 엔지니어 관점:</strong> ZAP의 REST API와 헤드리스 모드는 AI 에이전트가 보안 테스트 워크플로우를 자동으로 운영하고, 결과를 분석하며, 재구성하는 데 이상적인 인터페이스입니다.
+            </div>
+        </section>
+
+        <section id="sec3" class="section">
+            <h2>3. 핵심 개념과 아키텍처</h2>
+            <p>ZAP는 멀티스레드 프록시 엔진을 중심으로 다양한 컴포넌트가 협력하는 모듈식 아키텍처를 가집니다.</p>
+            <div class="diagram">
+    ┌─────────────────────────────────────────────────────────────┐
+    │                    사용자 인터페이스 (UI)                     │
+    │           (Desktop GUI / Web UI / API Clients)              │
+    └──────────────────────────┬──────────────────────────────────┘
+                               │ (REST API / Internal Calls)
+    ┌──────────────────────────▼──────────────────────────────────┐
+    │                 ZAP 코어 엔진 (Core Engine)                  │
+    │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+    │  │  프록시   │  │  스파이더 │  │  스캐너   │  │   퍼저   │   │
+    │  │ (Proxy)  │  │ (Spider) │  │(Scanner) │  │ (Fuzzer) │   │
+    │  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+    │           │             │             │             │       │
+    │           └─────────────┼─────────────┼─────────────┘       │
+    │                         │ (공유 세션 & 컨텍스트 데이터)        │
+    └─────────────────────────▼───────────────────────────────────┘
+                               │
+                 ┌─────────────▼─────────────┐
+                 │      확장 기능 (Add-ons)     │
+                 │  (Scripting, Plugins, ...)  │
+                 └─────────────┬─────────────┘
+                               │
+                 ┌─────────────▼─────────────┐
+                 │     타겟 웹 애플리케이션      │
+                 │    (Target Web App)        │
+                 └────────────────────────────┘
+            </div>
+            <h3>주요 컴포넌트 설명</h3>
+            <ul style="padding-left: 2rem; margin-bottom: 1.5rem;">
+                <li><strong>프록시</strong>: 모든 요청/응답의 중간자. 인증 처리, 트래픽 수정, 재전송의 기초.</li>
+                <li><strong>스파이더</strong>: 웹 앱의 링크와 양식을 크롤링하여 공격 표면을 발견.</li>
+                <li><strong>액티브/패시브 스캐너</strong>: 실제 취약점을 탐지하는 핵심 엔진.</li>
+                <li><strong>퍼저</strong>: 파라미터에 다양한 페이로드를 주입하여 예상치 못한 취약점 발견.</li>
+                <li><strong>컨텍스트</strong>: 테스트 범위, 인증 정보, 기술 스택을 정의하는 논리적 컨테이너.</li>
+                <li><strong>확장 기능</strong> Python, JavaScript 스크립팅 및 커뮤니티 플러그인으로 기능 무한 확장.</li>
+            </ul>
+        </section>
+
+        <section id="sec4" class="section">
+            <h2>4. 퀵스타트: 설치부터 첫 스캔까지</h2>
+            <h3>4.1 설치 (Linux/macOS 기준)</h3>
+            <pre><code># 공식 다운로드 페이지에서 최신 버전 확인 (예: 2.14.0)
+wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
+tar -xzf ZAP_2.14.0_Linux.tar.gz
+cd ZAP_2.14.0/
+./zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true &</code></pre>
+            <p>혹은 Docker를 이용한 설치 (권장 for CI/CD):</p>
+            <pre><code>docker run -u zap -p 8080:8080 -p 8090:8090 -i \\
+  owasp/zap2docker-stable zap.sh -daemon \\
+  -host 0.0.0.0 -port 8080 -config api.disablekey=true</code></pre>
+
+            <h3>4.2 Python API를 이용한 첫 자동화 스캔</h3>
+            <pre><code>#!/usr/bin/env python3
+"""
+ZAP Python API를 이용한 기본적인 액티브 스캔 예제
+"""
+from zapv2 import ZAPv2
+import time
+
+# ZAP 프록시 설정 (로컬 데몬 실행 가정)
+api_key = ''  # -config api.disablekey=true 시 빈 값
+target_url = 'http://testphp.vulnweb.com'  # 테스트용 취약한 앱
+zap_proxy = 'http://127.0.0.1:8080'
+
+# ZAP 클라이언트 초기화
+zap = ZAPv2(apikey=api_key, proxies={'http': zap_proxy, 'https': zap_proxy})
+
+print(f"[1] 타겟 접근: {target_url}")
+zap.urlopen(target_url)  # ZAP가 타겟에 접근하도록 유도
+
+print("[2] 스파이더 실행...")
+scan_id = zap.spider.scan(target_url)
+while int(zap.spider.status(scan_id)) < 100:
+    time.sleep(2)
+print("스파이더 완료.")
+
+print("[3] 액티브 스캔 실행... (주의: 실제 운영 서버에 실행 금지)")
+ascan_id = zap.ascan.scan(target_url)
+while int(zap.ascan.status(ascan_id)) < 100:
+    time.sleep(5)
+print("액티브 스캔 완료.")
+
+print("[4] 리포트 생성")
+with open('zap_report.html', 'w') as f:
+    f.write(zap.core.htmlreport())
+
+print("[5] 발견된 알람 요약")
+alerts = zap.core.alerts(baseurl=target_url)
+for alert in alerts:
+    print(f"  - [{alert['risk']}] {alert['alert']} on {alert.get('url', 'N/A')}")</code></pre>
+
+            <h3>4.3 CLI를 이용한 빠른 스캔</h3>
+            <pre><code># ZAP가 설치된 디렉토리에서 실행
+./zap.sh -cmd -quickurl http://testphp.vulnweb.com -quickout report.html</code></pre>
+            <div class="callout warn">
+                <strong>주의:</strong> 테스트는 반드시 권한이 있는 서버 또는 <code>testphp.vulnweb.com</code> 같은 합법적인 테스트 사이트에서만 수행하세요. 무단 스캔은 불법입니다.
+            </div>
+        </section>
+
+        <section id="sec5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 영역</th>
+                        <th>키/파라미터</th>
+                        <th>기본값/예시</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3">API & 네트워크</td>
+                        <td><code>-config api.disablekey=true</code></td>
+                        <td>false</td>
+                        <td>API 키 인증 비활성화 (로컬/신뢰 환경용). 보안상 프로덕션에선 사용 비권장.</td>
+                    </tr>
+                    <tr>
+                        <td><code>-host 0.0.0.0</code></td>
+                        <td>localhost</td>
+                        <td>어떤 인터페이스에서 수신할지 지정. 컨테이너 환경에선 0.0.0.0 필요.</td>
+                    </tr>
+                    <tr>
+                        <td><code>-port 8080</code></td>
+                        <td>8080</td>
+                        <td>ZAP 프록시/API 포트.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">스캔 정책</td>
+                        <td><code>scanner.threadPerHost</code></td>
+                        <td>2</td>
+                        <td>호스트당 스캔 스레드 수. 높을수록 빠르지만 서버 부하 증가.</td>
+                    </tr>
+                    <tr>
+                        <td><code>pscans.maxAlertsPerRule</code></td>
+                        <td>20</td>
+                        <td>패시브 스캔 규칙당 최대 알람 수. 리포트 폭주 방지.</td>
+                    </tr>
+                    <tr>
+                        <td><code>scanner.delayInMs</code></td>
+                        <td>0</td>
+                        <td>요청 간 지연 시간(ms). 서버 보호를 위해 설정 가능.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">컨텍스트/인증</td>
+                        <td><code>context.include</code></td>
+                        <td>regex 패턴</td>
+                        <td>스캔 범위에 포함할 URL 정규식.</td>
+                    </tr>
+                    <tr>
+                        <td><code>authentication.method</code></td>
+                        <td>formBased</td>
+                        <td>인증 방식 (formBased, httpAuth, jsonBased, script).</td>
+                    </tr>
+                    <tr>
+                        <td><code>authentication.loginUrl</code></td>
+                        <td>https://.../login</td>
+                        <td>로그인 폼 URL. 인증 테스트에 필수.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">보고</td>
+                        <td><code>report.html.title</code></td>
+                        <td>ZAP Security Report</td>
+                        <td>생성된 HTML 리포트의 제목.</td>
+                    </tr>
+                    <tr>
+                        <td><code>report.generate</code></td>
+                        <td>HTML, JSON, XML</td>
+                        <td>출력할 리포트 형식.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="sec6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <h3>자주 겪는 문제와 해결책</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제 1: 스파이더가 링크를 찾지 못함</h4>
+                    <p><strong>원인:</strong> JavaScript 기반 SPA(Single Page Application) 또는 폼에 CSRF 토큰 필요.</p>
+                    <p><strong>해결:</strong> AJAX 스파이더 애드온 설치 및 사용. 또는 브라우저를 통해 수동 탐색하여 ZAP가 트래픽을 보게 한 후 '기존 세션에서 탐색' 기능 사용.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 2: 인증된 영역 스캔 실패</h4>
+                    <p><strong>원인:</strong> 로그인 세션이 유지되지 않거나, 인증 설정 오류.</p>
+                    <p><strong>해결:</strong> 컨텍스트에서 인증 방법을 정확히 설정하고, '사용자'를 생성하여 해당 사용자로 스캔 실행. 스크립트 기반 인증 사용을 고려.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 3: 너무 많은 False Positive</h4>
+                    <p><strong>원인:</strong> 스캔 정책이 과도하게 공격적이거나, 앱의 정상 동작을 오탐.</p>
+                    <p><strong>해결:</strong> 스캔 정책 조정 (예: 'False Positive'로 표시 가능한 규칙 비활성화). 컨텍스트에 기술 스택 추가하여 불필요한 검사 제외.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제 4: CI/CD 파이프라인에서 스캔 타임아웃</h4>
+                    <p><strong>원인:</strong> 큰 애플리케이션에 대한 전체 스캔 시간이 파이프라인 제한 초과.</p>
+                    <p><strong>해결:</strong> '빠른 스캔' 모드 사용. 또는 스캔을 '증분 스캔'으로 분할. <code>scanner.threadPerHost</code> 증가 (서버 감당 가능 시).</p>
+                </div>
+            </div>
+            <h3>AI/자동화 관점의 고급 팁</h3>
+            <ul style="padding-left: 2rem;">
+                <li><strong>스캔 결과 구조화:</strong> JSON 리포트(<code>zap.core.jsonreport()</code>)를 파싱하여 AI 모델 학습 데이터셋 또는 자동 분류 시스템의 입력으로 활용.</li>
+                <li><strong>스크립트 확장:</strong> Python 스크립팅을 사용하여 커스텀 페이로드 생성, 복잡한 인증 흐름 처리, 결과 필터링 로직 구현 가능.</li>
+                <li><strong>헤드리스 운영:</strong> Docker + ZAP API 조합으로 완전 자동화된 스캔 클러스터 구성. Kubernetes Job으로 주기적 스캔 실행.</li>
+                <li><strong>통합:</strong> Slack, Jira, DefectDojo 등과의 웹훅 통합을 통해 발견된 취약점을 자동으로 티켓 생성 및 할당.</li>
+            </ul>
+        </section>
+
+        <section id="sec7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul style="padding-left: 2rem;">
+                <li><a href="https://www.zaproxy.org/docs/" target="_blank">📚 공식 ZAP 사용자 가이드</a> - 가장 완전한 문서</li>
+                <li><a href="https://www.zaproxy.org/docs/api/" target="_blank">⚙️ ZAP API 문서</a> - 자동화에 필수</li>
+                <li><a href="https://github.com/zaproxy/zaproxy" target="_blank">🐙 GitHub 저장소</a> - 소스 코드 및 이슈 트래킹</li>
+                <li><a href="https://www.zaproxy.org/docs/docker/" target="_blank">🐳 ZAP Docker 가이드</a> - 컨테이너 환경 설정</li>
+                <li><a href="https://owasp.org/www-project-zap/" target="_blank">🛡️ OWASP ZAP 프로젝트 페이지</a> - 프로젝트 개요 및 로드맵</li>
+                <li><a href="https://github.com/zaproxy/community-scripts" target="_blank">🧩 커뮤니티 스크립트</a> - 다양한 확장 스크립트 예제</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 OWASP ZAP 공식 문서와 커뮤니티 지식을 기반으로 AI 정보보안 엔지니어의 실무 적용에 초점을 맞추어 작성되었습니다.</p>
+        <p>문서 버전: 1.0 | 작성일: 2026년 03월 | 지속적으로 업데이트 될 수 있습니다.</p>
+        <p>© 2026 | 보안 연구 커뮤니티를 위한 공유 자료.</p>
+    </footer>
+</body>
+</html>
