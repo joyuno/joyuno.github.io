@@ -634,3 +634,9 @@
   tags: ["nvidia", "inference", "multi-framework"]
   date: "2026-05-31"
   url: "/study-guides/triton-inference-server-study-guide.html"
+- keyword: "Trivy"
+  slug: "trivy"
+  category: "security"
+  tags: ["container-security", "image-scan", "vulnerability"]
+  date: "2026-05-31"
+  url: "/study-guides/trivy-study-guide.html"
