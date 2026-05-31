@@ -628,3 +628,9 @@
   tags: ["web-security", "scanner", "open-source"]
   date: "2026-05-30"
   url: "/study-guides/owasp-zap-study-guide.html"
+- keyword: "Triton Inference Server"
+  slug: "triton-inference-server"
+  category: "ai-ml"
+  tags: ["nvidia", "inference", "multi-framework"]
+  date: "2026-05-31"
+  url: "/study-guides/triton-inference-server-study-guide.html"
