@@ -640,3 +640,9 @@
   tags: ["container-security", "image-scan", "vulnerability"]
   date: "2026-05-31"
   url: "/study-guides/trivy-study-guide.html"
+- keyword: "Pinecone"
+  slug: "pinecone"
+  category: "ai-ml"
+  tags: ["vector-db", "rag", "managed"]
+  date: "2026-06-01"
+  url: "/study-guides/pinecone-study-guide.html"
