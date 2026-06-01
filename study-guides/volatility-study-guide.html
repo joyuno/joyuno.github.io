@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무자를 위한 Volatility 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .badge.accent {
+            background-color: var(--accent);
+            color: var(--bg);
+            border: none;
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .toc li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+        .toc a {
+            color: var(--text);
+        }
+        .toc a:hover {
+            color: var(--accent);
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .section p, .section ul, .section ol {
+            margin-bottom: 1.2rem;
+        }
+        .section ul, .section ol {
+            padding-left: 2rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent4);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .callout h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .callout.warn h4 {
+            color: var(--danger);
+        }
+        .diagram {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 2rem 0;
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre-wrap;
+        }
+        pre code {
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .tag-list {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Volatility 실무 스터디 가이드</h1>
+        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge accent">메모리 포렌식</span>
+            <span class="badge">인시던트 대응</span>
+            <span class="badge">Python 3</span>
+            <span class="badge">실무 중심</span>
+            <span class="badge">작성일: 2026.03</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Volatility란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Volatility란?</h2>
+            <p>Volatility는 오픈 소스 메모리 포렌식 프레임워크로, RAM 덤프 파일에서 디지털 아티팩트를 추출하고 분석하는 데 사용됩니다. 휘발성 메모리의 상태를 정지된 시점에서 조사하여 실행 중인 프로세스, 네트워크 연결, 레지스트리 핸들, 암호화된 키, 루트킷 흔적 등을 발견할 수 있습니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>메모리 아키텍처 추상화</h4>
+                    <p>Windows, Linux, macOS, Android 등 다양한 OS의 메모리 구조를 이해하고, 커널 데이터 구조를 파싱하여 일관된 인터페이스로 제공합니다. 프로필(Profile) 시스템을 통해 OS별 특성을 처리합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>플러그인 기반 확장성</h4>
+                    <p>200개 이상의 공식 플러그인과 사용자 정의 플러그인을 통해 분석 기능을 무한히 확장할 수 있습니다. Python으로 쉽게 새로운 분석 모듈을 개발하여 통합할 수 있습니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>자동화 및 API 제공</h4>
+                    <p>CLI 도구뿐만 아니라 풍부한 Python API를 제공하여 대규모 인시던트 대응 자동화 파이프라인에 통합할 수 있습니다. AI 엔지니어는 API를 활용해 분석 로직을 학습 데이터로 활용할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>디스크 포렌식만으로는 잡히지 않는 휘발성 증거를 확보할 수 있어 현대 보안 위협(파일리스 멀웨어, 메모리 상주 공격)에 필수적입니다. 기존 대안과의 비교는 다음과 같습니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>도구/접근법</th>
+                        <th>장점</th>
+                        <th>단점</th>
+                        <th>Volatility 대비</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>커맨드라인 네이티브 도구</strong><br>(tasklist, netstat, ps)</td>
+                        <td>실시간 정보, 시스템에 내장</td>
+                        <td>공격자에 의해 변조 가능, 히스토리 없음, 깊은 분석 불가</td>
+                        <td>변조되지 않은 정지된 상태의 메모리 분석 가능</td>
+                    </tr>
+                    <tr>
+                        <td><strong>상용 메모리 분석 도구</strong><br>(Rekall, Belkasoft)</td>
+                        <td>GUI, 통합 보고서</td>
+                        <td>비용, 확장성 제한, 스크립팅 제약</td>
+                        <td>무료 오픈소스, 풀 스크립팅 및 API 지원</td>
+                    </tr>
+                    <tr>
+                        <td><strong>수동 메모리 파싱</strong></td>
+                        <td>완전한 제어, 맞춤형 분석</td>
+                        <td>시간 소모적, 오류 가능성 높음, 전문성 요구</td>
+                        <td>검증된 프레임워크와 풍부한 플러그인으로 생산성 향상</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EDR/시그니처 기반 검사</strong></td>
+                        <td>실시간 차단, 알려진 위협 탐지</td>
+                        <td>알려지지 않은(Zero-day) 공격 탐지 불가, 증거 보존 미흡</td>
+                        <td>시그니처 없이도 행위 기반 이상징후 탐지 가능</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>AI 엔지니어에게 주는 가치</h4>
+                <p>Volatility는 메모리 스냅샷을 구조화된 데이터(프로세스 목록, DLL, 핸들 테이블 등)로 변환하는 강력한 엔진입니다. 이 데이터는 악성 행위 패턴 학습, 이상 탐지 모델 훈련, 자동화된 인시던트 트라이지 파이프라인 구축에 직접 활용될 수 있습니다.</p>
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <p>Volatility의 동작 원리는 크게 세 단계로 나눌 수 있습니다: <strong>메모리 이미지 로딩</strong> → <strong>적절한 프로필 식별 및 적용</strong> → <strong>플러그인 실행을 통한 계층적 분석</strong>.</p>
+            <div class="diagram">
+    +-----------------------+
+    |   Memory Image File   |
+    |  (raw, crashdump, etc)|
+    +----------+------------+
+               |
+               v
+    +----------+------------+
+    |   Address Space Layer  |
+    |  (물리 메모리 가상화)   |
+    +----------+------------+
+               |
+               v
+    +----------+------------+       +-------------------+
+    |    OS Profile Layer    +------>   Symbol Tables   |
+    |  (Windows10x64, etc)   |       |   (PDB, DWARF)   |
+    +----------+------------+       +-------------------+
+               |
+               v
+    +----------+------------+
+    |   Plugin Subsystem     |
+    |  (pslist, netscan,    |
+    |   malfind, handles)    |
+    +----------+------------+
+               |
+               v
+    +----------+------------+
+    |   Structured Output    |
+    |  (JSON, text, CSV)    |
+    +-----------------------+
+            </div>
+            <h3>주요 용어</h3>
+            <ul>
+                <li><strong>프로필(Profile)</strong>: 특정 OS 버전(예: Win10x64_18362)의 메모리 구조를 정의한 컬렉션. 커널 심볼과 타입 정보를 포함합니다.</li>
+                <li><strong>주소 공간(Address Space)</strong>: 물리 메모리, 페이징 파일, 하이버네이트 파일 등 다양한 메모리 소스를 일관된 방식으로 접근할 수 있게 하는 추상화 계층.</li>
+                <li><strong>플러그인(Plugin)</strong>: 특정 분석 작업(예: 프로세스 리스트 출력)을 수행하는 모듈. <code>volatility3</code>에서는 "클래스"로 구현됩니다.</li>
+                <li><strong>심볼 테이블(Symbol Table)</strong>: 커널 데이터 구조체의 오프셋과 레이아웃 정보. 정확한 분석의 핵심입니다.</li>
+            </ul>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            <h3>단계 1: 설치 (Python 환경)</h3>
+            <pre><code># 가상환경 생성 및 활성화 (권장)
+python -m venv volatility-env
+source volatility-env/bin/activate  # Linux/macOS
+# volatility-env\Scripts\activate   # Windows
+
+# 최신 Volatility 3 설치
+pip install volatility3
+
+# 추가 유용한 라이브러리
+pip install yara-python pandas jupyter  # 분석 및 자동화용</code></pre>
+
+            <h3>단계 2: 첫 번째 명령어 실행 (CLI)</h3>
+            <p>메모리 이미지(<code>memory.dmp</code>)가 있다고 가정하고 Windows 프로세스 목록을 확인합니다.</p>
+            <pre><code># 기본 사용법: volatility -f [메모리파일] [플러그인]
+volatility -f /path/to/memory.dmp windows.pslist
+
+# 더 자세한 정보 (PID, PPID, 생성 시간 등)
+volatility -f memory.dmp windows.psscan
+
+# 출력을 JSON으로 받아 자동화 파이프라인에 연결
+volatility -f memory.dmp windows.pslist --output json > processes.json</code></pre>
+
+            <h3>단계 3: Python API를 이용한 스크립팅</h3>
+            <pre><code>#!/usr/bin/env python3
+"""Volatility3 Python API 예제: 프로세스 및 DLL 목록 추출"""
+
+import volatility3.framework
+from volatility3.framework import contexts, automagic, constants
+from volatility3.plugins.windows import pslist, dlllist
+import json
+import sys
+
+def analyze_memory(image_path):
+    # 1. 컨텍스트 생성
+    ctx = contexts.Context()
+    ctx.config['automagic.LayerStacker.single_location'] = f"file://{image_path}"
+
+    # 2. 자동 마법 구성 실행 (프로필 자동 감지)
+    automagics = automagic.choose_automagic(automagic.available(ctx))
+    for amagic in automagics:
+        amagic(ctx)
+
+    # 3. 플러그인 실행: 프로세스 목록
+    pslist_plugin = pslist.PsList(ctx)
+    process_tree = []
+    for proc in pslist_plugin.generate_configuration():
+        process_info = {
+            "pid": proc.UniqueProcessId,
+            "name": proc.ImageFileName.cast("string", max_length=255),
+            "ppid": proc.InheritedFromUniqueProcessId,
+            "create_time": proc.get_create_time()
+        }
+        process_tree.append(process_info)
+
+    # 4. 플러그인 실행: 각 프로세스의 DLL 목록
+    dlllist_plugin = dlllist.DllList(ctx)
+    dll_map = {}
+    # (실제 구현에서는 프로세스별로 dlllist.generate_configuration 호출)
+
+    # 결과 출력
+    result = {
+        "image_file": image_path,
+        "process_count": len(process_tree),
+        "processes": process_tree
+    }
+    print(json.dumps(result, indent=2, default=str))
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} &lt;memory_image_path&gt;")
+        sys.exit(1)
+    analyze_memory(sys.argv[1])</code></pre>
+            <div class="callout warn">
+                <h4>주의: 프로필 자동 감지 실패 시</h4>
+                <p>자동 감지가 실패하면 <code>--profile</code> 옵션으로 명시적으로 지정해야 합니다. 사용 가능한 프로필은 <code>volatility --info</code>로 확인할 수 있습니다. Linux의 경우 <code>linux.banner</code> 플러그인으로 커널 버전을 먼저 확인하는 것이 좋습니다.</p>
+            </div>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>설정 옵션</th>
+                        <th>기본값</th>
+                        <th>설명</th>
+                        <th>사용 예시 (CLI)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>-f, --filename</code></td>
+                        <td>없음</td>
+                        <td>분석할 메모리 이미지 파일 경로</td>
+                        <td><code>-f /evidence/mem.dmp</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--profile</code></td>
+                        <td>자동 감지</td>
+                        <td>OS 프로필 강제 지정 (Win10x64, LinuxUbuntu2004x64 등)</td>
+                        <td><code>--profile=Win10x64_19041</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>-o, --output</code></td>
+                        <td>text</td>
+                        <td>출력 형식 (text, json, csv, pretty)</td>
+                        <td><code>--output json</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--output-file</code></td>
+                        <td>stdout</td>
+                        <td>출력을 파일로 저장</td>
+                        <td><code>--output-file=result.json</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>-v, --verbose</code></td>
+                        <td>0</td>
+                        <td>로그 상세도 (0=에러, 1=경고, 2=정보, 3=디버그)</td>
+                        <td><code>-v 2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--plugins</code></td>
+                        <td>설치된 경로</td>
+                        <td>사용자 정의 플러그인 경로 추가</td>
+                        <td><code>--plugins=/my_plugins</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--cache</code></td>
+                        <td>~/.cache/volatility3</td>
+                        <td>심볼 캐시 디렉토리 경로</td>
+                        <td><code>--cache=/tmp/vol_cache</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Python API 주요 설정 경로</strong>: <code>ctx.config['PLUGIN_NAME.OPTION']</code> 형식으로 접근합니다. 예: <code>ctx.config['automagic.LayerStacker.single_location'] = "file:///path/to/image"</code></p>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제: "No suitable address space mapping found"</h4>
+                    <p><strong>원인</strong>: 메모리 이미지 형식을 인식하지 못함. 또는 이미지가 손상되었을 수 있습니다.</p>
+                    <p><strong>해결</strong>:</p>
+                    <ol>
+                        <li><code>file</code> 명령어로 이미지 형식 확인.</li>
+                        <li><code>--layer-format</code> 옵션으로 명시적 지정 (예: <code>--layer-format=dmp</code>).</li>
+                        <li>DumpIt, WinPMEM 등 신뢰된 도구로 메모리 덤프를 다시 획득.</li>
+                    </ol>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 프로필을 찾을 수 없음</h4>
+                    <p><strong>원인</strong>: 분석 대상 OS에 대한 심볼 테이블(프로필)이 로컬 캐시에 없습니다.</p>
+                    <p><strong>해결</strong>:</p>
+                    <ol>
+                        <li>인터넷이 연결된 상태에서 명령어를 실행하면 자동 다운로드 시도.</li>
+                        <li>수동 다운로드: <code>volatility --os &lt;OS&gt; --output-dir ./symbols</code></li>
+                        <li>Windows의 경우, 해당 OS 버전의 <code>ntoskrnl.pdb</code> 파일을 찾아 지정.</li>
+                    </ol>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 플러그인 실행 시 비정상 종료</h4>
+                    <p><strong>원인</strong>: 메모리 이미지와 프로필 불일치, 또는 플러그인 내부 버그.</p>
+                    <p><strong>해결</strong>:</p>
+                    <ol>
+                        <li><code>linux.banner</code> 또는 <code>windows.info</code>로 정확한 OS 버전 재확인.</li>
+                        <li><code>-v 3</code> (디버그 모드)로 실행하여 스택 트레이스 확인.</li>
+                        <li>문제가 되는 특정 플러그인을 제외하고 다른 플러그인으로 우회 분석.</li>
+                    </ol>
+                </div>
+            </div>
+            <h3>고급 실무 팁</h3>
+            <ul>
+                <li><strong>대규모 자동화</strong>: Python API를 사용하여 수백 개의 메모리 이미지를 배치 처리하고, 결과를 중앙 ELK 스택이나 SIEM으로 전송하세요.</li>
+                <li><strong>AI/ML 통합</strong>: <code>windows.pslist</code>, <code>windows.netscan</code>, <code>windows.handles</code>의 출력을 정규화하여 프로세스 행위 그래프를 구성하고, 이상 탐지 모델의 입력 피처로 사용하세요.</li>
+                <li><strong>성능 최적화</strong>: 자주 사용하는 프로필은 로컬 캐시에 유지하고, 대용량 이미지 분석 시 <code>--quick</code> 모드(있는 경우)를 고려하세요.</li>
+                <li><strong>커스텀 플러그인 개발</strong>: 신규 멀웨어 패밀리의 아티팩트를 추적하려면 공식 문서의 플러그인 개발 가이드를 따라 Python 클래스를 작성하세요.</li>
+            </ul>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><strong>공식 문서 및 저장소</strong>: <a href="https://github.com/volatilityfoundation/volatility3" target="_blank">GitHub - volatilityfoundation/volatility3</a></li>
+                <li><strong>플러그인 갤러리</strong>: <a href="https://volatility3.readthedocs.io/en/latest/plugins.html" target="_blank">Volatility 3 Plugins Reference</a></li>
+                <li><strong>심볼 생성 가이드</strong>: <a href="https://volatility3.readthedocs.io/en/latest/symbol-tables.html" target="_blank">Creating Symbol Tables</a></li>
+                <li><strong>교육용 샘플 메모리 이미지</strong>: <a href="https://github.com/volatilityfoundation/volatility/wiki/Memory-Samples" target="_blank">Memory Samples (공식 Wiki)</a></li>
+                <li><strong>관련 책</strong>: <em>The Art of Memory Forensics</em> (Michael Hale Ligh 외) - Volatility 개발팀이 집필한 바이블.</li>
+                <li><strong>커뮤니티</strong>: <a href="https://twitter.com/volatility" target="_blank">@volatility (Twitter)</a>, Volatility Slack 채널.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 AI 정보보안 엔지니어와 디지털 포렌식 실무자의 빠른 실무 적응을 위해 제작되었습니다.</p>
+        <p>© 2026.03 - Volatility 실무 스터디 가이드. 지속적으로 업데이트됩니다.</p>
+        <div class="tag-list">
+            <span class="badge">memory-forensics</span>
+            <span class="badge">incident-response</span>
+            <span class="badge">volatility3</span>
+            <span class="badge">ai-security</span>
+            <span class="badge">digital-forensics</span>
+        </div>
+    </footer>
+</body>
+</html>
