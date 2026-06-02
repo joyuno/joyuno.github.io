@@ -652,3 +652,9 @@
   tags: ["memory-forensics", "incident-response"]
   date: "2026-06-01"
   url: "/study-guides/volatility-study-guide.html"
+- keyword: "Qdrant"
+  slug: "qdrant"
+  category: "ai-ml"
+  tags: ["vector-db", "rust", "open-source"]
+  date: "2026-06-02"
+  url: "/study-guides/qdrant-study-guide.html"
