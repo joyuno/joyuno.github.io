@@ -664,3 +664,9 @@
   tags: ["malware-detection", "rule-based", "signature"]
   date: "2026-06-02"
   url: "/study-guides/yara-study-guide.html"
+- keyword: "Snort / Suricata"
+  slug: "snort-suricata"
+  category: "security"
+  tags: ["ids-ips", "network-security", "rule-based"]
+  date: "2026-06-03"
+  url: "/study-guides/snort-suricata-study-guide.html"
