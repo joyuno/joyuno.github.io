@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실무 스터디 가이드: Snort & Suricata | AI/데이터 엔지니어를 위한 네트워크 보안</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: &nbsp;20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: IIII2rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--accent);
+        }
+        .toc ol {
+            list-style-type: none;
+            counter-reset: toc-counter;
+        }
+        .toc li {
+            counter-increment: toc-counter;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .toc li:before {
+            content: counter(toc-counter) ". ";
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.6rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent2);
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.03);
+        }
+        .callout {
+            background-color: var(--surface2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout h4 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        .callout.warn h4 {
+            color: var(--accent4);
+        }
+        .diagram {
+            font-family: monospace;
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--accent2);
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent3);
+        }
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a {
+            color: var(--accent);
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-family: monospace;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+        .code-block-title + pre {
+            margin-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Snort & Suricata 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">IDS/IPS</span>
+            <span class="badge">네트워크 보안</span>
+            <span class="badge">규칙 기반 탐지</span>
+            <span class="badge">실시간 분석</span>
+            <span class="badge">NIDS/NIPS</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Snort / Suricata란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <section id="section1" class="section">
+            <h2>1. Snort / Suricata란?</h2>
+            <p>Snort와 Suricata는 <strong>네트워크 트래픽을 실시간으로 분석하여 침입을 탐지(IDS) 및 차단(IPS)하는 오픈소스 엔진</strong>입니다. 패킷 캡처 라이브러리(예: libpcap, PF_RING)를 기반으로 하며, 서명(규칙) 기반 탐지를 핵심으로 합니다. Suricata는 Snort 규칙과 호환되며 멀티스레드 아키텍처와 파일 추출, TLS 분석 등 향상된 기능을 제공합니다.</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>패킷 캡처 & 디코딩</h4>
+                    <p>네트워크 인터페이스에서 raw 패킷을 수집하고, Ethernet, IP, TCP/UDP, 애플리케이션 계층(HTTP, DNS, TLS 등)까지 프로토콜 스택을 디코딩합니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>규칙 기반 탐지</h4>
+                    <p>사용자/커뮤니티가 정의한 규칙(Signature)을 패킷/스트림에 매칭하여 공격 패턴, 악성 행위, 이상 징후를 탐지합니다. Snort 규칙 문법이 표준으로 사용됩니다.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>로그 생성 & 대응</h4>
+                    <p>탐지 이벤트를 상세한 로그(alert, http.log, dns.log 등)로 출력하고, IPS 모드에서는 패킷 차단, 연결 종료 등 능동적 대응이 가능합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 왜 써야 하는가?</h2>
+            <p>네트워크 보안 가시성 확보와 위협 탐지 자동화를 위한 사실상의 표준 도구입니다. 클라우드, 온프레미스, 호스트 기반 배포가 가능하며, 방대한 규칙셋과 커뮤니티를 보유하고 있습니다.</p>
+            <table>
+                <thead>
+                    <tr><th>대안 / 접근법</th><th>한계점</th><th>Snort/Suricata의 강점</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>상용 NGFW/IDS</td><td>비용 고가, 벤더 종속, 규칙 커스터마이제이션 제한</td><td>오픈소스, 무료, 완전한 제어 가능, 커뮤니티 규칙 풍부</td></tr>
+                    <tr><td>네트워크 플로우 분석(NetFlow)</td><td>메타데이터만 제공, 패킷 payload 내용 분석 불가, 실시간 탐지 제한</td><td>풀 패킷 분석, 패턴 매칭, 실시간 알림 및 차단</td></tr>
+                    <tr><td>호스트 기반 탐지(HIDS)</td><td>네트워크 단계 공격 포인트 놓침, 에이전트 설치 관리 부담</td><td>네트워크 체크포인트 전체 모니터링, 에이전트리스</td></tr>
+                    <tr><td>머신러닝 기반 이상탐지</td><td>높은 FP율, 명확한 규칙 정의 어려움, 설명 가능성 부족</td><td>명시적 규칙 기반, 낮은 FP(잘 튜닝 시), 즉시적인 운영 투입 가능</td></tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <h4>AI/데이터 엔지니어에게 중요한 점</h4>
+                <p>Snort/Suricata는 <strong>고품질의 레이블된 네트워크 공격 데이터셋</strong>을 생성할 수 있습니다. 탐지 로그와 원본 패킷(pcap)을 연계하여 ML 모델 학습용 데이터를 구축하거나, 규칙 기반 시스템과 ML 기반 시스템의 협업(하이브리드) 아키텍처를 설계하는 데 필수적인 컴포넌트입니다.</p>
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 핵심 개념</h2>
+            <h3>아키텍처 개요</h3>
+            <div class="diagram">
+  +-------------------+     +-------------------+     +-----------------------+
+  |   네트워크 인터페이스   |---->|   패킷 캡처        |---->|   디코더              |
+  |   (eth0, any, ...)  |     |   (libpcap, AF_PACKET)|     |(Ethernet, IP, TCP, HTTP)|
+  +-------------------+     +-------------------+     +-----------------------+
+                                                                 |
+                                                                 v
+  +-------------------+     +-------------------+     +-----------------------+
+  |   출력 모듈         |<----|   탐지 엔진        |<----|   프로토콜 분석        |
+  | (Alert, Log, JSON) |     | (Rule Matching)   |     | (Stream Reassembly)   |
+  +-------------------+     +-------------------+     +-----------------------+
+         |                         ^
+         v                         |
+  +-------------------+     +-----------------------+
+  |   외부 시스템       |     |   규칙셋             |
+  | (SIEM, Elastic)    |     | (local.rules, emerging-threats)|
+  +-------------------+     +-----------------------+
+            </div>
+            <h3>핵심 용어</h3>
+            <ul>
+                <li><strong>Rule/Signature</strong>: 탐지 로직을 정의한 문장. 헤더(작동, 프로토콜, IP, 포트 등)와 옵션(검사 내용, 메시지, 우선순위 등)으로 구성.</li>
+                <li><strong>모드</strong>: IDS(탐지만), IPS(차단 가능). IPS는 Inline 모드로 배포.</li>
+                <li><strong>PCAP</strong>: 패킷 캡처 파일 형식. 재생 분석 및 디버깅에 사용.</li>
+                <li><strong>Var</strong>: 설정 파일 내 변수. 네트워크 대역($HOME_NET 등)을 정의.</li>
+                <li><strong>Stream Reassembly</strong>: TCP 세션 재조립. 분할된 패킷을 재조합하여 공격 패턴 검사.</li>
+            </ul>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 퀵스타트</h2>
+            <h3>4.1 설치 (Ubuntu 22.04 기준)</h3>
+            <div class="code-block-title">터미널</div>
+            <pre># Suricata 설치
+sudo apt update
+sudo apt install -y suricata
+
+# 규칙 디렉토리 생성 및 기본 규칙 다운로드 (Emerging Threats 규칙 예시)
+sudo mkdir -p /etc/suricata/rules
+sudo wget -O /etc/suricata/rules/emerging.rules.tar.gz https://rules.emergingthreats.net/open/suricata-6.0/emerging.rules.tar.gz
+sudo tar -xzf /etc/suricata/rules/emerging.rules.tar.gz -C /etc/suricata/rules/
+
+# Snort 설치 (대안)
+# sudo apt install -y snort</pre>
+
+            <h3>4.2 기본 설정 수정</h3>
+            <div class="code-block-title">/etc/suricata/suricata.yaml 주요 수정 부분</div>
+            <pre># 홈 네트워크 정의
+vars:
+  address-groups:
+    HOME_NET: "[192.168.1.0/24, 10.0.0.0/8]"
+    EXTERNAL_NET: "!$HOME_NET"
+
+# 규칙 파일 경로 지정
+rule-files:
+  - /etc/suricata/rules/*.rules
+
+# 출력 로그 설정 (JSON 형식 권장)
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      types:
+        - alert
+        - http
+        - dns
+        - tls</pre>
+
+            <h3>4.3 첫 번째 사용자 규칙 작성 및 테스트</h3>
+            <div class="code-block-title">/etc/suricata/rules/local.rules</div>
+            <pre># 테스트 규칙: 외부에서 내부 HTTP 서버로의 "TEST-ATTACK" 문자열 탐지
+alert http $EXTERNAL_NET any -> $HOME_NET 80 (msg:"TEST HTTP Attack String Detected"; flow:to_server,established; content:"TEST-ATTACK"; nocase; http_uri; sid:1000001; rev:1;)
+
+# 의심스러운 외부 DNS 쿼리 탐지
+alert dns $HOME_NET any -> any any (msg:"Suspicious DNS Query to Known Malicious Domain"; dns.query; content:"malicious.example.com"; nocase; sid:1000002; rev:1;)</pre>
+
+            <h3>4.4 실행 및 테스트</h3>
+            <pre># 설정 테스트
+sudo suricata -T -c /etc/suricata/suricata.yaml -v
+
+# 네트워크 인터페이스(eth0)에서 IDS 모드로 실행 (백그라운드)
+sudo suricata -c /etc/suricata/suricata.yaml -i eth0 -D
+
+# 로그 확인 (실시간)
+tail -f /var/log/suricata/eve.json | jq . # jq 필요시 설치
+
+# 테스트 공격 시뮬레이션 (다른 터미널에서)
+curl http://내부서버IP/TEST-ATTACK</pre>
+
+            <h3>4.5 Python으로 Eve.json 로그 소비 예제</h3>
+            <div class="code-block-title">log_consumer.py</div>
+            <pre>import json
+import time
+from pathlib import Path
+
+def follow_log(file_path):
+    """파일을 실시간으로 tailing하는 제너레이터"""
+    with open(file_path, 'r') as f:
+        f.seek(0, 2)  # 파일 끝으로 이동
+        while True:
+            line = f.readline()
+            if not line:
+                time.sleep(0.1)
+                continue
+            yield line
+
+def process_eve_log(log_path='/var/log/suricata/eve.json'):
+    """Suricata EVE 로그를 실시간 처리"""
+    for line in follow_log(log_path):
+        try:
+            event = json.loads(line.strip())
+            event_type = event.get('event_type')
+            if event_type == 'alert':
+                print(f"[ALERT] {event['timestamp']} | {event['alert']['signature']}")
+                print(f"  src: {event.get('src_ip')}:{event.get('src_port')}")
+                print(f"  dst: {event.get('dest_ip')}:{event.get('dest_port')}")
+                # 여기서 Elasticsearch 전송, Slack 알림, ML 모델 추론 등 수행 가능
+            elif event_type == 'http':
+                # HTTP 트랜잭션 로깅 등
+                pass
+        except json.JSONDecodeError:
+            continue
+
+if __name__ == '__main__':
+    process_eve_log()</pre>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. 핵심 설정 레퍼런스</h2>
+            <table>
+                <thead>
+                    <tr><th>설정 항목</th><th>파일</th><th>설명 및 예시</th><th>권장값/팁</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>HOME_NET</td><td>suricata.yaml / snort.conf</td><td>보호할 내부 네트워크 대역</td><td>명확히 정의. 너무 넓지 않게(예: [192.168.1.0/24])</td></tr>
+                    <tr><td>rule-files</td><td>suricata.yaml</td><td>활성화할 규칙 파일 목록</td><td>필요한 카테고리만 포함. 성능 영향 고려</td></tr>
+                    <tr><td>default-rule-path</td><td>suricata.yaml</td><td>규칙 기본 경로</td><td>/etc/suricata/rules</td></tr>
+                    <tr><td>eve-log 출력</td><td>suricata.yaml</td><td>JSON 형식의 통합 로그 출력</td><td>enabled: yes, SIEM 연동 시 필수</td></tr>
+                    <tr><td>af-packet 멀티스레드</td><td>suricata.yaml</td><td>고성능 패킷 캡처 인터페이스</td><td>10Gbps 이상 트래픽 시 튜닝 필수</td></tr>
+                    <tr><td>config detection</td><td>suricata.yaml</td><td>탐지 모드 설정 (search, inspect)</td><td>search: AC 패턴 매칭 알고리즘</td></tr>
+                    <tr><td>app-layer 프로토콜</td><td>suricata.yaml</td><td>HTTP, TLS, DNS 등 파서 활성화</td><td>필요한 프로토콜만 enabled: yes</td></tr>
+                    <tr><td>sid-msg.map</td><td>snort.conf 관련</td><td>SID와 메시지 매핑 파일</td><td>규칙 관리 및 가독성 향상</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 실무 팁 & 트러블슈팅</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>문제: 성능 저하, 패킷 드롭</h4>
+                    <p><strong>원인:</strong> 규칙 수 과다, 고비용 옵션(content 많음) 사용, 하드웨어/인터페이스 병목.</p>
+                    <p><strong>해결:</strong>
+                        <ul>
+                            <li>규칙셋 필터링: 필요 없는 카테고리 비활성화.</li>
+                            <li>AF_PACKET 멀티스레드 튜닝: suricata.yaml의 threads, cluster-type 조정.</li>
+                            <li>하드웨어 가속(예: NIC 오프로딩) 또는 분산 배포 고려.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 거짓 양성(False Positive) 과다</h4>
+                    <p><strong>원인:</strong> 너무 광범위한 규칙, 정상 트래픽과의 충돌.</p>
+                    <p><strong>해결:</strong>
+                        <ul>
+                            <li>규칙 조정: flow, threshold, suppressions 사용.</li>
+                            <li>사용자 환경에 맞춘 규칙 커스터마이징.</li>
+                            <li>정상 트래픽 베이스라인 수립 후 이상 규칙만 적용.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>문제: 로그가 생성되지 않음</h4>
+                    <p><strong>원인:</strong> 설정 오류, 권한 문제, 인터페이스 바인딩 실패.</p>
+                    <p><strong>해결:</strong>
+                        <ul>
+                            <li>테스트 모드(-T)로 설정 검증.</li>
+                            <li>네트워크 인터페이스 promiscuous 모드 확인.</li>
+                            <li>로그 디렉토리 권한 확인 (/var/log/suricata).</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>팁: 규칙 관리 자동화</h4>
+                    <p>Python 스크립트로 규칙 집계, SID 충돌 검사, 신규 규칙 자동 다운로드 구현.</p>
+                    <pre># 간단한 규칙 통계 생성 스크립트 예시
+import glob
+rules = glob.glob('/etc/suricata/rules/*.rules')
+for r in rules:
+    with open(r) as f:
+        lines = [l for l in f if l.strip() and not l.startswith('#')]
+        print(f"{r}: {len(lines)} rules")</pre>
+                </div>
+            </div>
+            <div class="callout warn">
+                <h4>주의사항: IPS 모드 배포</h4>
+                <p>IPS(차단) 모드는 네트워크 경로에 Inline으로 배포됩니다. 잘못된 규칙으로 정상 트래픽이 차단될 수 있어 <strong>스테이징 환경에서 충분히 테스트</strong>한 후 운영 적용해야 합니다. Fail-open 장비를 고려하세요.</p>
+            </div>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 참고 자료</h2>
+            <ul>
+                <li><a href="https://suricata.readthedocs.io/" target="_blank">Suricata 공식 문서</a> - 가장 완벽하고 최신의 참고자료</li>
+                <li><a href="https://www.snort.org/documents" target="_blank">Snort 사용자 매뉴얼</a> - 규칙 작성의 표준 참조</li>
+                <li><a href="https://rules.emergingthreats.net/" target="_blank">Emerging Threats 규칙셋</a> - 무료 커뮤니티 규칙</li>
+                <li><a href="https://github.com/OISF/suricata-update" target="_blank">suricata-update</a> - 규칙 관리 자동화 도구</li>
+                <li><a href="https://www.zeek.org/" target="_blank">Zeek (Bro)</a> - 프로토콜 분석에 특화된 상호보완적 도구</li>
+                <li><a href="https://www.circl.lu/doc/misp/" target="_blank">MISP</a> - 위협 인텔리전스 플랫폼과의 연동</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>본 가이드는 실무 중심의 핵심 내용을 요약했습니다. 상세한 설정은 공식 문서를 참조하세요.</p>
+        <p>작성일: 2026년 03월 | 카테고리: 정보보안, 네트워크 모니터링, AI/데이터 엔지니어링</p>
+        <p>© 2026 - AI 정보보안 엔지니어 커뮤니티</p>
+    </footer>
+</body>
+</html>
