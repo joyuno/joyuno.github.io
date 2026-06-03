@@ -941,8 +941,8 @@
         "network-security",
         "rule-based"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-06-03"
     },
     {
       "id": 80,
