@@ -670,3 +670,9 @@
   tags: ["ids-ips", "network-security", "rule-based"]
   date: "2026-06-03"
   url: "/study-guides/snort-suricata-study-guide.html"
+- keyword: "Adversarial Robustness Toolbox"
+  slug: "adversarial-robustness-toolbox"
+  category: "security"
+  tags: ["adversarial-ml", "ai-red-team", "ibm"]
+  date: "2026-06-04"
+  url: "/study-guides/adversarial-robustness-toolbox-study-guide.html"
