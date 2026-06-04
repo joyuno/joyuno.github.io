@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adversarial Robustness Toolbox (ART) 실무 스터디 가이드</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .toc h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        .toc ol {
+            list-style-type: none;
+            counter-reset: toc-counter;
+        }
+        .toc li {
+            counter-increment: toc-counter;
+            margin-bottom: 0.75rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        .toc li::before {
+            content: counter(toc-counter) ". ";
+            color: var(--accent2);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        .section {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .section h2 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .section h3 {
+            color: var(--accent2);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .concept-card {
+            background-color: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        .concept-card h4 {
+            color: var(--accent3);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            color: var(--accent2);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        tr:nth-child(even) {
+            background-color: var(--surface2);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            border-radius: 6px;
+            padding: 0.2em 0.4em;
+        }
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .code-block-title {
+            background-color: var(--surface2);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 0.5rem 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent4);
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a {
+            color: var(--accent);
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: var(--border);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Adversarial Robustness Toolbox (ART)</h1>
+        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 실무 스터디 가이드</p>
+        <div class="meta-badges">
+            <span class="badge">adversarial-ml</span>
+            <span class="badge">ai-red-team</span>
+            <span class="badge">IBM</span>
+            <span class="badge">Python</span>
+            <span class="badge">Machine Learning Security</span>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">Adversarial Robustness Toolbox란?</a></li>
+            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
+            <li><a href="#section3">핵심 개념 & 아키텍처</a></li>
+            <li><a href="#section4">퀵스타트: 설치부터 첫 공격까지</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <section id="section1" class="section">
+        <h2>1. Adversarial Robustness Toolbox란?</h2>
+        <p>Adversarial Robustness Toolbox(ART)는 IBM이 주도하여 개발된 머신러닝 모델의 적대적 공격(Adversarial Attack)과 방어(Defense)를 연구, 개발, 평가하기 위한 통합 오픈소스 Python 라이브러리입니다. 프레임워크에 구애받지 않고 TensorFlow, PyTorch, Scikit-learn, Keras 등 다양한 백엔드의 모델을 지원하는 것이 가장 큰 특징입니다.</p>
+        
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>1. 공격 (Attack)</h4>
+                <p>모델을 속이기 위한 적대적 예제(Adversarial Example)를 생성합니다. FGSM, PGD, Carlini & Wagner, DeepFool 등 50여 가지 공격 기법을 구현.</p>
+            </div>
+            <div class="concept-card">
+                <h4>2. 방어 (Defense)</h4>
+                <p>모델의 견고성(Robustness)을 향상시키는 기법을 제공합니다. 적대적 학습(Adversarial Training), 입력 전처리(Input Preprocessing), 탐지(Detection) 등.</p>
+            </div>
+            <div class="concept-card">
+                <h4>3. 평가 (Evaluation)</h4>
+                <p>모델의 보안 취약점을 정량적으로 측정하는 메트릭과 벤치마크를 제공합니다. 공격 성공률, 방어 효과, 모델 정확도 변화 등을 종합 평가.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section2" class="section">
+        <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
+        <p>AI 보안 평가 도구는 여러 가지가 있지만, ART는 엔터프라이즈 환경과 실무 연구에 최적화된 포괄적인 기능을 제공합니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>도구 / 라이브러리</th>
+                    <th>주요 특징</th>
+                    <th>ART 대비 장단점</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>CleverHans</strong></td>
+                    <td>초기 연구용 라이브러리, TensorFlow/PyTorch 중심</td>
+                    <td>ART가 더 많은 공격/방어 기법, 프레임워크 지원, 활발한 유지보수</td>
+                </tr>
+                <tr>
+                    <td><strong>Foolbox</strong></td>
+                    <td>공격 기법 구현에 특화, 사용 편의성 높음</td>
+                    <td>ART는 방어 및 평가 기능이 더 풍부하며 엔터프라이즈 지원 우수</td>
+                </tr>
+                <tr>
+                    <td><strong>TextAttack</strong></td>
+                    <td>NLP 모델 전용 적대적 공격 라이브러리</td>
+                    <td>ART는 컴퓨터비전 중심이지만 텍스트, 음성 등 멀티모달 지원 확장 중</td>
+                </tr>
+                <tr>
+                    <td><strong>자체 개발 스크립트</strong></td>
+                    <td>특정 요구사항에 맞춤 구현 가능</td>
+                    <td>ART는 검증된 구현체 제공으로 개발 시간 단축 및 재현성 보장</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <strong>결론:</strong> AI Red Team 활동, 모델 보안 검증, 연구 개발 등 <strong>실무에서 포괄적인 AI 보안 평가가 필요할 때 ART가 최선의 선택</strong>입니다.
+        </div>
+    </section>
+
+    <section id="section3" class="section">
+        <h2>3. 핵심 개념 & 아키텍처</h2>
+        <p>ART는 모델을 추상화한 `Classifier` 객체를 중심으로 공격과 방어 모듈이 연결되는 유연한 아키텍처를 가지고 있습니다.</p>
+        
+        <div class="diagram">
++-----------------------------------------------------------------------+
+|                        Your ML Model                                  |
+|  (TensorFlow | PyTorch | Keras | Scikit-learn | XGBoost | etc.)      |
++----------------------------+------------------------------------------+
+                             | (Wrapped as)
+                             v
++-----------------------------------------------------------------------+
+|                    ART Classifier Abstraction                         |
+|  (TensorFlowClassifier | PyTorchClassifier | SklearnClassifier ...)  |
++----------------------------+------------------------------------------+
+                             | (Input for)
+                             v
+        +---------------------+---------------------+
+        |                                           |
+        v                                           v
++-----------------------------+        +-----------------------------+
+|       Attack Modules        |        |      Defense Modules       |
+|  (e.g., ProjectedGradientDescent,   |  (e.g., AdversarialTrainer, |
+|        FastGradientMethod,          |        NeuralCleanse,       |
+|        CarliniL2Method)             |        FeatureSqueezing)    |
++-----------------------------+        +-----------------------------+
+        |                                           |
+        v                                           v
++-----------------------------+        +-----------------------------+
+|   Adversarial Examples      |--------|   Robust Model / Detector   |
+|   (Perturbed Inputs)        |        |   (Evaluated Output)       |
++-----------------------------+        +-----------------------------+
+        </div>
+        
+        <h3>핵심 컴포넌트 설명</h3>
+        <ul>
+            <li><strong>Classifier Wrappers:</strong> 다양한 프레임워크의 모델을 ART가 이해할 수 있는 표준 인터페이스로 감쌉니다.</li>
+            <li><strong>Attack Objects:</strong> 공격 알고리즘을 구현한 객체. `generate()` 메서드로 적대적 예제를 생성합니다.</li>
+            <li><strong>Defense Objects:</strong> 모델을 강화하거나 적대적 입력을 탐지하는 객체.</li>
+            <li><strong>Metrics & Evaluations:</strong> 공격 성공률, 모델 정확도, 견고성 점수 등을 계산하는 유틸리티.</li>
+        </ul>
+    </section>
+
+    <section id="section4" class="section">
+        <h2>4. 퀵스타트: 설치부터 첫 공격까지</h2>
+        
+        <h3>단계 1: 설치</h3>
+        <div class="code-block-title">Terminal</div>
+<pre><code># 기본 설치 (핵심 기능)
+pip install adversarial-robustness-toolbox
+
+# 프레임워크별 확장 설치 (필요한 것만)
+pip install adversarial-robustness-toolbox[torch]
+pip install adversarial-robustness-toolbox[tensorflow]
+pip install adversarial-robustness-toolbox[all]  # 모든 의존성</code></pre>
+
+        <h3>단계 2: 모델 준비 및 ART Classifier로 래핑</h3>
+<div class="code-block-title">Python: example_quickstart.py</div>
+<pre><code>import numpy as np
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from art.estimators.classification import TensorFlowV2Classifier
+
+# 1. MNIST 데이터 로드 및 전처리
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train = x_train.astype('float32') / 255.0
+x_test = x_test.astype('float32') / 255.0
+x_train = x_train.reshape(-1, 28, 28, 1)
+x_test = x_test.reshape(-1, 28, 28, 1)
+
+# 2. 간단한 Keras 모델 생성 (실무에서는 사전 학습 모델 사용)
+model = Sequential([
+    Flatten(input_shape=(28, 28, 1)),
+    Dense(128, activation='relu'),
+    Dense(10, activation='softmax')
+])
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.fit(x_train, y_train, epochs=2, batch_size=64, validation_split=0.1, verbose=0)
+
+# 3. ART TensorFlow Classifier로 모델 래핑 (핵심 단계)
+classifier = TensorFlowV2Classifier(
+    model=model,
+    nb_classes=10,
+    input_shape=(28, 28, 1),
+    loss_object=tf.keras.losses.SparseCategoricalCrossentropy(),
+    clip_values=(0, 1)
+)</code></pre>
+
+        <h3>단계 3: 적대적 공격 실행 (FGSM 예제)</h3>
+<div class="code-block-title">Python: example_quickstart.py (계속)</div>
+<pre><code>from art.attacks.evasion import FastGradientMethod
+
+# 4. 공격 객체 생성 (FGSM)
+epsilon = 0.1  # 공격 강도
+attack = FastGradientMethod(estimator=classifier, eps=epsilon)
+
+# 5. 적대적 예제 생성 (테스트 데이터 중 일부에 대해)
+x_test_adv = attack.generate(x=x_test[:100])  # 처음 100개 샘플 공격
+
+# 6. 원본 모델과 공격 후 모델 성능 비교
+preds_original = np.argmax(classifier.predict(x_test[:100]), axis=1)
+preds_adv = np.argmax(classifier.predict(x_test_adv), axis=1)
+
+accuracy_original = np.sum(preds_original == y_test[:100]) / 100
+accuracy_adv = np.sum(preds_adv == y_test[:100]) / 100
+
+print(f"[결과] 원본 정확도: {accuracy_original:.2%}")
+print(f"[결과] 적대적 공격 후 정확도: {accuracy_adv:.2%}")
+print(f"[결과] 공격 성공률: {(1 - accuracy_adv) * 100:.1f}%")</code></pre>
+        <div class="callout warn">
+            <strong>주의:</strong> 이 예제는 개념 설명용입니다. 실무에서는 더 강력한 공격(PGD), 방어 기법 적용, 그리고 더 큰 검증 데이터셋을 사용해야 합니다.
+        </div>
+    </section>
+
+    <section id="section5" class="section">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>ART의 주요 클래스와 매개변수를 실무에서 자주 사용하는 설정 중심으로 정리했습니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>컴포넌트</th>
+                    <th>클래스/함수</th>
+                    <th>핵심 매개변수</th>
+                    <th>실무 설정 예시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Classifier</strong></td>
+                    <td><code>TensorFlowV2Classifier</code><br><code>PyTorchClassifier</code></td>
+                    <td><code>clip_values</code>, <code>preprocessing</code>, <code>channels_first</code></td>
+                    <td><code>clip_values=(0,1)</code> (이미지), <code>channels_first=False</code> (TensorFlow 기본)</td>
+                </tr>
+                <tr>
+                    <td><strong>Attack (FGSM)</strong></td>
+                    <td><code>FastGradientMethod</code></td>
+                    <td><code>eps</code>, <code>norm</code>, <code>targeted</code></td>
+                    <td><code>eps=0.05</code> (5% 왜곡), <code>norm=np.inf</code>, <code>targeted=False</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Attack (PGD)</strong></td>
+                    <td><code>ProjectedGradientDescent</code></td>
+                    <td><code>eps</code>, <code>eps_step</code>, <code>max_iter</code>, <code>norm</code></td>
+                    <td><code>eps=0.1</code>, <code>eps_step=0.01</code>, <code>max_iter=40</code>, <code>norm=2</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Defense (Training)</strong></td>
+                    <td><code>AdversarialTrainer</code></td>
+                    <td><code>attacks</code>, <code>ratio</code></td>
+                    <td><code>attacks=[pgd_attack]</code>, <code>ratio=0.5</code> (50% 적대적 예제)</td>
+                </tr>
+                <tr>
+                    <td><strong>Defense (Detection)</strong></td>
+                    <td><code>BinaryInputDetector</code></td>
+                    <td><code>detector</code>, <code>classifier</code></td>
+                    <td>별도의 이진 분류기를 탐지기로 사용</td>
+                </tr>
+                <tr>
+                    <td><strong>Metrics</strong></td>
+                    <td><code>art.metrics</code></td>
+                    <td><code>accuracy</code>, <code>robustness</code></td>
+                    <td><code>art.metrics.empirical_robustness(classifier, x_test, attack)</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="section6" class="section">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+        
+        <h3>자주 겪는 문제와 해결책</h3>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>문제 1: "Could not find classifier for model type"</h4>
+                <p><strong>원인:</strong> 지원되지 않는 모델 타입 또는 잘못된 래퍼 사용.<br>
+                <strong>해결:</strong> 공식 문서에서 지원하는 Classifier 목록 확인. PyTorch 모델은 <code>PyTorchClassifier</code>, TensorFlow 2.x는 <code>TensorFlowV2Classifier</code> 사용.</p>
+            </div>
+            <div class="concept-card">
+                <h4>문제 2: 공격 생성 속도가 매우 느림</h4>
+                <p><strong>원인:</strong> 큰 배치 크기, 복잡한 공격(PGD 반복), GPU 미사용.<br>
+                <strong>해결:</strong> 작은 배치로 테스트 후 확장. GPU가 있다면 <code>device_type='gpu'</code> 설정 확인. 필요시 <code>num_workers</code>로 데이터로드 병렬화.</p>
+            </div>
+            <div class="concept-card">
+                <h4>문제 3: 생성된 적대적 예제의 변화가 시각적으로 감지됨</h4>
+                <p><strong>원인:</strong> <code>eps</code> 값이 너무 큼.<br>
+                <strong>해결:</strong> <code>eps</code>를 줄이거나(예: 0.01 ~ 0.05), <code>norm</code>을 변경해 보기(L2 norm이 L∞보다 덜 눈에 띔).</p>
+            </div>
+            <div class="concept-card">
+                <h4>문제 4: 방어 기법 적용 후 모델 성능(정확도) 하락</h4>
+                <p><strong>원인:</strong> 적대적 학습의 trade-off. 견고성 증가는 종종 clean data 정확도 하락을 동반.<br>
+                <strong>해결:</strong> 방어 강도 조정(예: <code>ratio</code> 낮춤), 다양한 방어 기법 실험, 하이퍼파라미터 튜닝.</p>
+            </div>
+        </div>
+
+        <h3>실무 팁</h3>
+        <ul>
+            <li><strong>재현성 확보:</strong> <code>np.random.seed()</code>와 프레임워크별 랜덤 시드 설정을 반드시 적용하세요.</li>
+            <li><strong>점진적 테스트:</strong> 작은 데이터셋과 간단한 공격(FGSM)으로 파이프라인을 먼저 검증한 후 복잡한 설정으로 확장.</li>
+            <li><strong>모델 캐싱:</strong> 대규모 평가 시 생성된 적대적 예제를 디스크에 저장(<code>np.save</code>)하여 시간 절약.</li>
+            <li><strong>ART의 CLI 활용:</strong> <code>art</code> 명령어로 기본 작업 실행 가능. <code>art -h</code>로 확인.</li>
+        </ul>
+        <div class="callout">
+            <strong>AI Red Team 활동 시:</strong> ART는 공격 시나리오 자동화, 보고서 생성 메트릭 추출에 매우 유용합니다. 여러 모델에 대한 체계적인 취약점 평가 파이프라인을 구축하세요.
+        </div>
+    </section>
+
+    <section id="section7" class="section">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><strong>공식 문서:</strong> <a href="https://adversarial-robustness-toolbox.readthedocs.io/" target="_blank">https://adversarial-robustness-toolbox.readthedocs.io/</a></li>
+            <li><strong>GitHub 저장소:</strong> <a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank">https://github.com/Trusted-AI/adversarial-robustness-toolbox</a></li>
+            <li><strong>예제 노트북:</strong> GitHub의 <code>examples/</code> 디렉토리에 다양한 활용법이 담긴 Jupyter 노트북 제공.</li>
+            <li><strong>연구 논문:</strong> Nicolae, M.-I., et al. "Adversarial Robustness Toolbox v1.0." (2018).</li>
+            <li><strong>관련 커뮤니티:</strong> Trusted AI (IBM), ML Security 관련 컨퍼런스 (IEEE S&P, USENIX Security, NeurIPS Workshop).</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>본 문서는 Adversarial Robustness Toolbox (ART) 라이브러리의 실무 적용을 돕기 위한 스터디 가이드입니다.</p>
+        <p>작성일: 2026년 03월 | 대상: AI 정보보안 엔지니어 · 보안 전문가</p>
+        <p>정보는 공식 문서와 코드를 기준으로 작성되었으며, 변경사항은 해당 리소스를 참고하시기 바랍니다.</p>
+    </footer>
+</body>
+</html>
