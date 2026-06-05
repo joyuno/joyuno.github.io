@@ -676,3 +676,9 @@
   tags: ["adversarial-ml", "ai-red-team", "ibm"]
   date: "2026-06-04"
   url: "/study-guides/adversarial-robustness-toolbox-study-guide.html"
+- keyword: "Weaviate"
+  slug: "weaviate"
+  category: "ai-ml"
+  tags: ["vector-db", "multimodal", "rag"]
+  date: "2026-06-05"
+  url: "/study-guides/weaviate-study-guide.html"
