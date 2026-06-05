@@ -682,3 +682,9 @@
   tags: ["vector-db", "multimodal", "rag"]
   date: "2026-06-05"
   url: "/study-guides/weaviate-study-guide.html"
+- keyword: "Garak"
+  slug: "garak"
+  category: "security"
+  tags: ["llm-security", "vulnerability-scanner"]
+  date: "2026-06-05"
+  url: "/study-guides/garak-study-guide.html"
