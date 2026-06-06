@@ -688,3 +688,9 @@
   tags: ["llm-security", "vulnerability-scanner"]
   date: "2026-06-05"
   url: "/study-guides/garak-study-guide.html"
+- keyword: "Evidently AI"
+  slug: "evidently-ai"
+  category: "ai-ml"
+  tags: ["model-monitoring", "drift-detection"]
+  date: "2026-06-06"
+  url: "/study-guides/evidently-ai-study-guide.html"
