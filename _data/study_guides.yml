@@ -694,3 +694,9 @@
   tags: ["model-monitoring", "drift-detection"]
   date: "2026-06-06"
   url: "/study-guides/evidently-ai-study-guide.html"
+- keyword: "Okta"
+  slug: "okta"
+  category: "security"
+  tags: ["iam", "sso", "identity"]
+  date: "2026-06-06"
+  url: "/study-guides/okta-study-guide.html"
