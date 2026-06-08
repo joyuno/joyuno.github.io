@@ -712,3 +712,9 @@
   tags: ["data-versioning", "experiment", "git"]
   date: "2026-06-08"
   url: "/study-guides/dvc-study-guide.html"
+- keyword: "Cloudflare WAF"
+  slug: "cloudflare-waf"
+  category: "security"
+  tags: ["waf", "ddos", "web-protection"]
+  date: "2026-06-08"
+  url: "/study-guides/cloudflare-waf-study-guide.html"
