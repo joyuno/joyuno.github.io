@@ -706,3 +706,9 @@
   tags: ["pam", "privileged-access", "vault"]
   date: "2026-06-07"
   url: "/study-guides/cyberark-study-guide.html"
+- keyword: "DVC"
+  slug: "dvc"
+  category: "ai-ml"
+  tags: ["data-versioning", "experiment", "git"]
+  date: "2026-06-08"
+  url: "/study-guides/dvc-study-guide.html"
