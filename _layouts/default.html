@@ -176,6 +176,71 @@
     .sidebar-nav a.active { background: var(--accent-color); color: white; }
     .nav-icon { width: 18px; text-align: center; font-size: 1rem; }
 
+    /* ─── AI Tech 메뉴 강조 ─── */
+    .sidebar-nav a.nav-highlight {
+      position: relative;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(59, 130, 246, 0.18));
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      font-weight: 600;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+    .sidebar-nav a.nav-highlight::before {
+      content: 'NEW';
+      position: absolute;
+      top: 5px; right: 8px;
+      font-size: 0.58rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #ec4899, #f97316);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(236, 72, 153, 0.4);
+      animation: nav-pulse 2.2s ease-in-out infinite;
+    }
+    .sidebar-nav a.nav-highlight .icon {
+      color: #a78bfa;
+      filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.65));
+    }
+    .sidebar-nav a.nav-highlight:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.32), rgba(59, 130, 246, 0.32));
+      border-color: rgba(139, 92, 246, 0.55);
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.45);
+      transform: translateX(3px);
+      color: #fff;
+    }
+    .sidebar-nav a.nav-highlight:hover .icon {
+      color: #c4b5fd;
+      filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.9));
+    }
+    .sidebar-nav a.nav-highlight.active {
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.5);
+    }
+    .sidebar-nav a.nav-highlight.active .icon { color: #fff; filter: none; }
+    @keyframes nav-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%     { opacity: 0.65; transform: scale(0.92); }
+    }
+    /* 라이트 테마 — 채도 낮춰 대비 자연스럽게 */
+    [data-theme="light"] .sidebar-nav a.nav-highlight {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+      border-color: rgba(139, 92, 246, 0.3);
+      color: #6d28d9;
+    }
+    [data-theme="light"] .sidebar-nav a.nav-highlight .icon {
+      color: #7c3aed;
+      filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.4));
+    }
+    [data-theme="light"] .sidebar-nav a.nav-highlight:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(59, 130, 246, 0.22));
+      color: #5b21b6;
+    }
+
     .sidebar-footer {
       margin-top: auto; padding-top: 1.25rem;
       border-top: 1px solid var(--border-color);
@@ -556,7 +621,7 @@
       <a href="/statistics/" {% if page.url contains "/statistics" %}class="active"{% endif %}>
         <span class="nav-icon"><i data-lucide="bar-chart-3" class="icon"></i></span><span>Statistics</span>
       </a>
-      <a href="/ai-tech-digest/" {% if page.url contains "/ai-tech-digest" %}class="active"{% endif %}>
+      <a href="/ai-tech-digest/" class="nav-highlight{% if page.url contains "/ai-tech-digest" %} active{% endif %}">
         <span class="nav-icon"><i data-lucide="bot" class="icon"></i></span><span>AI Tech</span>
       </a>
       <a href="/dev-report/" {% if page.url contains "/dev-report" %}class="active"{% endif %}>
