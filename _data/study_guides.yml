@@ -724,3 +724,9 @@
   tags: ["llm-safety", "guardrails", "nvidia"]
   date: "2026-06-09"
   url: "/study-guides/nemo-guardrails-study-guide.html"
+- keyword: "Zscaler"
+  slug: "zscaler"
+  category: "security"
+  tags: ["zero-trust", "ztna", "sase"]
+  date: "2026-06-09"
+  url: "/study-guides/zscaler-study-guide.html"
