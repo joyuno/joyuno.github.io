@@ -736,3 +736,9 @@
   tags: ["llm-platform", "rag", "agent"]
   date: "2026-06-10"
   url: "/study-guides/dify-study-guide.html"
+- keyword: "Microsoft Sentinel"
+  slug: "microsoft-sentinel"
+  category: "security"
+  tags: ["siem", "azure", "cloud-native"]
+  date: "2026-06-10"
+  url: "/study-guides/microsoft-sentinel-study-guide.html"
