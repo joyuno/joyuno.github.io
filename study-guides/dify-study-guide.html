@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dify 실무 스터디 가이드 - AI/MLOps 엔지니어</title>
+    <title>Dify 실무 스터디 가이드</title>
+    <meta name="description" content="데이터 엔지니어 · AI 엔지니어를 위한 Dify 핵심 요약">
+    <meta name="keywords" content="llm-platform, rag, agent">
     <style>
         :root {
             --bg: #0d1117;
@@ -17,422 +19,556 @@
             --accent3: #d2a8ff;
             --accent4: #f0883e;
             --danger: #f85149;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         }
-        * { box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+
+        * {
             margin: 0;
             padding: 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            box-sizing: border-box;
         }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 3rem 1rem 2rem;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 40px;
+            margin-bottom: 2.5rem;
         }
-        h1 {
+        .hero h1 {
             font-size: 2.8rem;
-            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+        .hero .meta-badge {
+            display: inline-flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hero .meta-badge span {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        .hero .meta-badge .tag {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .toc h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
             color: var(--accent);
         }
-        .hero-subtitle {
-            font-size: 1.4rem;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-        }
-        .meta-badge {
-            display: inline-block;
-            background-color: var(--surface2);
-            color: var(--accent3);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
-        }
-        .toc {
-            background-color: var(--surface);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 40px;
-        }
-        .toc h2 { color: var(--accent); margin-top: 0; }
         .toc ol {
-            padding-left: 20px;
-            list-style-type: none;
-            counter-reset: toc-counter;
+            list-style: decimal;
+            padding-left: 1.5rem;
         }
         .toc ol li {
-            counter-increment: toc-counter;
-            margin-bottom: 10px;
-            position: relative;
+            margin: 0.3rem 0;
         }
-        .toc ol li::before {
-            content: counter(toc-counter) ". ";
-            color: var(--accent2);
-            font-weight: bold;
-            position: absolute;
-            left: -20px;
-        }
-        .toc a {
+        .toc ol li a {
             color: var(--text);
-            text-decoration: none;
             transition: color 0.2s;
         }
-        .toc a:hover { color: var(--accent); }
-        .section {
-            margin-bottom: 60px;
-            padding: 30px;
-            background-color: var(--surface);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        h2 {
+        .toc ol li a:hover {
             color: var(--accent);
-            font-size: 1.8rem;
-            margin-top: 0;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
         }
-        h3 { color: var(--accent2); font-size: 1.4rem; }
+
+        /* Sections */
+        .section {
+            margin-bottom: 2.8rem;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 1.2rem 0 0.8rem;
+            color: var(--accent2);
+        }
+        .section p {
+            margin-bottom: 1rem;
+        }
+
+        /* Concept Grid */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
         .concept-card {
-            background-color: var(--surface2);
-            padding: 25px;
-            border-radius: 10px;
+            background: var(--surface);
             border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+            padding: 1.2rem 1.2rem 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .concept-card:hover {
+            border-color: var(--accent);
         }
         .concept-card h4 {
-            color: var(--accent3);
-            margin-bottom: 10px;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
         }
+        .concept-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Callout */
         .callout {
-            background-color: var(--surface2);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid var(--accent);
-            margin: 20px 0;
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 0 6px 6px 0;
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0;
         }
         .callout.warn {
             border-left-color: var(--danger);
+            background: rgba(248, 81, 73, 0.08);
         }
-        .diagram {
-            background-color: var(--surface2);
-            padding: 25px;
-            border-radius:10px;
-            font-family: monospace;
-            white-space: pre;
-            line-height: 1.4;
-            overflow-x: auto;
-            border: 1px solid var(--border);
+        .callout p {
+            margin-bottom: 0.2rem;
+        }
+        .callout strong {
             color: var(--accent2);
-            margin: 20px 0;
         }
+        .callout.warn strong {
+            color: var(--danger);
+        }
+
+        /* Diagram */
+        .diagram {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.5;
+            color: var(--text);
+            margin: 1.5rem 0;
+        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background-color: var(--surface2);
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
         }
-        th, td {
-            padding: 15px;
+        table th, table td {
+            padding: 0.7rem 1rem;
             text-align: left;
             border: 1px solid var(--border);
         }
-        th {
-            background-color: var(--surface);
+        table th {
+            background: var(--surface);
+            font-weight: 600;
             color: var(--accent);
         }
-        code, pre {
-            font-family: monospace;
-            background-color: var(--surface2);
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
+        table td {
+            background: var(--bg);
         }
+        table tr:nth-child(even) td {
+            background: var(--surface);
+        }
+
+        /* Code blocks */
         pre {
-            padding: 20px;
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
             overflow-x: auto;
-            margin: 20px 0;
+            margin: 1rem 0;
             line-height: 1.5;
         }
-        .code-block-title {
-            background-color: var(--surface);
-            padding: 10px 15px;
-            border-radius: 6px 6px 0 0;
-            border: 1px solid var(--border);
-            margin-bottom: -1px;
-            font-weight: bold;
-            color: var(--accent4);
+        code {
+            font-family: var(--font-mono);
+            background: rgba(255,255,255,0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
         }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
             border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
-        a { color: var(--accent); }
-        .tag {
+        footer .tags {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        footer .tags span {
             display: inline-block;
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 0.2rem 0.7rem;
+            border-radius: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             font-size: 0.8rem;
-            margin-right: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .section h2 { font-size: 1.5rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
+
+    <!-- Hero -->
+    <header class="hero">
         <h1>Dify 실무 스터디 가이드</h1>
-        <p class="hero-subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
-        <div class="meta-badge">LLM 애플리케이션 개발 플랫폼 · 작성일: 2026.03</div>
-        <div style="margin-top: 20px;">
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badge">
+            <span>v0.12+</span>
             <span class="tag">llm-platform</span>
             <span class="tag">rag</span>
             <span class="tag">agent</span>
+            <span>작성: 2026.03</span>
         </div>
-    </section>
+    </header>
 
-    <section class="toc">
-        <h2>목차</h2>
+    <!-- TOC -->
+    <nav class="toc">
+        <h2>📑 목차</h2>
         <ol>
-            <li><a href="#section1">Dify란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#sec1">Dify란?</a></li>
+            <li><a href="#sec2">왜 써야 하는가?</a></li>
+            <li><a href="#sec3">핵심 개념</a></li>
+            <li><a href="#sec4">퀵스타트</a></li>
+            <li><a href="#sec5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#sec6">실무 팁 &amp; 트러블슈팅</a></li>
+            <li><a href="#sec7">참고 자료</a></li>
         </ol>
-    </section>
+    </nav>
 
-    <section id="section1" class="section">
+    <!-- 1. Dify란? -->
+    <section class="section" id="sec1">
         <h2>1. Dify란?</h2>
-        <p>Dify는 LLM(Large Language Model) 기반 애플리케이션을 빠르게 구축, 운영, 배포할 수 있는 오픈소스 플랫폼입니다. 백엔드 서비스, 워크플로우 엔진, 관리 UI를 통합 제공하여 AI 엔지니어가 코드 중심 개발에서 벗어나 비즈니스 로직과 데이터 연결에 집중할 수 있도록 설계되었습니다.</p>
+        <p>
+            <strong>Dify</strong>는 LLM 기반 애플리케이션을 빠르게 개발, 배포, 운영할 수 있는 오픈소스 플랫폼입니다.
+            복잡한 LLM 워크플로우, RAG, 에이전트, 모니터링 등을 하나의 통합 인터페이스에서 관리할 수 있습니다.
+        </p>
+        <h3>3대 핵심 능력</h3>
         <div class="concept-grid">
             <div class="concept-card">
-                <h4>1. 애플리케이션 개발</h4>
-                <p>코드 작성 없이 워크플로우(Flow)를 구성하여 RAG, Agent, Chatbot 등을 생성. API 및 웹 애플리케이션을 즉시 배포 가능.</p>
+                <h4>🔍 RAG (Retrieval-Augmented Generation)</h4>
+                <p>문서/DB에서 검색한 컨텍스트를 LLM에 주입하여 정확도와 최신성을 확보. 벡터 저장소, 문서 파서, 재순위화 내장.</p>
             </div>
             <div class="concept-card">
-                <h4>2. 모델 및 데이터 관리</h4>
-                <p>다양한 LLM 프로바이더(OpenAI, Azure, Anthropic, 자체 모델) 통합. 지식베이스(Knowledge Base)로 문서 처리 및 임베딩 관리.</p>
+                <h4>🤖 Agent</h4>
+                <p>ReAct / Function Calling 기반 에이전트로 도구 호출, 다중 에이전트 오케스트레이션, 메모리 관리.</p>
             </div>
             <div class="concept-card">
-                <h4>3. 운영 및 모니터링</h포>
-                <p>로그, 분석, 애플리케이션 성능 모니터링. 사용자 입력/출력 추적 및 모델 호출 비용 관리.</p>
+                <h4>⚙️ Workflow</h4>
+                <p>드래그 앤 드롭으로 LLM 호출, 조건 분기, 변환, 외부 API 연동 등 복잡한 파이프라인 구성.</p>
             </div>
         </div>
     </section>
 
-    <section id="section2" class="section">
+    <!-- 2. 왜 써야 하는가? -->
+    <section class="section" id="sec2">
         <h2>2. 왜 써야 하는가?</h2>
-        <p>LLM 애플리케이션 개발의 복잡성을 줄이고, 프로덕션 운영을 위한 필수 기능을 내장한 플랫폼입니다.</p>
+        <p>기존 대안(LangChain, Flowise, custom FastAPI)과 비교한 Dify의 강점:</p>
         <table>
             <thead>
                 <tr>
-                    <th>대안</th>
-                    <th>특징</th>
-                    <th>Dify 비교점</th>
+                    <th>항목</th>
+                    <th>Dify</th>
+                    <th>LangChain</th>
+                    <th>Flowise</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>직접 개발 (FastAPI 등)</td>
-                    <td>완전한 자유도, 모든 부분 직접 구현</td>
-                    <td><strong>개발 속도</strong>: 워크플로우 UI로 비즈니스 로직만 설계. 백엔드, 평가, 모니터링은 플랫폼 제공.</td>
+                    <td>UI 기반 워크플로우</td>
+                    <td>✅ 내장</td>
+                    <td>❌ (별도 툴 필요)</td>
+                    <td>✅</td>
                 </tr>
                 <tr>
-                    <td>LangChain/LlamaIndex</td>
-                    <td>프레임워크, 코드로 RAG/Agent 구현</td>
-                    <td><strong>운영 통합</strong>: 코드 + 운영 환경 통합. 지식베이스 관리, 로깅, 배포가 하나의 시스템.</td>
+                    <td>RAG 파이프라인</td>
+                    <td>✅ 원클릭</td>
+                    <td>✅ (코드 작성)</td>
+                    <td>✅ 기본</td>
                 </tr>
                 <tr>
-                    <td>상용 LLM 플랫폼 (Azure AI Studio 등)</td>
-                    <td>클라우드 서비스, 제한적 확장성</td>
-                    <td><strong>오픈소스 & 유연성</strong>: 온프레미스/클라우드 설치, 다양한 모델 연결, 커스텀 확장 가능.</td>
+                    <td>에이전트/도구</td>
+                    <td>✅ 내장</td>
+                    <td>✅ (복잡)</td>
+                    <td>⚠️ 제한적</td>
+                </tr>
+                <tr>
+                    <td>배포 &amp; 모니터링</td>
+                    <td>✅ 내장</td>
+                    <td>❌ (직접 구성)</td>
+                    <td>⚠️ 기본</td>
+                </tr>
+                <tr>
+                    <td>토큰/비용 관리</td>
+                    <td>✅ 대시보드</td>
+                    <td>❌</td>
+                    <td>❌</td>
                 </tr>
             </tbody>
         </table>
         <div class="callout">
-            <strong>핵심 가치:</strong> AI 엔지니어는 "플랫폼 운영"보다 "애플리케이션 로직과 데이터 연결"에 집중할 수 있습니다.
+            <p><strong>💡 핵심</strong> — Dify는 LLM 애플리케이션 전체 라이프사이클을 <strong>코드 최소화</strong>로 운영할 수 있게 해줍니다. MLOps/E2E 테스트, 버전 관리, 로깅까지 포함되어 있어 실무 도입 부담이 낮습니다.</p>
         </div>
     </section>
 
-    <section id="section3" class="section">
+    <!-- 3. 핵심 개념 -->
+    <section class="section" id="sec3">
         <h2>3. 핵심 개념</h2>
-        <h3>아키텍처 다이어그램</h3>
+        <p>Dify의 내부 아키텍처는 다음과 같은 흐름으로 동작합니다. 사용자 요청부터 LLM 응답까지의 데이터 경로를 이해하는 것이 중요합니다.</p>
+
         <div class="diagram">
-            +-------------------+      +-------------------+      +-------------------+
-            |                   |      |                   |      |                   |
-            |   웹/API 요청     |----->|   Dify 백엔드     |----->|   LLM 프로바이더  |
-            |   (애플리케이션)  |      |   (워크플로우 엔진)|      |   (OpenAI 등)     |
-            |                   |      |                   |      |                   |
-            +-------------------+      +-------------------+      +-------------------+
-                                                |
-                                                | (데이터 처리)
-                                                |
-            +-------------------+      +-------------------+      +-------------------+
-            |                   |      |                   |      |                   |
-            |   지식베이스      |<-----|   벡터 DB         |<-----|   임베딩 모델     |
-            |   (문서 관리)     |      |   (연관 검색)     |      |   (텍스트 변환)   |
-            |                   |      |                   |      |                   |
-            +-------------------+      +-------------------+      +-------------------+
+        ┌───────────────────────────────────────────────────────┐
+        │                    사용자 / 클라이언트                    │
+        └──────────┬────────────────────────────────────────────┘
+                   │  HTTP / WebSocket (REST API)
+                   ▼
+        ┌───────────────────────────────────────────────────────┐
+        │  ╔═══════════════ Dify API Gateway ═══════════════╗    │
+        │  ║  - 인증 / Rate Limit / 라우팅                   ║    │
+        │  ╚═══════════════┬════════════════════════════════╝    │
+        │                  ▼                                     │
+        │  ┌──────────────────────────────────────────┐         │
+        │  │         Orchestration Layer              │         │
+        │  │  (Workflow / Agent / RAG Pipeline)       │         │
+        │  └──────────┬──────────┬──────────┬─────────┘         │
+        │             │          │          │                    │
+        │             ▼          ▼          ▼                   │
+        │  ┌──────────┐ ┌─────────┐ ┌──────────────┐          │
+        │  │ LLM 호출 │ │ Vector  │ │ 도구 / 외부   │          │
+        │  │ (Chat/   │ │ Store   │ │ API 연동     │          │
+        │  │  Completion) │ (Qdrant,PG)│ (Serp, 계산기)│         │
+        │  └──────────┘ └─────────┘ └──────────────┘          │
+        │                  │                                   │
+        │                  ▼                                   │
+        │  ┌──────────────────────────────────────────┐         │
+        │  │      모니터링 / 로깅 / 비용 추적           │         │
+        │  └──────────────────────────────────────────┘         │
+        └───────────────────────────────────────────────────────┘
         </div>
-        <p><strong>주요 컴포넌트:</strong></p>
-        <ul>
-            <li><strong>백엔드 서비스</strong>: 워크플로우 실행, API 제공, 작업 큐 관리.</li>
-            <li><strong>워크플로우 엔진</strong>: 노드 기반 시각적 설계 도구. 각 노드는 LLM 호출, 데이터 처리, 조건 분기 등.</li>
-            <li><strong>지식베이스</strong>: 문서 업로드, 텍스트 분할, 임베딩, 벡터 저장 및 검색 관리.</li>
-            <li><strong>모델 연결</strong>: 다중 LLM 프로바이더 지원, API 키 관리, 호출 제한 설정.</li>
-        </ul>
+
+        <p>
+            <strong>핵심 컴포넌트:</strong> <code>App</code>(LLM 설정 + 프롬프트 템플릿), <code>Dataset</code>(문서/벡터 인덱스), 
+            <code>Workflow</code>(노드 그래프), <code>Agent</code>(도구 + 메모리 + 추론), <code>Log</code>(추적/비용).
+        </p>
     </section>
 
-    <section id="section4" class="section">
+    <!-- 4. 퀵스타트 -->
+    <section class="section" id="sec4">
         <h2>4. 퀵스타트</h2>
         <h3>4.1 설치 (Docker Compose)</h3>
-        <div class="code-block-title">CLI 명령어</div>
-        <pre>
-# 레포지토리 클론 및 설정
+        <pre><code># 최신 버전 클론
 git clone https://github.com/langgenius/dify.git
-cd dify
+cd dify/docker
+cp .env.example .env
+docker compose up -d</code></pre>
+        <p>실행 후 <code>http://localhost:8080</code> 접속 → 관리자 계정 생성.</p>
 
-# Docker Compose로 시작 (기본 구성)
-docker-compose up -d
+        <h3>4.2 첫 번째 RAG 애플리케이션</h3>
+        <p>1. <strong>데이터셋 생성:</strong> Settings → Datasets → "New Dataset" → 텍스트 파일 업로드.</p>
+        <p>2. <strong>앱 생성:</strong> Studio → "Create App" → 텍스트 생성 → 모델(gpt-4, claude 등) 선택.</p>
+        <p>3. <strong>RAG 연결:</strong> App 설정 → "Context" → 방금 만든 데이터셋 연결.</p>
 
-# 상태 확인
-docker-compose ps
-        </pre>
+        <h3>4.3 Python으로 API 호출 예제</h3>
+        <pre><code>import requests
 
-        <h3>4.2 초기 설정</h3>
-        <div class="code-block-title">Python 환경 설정 예제</div>
-        <pre>
-# Dify API 클라이언트 사용 예제 (외부 연동)
-import requests
+API_KEY = "app-xxxxxxxxxxxxxxxx"  # Dify App → API Access → 복사
+BASE_URL = "http://localhost:8080/v1"
 
-DIFY_API_URL = "http://localhost:5001/v1"
-API_KEY = "your-application-api-key"
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
 
-def call_dify_workflow(prompt):
-    headers = {"Authorization": f"Bearer {API_KEY}"}
-    data = {"inputs": {"question": prompt}}
-    response = requests.post(
-        f"{DIFY_API_URL}/workflows/run",
-        json=data,
-        headers=headers
-    )
-    return response.json()
+payload = {
+    "inputs": {},
+    "query": "회사의 휴가 정책은 무엇인가요?",
+    "response_mode": "blocking",
+    "user": "tester-001"
+}
 
-# 테스트 호출
-result = call_dify_workflow("RAG 시스템이란?")
-print(result)
-        </pre>
+resp = requests.post(f"{BASE_URL}/chat-messages", json=payload, headers=headers)
+print(resp.json()["answer"])</code></pre>
 
-        <h3>4.3 첫 예제: 지식베이스 생성 및 RAG 워크플로우</h3>
-        <p>Dify 웹 UI 접속 (localhost:3000) 후:</p>
-        <ol>
-            <li>새 애플리케이션 생성 → "Chatbot" 타입 선택.</li>
-            <li>"지식베이스" 탭에서 문서 업로드 (PDF, TXT).</li>
-            <li>워크플로우 편집기에서 "Question" → "Knowledge Base Retrieval" → "LLM" 노드 연결.</li>
-            <li>API 키 설정 (OpenAI 등) 및 배포.</li>
-        </ol>
+        <div class="callout warn">
+            <p><strong>⚠️ 주의</strong> — API Key는 앱별로 발급되며 <strong>절대</strong> 외부에 노출하지 마세요. 프로덕션에서는 <code>response_mode</code>를 <code>streaming</code>으로 설정하여 SSE로 처리하는 것이 좋습니다.</p>
+        </div>
     </section>
 
-    <section id="section5" class="section">
+    <!-- 5. 핵심 설정 레퍼런스 -->
+    <section class="section" id="sec5">
         <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>Dify의 주요 환경 변수 및 설정값입니다. <code>.env</code> 파일에서 수정 가능합니다.</p>
         <table>
             <thead>
                 <tr>
-                    <th>설정 항목</th>
-                    <th>경로/키</th>
-                    <th>설명 및 예시 값</th>
+                    <th>변수명</th>
+                    <th>설명</th>
+                    <th>기본값</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>LLM 프로바이더</td>
-                    <td>환경 변수 / UI</td>
-                    <td>OPENAI_API_KEY=sk-... , AZURE_OPENAI_ENDPOINT=https://...</td>
+                    <td><code>MODEL_PROVIDER_ENDPOINT</code></td>
+                    <td>LLM API 엔드포인트 (OpenAI, Anthropic 등)</td>
+                    <td>https://api.openai.com</td>
                 </tr>
                 <tr>
-                    <td>벡터 데이터베이스</td>
-                    <td>docker-compose.yml</td>
-                    <td>Qdrant, Weaviate, PostgreSQL (벡터 확장) 선택 및 연결 설정.</td>
+                    <td><code>VECTOR_STORE_TYPE</code></td>
+                    <td>벡터 DB 종류 (qdrant, weaviate, milvus, pgvector)</td>
+                    <td>qdrant</td>
                 </tr>
                 <tr>
-                    <td>워크플로우 실행 모드</td>
-                    <td>백엔드 설정</td>
-                    <td>sync (실시간), async (큐 기반 배치). 기본: sync.</td>
+                    <td><code>DATASET_MAX_TOKENS</code></td>
+                    <td>문서 청크당 최대 토큰 수</td>
+                    <td>1000</td>
                 </tr>
                 <tr>
-                    <td>로그 저장</td>
-                    <td>로그 출력 / 파일</td>
-                    <td>애플리케이션 실행 기록, 모델 호출, 사용자 입력 저장 위치.</td>
+                    <td><code>LOG_LEVEL</code></td>
+                    <td>로깅 레벨 (debug, info, warn, error)</td>
+                    <td>info</td>
                 </tr>
                 <tr>
-                    <td>API 호출 제한</td>
-                    <td>애플리케이션 설정</td>
-                    <td>토큰 제한, 요청 빈도, 사용자별 제한 설정 가능.</td>
+                    <td><code>SECRET_KEY</code></td>
+                    <td>암호화 및 세션 서명용 키</td>
+                    <td>(랜덤 생성)</td>
+                </tr>
+                <tr>
+                    <td><code>AGENT_MAX_ITERATIONS</code></td>
+                    <td>에이전트 최대 루프 횟수</td>
+                    <td>10</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
+    <!-- 6. 실무 팁 & 트러블슈팅 -->
+    <section class="section" id="sec6">
+        <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+
         <div class="callout warn">
-            <strong>자주 겪는 문제 1: 지식베이스 검색 결과 불량</strong>
-            <p><strong>원인:</strong> 텍스트 분할(Chunk) 크기 불적절, 임베딩 모델 불일치.</p>
-            <p><strong>해결:</strong> 분할 크기 조정 (500~1000자), 임베딩 모델 재선택 (예: text-embedding-3-small), 벡터 DB 인덱스 재생성.</p>
+            <p><strong>⚠️ 문제 1: LLM 응답이 느리거나 타임아웃</strong></p>
+            <p>→ <code>.env</code>에서 <code>LLM_TIMEOUT</code> 값을 늘리거나 (기본 60초), OpenAI의 <code>max_tokens</code>를 줄이세요. 스트리밍 모드 사용도 권장.</p>
         </div>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 문제 2: RAG 검색 결과가 부실함</strong></p>
+            <p>→ 청크 크기(<code>DATASET_MAX_TOKENS</code>)를 500~800으로 낮추고, 오버랩(<code>CHUNK_OVERLAP</code>)을 50~100으로 설정. 재순위화(Re-rank) 모델을 활성화하세요.</p>
+        </div>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 문제 3: 에이전트가 도구를 잘못 호출함</strong></p>
+            <p>→ 도구 설명(description)을 더 구체적으로 작성하고, <code>AGENT_MAX_ITERATIONS</code>를 5로 제한하여 사이클 방지. Function Calling 지원 모델(gpt-4, claude-3)을 사용하세요.</p>
+        </div>
+
         <div class="callout">
-            <strong>팁 1: 프로덕션 배포 시</strong>
-            <p>Docker Compose를 사용할 경우, 별도의 PostgreSQL, Redis를 외부로 연결하여 데이터 지속성 보장. 로깅을 ELK/Prometheus로 연동.</p>
-        </div>
-        <div class="callout warn">
-            <strong>자주 겪는 문제 2: 워크플로우 실행 지연</strong>
-            <p><strong>원인:</strong> LLM 호출 시간 초과, 큐 누적.</p>
-            <p><strong>해결:</strong> 모델 호출 Timeout 설정 증가 (기본 30초 → 120초), async 모드 사용 및 worker 수 증가.</p>
-        </div>
-        <div class="callout">
-            <strong>팁 2: 모델 비용 관리</strong>
-            <p>Dify 로그에서 모델 호출 횟수 및 토큰 사용량 집계 가능. 별도 모니터링 스크립트로 비용 알림 설정.</p>
-        </div>
-        <div class="callout warn">
-            <strong>자주 겪는 문제 3: 다중 모델 전환 시 오류</strong>
-            <p><strong>원인:</strong> 프로바이더 API 형식 차이 (예: OpenAI vs Azure OpenAI).</p>
-            <p><strong>해결:</strong> 모델 설정 시 Endpoint, API Version, Deployment Name 명확히 지정. Dify 모델 구성 UI에서 필드 확인.</p>
+            <p><strong>💡 팁</strong> — 프로덕션 배포 시 <strong>PostgreSQL</strong> + <strong>Qdrant</strong> 조합을 권장. Redis는 세션/캐싱용으로 필수. <strong>Kubernetes</strong> 위에 Helm chart로 배포 가능 (공식 차트 제공).</p>
         </div>
     </section>
 
-    <section id="section7" class="section">
+    <!-- 7. 참고 자료 -->
+    <section class="section" id="sec7">
         <h2>7. 참고 자료</h2>
-        <ul>
-            <li><a href="https://docs.dify.ai/">Dify 공식 문서 (한국어)</a> - 설치, 사용 가이드, API 레퍼런스.</li>
-            <li><a href="https://github.com/langgenius/dify">Dify GitHub 레포지토리</a> - 소스 코드, 이슈, 커뮤니티.</li>
-            <li><a href="https://blog.dify.ai/">Dify 블로그</a> - 업데이트, 사례 연구.</li>
-            <li><strong>추천 학습 경로:</strong> 공식 문서 → Docker 설치 → 지식베이스 튜토리얼 → 워크플로우 빌드 → API 연동.</li>
+        <ul style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 0.5rem;">📄 <a href="https://docs.dify.ai" target="_blank">Dify 공식 문서</a> — 설치, API, 튜토리얼</li>
+            <li style="margin-bottom: 0.5rem;">🐙 <a href="https://github.com/langgenius/dify" target="_blank">GitHub Repository</a> — 소스 코드, 릴리즈 노트</li>
+            <li style="margin-bottom: 0.5rem;">🧪 <a href="https://github.com/langgenius/dify-sdk-python" target="_blank">Python SDK</a> — 공식 Python 클라이언트</li>
+            <li style="margin-bottom: 0.5rem;">📘 <a href="https://dify.ai/blog" target="_blank">Dify 블로그</a> — 사례 연구, 모범 사례</li>
+            <li style="margin-bottom: 0.5rem;">🎥 <a href="https://www.youtube.com/@difyai" target="_blank">YouTube 채널</a> — 워크숍, 데모</li>
         </ul>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p>본 가이드는 AI/MLOps 엔지니어의 실무 적용을 위해 Dify의 핵심 기능과 접근법을 요약했습니다.</p>
-        <p>지속적인 업데이트를 위해 공식 문서와 GitHub 릴리즈를 참고하세요.</p>
-        <p>© 2026.03 - 실무 스터디 가이드</p>
+        <p>작성: 2026.03 &nbsp;|&nbsp; Dify 실무 스터디 가이드</p>
+        <div class="tags">
+            <span>llm-platform</span>
+            <span>rag</span>
+            <span>agent</span>
+            <span>mlops</span>
+            <span>ai-engineering</span>
+        </div>
     </footer>
+
 </body>
 </html>

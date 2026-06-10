@@ -730,3 +730,9 @@
   tags: ["zero-trust", "ztna", "sase"]
   date: "2026-06-09"
   url: "/study-guides/zscaler-study-guide.html"
+- keyword: "Dify"
+  slug: "dify"
+  category: "ai-ml"
+  tags: ["llm-platform", "rag", "agent"]
+  date: "2026-06-10"
+  url: "/study-guides/dify-study-guide.html"
