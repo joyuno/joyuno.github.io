@@ -742,3 +742,9 @@
   tags: ["siem", "azure", "cloud-native"]
   date: "2026-06-10"
   url: "/study-guides/microsoft-sentinel-study-guide.html"
+- keyword: "Terraform"
+  slug: "terraform"
+  category: "infra"
+  tags: ["iac", "multi-cloud", "provisioning"]
+  date: "2026-06-11"
+  url: "/study-guides/terraform-study-guide.html"
