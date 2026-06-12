@@ -754,3 +754,9 @@
   tags: ["container-security", "cwpp", "runtime"]
   date: "2026-06-11"
   url: "/study-guides/aqua-security-study-guide.html"
+- keyword: "GitHub Actions"
+  slug: "github-actions"
+  category: "infra"
+  tags: ["ci-cd", "automation", "devops"]
+  date: "2026-06-13"
+  url: "/study-guides/github-actions-study-guide.html"
