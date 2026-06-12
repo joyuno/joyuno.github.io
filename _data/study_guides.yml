@@ -760,3 +760,9 @@
   tags: ["ci-cd", "automation", "devops"]
   date: "2026-06-13"
   url: "/study-guides/github-actions-study-guide.html"
+- keyword: "SQLMap"
+  slug: "sqlmap"
+  category: "security"
+  tags: ["sql-injection", "automation", "pentest"]
+  date: "2026-06-12"
+  url: "/study-guides/sqlmap-study-guide.html"
