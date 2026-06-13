@@ -766,3 +766,9 @@
   tags: ["sql-injection", "automation", "pentest"]
   date: "2026-06-12"
   url: "/study-guides/sqlmap-study-guide.html"
+- keyword: "Wireshark"
+  slug: "wireshark"
+  category: "security"
+  tags: ["packet-analysis", "network", "forensics"]
+  date: "2026-06-13"
+  url: "/study-guides/wireshark-study-guide.html"
