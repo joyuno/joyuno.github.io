@@ -760,3 +760,9 @@
   tags: ["ci-cd", "automation", "devops"]
   date: "2026-06-13"
   url: "/study-guides/github-actions-study-guide.html"
+- keyword: "ArgoCD"
+  slug: "argocd"
+  category: "infra"
+  tags: ["gitops", "k8s", "cd"]
+  date: "2026-06-14"
+  url: "/study-guides/argocd-study-guide.html"
