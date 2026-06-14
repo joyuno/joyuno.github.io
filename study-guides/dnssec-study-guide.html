@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNSSEC 실무 스터디 가이드 | AI 정보보안 엔지니어를 위한 핵심 요약</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #d2a8ff;
+            --accent4: #f0883e;
+            --danger: #f85149;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .hero {
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .meta-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: var(--surface2);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .toc ol {
+            list-style-type: none;
+            counter-reset: toc-counter;
+            padding-left: 0;
+        }
+        .toc li {
+            counter-increment: toc-counter;
+            margin-bottom: 0.7rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        .toc li:before {
+            content: counter(toc-counter) ". ";
+            position: absolute;
+            left: 0;
+            color: var(--accent2);
+            font-weight: bold;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .concept-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .concept-card h3 {
+            color: var(--accent2);
+            margin-bottom: 0.8rem;
+        }
+        .callout {
+            background-color: var(--surface2);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--danger);
+        }
+        .diagram {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: pre;
+            color: var(--accent3);
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--surface);
+        }
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        table th {
+            background-color: var(--surface2);
+            color: var(--accent);
+        }
+        table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.03);
+        }
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background-color: var(--surface2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        pre {
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            white-space: pre-wrap;
+        }
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        a {
+            color: var(--accent);
+        }
+        .step {
+            margin-bottom: 2rem;
+        }
+        .step h4 {
+            color: var(--accent4);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>DNSSEC 실무 스터디 가이드</h1>
+        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
+        <div class="meta-badges">
+            <span class="badge">DNS-Security</span>
+            <span class="badge">Authentication</span>
+            <span class="badge">Protocol</span>
+            <span class="badge">2026.03 작성</span>
+        </div>
+    </section>
+
+    <nav class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#section1">DNSSEC란?</a></li>
+            <li><a href="#section2">왜 써야 하는가?</a></li>
+            <li><a href="#section3">핵심 개념</a></li>
+            <li><a href="#section4">퀵스타트</a></li>
+            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section7">참고 자료</a></li>
+        </ol>
+    </nav>
+
+    <section id="section1" class="section">
+        <h2>1. DNSSEC란?</h2>
+        <p>DNSSEC(Domain Name System Security Extensions)는 DNS 응답의 무결성과 인증을 제공하는 보안 프로토콜 확장입니다. 전통적인 DNS는 스푸핑, 캐시 포이즈닝 등 중간자 공격에 취약했으나, DNSSEC은 디지털 서명을 통해 응답의 진위를 검증할 수 있게 합니다.</p>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h3>데이터 무결성</h3>
+                <p>DNS 레코드가 전송 중 변조되지 않았음을 보장합니다. RRSIG(Resource Record Signature) 레코드를 통해 검증됩니다.</p>
+            </div>
+            <div class="concept-card">
+                <h3>데이터 출처 인증</h3>
+                <p>응답이 실제 권한 있는 네임서버에서 왔음을 증명합니다. DNSKEY와 DS(Delegation Signer) 레코드 체인을 통해 구현됩니다.</p>
+            </div>
+            <div class="concept-card">
+                <h3>재생 공격 방지</h3>
+                <p>서명된 레코드에 포함된 만료 시간(Inception/Expiration)을 통해 오래된 응답의 재사용을 차단합니다.</p>
+            </div>
+        </div>
+        <div class="callout">
+            <strong>핵심:</strong> DNSSEC은 암호화(기밀성)를 제공하지 않습니다. 오직 인증과 무결성만을 담보합니다.
+        </div>
+    </section>
+
+    <section id="section2" class="section">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>기존 DNS 대비 DNSSEC의 보안적 가치와 운영상 고려사항을 비교합니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>항목</th>
+                    <th>전통적 DNS</th>
+                    <th>DNSSEC</th>
+                    <th>실무적 영향</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>응답 인증</td>
+                    <td>없음 (UDP 스푸핑 가능)</td>
+                    <td><strong>강력한 공개키 기반 인증</strong></td>
+                    <td>피싱/스푸핑 공격 차단</td>
+                </tr>
+                <tr>
+                    <td>데이터 무결성</td>
+                    <td>보장되지 않음</td>
+                    <td><strong>디지털 서명으로 보장</strong></td>
+                    <td>캐시 포이즈닝 방지</td>
+                </tr>
+                <tr>
+                    <td>성능 오버헤드</td>
+                    <td>낮음</td>
+                    <td>중간 (서명 검증, 추가 레코드)</td>
+                    <td>리졸버 CPU 사용량 증가</td>
+                </tr>
+                <tr>
+                    <td>설정 복잡도</td>
+                    <td>단순</td>
+                    <td><strong>고도화 (키 관리, 롤오버)</strong></td>
+                    <td>자동화 도구 필요 (e.g., OpenDNSSEC)</td>
+                </tr>
+                <tr>
+                    <td>호환성</td>
+                    <td>범용</td>
+                    <td>리졸버/서버 지원 필요</td>
+                    <td>구형 장비에서 문제 가능</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="section3" class="section">
+        <h2>3. 핵심 개념</h2>
+        <p>DNSSEC의 동작을 이해하기 위한 키 레코드와 아키텍처 흐름입니다.</p>
+        <div class="diagram">
+Client (Stub Resolver)
+        |
+        v
+Recursive Resolver (with DNSSEC Validation)
+        |
+        |--- Query: example.com A
+        |--- RD=1, DO=1 (DNSSEC OK bit set)
+        |
+        v
+Root Server
+        |
+        |--- Respond with .com NS + DS (Delegation Signer)
+        |--- RRSIG for DS (signed by Root KSK)
+        |
+        v
+.com TLD Server
+        |
+        |--- Respond with example.com NS + DS
+        |--- RRSIG for DS (signed by .com KSK)
+        |
+        v
+example.com Authoritative Server
+        |
+        |--- Respond with:
+        |     * A record (192.0.2.1)
+        |     * RRSIG for A (signed by ZSK)
+        |     * DNSKEY (ZSK public key)
+        |     * RRSIG for DNSKEY (signed by KSK)
+        |
+        v
+Resolver Validation Chain:
+1. Fetch DNSKEY (ZSK) from answer.
+2. Use ZSK to verify RRSIG of A record.
+3. Fetch parent's DS hash of child's KSK.
+4. Verify KSK's hash matches DS.
+5. Chain up to Root Trust Anchor.
+        </div>
+        <ul>
+            <li><strong>KSK (Key Signing Key)</strong>: ZSK를 서명하는 장기간 마스터 키. DS 레코드로 부모 도메인에 등록.</li>
+            <li><strong>ZSK (Zone Signing Key)</strong>: 실제 RRset(A, MX 등)을 서명하는 단기 운영 키.</li>
+            <li><strong>DS (Delegation Signer)</strong>: 자식 영역의 KSK 공개키 해시를 부모 영역에 등록하는 레코드. 신뢰 체인 형성.</li>
+            <li><strong>RRSIG (Resource Record Signature)</strong>: RRset에 대한 디지털 서명 레코드.</li>
+            <li><strong>Trust Anchor</strong>: 검증의 시작점 (일반적으로 Root KSK). 리졸버에 하드코딩 또는 RFC 5011로 업데이트.</li>
+        </ul>
+    </section>
+
+    <section id="section4" class="section">
+        <h2>4. 퀵스타트 (BIND9 기반)</h2>
+        <div class="step">
+            <h4>Step 1: BIND9 설치 및 기본 영역 생성</h4>
+            <pre># Ubuntu/Debian
+sudo apt update
+sudo apt install bind9 bind9utils dnsutils -y
+
+# /etc/bind/named.conf.local 에 영역 추가
+zone "lab.example" {
+    type master;
+    file "/etc/bind/db.lab.example";
+    allow-transfer { none; };
+    allow-query { any; };
+    <strong>dnssec-policy default;</strong>  # BIND 9.16+ DNSSEC 자동 정책
+};</pre>
+        </div>
+        <div class="step">
+            <h4>Step 2: 영역 파일 작성 및 서명</h4>
+            <pre># /etc/bind/db.lab.example
+$TTL 3600
+@ IN SOA ns1.lab.example. admin.lab.example. (
+    2026030101 ; Serial
+    7200       ; Refresh
+    3600       ; Retry
+    1209600    ; Expire
+    3600 )     ; Negative TTL
+
+@        IN NS   ns1.lab.example.
+ns1      IN A    10.0.1.10
+www      IN A    10.0.1.100
+api      IN A    10.0.1.101
+_dmarc   IN TXT  "v=DMARC1; p=none;"
+
+# 키 생성 및 영역 서명 (수동 방식 예시)
+sudo dnssec-keygen -a RSASHA256 -b 2048 -n ZONE lab.example  # ZSK 생성
+sudo dnssec-keygen -a RSASHA256 -b 2048 -f KSK -n ZONE lab.example  # KSK 생성
+sudo dnssec-signzone -S -z -o lab.example -N INCREMENT /etc/bind/db.lab.example</pre>
+        </div>
+        <div class="step">
+            <h4>Step 3: 리졸버 검증 테스트 (Python 예제)</h4>
+            <pre>import dns.resolver
+import dns.dnssec
+import dns.message
+import dns.query
+
+def validate_dnssec(domain, rdtype='A'):
+    resolver = dns.resolver.Resolver()
+    resolver.use_edns(0, 0, flags=dns.flags.DO)  # DNSSEC OK bit 설정
+
+    try:
+        answer = resolver.resolve(domain, rdtype, raise_on_no_answer=False)
+        print(f"[*] Query: {domain} {rdtype}")
+        print(f"[*] Response: {answer.rrset}")
+
+        # AD (Authentic Data) 플래그 확인
+        if answer.response.flags & dns.flags.AD:
+            print("[+] DNSSEC 검증 성공 (AD flag set)")
+        else:
+            print("[-] DNSSEC 검증 실패 또는 미서명 영역")
+            # 실제 검증 로직은 dns.dnssec.validate()로 구현 가능
+
+    except dns.resolver.NXDOMAIN:
+        print("[-] NXDOMAIN")
+    except Exception as e:
+        print(f"[!] 오류: {e}")
+
+if __name__ == "__main__":
+    validate_dnssec("www.lab.example")</pre>
+        </div>
+        <div class="step">
+            <h4>Step 4: CLI 검증 명령어</h4>
+            <pre># dig로 DNSSEC 응답 확인
+dig +dnssec www.lab.example A
+
+# 응답에 'ad' 플래그와 RRSIG, DNSKEY 레코드 확인
+# ad flag 존재 시 검증 성공
+
+# DNSKEY 레코드 확인
+dig DNSKEY lab.example +multiline
+
+# 특정 레코드의 RRSIG 확인
+dig RRSIG www.lab.example A +multiline
+
+# 트러블슈팅: +cd 플래그로 검증 비활성화
+dig +cd +dnssec www.lab.example</pre>
+        </div>
+    </section>
+
+    <section id="section5" class="section">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>설정 항목</th>
+                    <th>권장값/예시</th>
+                    <th>목적</th>
+                    <th>BIND9 지시어</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>DNSSEC 정책</td>
+                    <td>default / signed</td>
+                    <td>영역 자동 서명 정책</td>
+                    <td>dnssec-policy default;</td>
+                </tr>
+                <tr>
+                    <td>키 알고리즘</td>
+                    <td>ECDSAP256SHA256 / RSASHA256</td>
+                    <td>서명 알고리즘 (ECDSA 권장)</td>
+                    <td>dnssec-keygen -a ECDSAP256SHA256</td>
+                </tr>
+                <tr>
+                    <td>KSK 크기</td>
+                    <td>2048 bit (RSA) / 256 bit (ECDSA)</td>
+                    <td>장기 신뢰 앵커</td>
+                    <td>-b 2048 -f KSK</td>
+                </tr>
+                <tr>
+                    <td>ZSK 크기</td>
+                    <td>1024 bit (RSA) / 256 bit (ECDSA)</td>
+                    <td>운영 서명 효율성</td>
+                    <td>-b 1024</td>
+                </tr>
+                <tr>
+                    <td>서명 유효기간</td>
+                    <td>30일 (ZSK) / 1년 (KSK)</td>
+                    <td>키 롤오버 주기</td>
+                    <td>dnssec-policy에서 설정</td>
+                </tr>
+                <tr>
+                    <td>NSEC/NSEC3</td>
+                    <td>NSEC3 (솔트 추가)</td>
+                    <td>영역 워킹 방지</td>
+                    <td>dnssec-policy에서 ns3...</td>
+                </tr>
+                <tr>
+                    <td>리졸버 검증</td>
+                    <td>yes;</td>
+                    <td>재귀 리졸버 검증 활성화</td>
+                    <td>options { dnssec-validation yes; };</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="section6" class="section">
+        <h2>6. 실무 팁 & 트러블슈팅</h2>
+        <div class="callout warn">
+            <strong>주의:</strong> 키 롤오버는 사전 계획과 테스트 없이 수행 시 도메인 해결 불가를 초래할 수 있습니다.
+        </div>
+        <h3>자주 겪는 문제</h3>
+        <ul>
+            <li><strong>SERVFAIL (DNSSEC 검증 실패):</strong>
+                <ul>
+                    <li>원인: 부모 DS 레코드와 자식 DNSKEY 불일치, 서명 만료, 신뢰 앵커 문제.</li>
+                    <li>해결: <code>dig +cd</code>로 검증 비활성화 시 응답 확인. <code>delv</code> 도구로 상세 검증 경로 추적.</li>
+                </ul>
+            </li>
+            <li><strong>부모 등록기관에 DS 전파 지연:</strong>
+                <li>원인: DS 레코드 제출 후 TTL 및 캐시로 인한 지연 (최대 48시간).</li>
+                <li>해결: 롤오버 시 새 키 활성화 전 미리 DS를 제출하고 이전 키를 유지하는 Pre-Publish 방식 사용.</li>
+            </li>
+            <li><strong>EDNS0 버퍼 크기 문제:</strong>
+                <li>원인: DNSSEC 응답은 크기가 커서 전통적인 512바이트 UDP 응답 초과.</li>
+                <li>해결: 리졸버와 파이어월이 EDNS0(Extension Mechanisms for DNS) 및 큰 UDP 패킷을 허용하는지 확인.</li>
+            </li>
+            <li><strong>Python dnspython으로 AD 플래그 확인 불가:</strong>
+                <li>원인: 대부분의 스텁 리졸버는 AD 플래그를 지우거나 전달하지 않음.</li>
+                <li>해결: 재귀 리졸버(예: 8.8.8.8)에 직접 질의하거나, <code>dns.dnssec.validate()</code>를 사용해 직접 검증 로직 구현.</li>
+            </li>
+        </ul>
+        <h3>모니터링 명령어</h3>
+        <pre># BIND9 DNSSEC 통계 확인
+sudo rndc stats
+cat /var/log/named/stats | grep -A 20 "DNSSEC"
+
+# 서명 상태 확인
+sudo rndc signing -list lab.example
+
+# 키 롤오버 상태 확인
+sudo rndc dnssec -status lab.example</pre>
+    </section>
+
+    <section id="section7" class="section">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://www.ietf.org/rfc/rfc4033.txt" target="_blank">RFC 4033 - DNSSEC Introduction and Requirements</a></li>
+            <li><a href="https://www.ietf.org/rfc/rfc4034.txt" target="_blank">RFC 4034 - Resource Records for DNSSEC</a></li>
+            <li><a href="https://www.ietf.org/rfc/rfc4035.txt" target="_blank">RFC 4035 - Protocol Modifications for DNSSEC</a></li>
+            <li><a href="https://www.isc.org/bind/" target="_blank">ISC BIND9 공식 문서</a></li>
+            <li><a href="https://www.dnssec-tools.org/" target="_blank">DNSSEC Tools & Utilities</a></li>
+            <li><a href="https://www.cloudflare.com/dns/dnssec/how-dnssec-works/" target="_blank">Cloudflare DNSSEC 실무 가이드</a></li>
+            <li><a href="https://www.verisign.com/en_US/security-services/dns-security/dnssec/index.xhtml" target="_blank">Verisign DNSSEC 키 롤오버 절차</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2026 DNSSEC 실무 스터디 가이드 | AI 정보보안 엔지니어 커뮤니티</p>
+        <p>본 문서는 교육 및 실무 참고를 목적으로 작성되었습니다. 최신 공식 문서를 항상 참조하십시오.</p>
+        <p>문서 작성일: 2026년 3월</p>
+    </footer>
+</body>
+</html>
