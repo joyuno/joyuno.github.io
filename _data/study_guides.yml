@@ -778,3 +778,9 @@
   tags: ["dns-security", "authentication", "protocol"]
   date: "2026-06-14"
   url: "/study-guides/dnssec-study-guide.html"
+- keyword: "Prometheus + Grafana"
+  slug: "prometheus-grafana"
+  category: "infra"
+  tags: ["monitoring", "metrics", "visualization"]
+  date: "2026-06-15"
+  url: "/study-guides/prometheus-grafana-study-guide.html"
