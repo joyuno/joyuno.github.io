@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-ai-agent-tool-use-function-callin-2/
+description: "OpenAI는 Responses API를 에이전트의 기본 프리미티브로 제시하며(웹 search/file search/computer use 등 내장 도구 결합), Assistants API는 중장기적으로 정리 방향을 시사했습니다. (openai.com) 2026년 4월 15일…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 들어 “에이전트가 일을 끝낸다”는 말은 더 이상 데모용 슬로건이 아닙니다. 실제 프로덕션에서는 **(1) 도구 호출이 흔들리지 않아야 하고, (2) 장기 실행·병렬 처리·격리 실행이 가능해야 하며, (3) Prompt Injection과 과도한 권한 문제를 제어**해야 합니다.  
 이 흐름에서 중요한 변화가 두 가지입니다.

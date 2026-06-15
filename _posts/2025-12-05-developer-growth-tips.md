@@ -7,17 +7,8 @@ categories: [Career, Growth]
 tags: [career, developer, growth, tips]
 
 source: https://daewooki.github.io/posts/developer-growth-tips/
+description: "개발자로 10년 가까이 일하면서 느낀 점들을 정리해봅니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 
 개발자로 10년 가까이 일하면서 느낀 점들을 정리해봅니다.

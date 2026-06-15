@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-oidc-2/
+description: "그래서 2025년에 “잘 만든” Actions 파이프라인은 보통 아래 3가지를 중심으로 설계합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년의 CI/CD는 “돌아가기만 하면 된다”를 넘어 **속도(개발 리드타임)**, **안정성(배포 충돌/롤백)**, **보안(공급망/토큰 유출)**을 동시에 만족해야 합니다. GitHub Actions는 저장소 이벤트와 코드(Workflow YAML)가 결합된 형태라 진입장벽이 낮지만, 규모가 커질수록 YAML이 중복되고(팀/서비스별 파편화), 병렬 실행으로 리소스가 낭비되며, 토큰/시크릿 관리가 복잡해집니다.
 

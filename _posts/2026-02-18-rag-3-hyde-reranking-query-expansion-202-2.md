@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/rag-3-hyde-reranking-query-expansion-202-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG 성능이 “모델이 약해서” 무너지는 경우는 생각보다 드뭅니다. 실무에서 더 자주 터지는 병목은 **Retrieval 단계의 실패(낮은 recall / 낮은 precision)** 입니다. 짧고 모호한 사용자 질문은 코퍼스의 표현과 어긋나기 쉽고(용어 불일치), 벡터 검색은 “그럴듯한 근접”을 쉽게 만들어 **가짜 근거**를 컨텍스트로 끌고 들어옵니다.  
 그래서 2024~2026 사이 RAG 고급 최적화에서 자주 묶여 나오는 조합이 **HyDE(semantic gap 보정) + Query Expansion(recall 확장) + Reranking(precision 회복)** 입니다. HyDE는 “질문을 문서처럼 바꿔 임베딩한다”는 발상으로 zero-shot dense retrieval을 강화했고, Query Expansion은 underspecified query를 보강하며, Reranking은 최종 컨텍스트의 질을 책임집니다. ([arxiv.org](https://arxiv.org/abs/2212.10496?utm_source=openai))

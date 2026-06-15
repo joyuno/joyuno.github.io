@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/db-4pineconeweaviateqdrantchroma-2026-3-2/
+description: "그런데 “어느 DB가 제일 빠르냐” 류의 질문은 대개 함정입니다. 벤더/커뮤니티 벤치마크는 각자의 스윗스팟(순수 ANN, hybrid, 필터링, 운영 편의성)을 과장하기 쉽고, 실제 병목은 필터 선택도, 인덱스 파라미터, 메모리 상주율, 동시성, 네트워크에서 갈립니다. Qdrant가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG/Agent 시스템이 “잘 답하는지”는 모델보다 **retrieval layer**(검색/필터/정렬)의 품질과 지연시간에 더 자주 발목 잡힙니다. 특히 2026년 현재는 임베딩 차원이 768~1536으로 커지고(예: 1536d), 메타데이터 필터(tenant, ACL, time range)와 hybrid search(BM25+vector), rerank까지 붙으면서 **벡터DB 선택이 곧 아키텍처 선택**이 됐습니다.
 

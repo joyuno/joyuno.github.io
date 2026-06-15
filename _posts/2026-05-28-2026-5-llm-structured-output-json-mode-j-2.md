@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-llm-structured-output-json-mode-j-2/
+description: "JSON mode: “유효한 JSON”까지만 보장 Structured Outputs (schema 강제 / strict): “내가 준 JSON Schema에 맞는 JSON”을 디코딩 단계에서 강제 Function calling(tool use): 모델이 “행동(도구 호출)”을…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 서비스에 붙일 때 JSON은 “있으면 좋은 출력 형식”이 아니라 **시스템 경계(contract)** 입니다. 한 번이라도 `"` 하나 빠진 출력, enum 오타, 필드 누락이 발생하면 파이프라인 전체가 연쇄적으로 깨지죠. 그래서 2026년에는 대부분의 팀이 아래 중 하나로 수렴합니다.
 

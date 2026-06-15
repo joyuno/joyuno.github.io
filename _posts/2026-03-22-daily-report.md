@@ -4,6 +4,7 @@ title: "2026-03-22 개발 작업 리포트"
 date: 2026-03-22 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(portfolio): NH투자증권 자소서 기반 1분 자기소개 생성 → NH투자증권_1분_자기소개.md 파일 추가"
 ---
 
 # 🤖 Claude CLI 작업 리포트

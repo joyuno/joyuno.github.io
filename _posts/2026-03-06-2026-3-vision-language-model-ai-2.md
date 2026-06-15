@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-vision-language-model-ai-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 제품/서비스에서 “이미지”는 더 이상 부가 입력이 아닙니다. 고객센터에 올라오는 스크린샷, 물류/제조 현장의 사진, 문서 스캔(PDF), 앱 UI 캡처, 보안 카메라 프레임까지… **업무 데이터의 상당수가 시각 정보**로 들어옵니다. 그런데 전통적인 CV 파이프라인(Detection→OCR→Rule-based postprocess)은 “조합 비용”이 너무 큽니다.  
 여기서 Vision-Language Model(VLM, 혹은 MLLM)이 강력한 이유는 **이미지 이해 + 언어적 추론 + 구조화 출력(JSON)**을 한 번에 엮어, “특정 도메인 문제”를 빠르게 제품화할 수 있기 때문입니다. OpenAI/Claude/Gemini 계열은 모두 이미지 입력을 지원하며, 특히 Gemini는 object detection/segmentation까지 API 레벨에서 가이드가 정리돼 있어 “툴 없이도” 일정 수준까지 갑니다. ([platform.openai.com](https://platform.openai.com/docs/guides/images-vision?utm_source=openai))

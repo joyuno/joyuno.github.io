@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/1m-2026-llm-long-context-compaction-lost-2/
+description: "언제 쓰면 좋나 장시간 실행되는 coding agent / ops agent처럼 툴 출력, 로그, diff, 에러 트레이스가 누적되는 워크로드 “이전 결정을 보존하면서 다음 스텝을 계속”해야 하는 multi-turn(요구사항, 제약, 결정사항 유지) RAG를 쓰더라도, “검색 결과 +…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM long context window가 커질수록 “이제 RAG 없이 문서/대화/에이전트 히스토리를 통째로 넣어도 되겠지?”라는 유혹이 생깁니다. 그런데 2026년 5월 기준 실무 결론은 정반대입니다. **긴 컨텍스트는 ‘저장 용량’이 아니라 ‘주의력(attention) 예산’ 문제**라서, 윈도우가 커져도 **signal dilution + lost in the middle**로 성능이 떨어집니다. Morph의 정리처럼 입력 길이가 늘면(윈도우를 다 채우지 않아도) 신뢰도가 감소하고, 관련 정보가 중간에 있으면 정확도가 크게 빠집니다. ([morphllm.com](https://www.morphllm.com/context-compression))
 

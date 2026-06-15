@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-aiunderstandinggeneration-2/
+description: "Video Understanding(이해): “이 영상에서 무슨 일이 일어났는가?”를 검색/요약/하이라이트/정합성 검증까지 프로덕션 워크플로우에 붙이는 기술 Video Generation(생성): “이런 장면을 만들어라”를 넘어, 길이/일관성/오디오/비용이 의사결정 포인트가 된 기술"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 기준, 비디오 AI는 크게 두 축으로 갈립니다.
 

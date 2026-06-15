@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/langgraph-vs-autogen-vs-crewai-2026-3-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 기준, “AI Agent”는 더 이상 단일 LLM 호출을 예쁘게 포장하는 수준이 아닙니다. 운영 환경에서 진짜 문제가 되는 지점은 **(1) 멀티 에이전트 협업**이 커질수록 폭증하는 context/token 비용, **(2) 장시간 실행/중단/재개**, **(3) 실패 복구 및 관찰 가능성(observability)**입니다.  
 이때 팀이 선택할 수 있는 대표 프레임워크가 LangGraph(상태ful graph), Microsoft AutoGen(대화 기반 팀), CrewAI(역할 기반 crew)로 정리됩니다. 특히 LangGraph는 **checkpoint/time travel**을 전면에 두고, AutoGen은 **termination condition**으로 무한 루프를 제어하며, CrewAI는 **Flows + MCP/A2A** 같은 “프로덕션 통합” 쪽을 빠르게 끌어올리고 있습니다. ([letsdatascience.com](https://www.letsdatascience.com/blog/ai-agent-frameworks-compared?utm_source=openai))

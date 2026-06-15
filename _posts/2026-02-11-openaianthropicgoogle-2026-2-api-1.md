@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/openaianthropicgoogle-2026-2-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 들어 OpenAI는 코딩 특화 신모델을 내놓는 동시에(2/5) 레거시 모델 정리 일정을 못 박았고(2/13~2/16), Google은 Gemini API에서 모델 디프리케이션 타임라인을 명확히 하며(“Earliest February 2026”) 교체를 유도하고 있습니다. Anthropic은 초장문 컨텍스트(1M tokens)와 에이전트 협업 기능을 전면에 내세우는 한편, 1월부터 적용되는 개인정보정책 변경을 공지했습니다.
 

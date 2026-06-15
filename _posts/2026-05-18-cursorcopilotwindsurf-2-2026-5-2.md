@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurf-2-2026-5-2/
+description: "언제 쓰면 좋나 멀티파일 변경이 잦은 작업: 리팩터링, 기능 추가, 에러 전파(타입 변경), 마이그레이션, 테스트 보강 “문서→구현→검증” 루프가 반복되는 작업: API 계약 변경, 보안/인증 흐름 수정, 장애 대응 핫픽스 레포에 팀 규칙을 강제하고 싶은 경우:…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 AI 코딩 어시스턴트가 해결하는 진짜 문제는 “코드를 대신 타이핑”이 아니라 **컨텍스트 스위칭 비용(검색/리뷰/수정/재수정)과 멀티파일 작업의 조율 비용**입니다. 2026년 5월 기준으로 Cursor / GitHub Copilot / Windsurf는 모두 “agentic” 워크플로우(계획→수정→검증→반복)를 제공하지만, **프로젝트에 적용되는 방식(컨텍스트 주입, 도구 호출, 되돌리기, 안전장치)**가 달라서 결과 편차가 큽니다. ([docs.windsurf.com](https://docs.windsurf.com/plugins/cascade/planning-mode?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/chain-of-thought-2026-2/
+description: "결론적으로 “CoT를 쓰냐 마냐”가 아니라, 프롬프트 최적화 관점에서 CoT를 어떻게 ‘제어 가능한 컴포넌트’로 만들 것인가가 핵심이 됐습니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Chain of Thought(CoT)는 한때 “Think step-by-step” 한 줄로 성능을 끌어올리는 마법처럼 보였습니다. 하지만 2026년 1월 시점의 실무는 조금 다릅니다. (1) CoT는 정확도를 올리기도 하지만 토큰/지연시간/비용을 폭증시키고, (2) 모델이 만든 reasoning이 항상 정답 근거와 “faithful”하게 정렬되지 않으며, (3) 최근 Reasoning model 계열은 내부 추론을 노출하지 않거나 요약만 제공하는 방향으로 제품화되고 있습니다. OpenAI는 raw reasoning tokens를 그대로 노출하지 않고 `summary`로 reasoning summary를 선택적으로 제공하는 흐름을 공식 문서에 명시합니다. ([platform.openai.com](https://platform.openai.com/docs/guides/reasoning/use-case-examples?utm_source=openai))
 

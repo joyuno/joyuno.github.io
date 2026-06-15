@@ -7,18 +7,8 @@ categories: [AI, Prototyping]
 tags: [ai, prototyping, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/nextjs-vercel-ai-sdk-fullstack-ai-2026-5-2/
+description: "streaming을 붙였는데 운영에서 버퍼링처럼 한 번에 몰아서 나오거나, tool calling을 넣었더니 호출이 느려지고(연쇄 호출), 비용이 튀거나, “agent”를 만들려다 오케스트레이션/관측/중단 조건이 부실해서 장애가 나는 경우입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 기준으로 Next.js에서 AI 기능을 붙일 때 가장 흔한 실패는 “데모는 되는데, 제품은 안 되는” 지점에서 터집니다. 구체적으로는:
 

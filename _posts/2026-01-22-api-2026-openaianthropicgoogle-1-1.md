@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/api-2026-openaianthropicgoogle-1-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월, OpenAI·Anthropic·Google은 나란히 **모델/API 수명주기 관리**, **콘솔/플랫폼 재정비**, **정책(privacy/usage) 명문화**를 강화했습니다. 겉으로는 “업데이트”지만, 실제로는 개발팀의 **마이그레이션 비용과 컴플라이언스 요구사항**을 한 단계 끌어올린 달이었습니다. ([platform.openai.com](https://platform.openai.com/docs/changelog?utm_source=openai))
 

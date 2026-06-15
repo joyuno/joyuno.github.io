@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/fp8-kv-cache-nvfp4-2026-4-gpu-llm-quanti-2/
+description: "Quantization(정밀도 낮추기): weights(예: INT4/NVFP4) + KV cache(예: FP8) 를 분리해서 낮춘다. Inference acceleration(런타임 최적화): FlashInfer 같은 attention backend, CUDA Graphs,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 서빙에서 비용을 폭발시키는 진짜 원인은 “weights 연산량”만이 아니라, **긴 context + 높은 동시성**에서 터지는 **KV cache 메모리/대역폭**과, 부하 변동을 못 따라가는 **스케줄링/배칭 병목**입니다. 2026년 4월 기준, 이 문제를 가장 현실적으로 푸는 조합은 다음 두 축으로 정리됩니다.
 

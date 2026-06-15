@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2026-1-ai-agent-langgraph-vs-autogen-vs--2/
+description: "이 지점에서 LangGraph, Microsoft AutoGen, CrewAI는 서로 다른 철학으로 답합니다. LangGraph: 대화가 아니라 state machine(그래프) 로 제어 흐름을 명시한다. (재현/감사/중단-재개에 강함) (thread-transfer.com)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2024~2025년의 “Agent 데모” 붐이 지나고, 2026년 1월 현재 실무에서 중요한 질문은 더 현실적입니다. *에이전트를 어떻게 “반드시 끝나게” 만들 것인가?*, *재현/감사 가능하게 만들 것인가?*, *멀티 에이전트가 서로 떠넘기다 무한루프에 빠지지 않게 할 것인가?* 같은 문제죠.
 

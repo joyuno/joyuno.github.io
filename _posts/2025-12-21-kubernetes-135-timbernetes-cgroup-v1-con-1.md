@@ -7,17 +7,8 @@ categories: [DevOps, News]
 tags: [devops, news, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/kubernetes-135-timbernetes-cgroup-v1-con-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월 클라우드 네이티브 업계의 핵심 뉴스는 **Kubernetes v1.35 정식 릴리스(12월 17일)**로 요약됩니다. 이번 릴리스는 기능 추가만큼이나 **런타임/노드 운영의 ‘전환’(cgroup v1 제거, containerd 1.x 지원 종료 예고)**을 강하게 밀어붙였고, 개발자/플랫폼팀 모두가 체감할 변화가 큽니다. ([kubernetes.io](https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/chain-of-thoughtcot-2026-2/
+description: "1) Reasoning model의 CoT가 항상 ‘신뢰 가능한 설명’이 아니다. 모델이 보여주는 reasoning trace가 실제 의사결정의 원인과 완전히 일치하지 않을 수 있다는 연구가 공개적으로 강조됐습니다. 즉, “과정을 길게 출력”시키는 것만으로 품질/안전/디버깅이 해결되지…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2022~2023년의 CoT 유행은 “Let’s think step by step” 한 줄로 요약됐습니다. 그런데 2026년 4월 시점의 현장은 다릅니다. 이유는 두 가지입니다.
 

@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-3080-openai-vs-anthropic-2026-5-2/
+description: "LLM을 프로덕션에 붙이면 비용은 보통 “output”보다 “입력 프롬프트의 반복”에서 먼저 터집니다. 예를 들어:"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 LLM을 프로덕션에 붙이면 비용은 보통 “output”보다 “입력 프롬프트의 반복”에서 먼저 터집니다. 예를 들어:

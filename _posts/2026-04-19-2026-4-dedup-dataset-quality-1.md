@@ -7,18 +7,8 @@ categories: [AI, Data]
 tags: [ai, data, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-dedup-dataset-quality-1/
+description: "언제 쓰면 좋은가: 여러 소스(웹 크롤/로그/문서덤프/QA 생성물)를 섞어 대규모 코퍼스를 만들 때 파인튜닝/지식 주입에서 템플릿형 반복(예: 동일 포맷의 FAQ/상품 설명)이나 재배포된 콘텐츠가 많은 도메인 평가 신뢰도가 중요한데, train–eval 중복 가능성이 있을 때(특히…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM/검색/분류/랭킹 모델을 막론하고 **학습 데이터의 중복(duplicate/near-duplicate)** 은 생각보다 치명적입니다. 첫째, **학습 비용을 그대로 증폭**시킵니다(같은 정보를 여러 번 학습). 둘째, **memorization/overfitting**을 유발해 “그럴듯하지만 일반화가 약한” 모델이 됩니다. 셋째, 평가셋/테스트셋과의 **data leakage(오염, contamination)** 를 만들어 지표를 속입니다(특히 벤치마크/사내 회귀테스트가 웹에서 왔다면 더 위험). NeMo Curator 문서도 실무 워크플로우를 “Quality filtering → Fuzzy deduplication” 순으로 제시합니다. ([docs.nvidia.com](https://docs.nvidia.com/nemo/curator/0.25.7/about/concepts/text/data-processing-concepts.html?utm_source=openai))
 

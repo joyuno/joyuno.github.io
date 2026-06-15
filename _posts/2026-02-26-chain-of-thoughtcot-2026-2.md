@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/chain-of-thoughtcot-2026-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2023년식 CoT(“Think step-by-step”)는 2026년에도 여전히 통하지만, 그대로 쓰면 두 가지 문제가 커졌습니다. (1) **토큰/지연 비용**: 모델이 길게 추론할수록 비용이 곱절로 뛰고, (2) **투명성의 환상**: 많은 최신 “reasoning model”은 내부 추론을 그대로 보여주지 않거나(요약만 노출), 노출된 CoT가 실제 내부 사고와 **완전히 일치하지 않을 수** 있습니다. ([model-spec.openai.com](https://model-spec.openai.com/2025-04-11.html?utm_source=openai))  
 결국 2026년의 CoT는 “장황한 추론을 출력하게 하는 기술”이 아니라, **정확도/비용/검증가능성 사이의 균형을 설계하는 프롬프트 최적화 문제**로 봐야 합니다.

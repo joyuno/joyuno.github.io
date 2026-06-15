@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-chain-of-thought-2/
+description: "그렇다고 CoT가 죽었냐? 아닙니다. 2026년형 CoT 고급 기법의 핵심은 “모델에게 생각을 시키는 것”이 아니라, 추론을 잘 하도록 입력/출력 인터페이스를 설계하고 샘플링/검증/방어를 결합해 정답률을 올리는 것 입니다. 특히 “CoT를 노출하지 않으면서도” 성능과 안정성을…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Chain of Thought(CoT)는 한때 “Let’s think step by step” 한 줄로 요약되던 만능 치트키였습니다. 그런데 2026년 2월 기준 실무에서는 분위기가 바뀌었습니다. 이유는 간단합니다. 최신 reasoning 모델 계열은 **내부적으로 이미 추론을 수행**하며, 오히려 노골적인 CoT 유도는 성능을 깎거나(불필요한 장문 생성, 지시 충돌), 보안/정책 측면에서 다루기 어려운 “중간 생각”을 만들 수 있기 때문입니다. OpenAI의 reasoning best practices는 **“think step by step” 같은 CoT 프롬프트를 피하라**고 명시합니다. ([platform.openai.com](https://platform.openai.com/docs/guides/reasoning-best-practices?utm_source=openai))
 

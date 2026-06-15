@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-openaianthropicgoogle-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 초(4/1~4/7), OpenAI·Anthropic·Google은 모델 성능 경쟁보다 **API 과금/접근 정책/엔터프라이즈 운영**을 전면에 내세운 업데이트를 연달아 내놓았습니다. 공통 키워드는 “무제한처럼 쓰던 길의 차단”과 “공식 채널로의 유도”, 그리고 “예산·거버넌스 통제 강화”입니다. ([blog.laozhang.ai](https://blog.laozhang.ai/en/posts/google-gemini-billing-tier-policy-changes//?utm_source=openai))
 

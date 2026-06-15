@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/bm25-vector-2026-hybrid-search-rrf-2/
+description: "정확한 키워드/코드(에러코드, SKU, 옵션명, 함수명)가 포함된 질문: vector-only는 종종 놓칩니다. 반대로 사용자가 표현을 돌려 말하는 질문: BM25-only는 recall이 깨집니다. 문서가 길고(매뉴얼/PDF), chunk가 애매하면 둘 다 흔들립니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG에서 “검색이 약간만 틀려도” 생성 품질이 급격히 무너지는 케이스를 많이 봅니다. 특히 다음 같은 상황에서요.
 

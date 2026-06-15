@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/vibe-coding-2026-ai-mvp-2/
+description: "그래서 MVP 단계에서 중요한 건 “AI로 빨리 만들기”가 아니라, 빨리 만들되, 버릴 수 있고(throwaway), 필요한 건 남길 수 있는(keepable) 구조로 가는 것입니다. 2026년에는 Claude Code 같은 agentic coding 도구가 코드베이스를 읽고, 여러…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월의 “Vibe Coding”은 더 이상 밈이 아닙니다. 핵심은 *코드를 많이 치는 능력*이 아니라, **AI agent가 코드를 만들고/바꾸고/검증하도록 “일”을 설계하는 능력**으로 무게중심이 이동했다는 점입니다. 위키피디아가 정리하듯, vibe coding은 개발자가 직접 구현을 전부 타이핑하기보다 **AI가 생성한 코드를 가이드/테스트/피드백으로 조율하는 방식**에 가깝고, 프로토타입·주말 프로젝트에 특히 잘 맞지만 **유지보수/보안 관점 리스크**도 분명합니다. ([en.wikipedia.org](https://en.wikipedia.org/wiki/Vibe_coding?utm_source=openai))
 

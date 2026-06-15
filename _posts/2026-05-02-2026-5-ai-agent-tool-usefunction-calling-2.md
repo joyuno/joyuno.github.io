@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-ai-agent-tool-usefunction-calling-2/
+description: "언제 쓰면 좋은가 “답변”이 아니라 업무 실행이 핵심일 때: 티켓 분류/요약+Jira 업데이트, 주문 상태 조회+환불 프로세스, 리서치+사내 위키 기록 등 결정 근거가 외부 데이터에 있을 때: 최신 가격/재고/정책/로그/권한 다단계 작업을 자동화하되, 실행…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 AI Agent에서 **tool use(function calling)** 는 “모델이 말로만 아는 척” 하는 구간을 줄이고, **외부 시스템(DB/HTTP/Queue/사내 API)과 실제로 일하게 만드는 연결부**입니다. 2026년 5월 기준 흐름은 “프롬프트로 JSON 뽑아 파싱”이 아니라, **모델이 `tool_call`을 생성 → 앱이 실행/검증 → 결과를 `tool_result`로 다시 주입**하는 루프가 표준으로 굳어졌습니다. (OpenAI는 Responses API 중심으로 통합을 밀고 있고, Agents SDK/Tracing까지 한 덩어리로 제공합니다.) ([platform.openai.com](https://platform.openai.com/docs/guides/function-calling?api-mode=chat&utm_source=openai))
 

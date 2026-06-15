@@ -4,6 +4,7 @@ title: "2026-03-23 개발 작업 리포트"
 date: 2026-03-23 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(notification): 알림 저장소 및 모델 구조 구현 → notification_store.go와 notification_model.go에 CRUD 및 데이터 모델 추가"
 ---
 
 # 🤖 Claude CLI 작업 리포트

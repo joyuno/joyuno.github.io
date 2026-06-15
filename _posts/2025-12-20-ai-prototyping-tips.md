@@ -7,17 +7,8 @@ categories: [AI, Prototyping]
 tags: [ai, llm, prototyping, productivity, cursor]
 
 source: https://daewooki.github.io/posts/ai-prototyping-tips/
+description: "요즘 저는 새로운 아이디어가 떠오르면 하루 안에 동작하는 프로토타입을 만들어봅니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 
 요즘 저는 새로운 아이디어가 떠오르면 **하루 안에 동작하는 프로토타입**을 만들어봅니다.

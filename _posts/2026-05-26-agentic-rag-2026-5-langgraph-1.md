@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/agentic-rag-2026-5-langgraph-1/
+description: "Agentic RAG는 검색을 “파이프라인 단계”가 아니라 에이전트가 호출하는 Tool로 취급합니다. 즉, 모델이 스스로 “검색할지/어떻게 검색할지/결과가 충분한지/재검색할지”를 결정하는 패턴입니다. (genaipatterns.dev)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 전통적인 RAG는 “질문 → (고정된) 검색 → 답변”으로 끝납니다. 문제는 현실의 질의가 **(1) 검색이 필요 없는 질문**과 **(2) 한 번의 검색으로는 부족한 질문(멀티홉/용어 불명확/정책-기반 답변)**이 섞여 있다는 점입니다. 이때 고정 파이프라인은 **불필요한 검색 비용**을 내거나, 반대로 **근거 부족 답변(=그럴듯한 환각)**을 만들기 쉽습니다.
 

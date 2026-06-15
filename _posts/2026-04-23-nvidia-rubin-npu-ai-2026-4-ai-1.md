@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/nvidia-rubin-npu-ai-2026-4-ai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 AI 반도체 뉴스의 핵심은 “학습(Training) 독점은 여전하지만, 추론(Inference)에서는 균열이 실서비스 형태로 보이기 시작했다”는 점입니다. NVIDIA는 차세대 Rubin 플랫폼을 전면에 내세우는 동시에, 공급망(특히 패키징/메모리) 리스크가 계속 언급되고 있고, 한국의 Rebellions·FuriosaAI는 NPU를 **클라우드 서비스(NPUaaS)** 형태로 실제 공급하기 시작했습니다. ([investor.nvidia.com](https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Kicks-Off-the-Next-Generation-of-AI-With-Rubin--Six-New-Chips-One-Incredible-AI-Supercomputer/default.aspx?utm_source=openai))
 

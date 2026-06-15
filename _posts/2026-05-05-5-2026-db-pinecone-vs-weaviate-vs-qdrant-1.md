@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/5-2026-db-pinecone-vs-weaviate-vs-qdrant-1/
+description: "RAG/semantic search가 “되는지”보다 더 중요한 건, 내 트래픽/필터링/테넌시/운영 제약에서 성능과 비용이 예측 가능하게 나오는지입니다. 벡터DB는 결국 (1) ANN index 성능, (2) metadata filter의 실행 방식, (3) 저장/컴팩션/업데이트 경로,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 RAG/semantic search가 “되는지”보다 더 중요한 건, **내 트래픽/필터링/테넌시/운영 제약에서 성능과 비용이 예측 가능하게 나오는지**입니다. 벡터DB는 결국 (1) ANN index 성능, (2) metadata filter의 실행 방식, (3) 저장/컴팩션/업데이트 경로, (4) 운영 모델(Managed vs Self-hosted)이 합쳐진 시스템이고, 병목은 대개 “벡터 검색” 자체가 아니라 **필터 + 멀티테넌시 + 업데이트 + 콜드스타트**에서 터집니다.

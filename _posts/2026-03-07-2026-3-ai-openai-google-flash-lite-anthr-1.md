@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-ai-openai-google-flash-lite-anthr-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 초 기준, OpenAI·Anthropic·Google은 “모델 성능” 자체보다 **개발자가 바로 제품에 붙일 수 있는 API/운영/정책**을 전면에 내세우는 업데이트 흐름이 뚜렷합니다. 특히 OpenAI는 Codex 라인업을 더 “에이전트”로 밀고, Google은 Gemini 3.1 Flash-Lite로 **고볼륨·저지연 가격대**를 강하게 공략하며, Anthropic은 Responsible Scaling Policy(RSP)를 중심으로 **안전 평가/운영 프로세스**를 문서화해 신뢰를 쌓는 모습입니다. ([openai.com](https://openai.com/index/introducing-gpt-5-3-codex/?utm_source=openai))
 

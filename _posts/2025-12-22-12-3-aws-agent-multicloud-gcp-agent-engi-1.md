@@ -7,17 +7,8 @@ categories: [Infrastructure, News]
 tags: [infrastructure, news, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/12-3-aws-agent-multicloud-gcp-agent-engi-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월(특히 AWS re:Invent 2025 전후) 클라우드 업계의 신규 서비스 발표 흐름은 한마디로 **“AI agent의 생산 배치(Production) + Multicloud 연결성”**으로 수렴했습니다. AWS는 re:Invent에서 대규모 런치를 쏟아냈고, GCP와 Azure도 12월 업데이트에서 **agent 운영 기능과 데이터/거버넌스 축**을 강화했습니다. ([aws.amazon.com](https://aws.amazon.com/blogs/aws/top-announcements-of-aws-reinvent-2025/?hp=rei-annc&utm_source=openai))
 

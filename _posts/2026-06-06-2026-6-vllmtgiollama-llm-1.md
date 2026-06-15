@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/2026-6-vllmtgiollama-llm-1/
+description: "언제 쓰면 좋나 vLLM: 동시성/처리량(throughput)이 핵심인 사내 API, 에이전트 백엔드, 사내 Copilot 등 “서버” 워크로드. OpenAI-compatible로 앱 전환 비용도 낮음. (docs.vllm.ai) TGI: 관측/운영 기능(메트릭, tracing 등)과…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 “돌아가게” 만드는 건 쉽습니다. 문제는 **여러 사용자가 동시에 쓰는 순간**부터 시작합니다: KV cache 폭증으로 OOM, 요청별 지연시간 요동, 배치가 안 잡혀 GPU utilization이 들쭉날쭉, 모델 로딩이 느려서 재시작이 곧 장애가 되는 식이죠. 이런 문제를 해결하려고 2026년에도 현장에서 많이 쓰는 선택지가 **vLLM / Hugging Face TGI / Ollama**입니다.
 

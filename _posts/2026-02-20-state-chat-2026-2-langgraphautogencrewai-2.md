@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/state-chat-2026-2-langgraphautogencrewai-2/
+description: "이때 핵심은 “에이전트가 똑똑한가”보다 오케스트레이션(orchestration)을 어디에 두느냐입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 AI Agent 개발은 “LLM 호출을 몇 번 엮는 자동화”가 아니라, **긴 실행 시간·실패 복구·관찰 가능성(observability)·권한/검증(guardrails)**까지 포함한 **소프트웨어 시스템** 문제로 바뀌었습니다. 단일 Agent로 시작해도, 조금만 복잡해지면 곧 **멀티 Agent**(역할 분리, 병렬화, 상호검증, Human-in-the-loop)가 필요해집니다.
 

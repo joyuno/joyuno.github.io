@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/3-2026-openaianthropicgoogle-ai-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 말~3월 초를 지나면서, OpenAI·Anthropic·Google은 단순 신모델 경쟁을 넘어 **API 변화(입출력·Structured Output·에이전트 인터페이스)**와 **정책/거버넌스(Usage Policy·RSP)**를 전면에 내세우는 흐름이 뚜렷해졌습니다.  
 개발자 입장에서는 “어떤 모델이 더 똑똑한가”보다 **무엇이 바뀌었고(Deprecation/Policy), 운영 리스크는 무엇이며(Outage/Rate limit), 어디에 투자해야 하는가(Agent API/워크플로 통합)**가 더 중요해졌습니다.

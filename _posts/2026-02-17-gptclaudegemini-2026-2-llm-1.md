@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-2-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 초, OpenAI와 Anthropic이 개발자용 “agentic coding”을 전면에 내세운 신규/업데이트 모델을 발표했고, Google은 Gemini 3 계열을 엔터프라이즈·개발자 채널로 빠르게 확장하는 흐름을 보여줬습니다. 핵심은 “더 똑똑한 대화 모델”을 넘어서, **코드·도구·작업흐름을 실제로 실행하는 에이전트** 경쟁이 본격화됐다는 점입니다. ([openai.com](https://openai.com/index/introducing-gpt-5-3-codex/?utm_source=openai))
 

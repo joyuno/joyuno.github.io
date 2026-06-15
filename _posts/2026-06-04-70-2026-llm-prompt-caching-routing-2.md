@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/70-2026-llm-prompt-caching-routing-2/
+description: "(1) 입력 토큰이 계속 중복된다: 긴 system prompt, tool schema, 정책/규칙, 코드베이스 요약, “항상 붙는” 컨텍스트 (2) 모든 요청을 비싼 모델에 던진다: 분류/정규화/간단 QA도 “그냥 제일 좋은 모델”로 처리 (3) 대화가 길어질수록 컨텍스트가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 비용이 폭증하는 패턴은 꽤 정형적입니다.
 

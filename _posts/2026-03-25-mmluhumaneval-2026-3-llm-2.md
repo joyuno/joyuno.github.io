@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-3-llm-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월에도 여전히 많은 모델 릴리스 노트가 **MMLU(지식/이해)**, **HumanEval(코드 생성)** 점수를 “성능”의 대표 지표처럼 내세웁니다. 하지만 현업에서 모델을 붙여보면, 리더보드 상위권인데도 **도메인 QA에서 헛소리**를 하거나, HumanEval은 잘하는데 **SWE-bench류 실제 수정 작업**에서는 무너지는 경우가 흔합니다.  
 문제는 벤치마크 자체가 나쁘다기보다, (1) **측정 방식이 너무 단일 점수로 소비**되고, (2) **오염(contamination)/누수(leakage)** 가능성이 커졌고, (3) 프롬프트/온도/샘플링/채점기(judge) 등 **실험 조건이 점수만큼 중요**해졌기 때문입니다. 특히 OpenAI의 `simple-evals`처럼 MMLU/HumanEval을 포함해 “간단히 재현” 가능한 프레임워크가 널리 쓰였지만, 해당 레포는 **2025년 7월 이후 신규 모델/결과 업데이트를 중단**한다고 명시되어 있어, “최신 점수”를 말할 때는 더더욱 출처와 조건을 확인해야 합니다. ([github.com](https://github.com/openai/simple-evals?utm_source=openai))

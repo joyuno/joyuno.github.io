@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/rag-chunk-2026-4-document-splittingoverl-2/
+description: "정의/조건/예외가 chunk 경계에서 잘려 top-k에 안 뜸 chunk가 너무 커서 topic soup(여러 주제가 섞인 덩어리) → embedding이 흐려짐 overlap을 크게 줬더니 중복 chunk가 대량 검색되어 비용/latency가 튐 PDF/HTML에서 표/리스트/헤더가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG에서 “답이 문서에 있는데도 못 찾는” 문제의 상당수는 retriever나 LLM이 아니라 **chunking(문서 청킹/분할)** 에서 시작합니다. 특히 다음 증상은 chunking 냄새가 진합니다.
 

@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-opentelemetry-genai-tracing-1/
+description: "그래서 2025년 말~2026년 초에 업계가 빠르게 합의한 방향이 OpenTelemetry(OTel) tracing + GenAI semantic conventions입니다. LLM 호출을 “특수한 외부 API”가 아니라, 분산 트레이스의 표준 span으로 모델/토큰/캐시/안전필터/툴…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 앱이 프로덕션에 올라가면 장애 형태가 전통적인 웹/백엔드와 달라집니다. “요청이 느리다”가 아니라 **어떤 프롬프트/도구 호출/검색 결과 조합에서** 지연·비용 폭증·환각·루프(반복 tool call)·컨텍스트 누락이 발생합니다. 이때 로그만으로는 원인 추적이 거의 불가능하고, 벤더별 대시보드만으로는 **서비스 전체(HTTP → queue → worker → DB/vectorDB → LLM → tool)** 흐름을 하나의 실행 맥락으로 보기도 어렵습니다.
 

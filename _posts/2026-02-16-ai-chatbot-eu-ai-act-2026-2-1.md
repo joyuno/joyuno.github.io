@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/ai-chatbot-eu-ai-act-2026-2-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 AI 규제 이슈는 한 줄로 요약하면 “범용 LLM/Chatbot이 법·정책의 정조준 대상이 됐다”입니다. 영국은 Online Safety Act의 사각지대를 메우기 위해 AI chatbot을 명시적으로 규제 범위에 넣으려 하고, EU는 AI Act 적용 타임라인에 따라 거버넌스·GPAI 의무가 이미 작동 중이며, 미국은 연방-주(州) 규제 주도권 다툼이 격화되는 모습입니다. ([ft.com](https://www.ft.com/content/15917aa4-2d40-49be-85c3-da395b16e7f1?utm_source=openai))
 

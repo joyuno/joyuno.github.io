@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/llm-langsmith-vs-langfuse-2026-2-2/
+description: "이 글에서는 2026년 2월 기준으로 현업에서 가장 자주 비교되는 LangSmith와 Langfuse를 “모니터링/디버깅/비용 추적” 관점에서 깊게 파고들고, 실제로 바로 붙여볼 수 있는 코드를 제공합니다. (둘 다 핵심 키워드는 이제 OpenTelemetry(OTel) 입니다.)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 애플리케이션은 전통적인 APM(Application Performance Monitoring)만으로는 운영이 어렵습니다. 이유는 단순합니다. 장애가 “HTTP 500”처럼 명확하지 않고, 품질 저하도 “정답/오답”으로 떨어지지 않으며, 비용은 “토큰/캐시/리트라이/툴 호출”처럼 실행 경로에 따라 분산되기 때문입니다.  
 그래서 2025~2026년의 LLM Observability는 **trace 중심(요청 1건의 실행을 트리 형태로)**으로 빠르게 수렴했고, 그 위에 **디버깅 + 비용 추적 + 품질 평가(evals)**를 한 화면에서 묶는 쪽으로 진화했습니다.

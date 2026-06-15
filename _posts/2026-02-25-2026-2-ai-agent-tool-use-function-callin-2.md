@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-ai-agent-tool-use-function-callin-2/
+description: "2026년 2월 현재 업계에서 사실상 합의된 방향은 다음입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2024~2025년을 거치며 “Agent”는 더 이상 마케팅 용어가 아니라, **LLM이 외부 세계(데이터/시스템/실행환경)와 상호작용하는 소프트웨어 아키텍처**로 굳어졌습니다. 특히 실무에서 LLM을 “유용하게” 만드는 핵심은 모델이 똑똑한가보다 **언제/어떤 도구(tool)를/어떤 인자(schema)로 호출할지**를 안정적으로 설계·운영하는가에 달려 있습니다.
 

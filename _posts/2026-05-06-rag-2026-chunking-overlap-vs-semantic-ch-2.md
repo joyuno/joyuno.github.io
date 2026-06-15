@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/rag-2026-chunking-overlap-vs-semantic-ch-2/
+description: "RAG에서 “모델이 똑똑한데도 답을 못 한다/헛소리를 한다”의 상당수는 retrieval 실패고, 그 retrieval 실패의 뿌리에는 의외로 document splitting(청킹) 설계가 있습니다. 질문에 필요한 문장이 두 덩어리로 찢겨 서로 다른 chunk에 들어가면,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 RAG에서 “모델이 똑똑한데도 답을 못 한다/헛소리를 한다”의 상당수는 **retrieval 실패**고, 그 retrieval 실패의 뿌리에는 의외로 **document splitting(청킹) 설계**가 있습니다. 질문에 필요한 문장이 두 덩어리로 찢겨 서로 다른 chunk에 들어가면, retriever는 둘 중 하나만 가져오고 LLM은 **근거 부족을 hallucination으로 메우거나** “없다”고 말합니다. ([viqus.ai](https://viqus.ai/blog/rag-chunking-strategies-2026?utm_source=openai))

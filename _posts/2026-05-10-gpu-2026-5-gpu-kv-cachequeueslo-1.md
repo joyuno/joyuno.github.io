@@ -7,18 +7,8 @@ categories: [Infra, Kubernetes]
 tags: [infra, kubernetes, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/gpu-2026-5-gpu-kv-cachequeueslo-1/
+description: "언제 쓰면 좋나: 트래픽 변동이 크고(버스트), GPU 노드 풀을 상시 크게 가져가기 부담될 때 멀티 모델/멀티 테넌트로 “남는 GPU가 있어도 요청이 밀리는” 상황을 줄이고 싶을 때 SLO(예: P95 TTFT < 1.5s) 중심 운영을 하고 싶을 때…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Kubernetes에서 LLM을 서빙(vLLM/Triton/llm-d/Dynamo 등)할 때 “GPU가 비싸니 자동으로 늘렸다 줄이자”는 목표는 단순하지만, **무엇을 기준으로 스케일링할지**에서 대부분 망합니다. CPU 서비스처럼 CPU%로 HPA를 걸면, LLM은 **latency가 터진 뒤에야** 반응하거나(reactive), 반대로 **VRAM(OOM/KV cache) 한계** 때문에 GPU util이 낮아도 이미 포화인 상황을 놓칩니다. 실제로 최근 레퍼런스들은 “GPU utilization은 보조 지표”로 취급하고, **queue depth / in-flight / KV cache pressure / TTFT(첫 토큰 시간)·ITL(토큰 간 지연)** 같은 **LLM 내부 상태 기반 지표**를 주 스케일 신호로 밀고 있습니다. ([developer.nvidia.com](https://developer.nvidia.com/blog/deploying-disaggregated-llm-inference-workloads-on-kubernetes/?utm_source=openai))
 

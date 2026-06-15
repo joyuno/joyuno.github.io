@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-2026-langsmith-vs-langfuse-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 앱을 프로덕션에 올리면 금방 깨닫습니다. 문제는 “모델이 틀렸다”가 아니라, **어느 단계에서 왜 틀렸는지 재현이 안 된다**는 점입니다. RAG라면 retrieval 결과/컨텍스트 길이, agent라면 tool call 순서/파라미터, streaming이라면 중간 토큰과 오류 타이밍까지 얽혀서 단순 로그로는 원인 추적이 불가능해집니다. 그래서 2026년에는 LLM 앱도 전통 APM처럼 **trace 기반 observability**가 기본 전제가 됐고, 그 대표 선택지가 LangSmith(주로 LangChain/LangGraph 생태계)와 Langfuse(오픈소스·self-host 친화)입니다.  
 특히 이번 주제의 핵심인 **디버깅 + 비용 추적(cost tracking)** 관점에서 LangSmith는 “full-stack cost tracking”을 강하게 밀고 있고 ([changelog.langchain.com](https://changelog.langchain.com/announcements/unified-cost-tracking-for-llms-tools-retrieval?utm_source=openai)), Langfuse는 OpenTelemetry 기반/아키텍처적으로 대규모 ingestion을 견딜 수 있게 설계된 점이 눈에 띕니다 ([langfuse.com](https://langfuse.com/self-hosting?utm_source=openai)).

@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-6-llm-2/
+description: "MMLU 고득점인데 우리 도메인 QA/정책/규정 질문에서 헛소리(hallucination)가 줄지 않는다 HumanEval 고득점인데 실제 코드베이스에서는 리팩토링/테스트/빌드/의존성 때문에 실패한다 리더보드 점수와 사내 재현 점수가 10~20p씩 불일치한다(프롬프트, 샘플링,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 도입/교체할 때 가장 흔한 실패는 **벤치마크 점수(예: MMLU, HumanEval)를 ‘성능의 진실’로 오해**하는 겁니다. 2026년 6월 기준으로도 여전히 모델 릴리즈 노트에는 “MMLU xx%, HumanEval yy%”가 전면에 나오지만, 실무에서는 다음 문제가 반복됩니다.
 

@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/ai-ui-boltnew-2026-1-v0-boltnew-2/
+description: "2026년 1월 기준, 이 병목을 크게 줄이는 조합이 v0(Generative UI) + bolt.new(브라우저 내 풀스택 실행 환경 + AI 에이전트) 입니다. v0는 React + Tailwind CSS + shadcn/ui 기반으로 “복붙 가능한 코드”를 빠르게 뽑아주고,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프론트엔드에서 가장 시간이 많이 새는 구간은 의외로 “비즈니스 로직”이 아니라 **UI 골격 잡기 + 컴포넌트 조립 + 스타일 튜닝**입니다. 특히 대시보드/설정 화면/폼처럼 반복 패턴이 많은 영역은, 요구사항이 조금만 바뀌어도 레이아웃과 상태 분기 때문에 작업이 길어집니다.
 

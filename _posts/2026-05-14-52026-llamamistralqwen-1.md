@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/52026-llamamistralqwen-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4~5월은 오픈소스 LLM/VLM 진영이 “성능”뿐 아니라 **공개 방식(오픈소스 vs open-weight)**과 **라이선스**로 본격 분화한 시기였습니다. 특히 Meta(Llama), Mistral, Alibaba(Qwen)가 각자 다른 규칙으로 배포하면서, 실무 개발자는 “어떤 모델이 좋나?”보다 **“어떤 모델을 써도 법/운영 리스크가 없나?”**를 먼저 따져야 하는 국면으로 들어왔습니다.
 

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/api-2026-2-openaianthropicgoogle-ai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월(특히 2/10~2/12 전후)에는 OpenAI·Anthropic·Google이 **API/모델 운영 정책, 안전 거버넌스, 개발자용 입력·도구 체계**를 동시에 강화하는 업데이트를 내놨습니다. 공통 키워드는 “더 강력한 모델”이 아니라, **더 빠른 교체(Deprecation) + 더 촘촘한 안전/문서/데이터 파이프라인**입니다.
 

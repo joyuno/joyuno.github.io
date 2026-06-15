@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-2/
+description: "최근 변화 중 특히 실무에 영향이 큰 건 캐시입니다. GitHub Actions 캐시 백엔드가 v2로 전환되며, @actions/cache 패키지는 2025-02-01부터 구버전이 사실상 실패를 유발할 수 있으니 v4+로 업그레이드 권고가 공지되었습니다. 즉, “예전 YAML…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년의 CI/CD는 “빌드/테스트 자동화”를 넘어서 **배포 권한 통제, 공급망 보안, 병렬 실행 제어, 캐시 전략**까지 한 덩어리로 설계해야 합니다. GitHub Actions는 YAML 몇 줄로 시작할 수 있지만, 실제 운영에서는 작은 설정 하나(예: `permissions`, `concurrency`, `cache` 버전) 때문에 **배포 충돌, 토큰 과권한, 캐시 실패로 인한 전면 장애**가 나기도 합니다.
 

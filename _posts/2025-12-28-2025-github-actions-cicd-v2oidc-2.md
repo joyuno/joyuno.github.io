@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-v2oidc-2/
+description: "PR이 몰릴 때 불필요한 중복 실행으로 runner 시간/비용 폭증 long-lived cloud secret 유출 리스크(특히 deploy 키/토큰) GITHUB_TOKEN 권한 과다로 인한 공급망 공격면 확대 캐시/아티팩트 버전 이슈로 파이프라인이 특정 시점부터 갑자기 깨짐"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년의 CI/CD는 “돌아가기만 하면 된다”를 넘어, **속도(캐시/병렬화)·안정성(동시성 제어)·보안(권한 최소화/비밀 제거)**가 기본 요구사항이 됐습니다. 특히 GitHub Actions는 팀이 가장 손쉽게 선택하는 플랫폼이지만, 아무 설정 없이 워크플로를 늘리다 보면 다음 문제가 금방 터집니다.
 

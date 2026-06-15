@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-reusable-workfl-2/
+description: "2025년의 CI/CD는 “돌아가면 됐다” 수준을 이미 넘어섰습니다. PR마다 자동으로 test/build가 안정적으로 반복되고, main 병합 시에는 검증된 산출물이 안전한 인증 방식(OIDC) 으로 배포 환경 보호(approvals) 를 거쳐 경합 없이(concurrency)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 
 2025년의 CI/CD는 “돌아가면 됐다” 수준을 이미 넘어섰습니다. PR마다 자동으로 test/build가 안정적으로 반복되고, main 병합 시에는 **검증된 산출물**이 **안전한 인증 방식(OIDC)** 으로 **배포 환경 보호(approvals)** 를 거쳐 **경합 없이(concurrency)** 릴리즈되는 흐름이 기본 기대치가 됐죠.  

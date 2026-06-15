@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/ai-2-openai-codex-anthropic-opus-46-goog-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월, OpenAI·Anthropic·Google이 각각 **개발자용 모델/플랫폼을 한 단계 “에이전트 중심”으로 밀어붙이는 업데이트**를 내놨습니다. 모델 성능 경쟁을 넘어, **API 표면(Interfaces)·배포 채널·정책/신뢰(Trust) 체계**까지 같이 바뀌는 흐름이 뚜렷합니다. ([help.openai.com](https://help.openai.com/en/articles/9624314-model-release-notes%3Futm_campaign%3DThe%2520Batch%26utm_source%3Dhs_email%26utm_medium%3Demail%26_hsenc%3Dp2ANqtz-8yL6qHDH1pf029l3xOUBHbA0as1YzU-V7q8V9teSpLjlNW3dxyocguBfrzgOENfFRu3Z12?utm_source=openai))
 

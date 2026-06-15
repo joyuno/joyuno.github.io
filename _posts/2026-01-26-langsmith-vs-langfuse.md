@@ -7,6 +7,7 @@ tags: [ai, mlops, trend, 2026-01]
 author: Daewook Kwon
 reading_time: 14
 source: https://daewooki.github.io/posts/llm-langsmith-vs-langfuse-2026-1-2/
+description: "LLM 애플리케이션 운영은 단순 로깅을 넘어 관측 가능성(Observability)이 필수입니다. 개발자들은 \"어떤 프롬프트가, 어떤 컨텍스트로, 어떤 모델을, 얼마나 사용했는지, 어디서 실패했는지\"를 요청 단위로 추적해야 합니다."
 ---
 
 LLM 애플리케이션 운영은 단순 로깅을 넘어 **관측 가능성(Observability)**이 필수입니다. 개발자들은 "어떤 프롬프트가, 어떤 컨텍스트로, 어떤 모델을, 얼마나 사용했는지, 어디서 실패했는지"를 요청 단위로 추적해야 합니다.

@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-ai-agent-tool-use-function-callin-2/
+description: "최근 OpenAI는 Agents SDK/Tracing을 중심으로 “tool use를 워크플로우로 운영”하게 만들고 있고, Function Calling에는 strict: true 기반 Structured Outputs로 “JSON 스키마 준수”를 사실상 표준으로 못 박았습니다.…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 기준, “AI Agent가 도구를 호출해 실제 일을 한다”는 말은 더 이상 데모가 아닙니다. 하지만 프로덕션에서 진짜 문제가 되는 지점은 모델 성능이 아니라 **통제(control)** 입니다.  
 - 모델이 **언제(tool selection)**, **무엇을(arguments)**, **몇 번이나(loop)** 호출할지  

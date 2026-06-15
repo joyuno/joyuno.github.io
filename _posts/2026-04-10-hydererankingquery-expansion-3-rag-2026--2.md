@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/hydererankingquery-expansion-3-rag-2026--2/
+description: "2026년 들어 흐름은 명확합니다. “한 방 retrieval”이 아니라 2-stage(또는 3-stage) 파이프라인으로 가고 있고, 그 중심에 HyDE(가상 문서 기반 검색), Reranking(cross-encoder 재정렬), Query Expansion(다중 쿼리/리라이트)이…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG 성능을 “모델을 더 크게”로만 해결하려고 하면 비용과 latency가 폭발합니다. 실무에서 더 흔한 병목은 **retrieval 품질(Recall/Precision)과 evidence 선택 실패**입니다. 특히 (1) 사용자의 질문이 짧거나 모호하고, (2) 문서가 길고 비정형(표/수치 포함)이며, (3) 용어가 다양한 도메인에서는 단순 dense top-k로는 정답 근거를 안정적으로 못 가져옵니다.
 

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gpt53-instant-gemini-31-flashlite-anthro-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 초, OpenAI와 Google은 각각 ChatGPT/API 주력 모델과 대규모 트래픽용 저비용 모델을 전면에 내세우며 “개발자 체감(품질·속도·비용)”을 정조준했습니다. 동시에 Anthropic은 Responsible Scaling Policy(RSP) 관련 변화가 다시 주목받으며 “안전 정책의 현실화”라는 다른 축의 경쟁도 커졌습니다. ([openai.com](https://openai.com/index/gpt-5-3-instant/))
 

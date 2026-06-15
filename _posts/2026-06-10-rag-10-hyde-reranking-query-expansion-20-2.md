@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/rag-10-hyde-reranking-query-expansion-20-2/
+description: "언제 쓰면 좋나: 질문이 애매하거나 짧고, 문서 표현이 다양해 “표현 불일치”가 큰 도메인(내부 위키/설계문서/정책/FAQ) 멀티턴 대화에서 대명사/생략이 많아 query 자체가 retrieval에 부적합한 경우(standalone rewrite 필요) (docs.nvidia.com)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프로덕션 RAG에서 가장 흔한 실패 패턴은 단순합니다. **정답 문서가 인덱스에 존재하는데도 LLM이 못 봅니다.** 이유는 대개 (1) query가 코퍼스 표현과 어긋나거나, (2) 1차 retrieval이 후보를 충분히 못 모으거나(Recall 문제), (3) 후보는 모였는데 top-k에 못 올라오는(Precision 문제) 케이스입니다. 이때 2026년 기준으로 “질을 올리는” 대표 레버가 **HyDE(가상 문서 기반 retrieval), Reranking(2단계 정밀 정렬), Query Expansion/Rewrite(질의 재작성/다중 질의)** 조합입니다. TREC RAG 2025 1위 시스템도 HyDE와 hybrid retrieval, reranking을 묶어서 성과를 냈고, HyDE embedding과 원 query embedding을 섞는 **HyDE Vector Mix** 같은 실용적 변형까지 제시합니다. ([trec.nist.gov](https://trec.nist.gov/pubs/trec34/papers/UTokyo.rag.pdf))
 

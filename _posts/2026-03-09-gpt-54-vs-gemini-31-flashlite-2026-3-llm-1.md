@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gpt-54-vs-gemini-31-flashlite-2026-3-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 첫째 주(3/3~3/6), OpenAI와 Google이 개발자·프로덕션 지향 신규 LLM을 연달아 공개했습니다. 반면 Anthropic(Claude)은 3월 “신규 모델 출시”보다는 2월에 공개한 Claude 4.6 라인업의 확산과 안전/정책 이슈가 업계 반응의 중심에 있었습니다. ([openai.com](https://openai.com/index/introducing-gpt-5-4/?utm_source=openai))
 

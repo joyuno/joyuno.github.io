@@ -7,17 +7,8 @@ categories: [DevOps, CICD]
 tags: [github-actions, cicd, devops, automation]
 
 source: https://daewooki.github.io/posts/github-actions-cicd/
+description: "수동 배포의 문제점: 🐛 \"배포할 때마다 뭔가 빠뜨려요\" ⏰ \"배포하는 데 30분씩 걸려요\" 😰 \"금요일 오후에는 배포 못 해요\""
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## CI/CD가 왜 필요한가?
 
 수동 배포의 문제점:

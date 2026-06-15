@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-4-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 말~4월 초는 LLM 업계가 “신규 모델 발표/출시”와 “에이전트(Agentic) 제품화”를 동시에 밀어붙인 구간입니다. OpenAI는 GPT‑5.4 라인업을 굳혔고, Google은 Gemini 3.1 계열을 빠르게 확장했으며, Anthropic은 Claude 4.6 세대의 성능 메시지와 함께 ‘Claude Mythos’ 유출 이슈로 업계 시선을 끌었습니다. ([openai.com](https://openai.com/index/introducing-gpt-5-4/?utm_source=openai))
 

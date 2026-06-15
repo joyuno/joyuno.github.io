@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/fastapi-llm-api-2026-3-ssestreamingrespo-2/
+description: "2026년 3월 기준으로는 FastAPI 자체 StreamingResponse 안정성이 개선되었고(특히 dependency가 yield를 쓰는 경우 정리/close 동작 관련 수정) (fastapi.tiangolo.com), LLM 측에서도 OpenAI Responses API가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버에서 “스트리밍”은 단순 UX 옵션이 아니라 **서버 자원과 지연(latency)을 결정하는 아키텍처 요소**입니다. 긴 응답을 한 번에 내려주면 TTFB(Time To First Byte)가 커지고, 프록시/타임아웃에 걸릴 확률도 올라갑니다. 반대로 토큰 단위로 흘려보내면 사용자는 즉시 반응을 느끼고, 서버는 **backpressure(클라이언트가 느릴 때의 압력)**를 고려한 전송 전략을 가져갈 수 있죠.
 

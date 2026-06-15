@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/ai-3-openaianthropicgoogle-2026-4-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 초, 빅테크 AI 기업들은 “모델 성능 경쟁” 못지않게 **API 운영(비용·한도)과 정책(허용/금지·접근 방식)**을 빠르게 정교화하고 있습니다. 특히 Anthropic은 서드파티 도구 생태계에 직접 충격을 줬고, Google은 Gemini API를 “에이전트 지향”으로 밀어붙였으며, OpenAI는 정책 아젠다(industrial policy)와 API 크레딧 프로그램을 전면에 내세웠습니다. ([techradar.com](https://www.techradar.com/pro/bad-news-claude-users-anthropic-says-youll-need-to-pay-to-use-openclaw-now?utm_source=openai))
 

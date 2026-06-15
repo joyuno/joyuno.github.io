@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/db-2026-5-pinecone-vs-weaviate-vs-qdrant-2/
+description: "언제 쓰면 좋은가 1M~수십M 벡터 이상, 또는 동시 트래픽/필터 조합이 많아 P99가 중요한 서비스 tenant_id, ACL, 시간범위 등 필터가 기본인 RAG “인프라 인력/시간”이 가장 비싼 팀(=managed 선호)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG(특히 production Q&A), semantic search, 추천/유사도 기반 탐색에서 병목은 “cosine distance 계산” 자체가 아니라 **(1) metadata filter가 걸린 상태에서의 tail latency(P95~P99)**, **(2) 지속적 업데이트(ingest)와 compaction**, **(3) 운영(HA/백업/멀티테넌시) 비용**에서 터집니다. 벡터DB는 이 세 가지를 “Postgres + 캐시 + 파이프라인” 조합보다 적은 코드/운영으로 풀어주는 쪽에 가치가 있습니다. 벤치마크가 과장/편향될 수 있다는 지적도 꾸준히 나오니, 수치만 보고 고르면 높은 확률로 삽질합니다. ([reddit.com](https://www.reddit.com/r/vectordatabase/comments/1s7lwbv/vector_database_benchmarks_are_almost_all/?utm_source=openai))
 

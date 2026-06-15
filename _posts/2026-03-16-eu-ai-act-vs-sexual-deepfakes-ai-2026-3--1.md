@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/eu-ai-act-vs-sexual-deepfakes-ai-2026-3--1/
+description: "개발자 입장에서는 모델 성능 경쟁만큼이나 disclosure(고지), safety guardrails(안전장치), privacy tooling(프라이버시 도구), auditability(감사 가능성)가 제품 요구사항으로 굳어지는 흐름이 분명해졌습니다. (axios.com)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 개발자 입장에서는 모델 성능 경쟁만큼이나 **disclosure(고지), safety guardrails(안전장치), privacy tooling(프라이버시 도구), auditability(감사 가능성)**가 제품 요구사항으로 굳어지는 흐름이 분명해졌습니다. ([axios.com](https://www.axios.com/2026/03/09/google-gemini-chatbot-lawsuit-congress-regulation?utm_source=openai))
 
 ---

@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2-2026-db-pinecone-vs-weaviate-vs-qdrant-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG, semantic search, 추천 시스템이 “서비스”가 되면서 벡터 검색은 더 이상 실험용 기능이 아닙니다. 문제는 임베딩을 저장하는 것보다 **“얼마나 일정한 latency로, 얼마나 많은 QPS를, 어떤 필터/하이브리드 조건에서도”** 보장할 수 있느냐입니다.  
 2026년 2월 시점에서 Pinecone/Weaviate/Qdrant/Chroma는 모두 벡터 검색을 제공하지만, **운영 모델(Managed vs Self-host), 인덱스/압축 전략, 필터 성능, 비용 예측 가능성**에서 성격이 꽤 다릅니다. 특히 Pinecone은 고QPS용 “Dedicated Read Nodes(DRN)”로 읽기 경로를 분리하며 성능/비용 예측을 강화했고, Weaviate·Qdrant는 **압축(quantization) + 필터 최적화**를 문서화된 수준으로 적극 밀고 있습니다. ([pinecone.io](https://www.pinecone.io/blog/dedicated-read-nodes/?utm_source=openai))

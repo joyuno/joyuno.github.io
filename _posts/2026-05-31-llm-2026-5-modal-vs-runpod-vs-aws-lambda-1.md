@@ -7,18 +7,8 @@ categories: [Infra, Serverless]
 tags: [infra, serverless, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-5-modal-vs-runpod-vs-aws-lambda-1/
+description: "언제 쓰면 좋나 스파이크/버스트 트래픽(하루 몇 번 몰림), 배치성 작업 + 간헐적 API, PoC→프로덕션으로 빠르게 검증할 때 모델이 크더라도 항상-on을 최소 1개만 유지하고 나머지를 탄력 확장하고 싶을 때(“warm 1 + burst N”)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 서버리스 LLM 배포가 해결하는 문제는 명확합니다: **GPU/서빙 인프라를 상시 띄우지 않고도(=idle cost 최소화), 트래픽 스파이크를 흡수하면서, API 형태로 LLM inference를 제공**하는 것. 다만 LLM은 일반적인 serverless 함수와 달리 **모델 로드(디스크→RAM→VRAM), 커널/JIT 컴파일, KV cache 준비** 같은 “초기화 비용”이 커서, **cold start가 곧 UX/비용/장애율**로 직결됩니다.
 

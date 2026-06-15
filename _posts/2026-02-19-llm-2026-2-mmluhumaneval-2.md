@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/llm-2026-2-mmluhumaneval-2/
+description: "2026년 2월 시점엔 EleutherAI의 lm-evaluation-harness가 사실상 표준 실행기 역할을 하고 있고(최근 릴리스가 계속 갱신), MMLU는 변형 태스크(예: logits 기반, instruct 강제)가 늘어나면서 ‘MMLU 점수’라는 말 자체가 모호해졌습니다.…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 배포/운영하는 입장에서 “우리 모델이 더 똑똑해졌다”를 증명하는 가장 쉬운 방법은 MMLU, HumanEval 같은 벤치마크 점수를 가져오는 겁니다. 문제는 **점수는 쉬운데, 해석은 어렵다**는 것. 같은 모델이라도 프롬프트 템플릿, few-shot 개수, 출력 형식 강제, sampling 파라미터, 심지어 평가 도구 버전이 달라지면 점수가 흔들립니다. 실제로 현업에서 “리그테이블 1등”이 제품 품질을 보장하지 않는 이유의 대부분은 **평가 프로토콜의 차이**에서 나옵니다.
 

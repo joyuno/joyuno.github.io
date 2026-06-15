@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-2026-opentelemetry-genai-tracing-1/
+description: "이 지점에서 2026년 업계가 수렴하는 방향이 OpenTelemetry(OTel) 기반 LLM observability + GenAI semantic conventions입니다. OTel은 vendor-neutral tracing 표준(OTLP/SDK/Collector)이고,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM/Agent 앱을 운영해보면 전통적인 APM(HTTP latency, error rate, DB time)만으로는 장애의 **원인**에 닿기 어렵습니다. 많은 실패가 “500 에러”가 아니라 **의미적 실패(semantic failure)** 로 나타나기 때문입니다. 예를 들어:
 - Retrieval이 엉뚱한 문서를 가져와서 답이 틀렸는데 요청은 200 OK

@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/gpu-2026-1-vllmtgiollama-llm-2/
+description: "흥미로운 변화도 있습니다. Hugging Face 문서에 따르면 TGI는 2025-12-11 기준 maintenance mode로 전환되었고, Inference Endpoints에서는 대안으로 vLLM/SGLang를 권장합니다. (huggingface.co) 즉, 신규 구축의 기본값은…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 시점의 LLM 서빙은 “모델을 띄운다”를 넘어, **동시성(throughput)**·**TTFT(Time To First Token)**·**KV cache 메모리 효율**·**API 호환성(OpenAI compatible)**·**운영 편의성(관측/롤링업데이트)**이 성패를 가릅니다. 특히 사내망/온프렘 환경에서 “클라우드 API 없이 로컬 배포” 요구가 커지면서 vLLM, TGI(Text Generation Inference), Ollama가 자주 비교됩니다.
 

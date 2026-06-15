@@ -7,17 +7,8 @@ categories: [AI, Tutorial]
 tags: [ai, tutorial, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2025-llm-rag-langgraph-openai-responsesf-2/
+description: "그래서 2025년에는 “Agentic RAG”가 표준에 가까워졌습니다. 핵심은 LLM이 도구(tool)를 ‘필요할 때만’ 호출하고, 결과를 보고 루프를 돌며 품질을 끌어올리는 제어 구조를 갖추는 것입니다. LangGraph는 이런 “상태(state)+분기(conditional…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2023~2024년의 “단순 RAG”는 **질문 → retrieve → LLM 답변**의 직선 파이프라인이 주류였지만, 2025년 실무에서는 이 구조가 쉽게 한계에 부딪힙니다. 예를 들어 사용자의 질문이 (1) 검색이 필요 없는 상식인지, (2) 내부 문서 기반인지, (3) 웹 최신 정보가 필요한지, (4) 검색 결과 품질이 낮아 재질의/재랭킹이 필요한지 등을 **매번 고정 파이프라인으로 처리하면 비용/지연/환각이 폭증**합니다.
 

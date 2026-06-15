@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/ai-2026-4-3-chip-design-automationbiohea-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 AI 스타트업 시장은 **대형 투자(Series A/B급)**와 **전략적 인수합병(M&A)**이 동시에 터지며, “모델을 더 키우는 경쟁”에서 **산업별 수익화(semiconductor, life sciences, media/quality)**로 무게중심이 이동하는 흐름이 뚜렷했습니다. 특히 **Anthropic의 biotech 인수**와 **Cognichip의 chip design 투자 유치**, **OpenAI의 미디어 자산 인수**가 같은 주간에 겹치며 방향성을 선명하게 보여줍니다. ([aibusinessreview.org](https://www.aibusinessreview.org/2026/04/04/anthropic-acquires-coefficient-bio-400m-life-sciences/?utm_source=openai))
 

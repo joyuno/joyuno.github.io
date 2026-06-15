@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-api-429-2026-5-rate-limit-retrybacko-1/
+description: "언제 쓰면 좋은가 사용자 요청이 실시간이지만, 수백 ms~수 초 수준의 지연을 허용할 수 있는 서비스(챗, 요약, 분류 등) 워커/큐 기반으로 처리하지만, 외부 요인(다른 인스턴스, 스파이크) 때문에 429가 간헐적으로 발생하는 환경 다중 LLM…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API를 프로덕션에 붙이면, 성능 최적화보다 먼저 “호출 안정화”에서 막힙니다. 특히 **HTTP 429(Too Many Requests)** 는 단순히 “잠깐 기다렸다가 다시” 수준이 아니라, **동시성(Parallelism)**, **Burst 트래픽**, **토큰 기반 제한(TPM/ITPM/OTPM)**, **Retry 폭풍(thundering herd)** 이 얽히면서 장애를 유발합니다. OpenAI는 429 대응으로 **randomized exponential backoff(지터 포함)** 를 공식 가이드로 안내하고, 실패한 요청도 분당 제한에 포함될 수 있어 무한 재시도는 악수라고 명시합니다. ([platform.openai.com](https://platform.openai.com/docs/guides/rate-limits/retrying-with-exponential-backoff%20.eot?utm_source=openai))
 
