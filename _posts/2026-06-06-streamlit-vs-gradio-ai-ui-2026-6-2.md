@@ -7,18 +7,8 @@ categories: [AI, Prototyping]
 tags: [ai, prototyping, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/streamlit-vs-gradio-ai-ui-2026-6-2/
+description: "Streamlit을 쓰면 좋은 때 “데모인데도” 표/차트/필터/탐색 UI가 필요하고, 대시보드+챗을 한 화면에서 조합해야 할 때 스크립트 기반 재실행 모델을 이해하고, st.cache_data/st.cache_resource로 비용 큰 리소스를 안정적으로 고정할 수 있을 때…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM/RAG/vision 모델을 “지금 당장” 이해관계자에게 보여줘야 할 때 가장 자주 부딪히는 문제는 UI가 아니라 **데모의 운영성**입니다. 즉, (1) 매 클릭마다 재실행되어 상태가 꼬이거나, (2) 동시 접속에서 큐/스트리밍이 망가지거나, (3) 모델/Vector DB 연결을 매번 다시 만들어 느려지거나, (4) 보안 기본값이 허술한 채로 외부에 노출되는 문제죠.
 

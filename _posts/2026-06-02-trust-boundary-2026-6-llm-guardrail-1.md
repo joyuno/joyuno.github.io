@@ -7,18 +7,8 @@ categories: [Backend, Security]
 tags: [backend, security, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/trust-boundary-2026-6-llm-guardrail-1/
+description: "이 글은 “가드레일 모델 하나 붙이면 끝” 같은 얕은 처방이 아니라, 내 프로젝트에 적용 가능한 guardrail 설계 기준을 제공합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 보안에서 prompt injection은 여전히 **1순위 리스크**로 취급됩니다(OWASP LLM Top 10의 LLM01). 문제의 핵심은 단순히 “유저가 나쁜 말을 시켜서 모델이 나쁜 말을 한다”가 아니라, **모델이 읽는 모든 텍스트(사용자 입력, RAG 문서, 웹페이지, tool 출력)를 같은 ‘프롬프트 컨텍스트’에 섞어 넣는 순간 데이터가 곧 명령이 될 수 있다는 구조적 취약점**입니다. ([secportal.io](https://secportal.io/frameworks/owasp-llm-top-10?utm_source=openai))
 

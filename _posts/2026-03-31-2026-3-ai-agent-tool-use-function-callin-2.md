@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-ai-agent-tool-use-function-callin-2/
+description: "최근 OpenAI는 Responses API + Agents SDK를 “에이전트 플랫폼 빌딩 블록”으로 정리하면서, tool orchestration / tracing / built-in tools를 하나의 흐름으로 묶고 있습니다. (openai.com) 또한 Agents SDK…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 들어 “Agentic workflow”가 실서비스로 더 많이 들어오면서, 단순 챗봇을 넘어 **모델이 외부 시스템을 호출해 실제 일을 끝내는 구조**가 표준이 됐습니다. 문제는 여기서부터입니다.  
 Function Calling 자체는 흔해졌지만, 막상 운영 환경에서는 (1) tool schema가 커져 프롬프트가 비대해지고, (2) 모델이 잘못된 인자를 만들거나, (3) tool output이 다음 턴을 오염시키거나(prompt injection), (4) 여러 번의 tool call을 거치며 상태/로그가 엉키는 일이 반복됩니다.

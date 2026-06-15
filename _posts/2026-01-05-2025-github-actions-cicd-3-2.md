@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-3-2/
+description: "Reusable workflows로 파이프라인을 “플랫폼 레벨 표준”으로 모듈화 (docs.github.com) 배포 인증은 OIDC 기반 단기 자격증명으로 전환해 Secret 의존을 줄이기 (docs.github.com) Cache + Artifact v4+로 속도/재현성을 동시에…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년의 CI/CD는 “YAML을 어떻게 쓰느냐”보다 **어떻게 구조화하고(재사용), 어떻게 안전하게(권한/비밀), 어떻게 빠르게(캐시/아티팩트)** 굴리느냐가 성패를 가릅니다. GitHub Actions는 이미 충분히 강력하지만, 팀/서비스가 늘어날수록 워크플로가 비대해지고(중복), Secret 관리가 위험해지고(장기 키), 빌드 시간이 급격히 늘어납니다(캐시 미흡).  
 따라서 2025년형 파이프라인은 다음 전략이 핵심입니다.

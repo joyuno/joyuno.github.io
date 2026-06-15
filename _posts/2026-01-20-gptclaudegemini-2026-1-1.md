@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-1-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월(현재 시점 기준) LLM 시장의 “신규 모델 출시” 키워드는 의외로 조용합니다. 대신 OpenAI·Google·Anthropic 모두 **모델 자체의 세대교체보다, 제품/플랫폼에 어떻게 붙여서 확장하느냐(배포), 얼마나 개인화하느냐(메모리·개인 데이터), 어디까지 일을 대신하느냐(에이전트)** 쪽으로 승부 축이 이동했습니다. ([academy.openai.com](https://academy.openai.com/en/home/resources/latest-model?utm_source=openai))
 

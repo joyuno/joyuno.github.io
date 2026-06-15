@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-4-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 초, Anthropic과 OpenAI는 “사이버보안급”으로 분류될 만큼 강력한 LLM을 공개 범위 밖(파트너 한정)에서 먼저 다루겠다는 신호를 분명히 했습니다. 동시에 Google은 개발자용 실시간(voice/vision) 모델과 오픈 모델(Gemma) 쪽에서 빠르게 제품화를 밀어붙이고 있습니다. ([axios.com](https://www.axios.com/2026/04/07/anthropic-mythos-preview-cybersecurity-risks))
 

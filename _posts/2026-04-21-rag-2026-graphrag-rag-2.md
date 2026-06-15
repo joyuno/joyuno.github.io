@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/rag-2026-graphrag-rag-2/
+description: "“A 서비스 장애의 근본 원인은 뭐였고, 그게 어떤 배포/설정 변경과 연결돼?” (원인-결과/의존성) “이 계약 조항이 바뀌면, 어떤 하위 규정과 예외 조항까지 영향이 가?” (참조/파생) “이 논문 결론을 뒷받침하는 실험 조건과 관련 work를 연결해서 설명해줘” (다중 홉)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 일반적인 Vector RAG는 “질문과 가장 비슷한 chunk 몇 개”를 가져오는 데는 강하지만, **관계(relationship)** 가 답의 핵심인 문제에서 자주 무너집니다. 예를 들면:
 

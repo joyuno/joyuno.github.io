@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-claude-mcp-streamable-http-1/
+description: "언제 쓰면 좋은가: 에이전트가 사내 시스템을 반복 호출(티켓 조회/배포 승인/런북 실행/로그 검색)해야 하고, 호출 정책·감사·권한을 서버에서 통제하고 싶을 때 IDE/CLI(Claude Code, Cursor, Copilot 등)에서 동일한 툴셋을 공유하고 싶을 때(“사내 Tool…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Model Context Protocol(MCP)은 LLM/에이전트가 “외부 세계(데이터/액션)”와 연결되는 표준 인터페이스입니다. 팀마다 GitHub/DB/사내 API/배포 시스템을 각기 다른 방식으로 붙이던 N×M 통합 지옥을, **서버(툴 제공자)–클라이언트(에이전트/IDE)** 구조로 평탄화합니다. Anthropic은 Claude Desktop/Claude Code/Claude.ai에서 MCP를 공식 지원하고 있고, GitHub Copilot SDK나 OpenAI Agents SDK도 MCP 연결을 문서화하기 시작하면서(=클라이언트 다양화) “한 번 서버를 잘 만들면 여러 호스트에서 재사용”이 현실이 됐습니다. ([docs.anthropic.com](https://docs.anthropic.com/en/docs/mcp?utm_source=openai))
 

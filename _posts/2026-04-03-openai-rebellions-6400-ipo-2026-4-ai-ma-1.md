@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/openai-rebellions-6400-ipo-2026-4-ai-ma-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월(현 시점: 2026-04-03) AI 스타트업 시장은 “대형 투자 라운드의 선별적 지속”과 “M&A의 목적 다변화(제품/팀뿐 아니라 채널·여론까지)”가 동시에 관측됩니다. 특히 보안(AI AppSec), AI 반도체, 그리고 AI 모델 기업의 agent/computer-use 역량 강화 쪽으로 돈과 인수가 모이고 있습니다. ([axios.com](https://www.axios.com/newsletters/axios-pro-rata-23bb3ab4-00cd-4ed1-ab5a-b1459da2ae6f?utm_source=openai))
 

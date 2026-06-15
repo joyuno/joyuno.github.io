@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-ai-6-mcpdurable-executionobservab-2/
+description: "PoC는 되는데 프로덕션에서 실패 원인을 못 찾는다(retrieval이 틀렸는지, tool이 죽었는지, 모델이 헛소리했는지). 기능이 늘수록 LLM 호출이 직렬로 늘어나 p95 latency·비용이 폭발한다. “툴 연동”이 늘수록 권한/감사(audit)/정책 적용이 복잡해진다. 장시간…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 기준 AI 애플리케이션(LLM/agent/RAG)은 “모델을 잘 고르는 문제”를 넘어 **아키텍처가 곧 품질/비용/신뢰성**을 결정하는 국면으로 넘어왔습니다. 특히 팀이 겪는 고통은 비슷합니다.
 

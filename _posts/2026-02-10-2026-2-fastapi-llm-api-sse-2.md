@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-fastapi-llm-api-sse-2/
+description: "2026년 2월 기준 실무에서 가장 현실적인 선택은: 서버는 FastAPI 스트리밍은 HTTP 기반 SSE(Server-Sent Events) 또는 chunked streaming 업스트림 LLM은 OpenAI Responses API stream 이벤트 또는 vLLM 같은…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버에서 UX를 좌우하는 건 “정확도”만이 아닙니다. **첫 토큰까지의 지연(TTFT)**, 생성 중 **부분 결과를 얼마나 자연스럽게 전달하는지**, 그리고 **연결이 끊겼을 때의 복구 전략**이 실제 체감 품질을 결정합니다. 특히 긴 답변/툴 호출/검색 기반 응답이 늘면서, **한 번에 완성된 JSON을 주는 방식**은 대기 시간이 길고, 클라이언트는 “멈춘 것처럼” 보이기 쉽습니다.
 

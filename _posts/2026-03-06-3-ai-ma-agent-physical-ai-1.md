@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/3-ai-ma-agent-physical-ai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 초 AI 스타트업 시장의 키워드는 **Agentic AI의 대형사 흡수**와 **Physical AI(로보틱스)로의 자금 쏠림**입니다. 투자 라운드는 로봇/산업 안전·자동화 같은 “현장 적용” 영역으로, M&A는 “모델”보다 **업무 실행(Computer-use) 능력**을 확보하는 방향으로 선명해졌습니다. ([techstartups.com](https://techstartups.com/2026/03/04/top-startup-and-tech-funding-news-march-4-2025/))
 

@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/vibe-coding-2026-5-ai-mvp-1/
+description: "하지만 “빨리 만들기”는 “빨리 망치기”와 붙어 있습니다. LLM이 만든 코드가 당장 돌아가는 것과 내가 유지보수 가능한 MVP는 다릅니다. 2026년 들어 연구에서도 vibe coding의 신뢰성은 결국 피드백(검증)의 정밀도에 달려 있으며, 대충 “성능 점수/에러 유무” 수준의…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 Vibe Coding은 “코드를 대신 써주는 autocomplete”가 아니라, **에이전트(Agent)가 계획→구현→실행→검증을 반복하며** 제품의 형태를 빠르게 잡는 흐름으로 굳어졌습니다. 특히 Replit Agent 4처럼 “빌드/런/배포까지 포함된 풀스택 환경”에서 에이전트가 행동(작업 실행)을 하면서 반복 루프를 단축시키고, Cursor/Claude Code처럼 로컬 개발 워크플로우에 붙는 형태로도 확장됩니다. ([docs.replit.com](https://docs.replit.com/core-concepts/agent))
 

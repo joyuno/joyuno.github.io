@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2-gpt-53-codex-vs-claude-opus-46-gemini--1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월, LLM 시장은 “더 똑똑한 챗봇”을 넘어 **에이전트형(agentic) 모델**과 **개발 생산성**을 정면으로 겨냥한 업데이트가 연달아 터졌습니다. 특히 2월 5일(현지 기준) OpenAI와 Anthropic이 같은 날 신모델을 발표하며 경쟁 구도가 더 선명해졌고, Google도 Gemini 3 계열에서 ‘Agentic Vision’ 같은 도구결합형 기능을 전면에 내세웠습니다. ([help.openai.com](https://help.openai.com/ko-kr/articles/9624314-model-release-notes?utm_source=openai))
 

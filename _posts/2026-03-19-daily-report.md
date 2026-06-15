@@ -4,6 +4,7 @@ title: "2026-03-19 개발 작업 리포트"
 date: 2026-03-19 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(otel): OIDC SSO 인증 오류 해결 → Azure AD 리디렉트 URI 불일치 수정 및 .env 설정 보완"
 ---
 
 # 🤖 Claude CLI 작업 리포트

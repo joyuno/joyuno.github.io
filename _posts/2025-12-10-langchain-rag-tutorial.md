@@ -7,17 +7,8 @@ categories: [AI, LangChain]
 tags: [langchain, rag, llm, ai, vector-db]
 
 source: https://daewooki.github.io/posts/langchain-rag-tutorial/
+description: "RAG (Retrieval-Augmented Generation)는 LLM의 한계를 극복하는 핵심 기술입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## RAG란?
 
 **RAG (Retrieval-Augmented Generation)**는 LLM의 한계를 극복하는 핵심 기술입니다.

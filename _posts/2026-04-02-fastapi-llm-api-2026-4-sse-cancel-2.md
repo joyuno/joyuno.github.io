@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/fastapi-llm-api-2026-4-sse-cancel-2/
+description: "2026년 4월 기준으로는 브라우저/프록시 호환성과 구현 난이도 균형 때문에 SSE(Server-Sent Events) 가 LLM 텍스트 스트리밍의 사실상 표준으로 굳어졌고(OpenAI도 SSE 기반 이벤트 스트리밍), FastAPI 역시 SSE 사용성을 공식 문서로 정리하며…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버를 운영해보면 병목은 대개 “모델이 느리다”가 아니라 **유저가 느리게 느낀다**입니다. 800~1500 tokens짜리 답변은 생성 자체가 수 초 걸리는데, 전통적인 JSON 응답은 **완료될 때까지 클라이언트가 아무것도 못 보고 기다립니다.** 반면 스트리밍을 붙이면 총 생성 시간은 같아도 **Time-to-first-token**이 줄어 체감 성능이 급상승합니다. 게다가 “생성 중 취소”, “부분 결과 저장/관찰”, “툴 호출 진행 상황 중계” 같은 운영 기능도 스트리밍이 사실상 전제입니다.
 

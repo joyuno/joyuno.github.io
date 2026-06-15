@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/supervisorworker-2026-5-1/
+description: "멀티 에이전트 오케스트레이션을 실제 서비스에 붙이면, 대부분 “에이전트가 똑똑한가”보다 누가 언제 무엇을 시키고(라우팅), 결과를 어떻게 합치며(합성), 실패를 어떻게 복구하는가(내구성)에서 망합니다. 특히 작업이 길어질수록 (RAG + 외부 API + 코드 실행 + 문서 편집 등)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 멀티 에이전트 오케스트레이션을 실제 서비스에 붙이면, 대부분 “에이전트가 똑똑한가”보다 **누가 언제 무엇을 시키고(라우팅), 결과를 어떻게 합치며(합성), 실패를 어떻게 복구하는가(내구성)**에서 망합니다. 특히 작업이 길어질수록 (RAG + 외부 API + 코드 실행 + 문서 편집 등) 단일 에이전트는 **컨텍스트/권한/도구 범위**가 비대해지고, 디버깅도 불가능해집니다.

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 초, OpenAI·Anthropic·Google이 각각 GPT‑5.4, Claude Sonnet 4.6, Gemini 3.1 Flash‑Lite(및 3.1 Pro)를 전면에 내세우며 “LLM 신규 모델 출시 경쟁”을 다시 가속했습니다. 이번 라운드의 핵심은 단순 벤치마크 1등이 아니라, 개발자가 바로 붙여 쓸 수 있는 **가격/속도/컨텍스트/툴링(agents)**까지 포함한 제품 패키지 경쟁으로 확장됐다는 점입니다.
 

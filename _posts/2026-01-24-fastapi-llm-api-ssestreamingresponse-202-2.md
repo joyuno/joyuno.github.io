@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/fastapi-llm-api-ssestreamingresponse-202-2/
+description: "2026년 1월 시점에서 FastAPI로 스트리밍을 구현할 때는 크게 두 갈래가 실무에서 많이 쓰입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버에서 “스트리밍”은 단순 UX 옵션이 아니라 **서버 비용/지연/타임아웃**을 좌우하는 핵심 설계입니다. 긴 응답을 한 번에 반환하면 TTFB(Time To First Byte)가 커지고, 사용자는 “멈춘 것처럼” 느끼며, 서버는 전체 결과를 버퍼링하는 동안 메모리·커넥션을 오래 물고 있게 됩니다. 반대로 토큰 단위로 흘려보내면 **첫 토큰까지의 지연을 최소화**하고, 중간에 사용자가 취소하면 **즉시 연산을 끊어 비용을 절감**할 수 있습니다.
 

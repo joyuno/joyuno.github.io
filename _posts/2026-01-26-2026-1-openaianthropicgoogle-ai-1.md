@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2026-1-openaianthropicgoogle-ai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월은 “모델 성능 경쟁”만큼이나 **정책(Policy)·플랫폼 정리·API 수명주기 관리**가 전면에 나온 달이었습니다. OpenAI는 약관/미성년자 보호 강화 흐름을, Anthropic은 Claude 브랜드/모델 세대교체를, Google은 Gemini API의 **deprecation(폐기)와 과금 전환**을 확실히 드러냈습니다. ([openai.com](https://openai.com/policies/terms-of-use/?utm_source=openai))
 

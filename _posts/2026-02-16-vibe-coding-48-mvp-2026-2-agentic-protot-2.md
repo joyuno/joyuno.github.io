@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/vibe-coding-48-mvp-2026-2-agentic-protot-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 “빠른 개발”은 단순히 scaffold를 빨리 만드는 수준을 넘어, **AI agent가 요구사항→코드→수정→배포 루프를 끊김 없이 돌리는 능력**이 승부를 가릅니다. 실제로 “vibe coding”은 2025년 이후 대중화되며(용어 자체는 Karpathy가 2025년 2월 소개), **많은 팀이 코드 작성의 상당 부분을 AI에 위임**하는 방향으로 이동했습니다. ([en.wikipedia.org](https://en.wikipedia.org/wiki/Vibe_coding?utm_source=openai))  
 다만 속도가 빨라질수록 품질/보안/신뢰 문제가 곧바로 비용으로 돌아옵니다. 2026년 담론은 “그냥 생성”이 아니라 **guardrail(테스트/리뷰/권한/로그)로 감싼 생성**으로 이동 중입니다. ([techradar.com](https://www.techradar.com/pro/why-security-is-paramount-for-entrepreneurs-in-the-vibe-coding-era?utm_source=openai))  

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2~3월 사이, OpenAI·Anthropic·Google이 각각 개발자용 LLM 라인업을 굵직하게 업데이트하며 경쟁 구도가 다시 요동쳤습니다. 특히 “코딩 특화(Codex)”, “초장문 컨텍스트(1M tokens)”, “초저비용/고처리량(Flash-Lite)”이 각 진영의 핵심 메시지로 보입니다. ([openai.com](https://openai.com/index/introducing-gpt-5-3-codex/?utm_source=openai))
 

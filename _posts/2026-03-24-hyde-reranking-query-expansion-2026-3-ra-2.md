@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/hyde-reranking-query-expansion-2026-3-ra-2/
+description: "2026년 3월 시점에 “확실히 체감되는” 고급 패턴은 세 가지를 멀티스테이지로 결합하는 겁니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG 성능이 안 나오는 팀을 보면, 대개 LLM 문제가 아니라 **retrieval 품질(Recall/Precision)** 문제가 먼저 터집니다. 특히 실무 데이터(내부 위키, 티켓, 코드, 계약서)는 사용자 질의가 짧고 모호해서 **vocabulary mismatch**가 자주 발생합니다. “용어는 다른데 같은 뜻”인 경우, dense embedding만으로는 근처를 못 잡고, sparse(BM25)만으로는 의미를 못 잡습니다.
 

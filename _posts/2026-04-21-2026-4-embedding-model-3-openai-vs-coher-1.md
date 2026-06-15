@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-embedding-model-3-openai-vs-coher-1/
+description: "언제 쓰면 좋나: 문서 검색(RAG), 유사 사례 추천, FAQ 라우팅, 고객문의 분류처럼 텍스트 의미를 거리로 계산해야 할 때 BM25 같은 lexical만으로는 recall이 부족한 동의어/패러프레이즈/다국어 환경 언제 쓰면 안 되나(또는 단독 사용 금지): “정답 근거”가 중요한…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG/semantic search를 “돌아가게” 만드는 것과 “정확하게” 만드는 것의 차이는 대부분 embedding에서 시작합니다. 특히 2026년 현재는 **(1) 상용 API(OpenAI, Cohere)** 와 **(2) 오픈소스(BGE 계열)** 가 모두 강력해져서, “그냥 유명한 거”로 고르기보다 **도메인/운영 제약(비용·지연·보안·배포)** 중심으로 선택해야 합니다.
 

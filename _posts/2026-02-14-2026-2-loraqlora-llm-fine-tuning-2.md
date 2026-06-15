@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-loraqlora-llm-fine-tuning-2/
+description: "LoRA: base model weight는 고정(freeze)하고, 일부 Linear layer에 저랭크(rank) adapter만 학습해 파라미터/메모리를 크게 줄입니다. QLoRA: base model을 4-bit quantization으로 로드해 VRAM을 더 아끼고, 그 위에…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM fine-tuning은 “성능은 좋은데 비용이 너무 비싸다”가 늘 문제였습니다. Full fine-tuning은 GPU 메모리/시간/비용이 기하급수로 커지고, 실무에서는 데이터도 충분히 크지 않은 경우가 많습니다. 그래서 2026년 2월에도 여전히 표준 해법은 **PEFT(Parameter-Efficient Fine-Tuning)**, 그중에서도 **LoRA/QLoRA**입니다.
 

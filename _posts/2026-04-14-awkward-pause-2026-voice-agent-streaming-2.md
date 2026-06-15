@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/awkward-pause-2026-voice-agent-streaming-2/
+description: "최근 흐름은 크게 둘로 정리됩니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 기준, 음성 AI는 “말은 잘하는데 대화가 어색한” 단계를 넘어서 **실시간(turn-taking)** 품질이 제품 경쟁력을 좌우하는 국면입니다. 콜센터/IVR, 인앱 상담, 음성 코치, 통역/번역 등에서 사용자가 제일 민감하게 느끼는 건 정확도보다도 **응답 타이밍(지연, 끊김, 끼어들기 barge-in)** 입니다.
 

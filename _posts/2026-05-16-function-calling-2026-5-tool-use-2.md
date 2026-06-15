@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/function-calling-2026-5-tool-use-2/
+description: "LLM 기반 AI Agent를 실제 서비스에 붙이면 가장 먼저 부딪히는 문제는 “대답은 그럴듯한데, 행동(action)은 못 한다” 입니다. DB 조회, 사내 API 호출, 티켓 발행, 결제 취소, 리포트 생성처럼 외부 시스템과의 상호작용이 필요한 순간부터, 프롬프트만으로는 한계가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 LLM 기반 AI Agent를 실제 서비스에 붙이면 가장 먼저 부딪히는 문제는 **“대답은 그럴듯한데, 행동(action)은 못 한다”** 입니다. DB 조회, 사내 API 호출, 티켓 발행, 결제 취소, 리포트 생성처럼 **외부 시스템과의 상호작용**이 필요한 순간부터, 프롬프트만으로는 한계가 오고 결국 **tool use / function calling**이 필수가 됩니다. OpenAI는 이를 Agents SDK/Responses API의 핵심 축으로 정리했고, “run(loop) + tool call + tool result”라는 표준 형태로 수렴하는 중입니다. ([cdn.openai.com](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf))

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/chatgpt-claude-cowork-gemini-api-2026-1--1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 중순, OpenAI·Anthropic·Google이 각각 **수익화(ads), 에이전트/데스크톱 자동화, API 입력·모델 정책(폐기/과금)**을 중심으로 굵직한 업데이트를 연달아 내놓았습니다. 공통점은 “모델 성능 경쟁”을 넘어 **프로덕션 운영(비용/정책/마이그레이션)**이 개발자 의사결정의 핵심으로 이동하고 있다는 점입니다. ([openai.com](https://openai.com/index/our-approach-to-advertising-and-expanding-access//?utm_source=openai))
 

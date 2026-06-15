@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-db-pineconeweaviateqdrantchroma-2/
+description: "2026년 4월 시점의 흐름은 명확합니다. Pinecone: “Zero-Ops + 일관된 성능”을 돈으로 사는 선택. 다만 serverless cold start는 구조적 리스크. (pinecone.io) Qdrant: Rust 기반 엔진 + payload(필터) 최적화로 원초적인…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG(검색증강생성)·Agent memory·추천/유사검색이 “데모”를 넘어 “상시 트래픽”으로 들어오면, 병목은 모델이 아니라 **retrieval**에서 터집니다. 특히 실무에서는 (1) p95/p99 latency, (2) metadata filter가 섞인 복합 쿼리, (3) upsert/삭제가 잦은 워크로드, (4) 비용의 예측 가능성, (5) 운영 난이도가 동시에 문제입니다.
 

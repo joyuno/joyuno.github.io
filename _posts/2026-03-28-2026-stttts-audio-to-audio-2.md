@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-stttts-audio-to-audio-2/
+description: "최근 흐름은 크게 두 갈래입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 기준으로 “전화처럼 자연스럽게 끼어들고(barge-in), 끊김 없이 말하고, 짧게라도 바로 대답을 시작하는” 음성 AI가 제품 경쟁력의 핵심이 됐습니다. 단순히 STT→LLM→TTS를 이어 붙이는 수준을 넘어서, **대화의 타이밍(turn-taking)과 지연(latency)** 자체가 UX를 좌우합니다.
 

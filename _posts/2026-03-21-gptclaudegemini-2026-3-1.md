@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월, OpenAI·Google·Anthropic의 LLM 라인업이 연달아 업데이트되면서 “최강 모델” 경쟁이 다시 불붙었습니다. 다만 이번 사이클의 핵심은 단순 benchmark 승부가 아니라, **개발자가 실제로 쓰는 워크플로(코딩·오피스·고볼륨 API)에 얼마나 빨리/싸게/안정적으로 녹아드느냐**로 옮겨가고 있습니다. ([openai.com](https://openai.com/hy-AM/index/introducing-gpt-5-4//?utm_source=openai))
 

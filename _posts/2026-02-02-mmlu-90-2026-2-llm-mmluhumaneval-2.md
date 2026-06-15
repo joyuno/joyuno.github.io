@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/mmlu-90-2026-2-llm-mmluhumaneval-2/
+description: "이번 글에서는 2026년 2월 기준으로 MMLU / HumanEval을 ‘평가 방법’ 관점에서 어떻게 해석해야 실무 의사결정에 도움이 되는지를 기술 심층 분석으로 정리합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 “잘한다”고 말할 때, 우리는 대개 리더보드 숫자 한 줄(MMLU 90, HumanEval 95 등)로 결론을 냅니다. 하지만 2026년 2월 시점에는 이 방식이 점점 위험해졌습니다. 이유는 간단합니다. (1) MMLU 자체가 오래된 지식/문항 구조를 갖고 있고, (2) 코드 벤치마크(HumanEval)는 테스트가 얕으면 “그럴듯한 정답”이 과대평가되며, (3) 무엇보다 **contamination(학습 데이터에 평가셋이 섞임)** 이 점수를 무력화할 수 있기 때문입니다. 최근에는 contamination을 탐지/완화하려는 연구와 “강화판 벤치마크”들이 빠르게 확산되고 있습니다. ([arxiv.org](https://arxiv.org/abs/2510.27055?utm_source=openai))
 

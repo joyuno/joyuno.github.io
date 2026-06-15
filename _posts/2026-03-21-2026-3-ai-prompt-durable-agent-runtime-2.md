@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-ai-prompt-durable-agent-runtime-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2024~2025년의 LLM 앱은 “요청 1번 → 응답 1번” 구조가 많았습니다. 하지만 2026년 3월 기준 현업에서 문제는 명확합니다: **멀티스텝(workflow) + 외부 Tool 호출 + 장시간 실행 + 재시도/복구 + 감사(audit)** 가 기본 요구가 되면서, 단순한 챗봇 아키텍처로는 **비용 폭증, 장애 시 재실행, 부작용(side effect) 중복 실행**을 막기 어렵습니다. 그래서 최근 흐름은 “LLM을 똑똑하게 만드는 법”보다, **LLM을 ‘안전하게 운영 가능한 컴포넌트’로 만드는 설계 패턴** 쪽으로 이동했습니다. 특히 **stateful graph workflows + durable execution + typed tool interface**가 핵심 축으로 굳어지는 중입니다. ([blog.langchain.com](https://www.blog.langchain.com/building-langgraph/?utm_source=openai))
 

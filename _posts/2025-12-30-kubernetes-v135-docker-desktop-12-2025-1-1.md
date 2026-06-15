@@ -7,17 +7,8 @@ categories: [DevOps, News]
 tags: [devops, news, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/kubernetes-v135-docker-desktop-12-2025-1-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월 클라우드 네이티브 업계는 **Kubernetes v1.35 정식 릴리스(12/17)**와 **Docker Desktop 12월 릴리스(12/04, 12/16)**를 축으로 “운영 안정성·보안·런타임/개발자 경험”을 동시에 끌어올리는 흐름이 두드러졌습니다. 특히 Kubernetes 쪽은 기능 추가만큼이나 **생태계 컴포넌트 유지보수 리스크(예: Ingress NGINX)**가 전면으로 올라왔다는 점이 인상적입니다. ([kubernetes.io](https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/fp8-kv-cache-int4-weight-only-2026-5-gpu-2/
+description: "(1) KV cache/attention 경로 최적화: paged attention + KV cache quantization(FP8 중심) + 더 빠른 attention kernel(FlashAttention/FlashInfer/FlashMLA 등) (2) Weight…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 LLM 서빙 병목은 “모델 weights를 GPU에 올리느냐”를 넘어, **KV cache가 VRAM을 집어삼키면서 batch/throughput을 무너뜨리는 문제**로 더 자주 나타납니다. vLLM/TensorRT-LLM/SGLang 같은 서빙 엔진들이 paged KV, continuous batching을 기본값으로 가져가면서, 이제 최적화의 승부처는 크게 두 가지로 정리됩니다:
 

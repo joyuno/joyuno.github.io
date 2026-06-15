@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/llm-30-2026-3-langsmith-vs-langfuse-2/
+description: "이때 대표 선택지가 LangSmith(상용 SaaS 중심)와 Langfuse(오픈소스/자체 호스팅 친화)인데, 둘 다 “trace 보기”를 넘어서 디버깅(원인 추적), 비용/토큰 추적(재무 관점의 SLO), 그리고 표준화(OpenTelemetry)로 가고 있다는 점이 핵심 변화입니다.…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 기준 LLM 애플리케이션 운영의 본질은 “모델 성능”이 아니라 “시스템 성능”입니다. 같은 prompt라도 **컨텍스트(툴 호출, RAG 검색 결과, 재시도, 라우팅, 캐시, 모델 버전)**에 따라 결과가 출렁이고, 장애는 대개 코드가 아니라 **오케스트레이션(Agent graph)와 외부 의존성**에서 터집니다. 그래서 프로덕션에서 필요한 건 로그가 아니라 **trace 중심의 observability**입니다.
 

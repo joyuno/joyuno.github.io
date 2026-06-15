@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-2-llm-1m-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월, OpenAI·Anthropic·Google이 각각 GPT/Claude/Gemini 계열에서 굵직한 모델 업데이트를 연달아 발표했습니다. 이번 발표들의 공통점은 “코딩 중심(에이전트형) 성능”과 “긴 컨텍스트(1M tokens)”를 전면에 내세우며 개발 워크플로우 자체를 바꾸려 한다는 점입니다. ([help.openai.com](https://help.openai.com/en/articles/9624314-model-release-notes?utm_source=openai))
 

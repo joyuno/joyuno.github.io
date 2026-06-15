@@ -7,18 +7,8 @@ categories: [AI, Data]
 tags: [ai, data, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-5-synthetic-data-2/
+description: "1) 도메인/포맷 특화가 필요한데 라벨 데이터가 없다 (또는 만들기 너무 비싸다) 2) RAG로는 해결이 안 되는 출력 스타일·정책·함수호출·분류 기준 같은 “행동”을 모델에 주입해야 한다"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프로덕션에서 LLM을 쓰다 보면, 결국 두 가지 벽을 만납니다.
 

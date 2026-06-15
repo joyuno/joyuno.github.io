@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/ai-ma-3-merge-vs-vs-vector-db-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월은 **AI 스타트업의 “돈이 몰리는 곳”과 “사라지는(흡수되는) 곳”**이 또렷하게 갈린 달이었습니다. 대형 투자 라운드가 이어지는 한편, 콘텐츠·클라우드 인프라 영역에서는 **인수합병(M&A/merge)**로 역량을 빠르게 내재화하는 흐름도 강화됐습니다. ([axios.com](https://www.axios.com/newsletters/axios-pro-rata-9648db32-a89a-41b7-b482-57e9d28ee1de?utm_source=openai))
 

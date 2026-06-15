@@ -7,17 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2026-1-langgraph-vs-autogen-vs-crewai-2/
+description: "이 지점에서 LangGraph / Microsoft AutoGen / CrewAI는 철학이 완전히 다릅니다. 요약하면: LangGraph: 제어 가능한 workflow(state machine/graph) 중심 AutoGen: 대화(conversation)로 협업시키는 멀티 에이전트…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2024~2025년의 “Agent”는 데모가 많았고, 2026년 1월의 “Agent”는 **운영 가능한 오케스트레이션**이 핵심입니다. 즉, (1) 에이전트가 여러 개일 때 **누가 언제 무엇을 하게 할지**, (2) 실패/재시도/검증을 **어떻게 제어할지**, (3) 추적 가능성(Observability)과 재현성(Replay)을 **어떻게 확보할지**가 생산성을 갈라요.
 

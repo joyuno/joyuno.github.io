@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-aiunderstandinggeneration-2/
+description: "1) 이해(Video Understanding): “긴 영상에서 중요한 순간만” 잡아내고, 그 구간을 근거 기반(temporal grounding) 으로 설명/추출해야 함 2) 생성(Video Generation): “원하는 스타일/인물/카메라 동작을 유지”하면서도 비용을 감당 가능한…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 비디오 AI를 제품에 붙이려는 팀이 2026년에 실제로 마주치는 문제는 두 가지입니다.
 

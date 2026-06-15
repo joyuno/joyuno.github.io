@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/ai-healthagenton-device-2026-1-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 AI 스타트업 투자/인수합병 뉴스의 공통 키워드는 **(1) 헬스케어 워크플로우**, **(2) agent 기반 자동화**, **(3) on-device/sovereign AI**로 수렴합니다. 특히 빅테크는 “모델 성능 경쟁”을 넘어, **데이터(의료기록)·배포(디바이스)·사용처(업무 자동화)**를 직접 확보하는 방향으로 움직였습니다. ([techcrunch.com](https://techcrunch.com/2026/01/12/openai-buys-tiny-health-records-startup-torch-for-reportedly-100m/?utm_source=openai))
 

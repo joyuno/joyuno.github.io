@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-vlmvision-language-model-2/
+description: "언제 쓰면 좋나 사람이 “눈으로 보고 판단”하던 운영 업무(고객 CS 증빙 확인, 대시보드 장애 triage, 정산 문서 검수)를 규칙 + 추론으로 바꾸고 싶을 때 OCR만으로는 부족한 레이아웃/의미 이해(“총액이 어디에 있나?”, “이 그래프가 증가 추세인가?”)가 필요할 때 이미지…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 기준 멀티모달 AI의 실전 가치는 “이미지를 보고 자연어로 추론한다”가 아니라, **이미지 기반 업무 흐름을 API로 자동화**하는 데 있습니다. 대표적으로 (1) 고객이 올린 영수증/청구서/서류, (2) 운영 중인 SaaS의 대시보드 스크린샷, (3) 리포트에 들어있는 표/차트, (4) 제품 사진의 결함/라벨/구성품 확인 같은 문제요. OpenAI는 Responses API에서 이미지 입력을 공식 가이드로 제공하고, PDF를 넣으면 텍스트 추출 + 페이지 이미지까지 함께 컨텍스트에 넣는 방식도 문서화했습니다. ([platform.openai.com](https://platform.openai.com/docs/guides/images-vision?api-mode=responses&format=base64-encoded&lang=curl&utm_source=openai))
 

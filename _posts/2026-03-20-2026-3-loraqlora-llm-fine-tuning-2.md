@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-loraqlora-llm-fine-tuning-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년에도 LLM 파인튜닝의 현실은 크게 변하지 않았습니다. “데이터는 있는데 GPU/예산이 없다”가 기본 전제고, 그래서 **Full Fine-Tuning(FFT)** 대신 **PEFT(Parameter-Efficient Fine-Tuning)**가 표준이 됐습니다. 특히 **LoRA**는 base weight는 얼리고 저랭크 adapter만 학습해 비용을 확 줄이고, **QLoRA**는 여기에 **4-bit quantization**을 결합해 “큰 모델을 작은 자원으로” 다루게 해줍니다. Unsloth 쪽은 2026년 3월에도 Colab/로컬 환경에서 **안정적으로 QLoRA 파이프라인을 굴리는 방법**(환경 고정, 크래시 회피, 설정 조합)을 강조하고 있고, Hugging Face 생태계는 **PEFT + TRL(SFTTrainer)** 조합이 사실상 기본 빌딩블록이 됐습니다. ([marktechpost.com](https://www.marktechpost.com/2026/03/03/how-to-build-a-stable-and-efficient-qlora-fine-tuning-pipeline-using-unsloth-for-large-language-models/))
 

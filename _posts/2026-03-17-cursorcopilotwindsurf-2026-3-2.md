@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurf-2026-3-2/
+description: "특히: Windsurf는 Cascade가 Code/Chat 모드, tool calling, Todo plan, checkpoints & revert, linter integration, .codeiumignore(전역/레포) 같은 “IDE 안의 에이전트 운영체제”에 가깝게…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월의 AI 코딩 도구는 더 이상 “autocomplete 잘 해주는 플러그인” 수준이 아닙니다. Cursor/Windsurf/Copilot 모두 **agentic workflow(에이전트형 작업 방식)** 로 무게중심이 옮겨갔고, 핵심은 *한 줄 생성*이 아니라 **(1) 코드베이스 탐색 → (2) 멀티파일 수정 → (3) 터미널 실행/검증 → (4) 되돌리기/리뷰**의 루프를 얼마나 안정적으로 굴리느냐입니다.
 

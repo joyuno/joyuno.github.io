@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/llm-3vllmtgiollama-2026-3-2/
+description: "이 글은 “셋 다 띄워보기”가 아니라, 인프라 관점(서빙 구조/메모리/KV cache/배포 단위)에서 왜 그런 차이가 나는지, 그리고 2026년 3월 기준으로 로컬~서버 배포를 어떤 방식으로 가져가면 좋은지 심층적으로 정리합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 현재 LLM 서빙은 “모델을 띄우는 것”보다 **동시성(concurrency)에서의 성능 곡선**과 **운영 난이도**가 승패를 가릅니다. 같은 GPU 1장이라도, 요청이 1개일 때 빠른 서버와 50명이 동시에 붙었을 때 SLA를 지키는 서버는 다릅니다. 최근 벤치마크/분석에서 공통적으로 드러나는 결론은 명확합니다:  
 - **vLLM**은 continuous batching + PagedAttention 기반으로 고동시성에서 처리량이 크게 튑니다. ([developers.redhat.com](https://developers.redhat.com/articles/2025/08/08/ollama-vs-vllm-deep-dive-performance-benchmarking?utm_source=openai))  

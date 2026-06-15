@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-2-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 초, Anthropic이 **Claude Opus 4.6(2026-02-05)**를 공개하며 ‘agentic coding’과 초장문 컨텍스트 경쟁에 다시 불을 붙였습니다. 한편 OpenAI는 **GPT-5.2(2025-12-11 공개)**를 중심으로 레거시 모델 정리(2026-02-13 ChatGPT 내 지원 종료)를 진행 중이고, Google은 **Gemini 3 계열의 생태계 확장**이 빠르게 진행되는 국면입니다. ([anthropic.com](https://www.anthropic.com/news/claude-opus-4-6?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-3vllmtgiollama-2026-4-2/
+description: "고동시성 API 서빙(사내 서비스/에이전트 백엔드): OpenAI-compatible API가 필요 → vLLM/TGI 로컬 배포(개발자/보안 환경): 설치 간단, 모델 관리 쉬움 → Ollama 운영 최적화: OOM 회피, TTFT(Time To First Token) 줄이기, 토큰…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 기준 LLM은 “학습”보다 “서빙(inference)”이 비용과 안정성을 좌우합니다. 같은 모델이라도 **KV cache 메모리 관리**, **continuous batching**, **prefill/decode 스케줄링**에 따라 GPU 한 장에서 처리 가능한 동시 요청 수와 p95 latency가 크게 갈립니다.  
 실무에서 자주 부딪히는 요구는 보통 세 가지입니다.

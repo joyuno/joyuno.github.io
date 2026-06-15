@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurfcascade-2026-2-2/
+description: "이 글은 “도구 소개”가 아니라, 왜 이런 구조가 생산성을 올리는지(원리)와 어떻게 세팅/운영해야 시행착오가 줄어드는지(실전 운영법)에 초점을 맞춥니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 기준 AI 코딩 도구의 흐름은 “autocomplete 잘해요”에서 끝나지 않습니다. 이제는 **agentic workflow**(계획→수정→실행→검증을 도구가 주도)로 넘어왔고, 이 전환이 생산성의 격차를 크게 만듭니다.  
 예를 들어 GitHub Copilot은 VS Code에서 **Agent mode**가 확장되고(터미널 커맨드 실행 내역 표시, 빌드 task 실행 등), 터미널 중심의 **Copilot CLI**도 GA로 올라오면서 “코드 편집기 밖”까지 자동화가 내려왔습니다. ([github.blog](https://github.blog/changelog/2025-03-06-github-copilot-updates-in-visual-studio-code-february-release-v0-25-including-improvements-to-agent-mode-and-next-exit-suggestions-ga-of-custom-instructions-and-more?utm_source=openai))  

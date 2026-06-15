@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/chain-of-thoughtcot-2026-self-consistenc-2/
+description: "1) 프론티어 reasoning model들은 CoT를 종종 ‘hidden’으로 운용하고, 사용자에게 raw CoT를 그대로 노출하지 않는 방향이 주류가 됐습니다. 대신 “요약된 reasoning”만 보여주기도 합니다. (openai.com) 2) CoT를 “이렇게 써라/저렇게…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Chain of Thought(CoT)는 “모델이 중간 추론 단계를 거치게 만들어” 정답률/일관성을 끌어올리는 고전적 기법이었습니다. 그런데 2025~2026을 거치며 현업에서의 CoT 활용 방식이 바뀌었습니다. 이유는 간단합니다.
 

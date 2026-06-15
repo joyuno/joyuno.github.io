@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-ai-agent-long-term-1/
+description: "언제 쓰면 좋은가 사용자별 개인화(선호/규칙/금지사항)가 누적될수록 가치가 커지는 제품 멀티스텝 툴 실행(ETL, 티켓 처리, 코드 변경, 리서치→작성 파이프라인)처럼 “중간 상태”가 중요한 에이전트 장애/재시작/스케일아웃이 일상인 환경(컨테이너 재배치, 서버리스, 워커 풀)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프로덕션 AI Agent를 붙이다 보면 “모델 성능”보다 더 빨리 한계가 오는 지점이 **state(상태)** 입니다. 세션이 바뀌면 사용자의 선호/업무 맥락을 잊고, 도구 실행 중간에 죽으면 재시도 전략이 없고, 멀티스텝 워크플로우가 길어질수록 “무엇을 알고/했고/해야 하는지”가 붕괴합니다. 결국 **Memory = UX**이자 **State = 안정성/비용** 문제로 수렴합니다. (최근 커뮤니티에서도 “메모리 지속성과 비용 제어는 같은 문제”라는 관찰이 반복됩니다. ([reddit.com](https://www.reddit.com/r/LangChain/comments/1rs07c6/how_are_you_handling_memory_persistence_across/)))
 

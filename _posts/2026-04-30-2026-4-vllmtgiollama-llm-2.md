@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-vllmtgiollama-llm-2/
+description: "1) GPU 메모리(KV cache) 때문에 동시성(concurrency)이 안 나옴 2) TTFT(Time To First Token) vs Throughput(토큰/초) 트레이드오프로 “체감 속도”가 들쭉날쭉함 3) 개발환경(로컬)에서는 잘 되는데,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 서빙을 직접 운영하면 곧바로 부딪히는 문제가 3가지입니다.
 

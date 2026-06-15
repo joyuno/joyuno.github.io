@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/openaianthropicgoogle-2026-2-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월은 빅테크 AI 3사(OpenAI, Anthropic, Google)가 **모델 라인업 정리(디프리케이션)**, **프론티어 안전 정책 강화**, **신규 상위 모델 투입(장문 컨텍스트/에이전트 지향)**을 한 달 안에 몰아친 시기였습니다. 개발자 관점에서는 “무슨 모델을 기본값으로 둘 것인가”와 “정책·거버넌스 요구 수준이 어디까지 올라왔는가”가 동시에 바뀌고 있습니다. ([openai.com](https://openai.com/index/retiring-gpt-4o-and-older-models/?utm_source=openai))
 

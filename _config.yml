@@ -16,6 +16,12 @@ social:
   name: Joyuno
   links:
     - https://github.com/joyuno
+    - https://joyuno.github.io
+
+# OG / Twitter 카드 미리보기 기본 이미지 (글에 image 없을 때 fallback)
+image: https://github.com/joyuno.png?size=1200
+logo: /assets/favicon/oiia-cat.png
+
 # Google Search Console 인증 (사용자 콘솔에서 받은 verification code 를 여기에 박으면
 # jekyll-seo-tag 가 <meta name="google-site-verification"> 자동 생성).
 # google_site_verification: "<여기에 코드>"
@@ -37,6 +43,10 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+      author: joyuno
+
+# 자동 description fallback 위한 excerpt 구분자 (첫 \n\n 까지가 excerpt)
+excerpt_separator: "\n\n"
 
 # 플러그인
 plugins:

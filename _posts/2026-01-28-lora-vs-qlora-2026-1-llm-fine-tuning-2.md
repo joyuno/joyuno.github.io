@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/lora-vs-qlora-2026-1-llm-fine-tuning-2/
+description: "이때 가장 현실적인 해법이 LoRA / QLoRA입니다. LoRA는 업데이트 파라미터를 “저랭크(low-rank)”로 제한해 학습 비용을 줄이고, QLoRA는 여기에 4-bit quantization을 더해 더 큰 모델을 더 작은 VRAM에서 fine-tuning 가능하게 만듭니다.…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년에도 LLM fine-tuning의 본질은 변하지 않습니다. **성능(도메인 적합도)**을 올리고 싶지만, **GPU VRAM/학습 시간/운영 비용**이 발목을 잡습니다. Full fine-tuning은 7B만 가도 메모리 부담이 급격히 커지고(가중치+gradient+optimizer state), 실무에서는 “일단 돌아가는” 효율적 방법이 필요합니다. ([arxiv.org](https://arxiv.org/abs/2601.02609?utm_source=openai))
 

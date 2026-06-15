@@ -7,17 +7,8 @@ categories: [Infrastructure, News]
 tags: [infrastructure, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/12-ai-agent-aws-reinvent-2025-gcpazure-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월(정확히는 11/30~12/4 개최된 AWS re:Invent 2025 이후) AWS가 대규모 신규 서비스/기능을 쏟아냈고, 같은 12월에 GCP와 Azure도 “AI Agent 운영”과 “LLM 트래픽 제어”, “크로스클라우드 연결”을 전면에 내세웠습니다. 핵심 흐름은 단순 모델 제공을 넘어, **엔터프라이즈급 Agent 운영·거버넌스·비용통제**로 경쟁의 무게중심이 이동했다는 점입니다. ([aws.amazon.com](https://aws.amazon.com/blogs/aws/top-announcements-of-aws-reinvent-2025/?utm_source=openai))
 

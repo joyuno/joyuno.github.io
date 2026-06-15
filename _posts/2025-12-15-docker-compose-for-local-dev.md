@@ -7,17 +7,8 @@ categories: [Infrastructure, Docker]
 tags: [docker, docker-compose, devops, local-development]
 
 source: https://daewooki.github.io/posts/docker-compose-for-local-dev/
+description: "\"내 컴퓨터에서는 되는데요?\""
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 왜 Docker Compose인가?
 
 "내 컴퓨터에서는 되는데요?"

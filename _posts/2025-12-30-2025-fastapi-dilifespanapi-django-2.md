@@ -7,17 +7,8 @@ categories: [Backend, Tutorial]
 tags: [backend, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-fastapi-dilifespanapi-django-2/
+description: "라우터에 비즈니스 로직이 비대해지고 테스트가 어려워짐 DB 세션/트랜잭션/리소스 수명 관리가 산만해짐 “간단한 BackgroundTasks”가 어느 순간 신뢰성/관측성 문제로 커짐 API 설계가 일관되지 않아 클라이언트와의 계약이 자주 깨짐"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 FastAPI는 “빠르게 만들고 빠르게 버리는” 프로토타입 프레임워크가 아닙니다. 2025년의 FastAPI는 **Pydantic 기반의 강력한 스키마/검증**, **ASGI 비동기 생태계**, **OpenAPI 중심의 계약(Contract) 주도 개발**을 바탕으로, Django 못지않게 큰 서비스도 운영할 수 있는 레벨에 도달했습니다. 다만 실무에서 문제가 되는 지점은 늘 비슷합니다.
 

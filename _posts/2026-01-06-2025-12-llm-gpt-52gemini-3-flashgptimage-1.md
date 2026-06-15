@@ -7,17 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2025-12-llm-gpt-52gemini-3-flashgptimage-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월은 “신규 LLM 출시/기능 고도화”가 한꺼번에 몰린 달이었습니다. OpenAI는 GPT‑5.2와 이미지 생성 모델 GPT‑Image‑1.5를 전면에 내세웠고, Google은 Gemini 3 Flash를 기본(default) 모델로 올리며 속도·멀티모달 경쟁을 가속했습니다. ([academy.openai.com](https://academy.openai.com/en/home/resources/latest-model?utm_source=openai))
 

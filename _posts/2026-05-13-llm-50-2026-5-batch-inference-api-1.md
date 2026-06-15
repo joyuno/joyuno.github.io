@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-50-2026-5-batch-inference-api-1/
+description: "2026년 5월 기준으로 주요 사업자들이 공통적으로 제공하는 해법이 batch inference (비동기 배치 추론) 입니다. 핵심은 간단합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 “대량 처리”로 쓰는 순간 비용과 운영 난이도가 동시에 폭발합니다. 예를 들어 **수십만~수천만 건의 문서 요약/분류**, **로그/CS 티켓 자동 태깅**, **상품 카탈로그 정규화**, **오프라인 평가(Eval) 파이프라인**처럼 *지금 당장 사용자에게 응답할 필요는 없지만* 처리량이 큰 작업은, 실시간 API(online inference)로 돌리면 **단가가 비싸고**, **rate limit에 걸리고**, **재시도/중복 처리로 낭비**가 생깁니다.
 

@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/openai-vs-cohere-vs-bgebaai-2026-6-2/
+description: "언제 쓰면 좋나: 검색 정확도가 곧 매출/리스크로 직결(법률/의료/금융, 고객지원 자동화의 오답 비용이 큼) 다국어 코퍼스(한국어 포함) + 질의/문서가 섞여 들어오는 환경 대규모 코퍼스(수천만 문서)로, 비용/운영이 성패를 가르는 경우"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG/검색/추천 시스템에서 **임베딩 모델 선택**은 “정확도”만의 문제가 아닙니다. 한 번 모델을 고르면 **(1) 전체 코퍼스 re-embedding 비용**, **(2) 벡터 차원에 따른 DB 스토리지/쿼리 비용**, **(3) 언어/도메인 적합성**, **(4) 운영 제약(지연, 배치 처리, 온프렘)**까지 연쇄적으로 고정됩니다. 특히 OpenAI는 `text-embedding-3-small/large` 중심으로 양분되어 있고, Cohere는 `embed-v4.0`에서 **멀티모달(텍스트+이미지/PDF)** 및 **긴 컨텍스트(128k)**를 전면에 내세우며, BGE 계열은 **오픈소스/자가호스팅**을 통한 비용 최적화가 강점입니다. ([developers.openai.com](https://developers.openai.com/api/docs/models/text-embedding-3-large))
 

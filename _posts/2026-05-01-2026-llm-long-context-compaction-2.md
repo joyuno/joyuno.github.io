@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-llm-long-context-compaction-2/
+description: "이때 필요한 게 compaction(문맥 압축) 입니다. 목적은 단순 요약이 아니라, 다음 턴에서 모델이 실제로 ‘필요한 정보에’ 더 높은 확률로 접근하도록 컨텍스트를 재구성하는 것입니다. OpenAI Responses API는 장기 대화에서 컨텍스트를 줄이기 위한…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 LLM은 “128k+ long context”가 더 이상 특별한 스펙이 아닙니다. 문제는 **컨텍스트를 많이 넣을수록 성능이 선형으로 좋아지지 않는다**는 점입니다. 오히려 입력이 길어지면 (1) 비용/지연이 커지고, (2) 중요한 단서가 프롬프트 “가운데”에 묻히는 **lost in the middle**로 정답률이 떨어지며, (3) 에이전트/코딩 세션처럼 턴이 길어질수록 품질이 급격히 무너집니다. ([arxiv.org](https://arxiv.org/abs/2307.03172?utm_source=openai))
 

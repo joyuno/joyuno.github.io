@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/claude-code-codex-cli-2026-5-2/
+description: "안 좋음 요구사항이 계속 변하는 초기 기획 단계에서 “자동 커밋/자동 수정”을 과하게 켜는 것(결과가 흔들릴 때 비용만 증가) 보안/권한 모델을 이해하지 않고 repo hooks/MCP/plugins를 그대로 신뢰하는 운영(최근 컨텍스트/설정 기반 공격 논의가 많습니다.…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 시점의 CLI 기반 AI 코딩 에이전트는 더 이상 “코드 몇 줄 생성”이 아니라, **리포지토리 안에서 계획→실행→검증(테스트/린트/빌드)→PR용 산출물 생성**까지 묶어서 처리하는 자동화 장치에 가깝습니다. 특히 Claude Code와 OpenAI Codex CLI는 각각 **로컬 터미널/프로젝트 컨텍스트에 밀착된 실행형 에이전트**라는 공통점을 가지되, 안전장치/확장성/운영 방식에서 결이 다릅니다. (OpenAI는 Codex CLI를 포함한 “Codex agent loop” 구조를 공식적으로 풀어 설명했고, 데스크톱 앱/CLI/IDE/클라우드로 경험을 확장 중입니다. ([openai.com](https://openai.com/index/unrolling-the-codex-agent-loop/)))
 

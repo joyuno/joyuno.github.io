@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2-2026-vllm-vs-tgi-vs-ollama-2/
+description: "요약하면: vLLM: 고성능/고처리량(continuous batching, PagedAttention) + OpenAI-compatible API로 “프로덕션 서빙 기본값”에 가까움 (vllm.ai) TGI (Text Generation Inference): 기능은 강하지만,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 서빙을 운영해보면 곧 두 가지 벽에 부딪힙니다. **(1) GPU 메모리(KV cache) 한계**와 **(2) 동시성/지연시간(SLO) 한계**입니다. 모델 가중치보다 KV cache가 더 빨리 메모리를 잡아먹고, 요청이 조금만 몰려도 prefill 구간에서 지연이 급증합니다. 그래서 2026년 2월 기준 실무에서는 “서빙 엔진 선택”이 곧 “인프라 비용과 성능의 운명”이 됩니다.
 

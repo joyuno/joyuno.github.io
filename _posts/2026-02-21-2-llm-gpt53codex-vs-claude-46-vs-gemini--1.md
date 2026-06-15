@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2-llm-gpt53codex-vs-claude-46-vs-gemini--1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월(특히 2/5 전후) OpenAI·Anthropic·Google이 각각 개발자/에이전트 워크플로우를 겨냥한 신규 모델·플랫폼 업데이트를 연달아 발표했습니다. 단순 “성능 업”이 아니라, **agentic coding·1M context·엔터프라이즈 운영**이 경쟁의 중심축으로 확실히 이동한 것이 핵심입니다. ([openai.com](https://openai.com/index/introducing-gpt-5-3-codex/?utm_source=openai))
 

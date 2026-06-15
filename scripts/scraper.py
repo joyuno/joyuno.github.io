@@ -20,6 +20,79 @@ GITHUB_API_URL = "https://api.github.com/repos/daewooki/daewooki.github.io/conte
 SOURCE_BLOG_URL = "https://daewooki.github.io"
 POSTS_DIR = "_posts"
 
+# 외부 사이트 GA 스크립트 블록 — daewooki 측 GA(G-7990TVG7C7) 가 본인 사이트에 박히는 것 차단
+EXTERNAL_GA_RE = re.compile(
+    r"<!--\s*Google tag \(gtag\.js\)\s*-->\s*\n"
+    r"<script[^>]*googletagmanager[^>]*>\s*</script>\s*\n"
+    r"<script>.*?</script>\s*\n?",
+    re.DOTALL,
+)
+
+# description 자동 추출 — 본문 첫 의미있는 단락 → 검색 결과 스니펫
+DESC_MAX = 160
+_MD_LINK_RE = re.compile(r"\[([^\]]+)\]\([^\)]+\)")
+_MD_BOLD_RE = re.compile(r"\*\*([^*]+)\*\*")
+_MD_ITALIC_RE = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)")
+_MD_CODE_RE = re.compile(r"`([^`]+)`")
+_MD_HEAD_RE = re.compile(r"^#+\s+", re.MULTILINE)
+_MD_IMG_RE = re.compile(r"!\[[^\]]*\]\([^\)]+\)")
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
+_BULLET_RE = re.compile(r"^\s*[-*+]\s+", re.MULTILINE)
+
+
+def extract_description(body: str) -> str:
+    """본문 첫 의미있는 단락 → 마크다운 제거된 ~160자 description."""
+    text = _HTML_TAG_RE.sub("", body)
+    text = _MD_IMG_RE.sub("", text)
+    chosen = ""
+    in_fence = False
+    for para in text.split("\n\n"):
+        para = para.strip()
+        if not para:
+            continue
+        if para.startswith("```"):
+            in_fence = not in_fence or para.count("```") % 2 == 1
+            continue
+        if in_fence:
+            continue
+        if para.startswith("#") or para.startswith(">"):
+            continue
+        if para.startswith("|") and "|" in para[1:]:
+            continue
+        chosen = para
+        break
+    if not chosen:
+        return ""
+    chosen = _MD_LINK_RE.sub(r"\1", chosen)
+    chosen = _MD_BOLD_RE.sub(r"\1", chosen)
+    chosen = _MD_ITALIC_RE.sub(r"\1", chosen)
+    chosen = _MD_CODE_RE.sub(r"\1", chosen)
+    chosen = _MD_HEAD_RE.sub("", chosen)
+    chosen = _BULLET_RE.sub("", chosen)
+    chosen = re.sub(r"\s+", " ", chosen).strip()
+    if len(chosen) > DESC_MAX:
+        cut = chosen[:DESC_MAX].rsplit(" ", 1)[0] or chosen[:DESC_MAX]
+        chosen = cut + "…"
+    return chosen
+
+
+def enrich_for_seo(content: str) -> str:
+    """body 의 외부 GA 제거 + frontmatter 에 description 자동 추가."""
+    if not content.startswith("---"):
+        return content
+    end_idx = content.find("\n---\n", 3)
+    if end_idx == -1:
+        return content
+    fm_block = content[4:end_idx]
+    body = content[end_idx + 5:]
+    body = EXTERNAL_GA_RE.sub("", body, count=1).lstrip("\n")
+    if not re.search(r"^\s*description\s*:", fm_block, re.MULTILINE):
+        desc = extract_description(body)
+        if desc:
+            desc_escaped = desc.replace("\\", "\\\\").replace('"', '\\"')
+            fm_block = fm_block.rstrip() + f'\ndescription: "{desc_escaped}"'
+    return f"---\n{fm_block}\n---\n{body}"
+
 
 def build_headers():
     headers = {"Accept": "application/vnd.github.v3+json"}
@@ -156,6 +229,7 @@ def import_post(file_info, headers):
         raw = fetch_raw_content(download_url, headers)
         source_url = get_source_url(filename)
         processed = process_frontmatter(raw, source_url)
+        processed = enrich_for_seo(processed)
         return save_post(filename, processed)
     except Exception as e:
         print(f"  오류 ({filename}): {e}")

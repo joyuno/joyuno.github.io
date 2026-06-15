@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-celery-redis-2026-5-queueworker-2/
+description: "요청 1건이 수 초~수 분 걸림(Reasoning/Tool 호출/멀티스텝) 외부 API(LLM, 검색, RAG, 사내 시스템) 호출이 많아 I/O bound가 됨 트래픽이 몰릴 때 Web 프로세스가 붙잡혀 timeout / 스레드 고갈 / DB 커넥션 고갈 “재시도/중복…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 백엔드에 붙이면 금방 이런 병목이 생깁니다.
 

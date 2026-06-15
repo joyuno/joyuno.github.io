@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-db-4pineconeweaviateqdrantchroma--2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG/semantic search가 “데모는 쉽고 운영은 어렵다”로 바뀌는 지점은 대개 **벡터DB 선택**에서 시작합니다. PoC 단계에선 Chroma 같은 로컬/임베디드로도 충분하지만, 트래픽이 붙고 데이터가 수백만~수천만 벡터로 커지면 병목이 **latency(p95), memory footprint(HNSW RAM), metadata filter 성능, 운영 복잡도**로 이동합니다. 특히 2026년 초~3월 사이에는 각 제품이 **compression/quantization, ingestion(배치), 운영 기능(TTL/replication)**을 빠르게 강화하면서 “기능은 다 비슷해 보이는데 뭐가 더 빠르고 싸지?”가 더 헷갈려졌습니다. (예: Weaviate v1.36 릴리스) ([weaviate.io](https://weaviate.io/blog/weaviate-1-36-release?utm_source=openai))
 

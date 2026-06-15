@@ -4,6 +4,7 @@ title: "2026-03-16 개발 작업 리포트"
 date: 2026-03-16 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(portfolio): NH투자증권 IT직무 자소서 초안 생성 → NH투자증권_IT직무_자소서.txt 파일 작성"
 ---
 
 # 🤖 Claude CLI 작업 리포트

@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/llm-3vllmtgiollama-2026-3-2/
+description: "이 글은 2026년 3월 기준으로 많이 쓰는 3가지 옵션을 한 축으로 묶어 비교/배포합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 현재 LLM을 “써보는” 단계는 끝났고, **어떻게 안정적으로 서빙할지**가 실력 차이를 만듭니다. 특히 사내/온프렘/개인 워크스테이션 환경에서는 (1) GPU VRAM이 넉넉하지 않고, (2) 동시 요청이 조금만 늘어도 latency가 흔들리며, (3) 모델/버전이 자주 바뀌기 때문에 **서빙 엔진 선택과 배포 방식**이 곧 운영 난이도를 결정합니다.
 

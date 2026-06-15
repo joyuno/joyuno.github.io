@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurf-2026-1-2/
+description: "이 글의 목표는 “어떤 도구가 더 좋다”가 아니라, 세 도구를 실무에서 비슷한 원리로 다루는 법—즉 (1) 컨텍스트를 설계하고 (2) 작업을 쪼개고 (3) 검증 루프를 자동화해 생산성을 재현 가능하게 끌어올리는 방법을 정리하는 것입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 기준 AI coding 도구는 단순한 autocomplete을 넘어, **multi-file edit + terminal 실행 + 계획(Plan) + 반복 수정(iteration)**까지 수행하는 “agentic workflow”로 진화했습니다. GitHub Copilot은 **Agent mode / Edits / Next edit suggestions** 같은 흐름을 공식적으로 밀고 있고, ([github.com](https://github.com/newsroom/press-releases/agent-mode?utm_source=openai)) Cursor는 에디터/CLI에서 **Subagents, Skills** 등 “컨텍스트를 더 오래/정교하게 관리하는 장치”를 강화하고 있습니다. ([cursor.com](https://cursor.com/changelog?utm_source=openai)) Windsurf는 Cascade 중심으로 **Code/Chat 모드, Todo 기반 계획, queued messages** 등 “긴 작업을 끊지 않고 진행”하는 인터랙션을 전면에 둡니다. ([docs.windsurf.com](https://docs.windsurf.com/windsurf/cascade?utm_source=openai))
 

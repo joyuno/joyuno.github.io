@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/db-2026-1-pinecone-vs-weaviate-vs-qdrant-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG, 추천, 시맨틱 검색이 “돌아가기만 하면 된다” 수준을 넘어서면서, 벡터DB는 **정확도(Recall)·지연시간(Latency)·처리량(QPS)·필터링 비용·운영 난이도·비용 예측 가능성**이 동시에 요구됩니다. 특히 2025년 말~2026년 초 흐름에서 눈여겨볼 변화는 “서버리스/온디맨드”만으로는 해결이 어려운 **고QPS·엄격한 SLO** 요구가 커졌다는 점입니다. Pinecone은 이를 위해 **Dedicated Read Nodes(DRN)** 같은 “읽기 전용 전담 하드웨어” 옵션을 전면에 내세웠고, Qdrant는 **Quantization + on-disk(memmap)**로 “메모리 예산을 성능으로 바꾸는” 튜닝 스토리를 강화했습니다. ([pinecone.io](https://www.pinecone.io/blog/dedicated-read-nodes/?utm_source=openai))
 

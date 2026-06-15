@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/vision-language-model-2026-4-2/
+description: "최근 흐름을 보면, OpenAI는 고해상도 입력 디테일 옵션을 강화해(예: “original/high” 같은 detail 레벨) 로컬라이징/클릭 정확도 같은 “이미지에서 위치를 집는 능력”을 밀고 있고 (openai.com) Google Gemini는 vision 문서에서 대량 이미지…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 기준, “이미지 분석 AI”는 더 이상 단순 captioning(설명 생성) 수준이 아닙니다. 제품/문서/현장 사진에서 **정답을 내는 것**보다 더 중요한 과제가 생겼습니다:  
 1) **근거(evidence)를 어디에서 가져왔는지**를 설명하고, 2) **구조화된 결과(JSON)**로 시스템에 안전하게 연결하며, 3) **해상도·토큰·비용**을 제어하면서, 4) **환각(hallucination)·보안 리스크**를 줄이는 것.

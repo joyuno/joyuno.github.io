@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/vlmvision-language-model-2026-1-2/
+description: "최근 멀티모달 VLM 활용의 중심은 다음 2가지로 요약됩니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 현재, 이미지 분석 AI를 제품에 “붙여보는” 수준은 이미 끝났습니다. 실무에서 진짜 어려운 건 **정확도**보다도 **신뢰성(reliability)** 입니다. 예를 들어 영수증/명함/OCR, 제조 불량 판정, UI 스크린샷 QA 같은 문제는 모델이 대충 설명만 잘해도 곤란합니다. 우리는 보통 **DB에 넣을 수 있는 구조화된 결과(JSON)**, **재현 가능한 규칙**, **토큰/비용 통제**, **실패 감지와 재시도 전략**까지 포함한 “파이프라인”이 필요합니다.
 

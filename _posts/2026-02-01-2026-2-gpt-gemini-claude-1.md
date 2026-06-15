@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-gpt-gemini-claude-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 LLM 업계의 핵심 키워드는 “신규 모델의 단순 출시”보다 **기존 주력 모델의 세대교체(Deprecation)**와 **제품 내 에이전트 기능 확장**입니다. OpenAI는 ChatGPT에서 GPT-4o를 포함한 여러 모델을 2월 중순 은퇴시키며 GPT-5.2 중심으로 재편했고, Google은 Gemini를 Chrome에 깊게 넣으며 “브라우징/자동화” 경쟁을 키웠습니다. ([openai.com](https://openai.com/index/retiring-gpt-4o-and-older-models/?utm_source=openai))
 

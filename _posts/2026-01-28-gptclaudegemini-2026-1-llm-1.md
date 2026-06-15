@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-1-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월은 “새 모델 이름 하나 더”보다, **LLM이 핵심 제품(검색·업무·개발툴)에 기본값으로 들어가는 속도**가 더 크게 체감된 달입니다. Google은 Search에 **Gemini 3를 기본 엔진**으로 넣으며 분배(Distribution)를 강화했고, OpenAI와 Anthropic은 각각 **GPT‑5.2**, **Claude Opus 4.5**를 전면에 내세워 성능·비용·에이전트 역량 경쟁을 이어갔습니다. ([theverge.com](https://www.theverge.com/news/868497/google-ai-search-follow-up-questions-gemini-3?utm_source=openai))
 

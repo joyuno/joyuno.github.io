@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-langgraph-vs-autogen-vs-crewai-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 들어 AI Agent는 “챗봇”을 넘어 **툴 실행(tool use)**, **장기 실행(long-running)**, **승인/롤백이 필요한 업무 프로세스**, **여러 에이전트가 협업하는 팀 구조**로 빠르게 진화했습니다. 문제는 구현 난이도가 아니라 “운영 난이도”입니다. 멀티 에이전트는 조금만 복잡해져도 (1) 제어 흐름이 보이지 않고, (2) 상태가 꼬이며, (3) 비용/지연이 폭증하고, (4) 안전(권한/정책)이 깨지기 쉽습니다.  
 그래서 2026년의 핵심 질문은 “에이전트를 만들 수 있나?”가 아니라 **“어떤 오케스트레이션 모델로 멀티 에이전트를 안정적으로 굴릴 것인가?”**입니다. 이 글은 2026년 4월 시점의 대표 프레임워크 **LangGraph / AutoGen / CrewAI**를 멀티 에이전트 관점에서 비교하고, 실전 구현 패턴까지 연결해 정리합니다. ([letsdatascience.com](https://letsdatascience.com/blog/ai-agent-frameworks-compared?utm_source=openai))

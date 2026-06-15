@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/codex-securityrsp-30gemini-in-chrome-202-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월(그리고 직전 2월 말) OpenAI·Anthropic·Google은 공통적으로 “더 똑똑한 모델” 자체보다, 개발자가 실제로 쓰게 만드는 **보안/정책/배포 단위의 업데이트**를 전면에 내세웠습니다. Codex가 AppSec 에이전트로 확장되고, Anthropic은 안전 거버넌스를 재작성했으며, Google은 브라우저/워크스페이스 레이어에서 Gemini를 더 깊게 끌어안는 흐름이 뚜렷합니다. ([openai.com](https://openai.com/index/codex-security-now-in-research-preview/?utm_source=openai))
 

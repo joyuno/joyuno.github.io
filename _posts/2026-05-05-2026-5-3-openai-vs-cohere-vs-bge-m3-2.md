@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-3-openai-vs-cohere-vs-bge-m3-2/
+description: "언제 쓰면 좋나 검색/추천/유사도 기반 분류/중복 제거/클러스터링처럼 “의미 기반” 비교가 핵심일 때 RAG에서 top-k 후보를 안정적으로 뽑아야 할 때(특히 long-tail 질의)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 임베딩(embedding) 모델 선택은 RAG/semantic search 품질의 “상한”을 결정합니다. 같은 chunking/벡터DB를 써도 **임베딩이 도메인·언어·문서 길이**에 맞지 않으면 (1) recall이 흔들리고, (2) reranker가 있어도 “가져오지 못한 정답”은 복구가 안 됩니다.
 

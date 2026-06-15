@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-gpt54-claude-mythos-gemini-31gemma-4-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 LLM 업계에서 가장 눈에 띄는 흐름은 “더 강한 모델 출시”만이 아니라, **배포 방식(공개/제한/오픈 웨이트)**이 성능만큼 중요한 경쟁 축으로 떠올랐다는 점입니다. OpenAI는 GPT‑5.4로 에이전트/브라우저 작업 성능을 강조했고, Anthropic은 Claude Mythos를 “너무 위험해서” 제한 공개로 돌렸으며, Google은 Gemini 라인업 확장과 함께 Gemma 4를 Apache 2.0로 풀어 생태계를 넓혔습니다. ([openai.com](https://openai.com/index/introducing-gpt-5-4/?utm_source=openai))
 

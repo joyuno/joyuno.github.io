@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/api-2026-ai-agent-function-calling-2/
+description: "이 글은 “Agent가 툴을 호출하고 → 결과를 받아 → 최종 응답을 만든다”를 넘어서, Function Calling을 안정적으로 운영하는 패턴(스키마, 루프 제어, 병렬 호출, 검증/재시도)까지 깊게 파고듭니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 기준, AI Agent를 “대화형 모델”로만 쓰는 팀은 점점 줄고 있습니다. 제품 요구사항이 **검색(Web Search)**, **사내 지식(File Search)**, **업무 시스템 액션(ERP/CRM/DB)**, **브라우저 조작(Computer Use)** 같은 *실제 도구 사용*으로 이동했기 때문입니다. OpenAI는 2025년 3월부터 Responses API + Tools + Agents SDK를 “Agents 플랫폼 빌딩 블록”으로 제시했고, Assistants API는 Responses API와의 기능 동등성 이후 **2026년 8월 26일 종료**가 공지된 상태라(즉, 지금은 마이그레이션이 현실 과제) 구현 패턴도 빠르게 표준화되고 있습니다. ([help.openai.com](https://help.openai.com/en/articles/8550641-assistants-api-v2-faq%23.eot?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/fastapi-llm-api-2026-2-sse-cancel-backpr-2/
+description: "2026년 2월 현재도 웹/모바일에서 가장 현실적인 선택지는 크게 두 가지입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버를 직접 운영해보면 “응답이 느리다”는 사용자 불만의 대부분은 **총 처리시간**보다 **Time-to-first-token(첫 토큰 도착 시간)** 에서 발생합니다. 특히 프롬프트가 길거나 tool 호출/후처리가 붙으면 첫 화면이 뜨기까지 수 초가 걸리기도 하죠. 이때 **Streaming**을 붙이면 UX가 급격히 좋아집니다.
 

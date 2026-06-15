@@ -7,17 +7,8 @@ categories: [AI, Tutorial]
 tags: [ai, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-llm-rag-agent-agentic-rag-2/
+description: "그래서 최근 튜토리얼/프레임워크들이 강조하는 방향은 Agentic RAG입니다. “검색”을 한 번 하고 끝내는 게 아니라, LLM이 도구(tool)를 사용해 다음을 반복 수행합니다: (1) 질문 재작성, (2) 다중 소스 조회, (3) 검색 결과 품질 평가, (4) 필요 시…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2024~2025년에 RAG를 실제 서비스에 붙여본 팀들이 공통으로 부딪히는 벽이 있습니다. **“Vector search로 top-k 뽑고 LLM에 넣는 선형 파이프라인”**이 생각보다 쉽게 무너진다는 점입니다. 질문이 애매하거나, 답이 여러 문서에 흩어져 있거나, 첫 검색 결과가 부정확하면 모델은 그럴듯한 문장을 만들어 내며 실패합니다.
 

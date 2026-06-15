@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/429-llm-api-2026-4-rate-limit-retrybacko-2/
+description: "언제 쓰면 좋은가 멀티 워커/멀티 스레드로 LLM 호출이 병렬로 발생하고, 피크 트래픽에서 429가 종종 나는 서비스(챗봇, RAG, 에이전트, 배치 요약 등) “요청 성공률”이 SLO에 중요하고, 약간의 지연(수백 ms~수 초)을 감수해도 되는 기능 API 제공자가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API를 프로덕션에서 돌리면 “가끔”이 아니라 “언젠가 반드시” `429 Too Many Requests`(rate limit)와 간헐적 `5xx/overload`를 만납니다. 문제는 대부분의 팀이 **retry를 단순 루프**로 넣고 끝내서, 트래픽이 몰릴 때 **thundering herd(동시 재시도 폭주)** 를 스스로 만들어 장애를 증폭시킨다는 겁니다. AWS는 오래전부터 이를 막기 위해 **exponential backoff + jitter**를 표준 패턴으로 권장해 왔고, retry는 스택의 “한 지점”에서만 수행하라고 강조합니다. ([aws.amazon.com](https://aws.amazon.com/es/blogs/architecture/exponential-backoff-and-jitter/?utm_source=openai))
 

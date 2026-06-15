@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurf-ai-2026-4-2/
+description: "이 글은 “셋 중 하나를 고르라”가 아니라, Cursor + Copilot + Windsurf를 각자 강점에 맞게 배치해 팀/개인이 실제로 체감할 수 있는 생산성 루틴을 만드는 방법을 다룹니다. (특히: 컨텍스트 파일, 규칙/메모리, ignore 전략, 자동화 훅)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 AI 코딩 도구는 더 이상 “autocomplete를 조금 더 잘해주는 플러그인”이 아닙니다. **Agentic workflow**(에이전트가 스스로 컨텍스트를 수집하고, 여러 파일을 수정하고, 필요하면 terminal task까지 실행)로 진화하면서, 개발자가 얻는 생산성은 *모델 성능*보다 **컨텍스트 설계와 실행 통제**에 의해 결정됩니다. GitHub Copilot의 **agent mode**는 workspace를 탐색해 작업을 끝까지 밀어붙이는 쪽으로, Windsurf는 **Cascade**를 중심으로 *대화 흐름을 유지한 채* 단계적으로 구현/수정하는 쪽으로 최적화되어 있습니다. ([github.blog](https://github.blog/changelog/2025-03-06-github-copilot-updates-in-visual-studio-code-february-release-v0-25-including-improvements-to-agent-mode-and-next-exit-suggestions-ga-of-custom-instructions-and-more?utm_source=openai))
 

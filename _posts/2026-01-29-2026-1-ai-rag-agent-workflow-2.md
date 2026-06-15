@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2026-1-ai-rag-agent-workflow-2/
+description: "1) Agentic architecture의 부상: 단일 RAG 파이프라인 대신, 계획(Planner)과 실행(Executor), 도구 호출(Tool calling), 관측/평가(Tracing/Evals)가 결합된 구조가 표준이 되어가고 있습니다. OpenAI는 Responses…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2024~2025년의 “RAG(벡터DB+LLM)” 중심 앱은 빠르게 확산됐지만, 2026년 1월 시점의 실무 요구는 훨씬 복잡해졌습니다. 단순히 문서를 찾아 답을 생성하는 수준을 넘어, **여러 시스템을 조회하고(권한 포함), 여러 단계로 계획하고, 실패를 복구하며, 비용/지연시간을 통제**하는 “제품”을 만들어야 합니다.  
 이 흐름에서 눈에 띄는 변화는 두 가지입니다.

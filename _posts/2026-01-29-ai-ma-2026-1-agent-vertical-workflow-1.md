@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/ai-ma-2026-1-agent-vertical-workflow-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 AI 스타트업 투자/인수합병 뉴스의 공통 키워드는 **Agent(자율 실행형 AI)**, 그리고 **특정 산업 Workflow를 돈으로 바꾸는(수익화하는) 제품**이었습니다. 빅테크는 의료/에이전트 영역으로 인수를 통해 파고들었고, 유니콘급 애플리케이션 레이어 기업은 대규모 투자로 “enterprise-grade”를 증명하려는 흐름이 뚜렷했습니다. ([axios.com](https://www.axios.com/2026/01/12/openai-acquires-health-tech-company-torch))
 

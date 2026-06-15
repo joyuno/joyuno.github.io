@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/2026-stttts-vs-speech-to-speech-webrtc-2/
+description: "언제 쓰면 좋나? 콜센터/상담, 인앱 코치, 현장 작업 보조처럼 즉시 반응(낮은 latency) + 길게 대화(안정성)가 필요한 경우 도구 호출(function calling)로 업무 시스템과 연결해야 하는 경우(예약/검색/티켓 생성)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 실시간 음성 에이전트에서 개발자가 실제로 겪는 문제는 단순히 **STT 정확도**가 아닙니다. “사용자가 말 끝나자마자 1초 안에 첫 소리가 나오는가”, “중간에 끼어들면(barge-in) 자연스럽게 멈추는가”, “네트워크가 흔들려도 세션이 살아남는가” 같은 **대화 UX/시스템 문제**가 핵심입니다. 엔터프라이즈에선 여기에 **관측(Observability), 비용, 장애 격리, 개인정보**가 덧붙습니다.
 

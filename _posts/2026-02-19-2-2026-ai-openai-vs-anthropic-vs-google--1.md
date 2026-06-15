@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2-2026-ai-openai-vs-anthropic-vs-google--1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월, OpenAI·Anthropic·Google은 각각 **모델/제품 라인업 정리(지원 종료), 책임·안전 정책 강화, API 기능 확장과 보안 리포트 공개**라는 다른 축에서 큰 변화를 내놨습니다. 공통점은 하나입니다: “이제 AI는 성능 경쟁만이 아니라, **운영(operational)과 거버넌스(governance)** 경쟁으로 넘어갔다”는 신호입니다. ([help.openai.com](https://help.openai.com/ko-kr/articles/9624314-%EB%AA%A8%EB%8D%B8-%EB%A6%B4%EB%A6%AC%EC%8A%A4-%EB%85%B8%ED%8A%B8?utm_source=openai))
 
