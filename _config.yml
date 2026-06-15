@@ -22,9 +22,8 @@ social:
 image: https://github.com/joyuno.png?size=1200
 logo: /assets/favicon/oiia-cat.png
 
-# Google Search Console 인증 (사용자 콘솔에서 받은 verification code 를 여기에 박으면
-# jekyll-seo-tag 가 <meta name="google-site-verification"> 자동 생성).
-# google_site_verification: "<여기에 코드>"
+# Google Search Console 인증 — jekyll-seo-tag 가 <meta name="google-site-verification"> 자동 생성
+google_site_verification: "N4Km-w6A1N5bUPfgFH2ltYmlQO5F5IJ7CCtbHUSlhRQ"
 
 # 빌드 설정
 markdown: kramdown
