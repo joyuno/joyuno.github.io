@@ -1048,8 +1048,8 @@
         "automation",
         "pentest"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-06-12"
     },
     {
       "id": 89,
@@ -1060,8 +1060,8 @@
         "network",
         "forensics"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-06-13"
     },
     {
       "id": 90,
@@ -1072,8 +1072,8 @@
         "authentication",
         "protocol"
       ],
-      "status": "pending",
-      "published_date": null
+      "status": "done",
+      "published_date": "2026-06-14"
     }
   ]
 }
