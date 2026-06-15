@@ -760,15 +760,21 @@
   tags: ["ci-cd", "automation", "devops"]
   date: "2026-06-13"
   url: "/study-guides/github-actions-study-guide.html"
-- keyword: "ArgoCD"
-  slug: "argocd"
-  category: "infra"
-  tags: ["gitops", "k8s", "cd"]
+- keyword: "SQLMap"
+  slug: "sqlmap"
+  category: "security"
+  tags: ["sql-injection", "automation", "pentest"]
+  date: "2026-06-12"
+  url: "/study-guides/sqlmap-study-guide.html"
+- keyword: "Wireshark"
+  slug: "wireshark"
+  category: "security"
+  tags: ["packet-analysis", "network", "forensics"]
+  date: "2026-06-13"
+  url: "/study-guides/wireshark-study-guide.html"
+- keyword: "DNSSEC"
+  slug: "dnssec"
+  category: "security"
+  tags: ["dns-security", "authentication", "protocol"]
   date: "2026-06-14"
-  url: "/study-guides/argocd-study-guide.html"
-- keyword: "Helm"
-  slug: "helm"
-  category: "infra"
-  tags: ["k8s", "package-manager", "charts"]
-  date: "2026-06-14"
-  url: "/study-guides/helm-study-guide.html"
+  url: "/study-guides/dnssec-study-guide.html"
