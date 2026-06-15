@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/vision-language-model-2026-6-structured--1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 6월 기준 멀티모달 AI(Vision-Language Model, VLM)는 “이미지를 설명하는 모델”을 넘어 **이미지에서 의미 있는 구조화 데이터(entities, defects, UI 상태, 문서 필드 등)를 안정적으로 뽑아내고**, 그 결과를 **후속 시스템(검색/DB/워크플로우/검증 로직)** 에 연결하는 단계로 넘어왔습니다. 특히 OpenAI 쪽은 **Responses API에서 이미지 입력 + Structured Outputs(JSON Schema 강제)** 조합이 실무 난이도를 크게 낮춥니다. ([platform.openai.com](https://platform.openai.com/docs/api-reference/responses/compact?api-mode=responses&utm_source=openai))
 

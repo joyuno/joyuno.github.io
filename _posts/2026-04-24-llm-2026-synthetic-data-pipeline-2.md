@@ -7,18 +7,8 @@ categories: [AI, Data]
 tags: [ai, data, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-2026-synthetic-data-pipeline-2/
+description: "다만 “그냥 많이 생성해서 학습”은 2026년 기준으로도 여전히 실패 확률이 큽니다. 이유는 단순합니다: 합성 데이터는 생성 모델의 편향/환각/스타일을 그대로 증폭시키기 때문입니다. 그래서 지금의 베스트 프랙티스는 “생성(prompt) 잘 쓰기”가 아니라,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 현업에서 파인튜닝이 막히는 지점은 거의 항상 같습니다. **“학습시킬 만한 데이터가 없다(또는 비싸다)”** 입니다. 로그/문서/DB는 넘치는데, 막상 SFT나 preference fine-tuning(DPO류), RFT에 바로 넣을 **정제된 (instruction, response) / (chosen, rejected)** 형태의 데이터는 부족합니다. 이때 합성 데이터(LLM synthetic data)는 *라벨링 비용*과 *도메인 커버리지*를 동시에 줄이는 강력한 해법이 됩니다.
 

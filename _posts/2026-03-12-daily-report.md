@@ -4,6 +4,7 @@ title: "2026-03-12 개발 작업 리포트"
 date: 2026-03-12 14:53:13 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(ml-anomaly-detection): 이상 탐지 이론 문서 작성 → ml-anomaly-detection-theory.md에 CV 필터 및 Z-score 적용 방식 정리"
 ---
 
 # 🤖 Claude CLI 작업 리포트

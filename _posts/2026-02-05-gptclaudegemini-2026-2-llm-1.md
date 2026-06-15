@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-2-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월(현재 2월 5일 기준) 기준으로, GPT/Claude/Gemini의 “대형 신규 모델 출시” 자체가 일제히 발표된 흐름은 확인되지 않습니다. 대신 **OpenAI는 ChatGPT 광고 도입(수익화)**, **Anthropic은 ‘Claude는 광고 없다’(신뢰/브랜딩)**, **Google은 Gemini 라인업의 ‘Thinking/Pro’ 확장(제품화)**처럼 경쟁 축이 뚜렷하게 갈라지는 신호가 강하게 관측됩니다. ([theverge.com](https://www.theverge.com/ai-artificial-intelligence/873686/anthropic-claude-ai-ad-free-super-bowl-advert-chatgpt?utm_source=openai))
 

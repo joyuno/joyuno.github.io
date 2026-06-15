@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/claude-code-codex-cli-2026-4-2/
+description: "언제 쓰면 좋은가 CI가 무겁고 로컬에서 재현이 어려운 프로젝트에서, 에이전트가 수행한 작업 로그/결과를 표준 출력(JSON)으로 남기고 사람이 리뷰하는 형태가 필요한 경우(예: 보안 스캔→수정 제안→테스트 실행). (docs.anthropic.com) “툴 호출”이 핵심인…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 CLI 기반 AI 코딩 에이전트가 해결하는 문제는 명확합니다. **(1) 레포를 읽고 (2) 명령을 실행하고 (3) 파일을 수정하고 (4) 테스트/린트까지 돌린 뒤 (5) 결과를 요약**하는 반복 루프를 사람이 “컨텍스트 스위칭” 없이 터미널에서 끝내는 겁니다. 2026년엔 이게 단순 코드 생성이 아니라 **workflow automation**(리팩터링→테스트→리포트→PR 초안)으로 확장됐고, Claude Code와 OpenAI Codex CLI는 각각 다른 강점을 갖습니다. ([openai.com](https://openai.com/index/unrolling-the-codex-agent-loop))
 

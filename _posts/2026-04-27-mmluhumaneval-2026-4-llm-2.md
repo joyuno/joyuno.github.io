@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-4-llm-2/
+description: "언제 쓰면 좋나 사내/프로덕션 태스크가 아직 정리되지 않았을 때, 후보 모델군을 빠르게 “대충” 걸러낼 때 회귀(regression) 감지를 위한 상대 비교(동일 세팅에서만) 신호로 쓸 때 모델이 지식형/코딩형에서 어느 쪽이 강한지 큰 방향성을 볼 때"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 도입/교체할 때 가장 흔한 실패는 “벤치마크 1~2개 점수만 보고” 모델을 고르는 것입니다. 특히 **MMLU**(지식+추론 MCQ)와 **HumanEval**(코드 생성)는 여전히 가장 많이 인용되지만, 2026년 시점에선 **점수 자체보다 ‘점수가 만들어지는 과정’**을 이해하지 못하면 의사결정이 틀어지기 쉽습니다. MMLU는 라벨/정답 오류 이슈가 공개적으로 분석되었고(오류로 인한 상한선 문제), 이를 보완하는 흐름(예: MMLU-Pro/Redux)이 강해졌습니다. ([arxiv.org](https://arxiv.org/abs/2406.04127?utm_source=openai)) HumanEval은 pass@k라는 통계적 정의, 실행 환경 격리/timeout, 그리고 데이터 오염(benchmark contamination) 문제가 “점수 비교”를 매우 까다롭게 만듭니다. ([gitextract.com](https://gitextract.com/openai/human-eval?utm_source=openai))
 

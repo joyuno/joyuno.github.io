@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/pr-ci-api-key-2026-4-prompt-injectionjai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월의 AI 보안 이슈는 “모델이 나빠서”라기보다, **에이전트가 읽는 모든 텍스트(이슈/PR/문서)가 곧 공격 표면**이 된다는 점을 여러 사건이 동시에 증명했다. 특히 **indirect prompt injection**이 GitHub 기반 코딩 에이전트와 기업용 자동화 흐름으로 들어오면서, 탈옥(jailbreak)이 실무에 끼치는 영향이 ‘대화 품질’이 아니라 **비밀정보 유출·권한 오남용**으로 직결됐다.
 

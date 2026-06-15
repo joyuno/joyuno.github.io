@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-5-ocr-document-ai-pdf-1/
+description: "2026년 5월 시점의 실무 결론은 대체로 이렇습니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 문서 OCR/이해 파이프라인에서 **진짜 어려운 문제**는 “텍스트를 읽는 것”이 아니라, *표/레이아웃을 깨뜨리지 않고* **업무 스키마(JSON)** 로 *일관되게* 뽑아내는 겁니다. 특히 PDF(스캔/디지털 혼합), 표(merged cell, multi-line header), 라인아이템(동적 행 수), 그리고 페이지를 넘나드는 합계/세금 규칙에서 터집니다.
 

@@ -7,18 +7,8 @@ categories: [AI, Data]
 tags: [ai, data, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-synthetic-data-2/
+description: "다만 합성 데이터는 아무렇게나 생성하면 성능이 오히려 떨어지는 경우가 많습니다. 생성 모델(teacher)의 버릇/환각이 그대로 데이터에 박히고, 필터링이 약하면 분포가 망가지며, 결과적으로 student가 “그럴듯한데 틀린” 스타일을 학습합니다. 그래서 2026년 기준 베스트…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 파인튜닝에서 제일 비싼 건 GPU가 아니라 **“좋은 데이터”**입니다. 그런데 실제 프로젝트에서는 (1) 도메인 라벨링 인력이 없거나 (2) 개인정보/저작권 이슈로 원문 데이터를 학습에 쓰기 어렵거나 (3) 운영 로그는 많은데 품질이 들쭉날쭉이라 학습셋으로 바로 못 쓰는 일이 흔합니다. 이때 **LLM synthetic data(합성 데이터)**는 “데이터 엔지니어링을 자동화”하는 현실적인 해법이 됩니다.
 

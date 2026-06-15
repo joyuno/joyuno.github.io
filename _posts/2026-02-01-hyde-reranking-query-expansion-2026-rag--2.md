@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/hyde-reranking-query-expansion-2026-rag--2/
+description: "이번 글은 “RAG 고급 기법”을 표면적으로 나열하지 않고, 왜 HyDE/Query Expansion/Reranking이 서로 보완 관계인지, 그리고 어떤 순서와 예산(token/latency)으로 묶어야 성능이 실제로 오르는지를 중심으로 정리합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG 성능 최적화에서 가장 흔한 실패 패턴은 **“검색이 약해서 LLM이 헛소리한다”**가 아니라, 더 미묘하게는 **(1) 후보 문서를 충분히 못 찾거나(recall 부족), (2) 찾았는데도 상위에 못 올리거나(precision 부족), (3) 올려놔도 컨텍스트 창에 쓸데없는 토큰을 쏟아붓는(token budget 낭비)** 입니다.  
 2025~2026년 흐름을 보면, 이 문제를 구조적으로 해결하려고 **Two-stage retrieval(초기 검색 + reranking) + query expansion**을 결합하고, 여기에 **HyDE(Hypothetical Document Embeddings)** 같은 “의미 기반 query 강화”를 섞는 방식이 실전에서 강력한 조합으로 자리잡았습니다. ([arxiv.org](https://arxiv.org/abs/2601.03258?utm_source=openai))

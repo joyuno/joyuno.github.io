@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/ai-2026-4-decouple-state-governance-2/
+description: "기능이 늘수록 프롬프트가 비대해져 monolithic agent가 되고, 변경/테스트/롤백이 어려워짐 도구(tool)·데이터 소스가 늘면서 통합이 파편화되고, 권한/감사/보안이 아키텍처 레벨 문제로 튀어나옴 멀티스텝(계획→실행→검증) 워크플로우가 기본이 되며, “LLM 한 번 호출”…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2024~2025년의 AI 앱은 “LLM API 호출 + RAG”만 붙여도 제품이 됐습니다. 하지만 2026년 4월 기준, 현업에서 부딪히는 병목은 달라졌습니다.
 

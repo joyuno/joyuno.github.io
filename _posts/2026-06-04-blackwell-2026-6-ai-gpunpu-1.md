@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/blackwell-2026-6-ai-gpunpu-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 6월 초 AI 반도체 이슈는 “GPU 성능 경쟁”을 넘어 **온디바이스(PC) 확장**, **추론(inference) 중심 재편**, 그리고 **전력/메모리(특히 HBM)·패키징이 병목인 공급망 현실**로 요약됩니다. NVIDIA는 Blackwell을 PC까지 확장했고, 한국의 Rebellions·FuriosaAI는 “추론용 AI accelerator”에서 **제품/자금/파트너십**으로 존재감을 키우고 있습니다. ([tomshardware.com](https://www.tomshardware.com/laptops/nvidia-unveils-rtx-spark-superchip-at-computex-2026-new-platform-promises-to-turn-windows-into-an-agentic-ai-os-with-arm-cpu-blackwell-gpu-and-128gb-unified-memory?utm_source=openai))
 

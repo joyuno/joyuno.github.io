@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-chain-of-thoughtcot-2/
+description: "즉, 2026년 3월의 고급 프롬프트 엔지니어링은 (1) 추론을 ‘노출’시키는 기술이 아니라 (2) 추론을 ‘유도·검증·압축·통제’하는 기술로 재정의됩니다. 게다가 CoT는 안전 측면에서 “모니터링 가능한 신호”로도 중요해져, CoT의 통제 가능성/모니터러빌리티를 다루는 연구가…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 한동안 CoT는 “Let’s think step by step” 한 줄로 성능을 끌어올리는 만능키처럼 소비됐습니다. 그런데 2025~2026에 들어서면서 전제가 달라졌습니다. 최신 reasoning model들은 **추론을 내부적으로 수행**하고, 제품/안전/경쟁력 이유로 **raw CoT를 사용자에게 그대로 노출하지 않는 방향**이 강해졌습니다. 그 결과 “CoT를 길게 뽑아내는 프롬프트”는 오히려 지연(latency)·비용·보안 리스크를 키우고, 성능도 보장하지 않습니다. OpenAI도 reasoning best practices에서 “think step by step”류가 **도움이 안 되거나 해가 될 수 있다**고 명시합니다. ([platform.openai.com](https://platform.openai.com/docs/guides/reasoning-best-practices))
 

@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-ai-openai-anthropic-100-google-ge-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 초(2/3~2/5)를 중심으로 OpenAI·Anthropic·Google에서 “모델/제품 업데이트 + 정책/신뢰 이슈”가 동시에 터졌습니다. 단순 신모델 경쟁을 넘어, 개발자가 체감하는 변화는 **코딩 에이전트 고도화**, **초장문 컨텍스트 확대**, **프라이버시·상업화(커머스) 결합**으로 요약됩니다. ([help.openai.com](https://help.openai.com/en/articles/9624314-model-release-notes%22))
 

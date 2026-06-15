@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-1m-context-agent-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월, 주요 LLM 진영(OpenAI·Anthropic·Google)이 연달아 “개발자/에이전트 중심” 신모델과 기능을 공개하면서 경쟁 축이 다시 한 번 이동했습니다. 이번 흐름의 키워드는 **1M context(장문 처리)**, **computer-use(실제 작업 수행)**, **초저비용/고처리량(Flash-Lite)** 입니다. ([openai.com](https://openai.com/sq-AL/index/introducing-gpt-5-4/?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/hyde-reranking-query-expansion-2026-rag--2/
+description: "언제 쓰면 좋나 사용자 질문이 짧고(예: “권한 에러 해결”), 문서 조각은 길고 구조적일 때(내부 위키/정책/기술 문서) → HyDE/Query Expansion 효과가 큼 (bestaiweb.ai) 1차 검색(top-k)에 “정답이 어딘가 있긴 한데” LLM이 못 보는 경우 →…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG 성능이 안 나오는 팀이 흔히 하는 오해는 “embedding 모델만 바꾸면 해결된다”입니다. 실제로는 **(1) 질문이 검색에 불리한 형태로 들어오고(짧고 모호함), (2) 1차 검색이 recall을 충분히 못 뽑고, (3) 최종으로 LLM에 들어가는 문서가 precision이 낮아서** 정답이 있어도 못 맞춥니다. 2026년 기준으로 현업에서 가장 재현성 있게 먹히는 처방이 **Query Transformation(확장/재작성/HyDE) → (하이브리드) 1차 검색 → Cross-Encoder Reranking**의 다단 파이프라인입니다. ([jacar.es](https://jacar.es/rag-hibrido-2026-patrones/?utm_source=openai))
 

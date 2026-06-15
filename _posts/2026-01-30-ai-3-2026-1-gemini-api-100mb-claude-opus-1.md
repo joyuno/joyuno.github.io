@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/ai-3-2026-1-gemini-api-100mb-claude-opus-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월은 “모델 성능 경쟁”보다 **제품화·운영·정책(Compliance) 레이어**가 빠르게 바뀐 달이었습니다. Google은 Gemini API의 데이터 인입(ingestion) 한계를 크게 넓혔고, Anthropic은 콘솔/모델 라인업을 정리했으며, OpenAI는 안전·정책 측면의 공지를 강화했습니다. ([releasebot.io](https://releasebot.io/updates/google/gemini?utm_source=openai))
 

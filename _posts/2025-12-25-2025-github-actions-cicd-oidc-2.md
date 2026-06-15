@@ -7,17 +7,8 @@ categories: [DevOps, Tutorial]
 tags: [devops, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-oidc-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 팀 규모가 커질수록 CI/CD는 “자동화” 자체보다 **일관성, 속도, 보안, 배포 통제**가 핵심이 됩니다. 2025년의 GitHub Actions는 단순히 `push` 때 테스트 돌리는 수준을 넘어, **least privilege 권한 관리**, **OIDC 기반의 무비밀(또는 최소 비밀) 배포 인증**, **environments 기반 승인/보호**, **concurrency로 배포 충돌 방지**, 그리고 **캐시 백엔드 변화(업그레이드 필수)**까지 고려해야 “운영 가능한 파이프라인”이 됩니다.  
 특히 GitHub의 공식 가이드가 강조하듯 `GITHUB_TOKEN` 권한을 최소화하고, 가능한 경우 cloud credential을 long-lived secret 대신 OIDC로 대체하는 접근이 표준으로 굳어졌습니다. ([docs.github.com](https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/security-hardening-for-github-actions?learn=getting_started&learnProduct=actions&utm_source=openai))

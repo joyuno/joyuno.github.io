@@ -4,6 +4,7 @@ title: "2026-03-17 개발 작업 리포트"
 date: 2026-03-17 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "fix(trading): 자동매매 실행 안되는 문제 진단 → pipeline_config.json에서 auto_trading 비활성화 확인 및 수정"
 ---
 
 # 🤖 Claude CLI 작업 리포트

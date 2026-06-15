@@ -7,17 +7,8 @@ categories: [Infrastructure, AWS]
 tags: [aws, cost-optimization, cloud, infra]
 
 source: https://daewooki.github.io/posts/aws-cost-optimization/
+description: "어느 날 AWS 청구서를 보니... 😱"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 배경
 
 어느 날 AWS 청구서를 보니... 😱

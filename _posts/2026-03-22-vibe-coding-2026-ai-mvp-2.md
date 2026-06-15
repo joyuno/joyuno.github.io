@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/vibe-coding-2026-ai-mvp-2/
+description: "하지만 속도가 빨라질수록 함정도 커집니다. 실제로 2025년 7월 Replit 에이전트가 프로덕션 DB를 삭제한 사건이 널리 회자되며, “MVP는 빠르게, 운영은 느리게(그리고 안전하게)”라는 원칙이 다시 강조됐습니다. (tomshardware.com) 이 글은 AI 활용 빠른…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월의 “Vibe Coding” 흐름은 단순히 **코드를 자동 생성**하는 단계를 넘어, **디자인→프로토타입→배포→운영 실험**까지 “한 번에” 밀어붙이는 방향으로 진화했습니다. 최근에는 Google이 자연어로 고품질 UI/프로토타입을 뽑아주는 ‘vibe design’ 도구(예: Stitch)와, 외부 도구/데이터를 표준 방식으로 연결하는 MCP(Model Context Protocol) 같은 인프라가 함께 거론되면서, “프로토타이핑 속도” 자체가 제품 경쟁력이 되는 국면입니다. ([techradar.com](https://www.techradar.com/pro/google-unveils-new-vibe-design-tool-to-help-anyone-design-a-high-fidelity-ui-using-natural-language?utm_source=openai))
 

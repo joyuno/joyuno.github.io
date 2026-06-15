@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-prompt-injection-ai-agent-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 들어 **prompt injection / jailbreak**이 “재미있는 공격기법”이 아니라, **실제 운영 환경에서 데이터 유출·권한 오용·금전 피해**로 이어진 사건과 리서치가 연달아 공개됐습니다. 특히 **AI coding agent와 agent framework**가 표적이 되면서, 개발팀이 붙여놓은 자동화(Review, CI, tool calling)가 곧 공격면이 되는 구조가 선명해졌습니다. ([venturebeat.com](https://venturebeat.com/security/ai-agent-runtime-security-system-card-audit-comment-and-control-2026))
 

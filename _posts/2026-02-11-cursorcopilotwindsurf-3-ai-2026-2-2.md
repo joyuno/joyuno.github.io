@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/cursorcopilotwindsurf-3-ai-2026-2-2/
+description: "최근 Copilot은 VS Code에서 Agent mode를 개선(실행된 terminal command를 inline으로 보여주고, 실행 전 수정/확인 가능, 작업 자동 실행 옵션 등)하면서 “대화형 편집 + 도구 실행”을 본격화했고,…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 시점의 AI 코딩 어시스턴트는 더 이상 “autocomplete가 똑똑해졌다” 수준이 아닙니다. 이제는 **agentic workflow**(에이전트가 코드베이스를 탐색하고, 여러 파일을 수정하고, terminal task를 실행하며, 오류를 고치면서 목표를 완수)로 넘어왔고, 그만큼 **생산성 폭발**과 함께 **통제/안전/재현성** 문제가 동시에 커졌습니다.
 

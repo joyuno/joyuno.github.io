@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/2026-6-openaianthropicgoogle-api-dx-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 말~6월 초(즉, “2026년 6월 업데이트”로 체감되는 구간)에 OpenAI, Anthropic, Google이 각각 **API/개발도구 업데이트와 운영 정책 변화**를 연달아 내놨습니다. 공통 키워드는 “더 많은 사용자·에이전트 트래픽을 감당하기 위한 구조 개편”이고, 그 비용은 결국 **개발자 워크플로우 변경**으로 돌아옵니다. ([help.openai.com](https://help.openai.com/en/articles/9624314-model-release-notes))
 

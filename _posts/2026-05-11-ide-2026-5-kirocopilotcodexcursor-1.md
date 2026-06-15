@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/ide-2026-5-kirocopilotcodexcursor-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 5월 초(특히 5/6~5/8)를 전후해, AI 개발자 도구의 중심이 “IDE에 붙는 assistant”에서 “repo를 읽고 테스트/명령 실행까지 하는 agent”로 더 빠르게 이동하고 있습니다. 이번 달 흐름의 키워드는 **IDE+CLI의 결합**, **multi-agent/automation**, 그리고 **보안·권한·데이터 정책**입니다. ([kiro.dev](https://kiro.dev/changelog/ide/?utm_source=openai))
 

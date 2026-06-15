@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/rag-hyde-reranking-query-expansion-2026--2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프로덕션 RAG에서 “임베딩 모델 바꾸면 좋아지겠지”는 보통 착각입니다. 실패 패턴을 뜯어보면 대개 **(1) query–document asymmetry(질문은 짧고 문서는 길다)**, **(2) 1차 검색의 recall 부족**, **(3) 상위 k 안에서의 precision 부족** 세 가지로 귀결됩니다.  
 2026년 3월 시점에도 업계/연구의 흐름은 크게 변하지 않았고, 이 문제를 가장 실전적으로 푸는 조합이 **HyDE로 recall을 끌어올리고 → Reranking으로 precision을 고정 → Query Expansion으로 커버리지를 넓히는** 3단 구조입니다. HyDE는 원래 “relevance label 없이도” zero-shot dense retrieval을 강하게 만드는 아이디어로 제안됐고, 실제 RAG 최적화 가이드들에서도 “HyDE + reranker”를 강력 추천하는 패턴이 반복됩니다. ([arxiv.org](https://arxiv.org/abs/2212.10496?utm_source=openai))

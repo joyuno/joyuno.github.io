@@ -7,17 +7,8 @@ categories: [DevOps, News]
 tags: [devops, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/docker-desktop-4552025-12-16gke-stable-1-3/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월 Kubernetes/Docker/Managed Kubernetes 쪽 뉴스는 “새로운 혁신 기능 발표”보다는, **안정 채널 버전 업데이트·수명주기(EOL)·공급망 보안/배포 인프라 강화**가 눈에 띄었습니다. 특히 Docker와 CNCF의 협업, 그리고 GKE·EKS·AKS가 각자 방식으로 “지원 버전과 업그레이드 경로”를 더 명확히 하면서 운영팀의 선택지가 정리되는 흐름입니다. ([cncf.io](https://www.cncf.io/announcements/2025/09/18/cncf-expands-infrastructure-support-for-project-maintainers-through-partnership-with-docker/?utm_source=openai))
 

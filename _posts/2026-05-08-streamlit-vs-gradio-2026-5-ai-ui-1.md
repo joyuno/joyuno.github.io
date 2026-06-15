@@ -7,18 +7,8 @@ categories: [AI, Prototyping]
 tags: [ai, prototyping, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/streamlit-vs-gradio-2026-5-ai-ui-1/
+description: "모델 로딩/워밍업이 느려서 첫 요청이 수십 초 걸림 동시 접속 시 세션/상태 꼬임, 캐시 오염 스트리밍(토큰/프로그레스) UX가 없어 “멈춘 것처럼” 보임 프록시/서브패스 배포에서 라우팅 깨짐 결국 “프로토타입”이 어느새 “준프로덕션”이 됨"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 AI 기능(LLM, vision, STT/TTS, RAG 등)을 “일단 보여주는 것” 자체는 쉬워졌지만, **데모 UI를 빨리 만들수록** 바로 다음 문제가 터집니다.
 

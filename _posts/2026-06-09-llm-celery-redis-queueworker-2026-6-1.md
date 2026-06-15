@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/llm-celery-redis-queueworker-2026-6-1/
+description: "HTTP 요청-응답 시간 안에 끝나지 않는다: 문서 요약/대량 평가/에이전트 플로우는 수십 초~수분이 흔합니다. 외부 API(LLM) 변동성: rate limit, 일시 장애, 지연 편차 때문에 retry/timeout/circuit breaker가 필요합니다. 동시성 제어가 핵심:…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 기반 기능을 프로덕션에 붙이면 금방 마주치는 문제가 있습니다.
 

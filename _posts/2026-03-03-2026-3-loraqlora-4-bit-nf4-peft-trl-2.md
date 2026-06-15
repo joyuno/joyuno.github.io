@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-loraqlora-4-bit-nf4-peft-trl-2/
+description: "최근 Hugging Face 생태계에서는 Transformers의 BitsAndBytesConfig(4-bit NF4, nested/double quant) + PEFT의 LoRA(예: target_modules=\"all-linear\", rsLoRA, LoftQ 등 옵션) + TRL의…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM fine-tuning은 “내 도메인/내 톤/내 포맷”에 모델을 맞추는 가장 강력한 방법이지만, 비용이 항상 문제입니다. Full fine-tuning은 가중치·그라디언트·optimizer state가 함께 메모리를 잡아먹어(특히 AdamW의 FP32 상태가 큼) 현실적인 GPU 한 장에서 바로 터집니다. 그래서 2026년에도 여전히 현업의 표준은 **PEFT(Parameter-Efficient Fine-Tuning)** 계열, 그중에서도 **LoRA**와 **QLoRA(4-bit quant + LoRA)** 조합입니다.  
 

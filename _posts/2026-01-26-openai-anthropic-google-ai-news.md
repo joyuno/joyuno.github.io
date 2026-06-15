@@ -7,6 +7,7 @@ tags: [ai, news, trend, 2026-01]
 author: Daewook Kwon
 reading_time: 9
 source: https://daewooki.github.io/posts/2026-1-openaianthropicgoogle-ai-1/
+description: "1월은 성능 경쟁만큼이나 정책·플랫폼 정리·API 수명주기 관리가 부각되었습니다. OpenAI는 약관과 미성년자 보호를 강화했고, Anthropic은 Claude 브랜드와 모델 세대교체를 진행했으며, Google은 Gemini API의 폐기와 과금 전환을 공식화했습니다."
 ---
 
 1월은 성능 경쟁만큼이나 정책·플랫폼 정리·API 수명주기 관리가 부각되었습니다. OpenAI는 약관과 미성년자 보호를 강화했고, Anthropic은 Claude 브랜드와 모델 세대교체를 진행했으며, Google은 Gemini API의 폐기와 과금 전환을 공식화했습니다.

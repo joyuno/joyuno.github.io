@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/claude-code-codex-cli-2026-5-1/
+description: "PR 들어올 때마다: 변경 영향 범위 분석 → 테스트 보강 → 릴리즈 노트 초안 생성 매일/매주: 의존성 업데이트 → 빌드/테스트 → 실패 원인 triage → 이슈 생성 장애 대응: 로그/메트릭 요약 → 재현 시나리오 구성 → 수정 PR 초안"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 CLI 기반 AI 코딩 에이전트가 진짜로 가치가 나는 지점은 “IDE에서 한 번 질문하고 끝”이 아니라, **반복되는 엔지니어링 업무를 파이프라인/스크립트로 굳히는 순간**입니다. 예를 들면:
 

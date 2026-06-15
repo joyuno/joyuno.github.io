@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/chain-of-thought-2026-2/
+description: "언제 쓰면 좋은가 정답이 “설명 가능한 규칙/제약”을 따르는 문제: 견적 산출, 정책/규정 판정, 장애 원인 추론, 다단계 SQL/ETL 설계, 릴리즈 플랜 최적화 단일 샷 정답률이 낮고, 실패가 치명적(재시도 비용이 큰) 워크플로우 RAG(검색)만으로는 해결이 안 되고, 검색 결과를…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Chain of Thought(CoT)는 복잡한 추론/계산/의사결정 문제에서 정답률을 올리기 위해 **모델이 중간 추론 단계를 활용하도록 유도**하는 프롬프팅 계열입니다. 하지만 2026년 5월 시점의 실무 관점에서 CoT는 “그냥 `let’s think step by step`” 수준을 넘어, **비용(token/latency)·안정성·보안(추론 노출)**을 함께 최적화해야 하는 기술로 진화했습니다. OpenAI는 CoT가 모니터링/통제 레이어로서 중요하지만, 훈련/스케일 변화에 취약할 수 있다는 문제(“monitorability”)와 CoT 자체의 “controllability” 한계를 공개적으로 논의하고 있습니다. ([openai.com](https://openai.com/index/evaluating-chain-of-thought-monitorability/?utm_source=openai))
 

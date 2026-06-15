@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/langsmith-vs-langfuse-2026-3-llm-trace-o-2/
+description: "그래서 요즘 LLM Observability의 핵심은 단순 로그가 아니라 Trace(분산 추적) 입니다. 특히 OpenTelemetry(OTel) 로 표준화하면, LLM 앱 내부 실행(프롬프트·tool·retrieval)과 인프라 계층(HTTP, DB, queue)을 한 개의…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 LLM 앱은 “모델 호출 한 번”으로 끝나지 않습니다. Agent가 tool을 여러 번 호출하고, RAG가 retrieval을 반복하며, streaming 응답 중간에 재시도/폴백이 발생합니다. 이때 장애의 원인은 대개 **프롬프트/모델**이 아니라 **실행 그래프 어딘가의 상태 전파 실패, 타임아웃, 잘못된 캐시, 과도한 토큰 사용** 같은 “시스템 문제”로 나타납니다.
 

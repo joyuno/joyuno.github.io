@@ -7,17 +7,8 @@ categories: [DevOps, News]
 tags: [devops, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/kubernetes-v135-docker-desktop-454455-20-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2025년 12월 클라우드 네이티브 진영에서 가장 눈에 띈 소식은 **Kubernetes v1.35 정식 릴리스(12/17)**와 **Docker Desktop 12월 릴리스 라인(12/04, 12/16)**입니다. 공통 키워드는 명확합니다. “기능 추가”보다 **보안 강화(credential, token, image access)**와 **개발자 경험(로컬/데스크톱 워크플로우)** 쪽으로 무게중심이 이동했습니다. ([kubernetes.io](https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/?utm_source=openai))
 

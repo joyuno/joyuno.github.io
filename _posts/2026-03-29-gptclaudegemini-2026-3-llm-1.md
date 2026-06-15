@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월은 OpenAI·Anthropic·Google이 각각 **신규 LLM(또는 핵심 기능 확장)**을 공개하며 “성능”뿐 아니라 **제품 UX(대화 톤), 개발자 비용(토큰 단가), 에이전트 권한 위임(자동 실행)** 경쟁을 한 단계 끌어올린 달이었습니다. 특히 **1M급 context**, **저지연(voice-first)**, **코딩 에이전트의 실행 권한**이 공통 키워드로 떠올랐습니다. ([techcrunch.com](https://techcrunch.com/2026/03/05/openai-launches-gpt-5-4-with-pro-and-thinking-versions/?utm_source=openai))
 

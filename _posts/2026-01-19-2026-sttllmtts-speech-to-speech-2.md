@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/2026-sttllmtts-speech-to-speech-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 1월 기준, 음성 AI 제품에서 사용자가 체감하는 품질은 “정답률”보다 “대화감”이 더 크게 좌우합니다. 대화감은 결국 **latency(지연)**, **turn-taking(턴 교대)**, **barge-in(끼어들기)**, 그리고 **streaming(연속 처리)** 4가지가 결정합니다.  
 과거의 전형적인 파이프라인(STT→LLM→TTS)은 구성은 단순하지만, (1) 텍스트 경유로 감정/억양 정보가 손실되고, (2) 각 단계가 누적 지연을 만들며, (3) 사용자가 말 끊었을 때(cancel) 처리와 오디오 동기화가 매우 까다롭습니다. OpenAI는 이를 줄이기 위해 **Realtime API**로 persistent connection(WebRTC/WebSocket) 기반 **speech-to-speech**를 제공하고, 자동 interruption 처리까지 강조합니다. ([openai.com](https://openai.com/index/introducing-the-realtime-api/?utm_source=openai))  

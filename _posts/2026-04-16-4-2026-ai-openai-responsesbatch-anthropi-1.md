@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/4-2026-ai-openai-responsesbatch-anthropi-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월(정확히는 4월 초~중순)에 OpenAI·Anthropic·Google 쪽에서 “개발자 경험”을 바꾸는 업데이트가 연달아 나왔습니다. 공통 키워드는 **(1) API 표면의 재정비, (2) 비용/과금 구조 최적화, (3) 정책·보안 경계 강화**입니다. ([openai.com](https://openai.com/ko-KR/index/introducing-gpt-5-4/))
 

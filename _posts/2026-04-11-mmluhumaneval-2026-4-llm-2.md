@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-4-llm-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 도입할 때 가장 흔한 질문은 “그래서 **성능이 얼마나 좋아요?**”입니다. 이때 가장 먼저 등장하는 지표가 MMLU(지식/추론)와 HumanEval(코딩) 같은 표준 benchmark 점수죠. 문제는 2026년 현재, 이 점수들이 **(1) 포화(saturation)**, **(2) 데이터 오염(contamination)**, **(3) 벤치마크 자체 오류(ground-truth errors)**, **(4) 측정 방식의 허점(pass@k의 해석, 테스트 커버리지)** 때문에 “현업 성능”과 점점 멀어지고 있다는 점입니다.  
 특히 MMLU는 “상위 모델 간 점수 차가 너무 작아” 변별력이 떨어진다는 지적이 많고, MMLU의 정답 라벨 오류를 교정한 MMLU-Redux 같은 작업도 등장했습니다. ([lmmarketcap.com](https://lmmarketcap.com/trackers/benchmark-saturation?utm_source=openai))  

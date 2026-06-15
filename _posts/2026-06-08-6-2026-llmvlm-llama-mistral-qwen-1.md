@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/6-2026-llmvlm-llama-mistral-qwen-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 6월 시점의 오픈소스(정확히는 open-weight) LLM/VLM 트렌드는 “누가 더 똑똑한 모델을 냈나”보다 “누가 **지속적으로 공개하고**, **파생 생태계를 키우며**, **라이선스로 상용화 마찰을 줄였나**”로 무게중심이 옮겨갔습니다. 최근 흐름을 보면 Qwen은 빠른 릴리즈로 점유율을 넓히는 반면, Meta Llama는 다음 오픈 공개가 지연되고, Mistral은 ‘오픈’의 범위를 모델별로 더 명확히 구분하는 쪽으로 정리되는 모습입니다. ([axios.com](https://www.axios.com/2026/04/06/meta-open-source-ai-models?utm_source=openai))
 

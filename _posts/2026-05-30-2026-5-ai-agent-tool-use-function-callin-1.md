@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-ai-agent-tool-use-function-callin-1/
+description: "DB 조회를 해야 하는데 바로 “요약”부터 해버림 (순서 문제) 결제/예약 같은 부작용(side effect) 툴을 너무 일찍 호출함 (안전성 문제) 툴 출력이 길어져 컨텍스트를 잡아먹고 비용이 폭발 (비용/성능 문제) 에러가 나면 모델이 “추측으로 메꾸기”를 함 (신뢰성 문제)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년의 agent 개발에서 가장 자주 터지는 문제는 “모델이 똑똑하냐”가 아니라 **도구 호출(tool call)이 프로덕션 규칙을 깨는 순간**입니다. 예를 들어:
 

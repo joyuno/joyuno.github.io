@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-5-langsmith-vs-langfuse-1/
+description: "특정 세션/사용자군에서만 hallucination 증가 RAG 검색 품질 저하로 재시도(retry) 폭증 → 비용이 먼저 터짐 프롬프트/모델 버전 변경 후 latency p95 악화 멀티스텝(agent/tool/RAG) 파이프라인에서 병목 지점이 로그로는 안 보임"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 앱 운영에서 진짜 골칫거리는 **장애처럼 티 나게 죽는 문제**가 아니라, “그럴듯하게 동작하지만” 아래가 서서히 망가지는 상황입니다.
 

@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-06]
 
 source: https://daewooki.github.io/posts/2026-6-cursorcopilotwindsurf-agentsmdrul-1/
+description: "언제 쓰면 좋은가 모노레포/중간 규모 이상 서비스에서: 기능 추가, 리팩터링, 테스트 보강, 마이그레이션처럼 “여러 파일을 건드리는 작업” 팀 규약/아키텍처 경계가 명확하고, 그걸 도구에 파일로 주입할 수 있을 때(AGENTS.md, rules) 작업을 “계획→적용→검증”으로 나눠서…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 AI 코딩 도구를 6개월 이상 실전에 붙여본 팀에서 공통으로 부딪히는 문제는 “생성 품질”이 아니라 **일관성(consistency)과 비용/속도, 그리고 컨텍스트 폭발**입니다.  
 - PR 단위로 보면 *비슷한 작업을 반복*하는데도 결과가 들쭉날쭉하고,

@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/rag-2026-chunkingdocument-splitting-over-2/
+description: "언제 쓰면 좋나 문서가 길고(수십~수백 페이지), 섹션/헤딩/표/코드블록 등 구조가 강한 문서 질문이 “정의/예외/조건/수치/ID”처럼 정확한 구절을 요구하는 QA 같은 문서라도 “챕터/섹션 단위로 의미가 뚝뚝 끊기는” 콘텐츠"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG에서 “검색이 헛돌고 답이 근거 없이 흔들리는” 문제의 상당수는 embedding/LLM이 아니라 **문서가 어떻게 쪼개졌는지(chunking)** 에서 시작합니다. 특히 규정/정책/기술문서처럼 **문장 하나가 정확도를 좌우**하는 문서에서, 경계가 잘못 잘리면 “관련은 있어 보이는데 정답 문장이 없는 chunk”만 계속 뽑히는 상황이 자주 나옵니다(실무자들도 실패 케이스를 뜯어보면 대개 이 케이스). ([reddit.com](https://www.reddit.com/r/LangChain/comments/1tgcldy/why_does_everyone_skip_the_chunking_part/?utm_source=openai))
 

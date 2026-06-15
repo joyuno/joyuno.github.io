@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/2026-2-vlmvision-language-model-ai-2/
+description: "다만 실무에서 바로 마주치는 문제는 뻔합니다: 1) 출력이 들쭉날쭉(형식이 깨짐) 2) 비용 폭발(큰 이미지/다중 이미지) 3) 정확도 저하(텍스트/회전/해상도) 4) 검증 불가(근거 없이 그럴듯한 말). 이 글은 2026년 2월 시점의 공식 문서 기반으로, VLM을 “이미지 분석…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월 기준 멀티모달 AI(Vision Language Model, VLM)는 “이미지 → 텍스트”를 넘어서, **UI 스크린샷 디버깅**, **문서/차트 이해**, **상품/결함 검사**, **장면 기반 QA**, **간단한 object detection/segmentation 보조**까지 제품 요구사항을 빠르게 채우는 범용 엔진이 됐습니다. 특히 최신 상용 VLM들은 별도 CV 파이프라인(전처리+모델+후처리)을 전부 만들기 전에, **프롬프트+구조화 출력(JSON)**만으로 “일단 동작하는” 기능을 매우 빠르게 뽑아낼 수 있습니다.
 

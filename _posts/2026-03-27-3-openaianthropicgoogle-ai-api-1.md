@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/3-openaianthropicgoogle-ai-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월, OpenAI는 제품/엔터프라이즈 통합과 함께 API에 새 모델을 올렸고, Anthropic은 안전 정책 프레임워크(Responsible Scaling Policy, RSP)를 재정비했으며, Google은 Gemini API에 **멀티모달 embedding**을 공개 프리뷰로 내놓고 일부 프리뷰 모델 **shutdown 일정을 명시**했습니다. 각각의 발표는 방향이 다르지만, 공통적으로 “모델 성능”보다 “운영(rollout, deprecation, 정책, 계약 언어)”이 개발자 경험을 좌우하는 국면으로 들어왔다는 신호입니다. ([openai.com](https://openai.com/index/chatgpt-for-excel/?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/2026-5-embedding-3openai-vs-cohere-vs-bg-1/
+description: "언제 쓰면 좋은가 문서 검색/FAQ/티켓/코드 검색처럼 “의미 기반으로 비슷한 것을 찾는” 문제가 있고, BM25 같은 lexical 검색만으로는 동의어/표현 차이를 못 잡아 Recall이 떨어질 때 사용자 질의가 짧고 다양(챗봇 질문, 고객 문의)하며, 운영 중 지속적으로…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 Embedding 모델을 고르는 일은 결국 **검색 품질(Recall/Precision)**, **운영 비용(토큰/스토리지/인덱싱)**, **데이터 거버넌스(외부 API vs 온프레)**를 동시에 최적화하는 문제입니다. 특히 RAG/semantic search에서 “LLM이 똑똑해도 답이 엉뚱한” 원인의 상당수는 **retrieval이 틀린 것**(=embedding/인덱스/쿼리 설계 실패)에서 시작합니다.
 

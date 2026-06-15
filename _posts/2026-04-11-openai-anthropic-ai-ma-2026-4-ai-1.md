@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/openai-anthropic-ai-ma-2026-4-ai-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 4월 초 AI 스타트업 관련 뉴스는 “큰돈이 어디로 몰리는지”가 꽤 선명했습니다. 단순 LLM 경쟁을 넘어 **AI 반도체 설계 자동화(EDA)**, **AI‑바이오(Drug discovery)**, 그리고 **AI 기업의 여론/유통 채널(미디어) 확보**로 무게중심이 이동하는 모습이 관찰됩니다. ([axios.com](https://www.axios.com/2026/04/02/openai-acquires-tbpn))
 

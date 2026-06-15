@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-function-calling-2/
+description: "또한 OpenAI는 Responses API를 중심으로 “단일 호출에서 여러 tool turn을 오케스트레이션”하는 설계를 강화하고, 컴퓨터 환경/런타임(컨테이너)까지 제공해 장기 실행 에이전트를 밀고 있습니다. 즉, 2026년 3월의 구현 포인트는 Function Calling…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 들어 AI Agent는 단순 Q&A를 넘어, **외부 시스템을 호출(tool use)해 실제 작업을 끝내는** 방향으로 빠르게 표준화되고 있습니다. 문제는 “모델이 똑똑하게 말하느냐”가 아니라, **언제 어떤 도구를 어떤 인자로 호출하고, 실패를 어떻게 복구하며, 호출 결과를 어떻게 상태로 축적하느냐**에서 품질이 갈린다는 점입니다. 커뮤니티에서도 “에이전트는 추론보다 tool calling에서 더 자주 실패한다”는 경험담이 반복되고, 실제로 `tool_choice` 같은 파라미터 하나로 도구를 아예 안 부르는 경우도 빈번합니다. ([reddit.com](https://www.reddit.com/r/aiagents/comments/1rjlzsk/tool_calling_is_where_agents_fail_most/?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-5-llm-1/
+description: "LLM을 도입할 때 제일 흔한 실패 패턴은 “리더보드에서 MMLU/HumanEval 점수 높은 모델 = 우리 서비스에서도 좋겠지”라고 가정하는 겁니다. 그런데 2025~2026년으로 오면서 벤치마크 오염(contamination), 평가 프로토콜 차이(프롬프트/샘플링/채점기), 현실…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 
 LLM을 도입할 때 제일 흔한 실패 패턴은 “리더보드에서 MMLU/HumanEval 점수 높은 모델 = 우리 서비스에서도 좋겠지”라고 가정하는 겁니다. 그런데 2025~2026년으로 오면서 **벤치마크 오염(contamination)**, **평가 프로토콜 차이(프롬프트/샘플링/채점기)**, **현실 과업과의 괴리**가 더 크게 문제로 떠올랐습니다. HumanEval은 특히 *pass@k*라는 지표 자체가 의사결정자를 자주 속입니다(“k번 뽑아보면 하나는 맞겠지”의 확률). ([ibm.com](https://www.ibm.com/es-es/think/topics/humaneval?utm_source=openai))

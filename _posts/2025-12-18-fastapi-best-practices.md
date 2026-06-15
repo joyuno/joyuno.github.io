@@ -7,17 +7,8 @@ categories: [Backend, FastAPI]
 tags: [fastapi, python, backend, api, best-practices]
 
 source: https://daewooki.github.io/posts/fastapi-best-practices/
+description: "FastAPI로 여러 프로젝트를 진행하면서 정립한 프로젝트 구조와 패턴을 공유합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 
 FastAPI로 여러 프로젝트를 진행하면서 정립한 프로젝트 구조와 패턴을 공유합니다.

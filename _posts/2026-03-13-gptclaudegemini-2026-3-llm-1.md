@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-2026-3-llm-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2~3월, OpenAI·Anthropic·Google이 각각 GPT/Claude/Gemini 라인업에서 “신규(또는 최신) 모델”을 연이어 공개하면서 LLM 경쟁이 다시 한 번 가속했습니다. 단순히 “더 똑똑해졌다”가 아니라, **코딩/에이전트(agentic)/장문 컨텍스트/비용 효율**처럼 제품 포지션이 더 선명해졌다는 점이 핵심입니다. ([techradar.com](https://www.techradar.com/ai-platforms-assistants/chatgpt/sam-altman-says-gpt-5-4-is-his-favorite-model-to-talk-to-but-admits-openai-still-needs-to-fix-these-3-weaknesses?utm_source=openai))
 

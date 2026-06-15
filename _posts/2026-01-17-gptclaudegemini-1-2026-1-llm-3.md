@@ -7,17 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/gptclaudegemini-1-2026-1-llm-3/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2026년 1월, LLM 경쟁은 “새 모델 이름”보다 **제품(요금제/에이전트/배포 채널) 단위의 업데이트**가 더 크게 부각되는 흐름으로 전개되고 있습니다. OpenAI는 GPT‑5.2 접근성을 넓히는 방향(새 요금제·광고 도입)을, Anthropic은 Claude를 “대화형”에서 “업무 수행형(agentic)”으로 밀어붙였고, Google은 Gemini를 TV 등 기기 경험으로 확장했습니다. ([theverge.com](https://www.theverge.com/news/863466/openai-chatgpt-go-global-release?utm_source=openai))
 

@@ -8,17 +8,8 @@ tags: [blog, intro, year-2025]
 pin: true
 
 source: https://daewooki.github.io/posts/welcome-to-my-blog/
+description: "안녕하세요! 권대욱입니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 새로운 시작
 
 안녕하세요! 권대욱입니다.

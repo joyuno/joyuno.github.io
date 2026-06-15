@@ -7,17 +7,8 @@ categories: [AI, Tutorial]
 tags: [ai, tutorial, trend, 2025-12]
 
 source: https://daewooki.github.io/posts/2025-llm-rag-retrieveanswer-plansearchgr-2/
+description: "이번 글은 “기술 심층 분석 + 구현 튜토리얼”로, (1) retrieval tool, (2) document grading, (3) query rewrite & retry, (4) state 유지(메모리/컨텍스트) 를 한 번에 묶어, 실무에서 바로 쓸 수 있는 RAG agent…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
 ## 들어가며
 2024년까지의 전형적인 RAG는 “질문 → vector search → top-k 컨텍스트 → LLM 답변”이라는 단선형 파이프라인이었습니다. 문제는 이 구조가 **사용자 질문이 모호**하거나, **첫 검색 결과가 부정확**하거나, **답이 여러 소스에 흩어져** 있을 때 급격히 취약해진다는 점입니다. 그래서 2025년에는 “RAG + Agent”가 사실상 표준 패턴으로 자리 잡았습니다. 핵심은 LLM이 단순 생성기가 아니라, **도구(tool)를 선택하고 루프를 돌며 품질을 스스로 검증**하는 오케스트레이터가 되는 것입니다(일명 Agentic RAG). ([medium.com](https://medium.com/%40mohitagr18/the-ai-that-thinks-before-it-searches-a-deep-dive-into-agentic-rag-82e5db9a0826))
 

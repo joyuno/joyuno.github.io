@@ -7,18 +7,8 @@ categories: [AI, Coding]
 tags: [ai, coding, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-2026-5-trace-error-analysis-2/
+description: "이 글에서 다룰 워크플로는 다음에 강합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 프로덕션에서 LLM/agent가 터질 때의 문제는 **“재현 가능한 stack trace”가 아니라 “재현 불가능한 실행 맥락(context)”**이 같이 깨진다는 점입니다. 같은 입력처럼 보여도 (RAG 결과, tool 응답, 프롬프트 버전, 시스템 지시문, 정책/가드레일, 토큰 컷오프 등) 숨은 변수가 많아서, 기존 로그만으로는 “왜”를 못 찾고 **“뭘 고쳐야 다음에 안 깨지는지”**가 더 어렵습니다.
 

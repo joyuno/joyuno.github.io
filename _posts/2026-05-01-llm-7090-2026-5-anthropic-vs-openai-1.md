@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/llm-7090-2026-5-anthropic-vs-openai-1/
+description: "언제 쓰면 좋나 매 요청마다 동일한 system prompt + tool schema + few-shot + 정책/가이드라인 + 장문 문서를 붙이는 워크로드 “한 세션에서 N번 호출” 또는 “유사 템플릿을 초당 수십~수백 번 호출”처럼 재사용 빈도가 높은 경우 언제 쓰면 안 되나(또는…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 에이전트/챗봇/코드리뷰 같은 “긴 컨텍스트를 매 호출마다 반복”하는 시스템에서, 비용의 본질은 **(1) 출력 토큰**과 **(2) 반복되는 입력 토큰(prefix)** 입니다. 전자는 제품 설계(응답 길이/툴 호출 횟수) 문제고, 후자는 **prompt caching**으로 꽤 직접적으로 깎을 수 있습니다.
 

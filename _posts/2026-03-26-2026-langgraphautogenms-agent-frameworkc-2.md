@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-langgraphautogenms-agent-frameworkc-2/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 기준, AI Agent 개발의 병목은 “프롬프트 잘 쓰기”가 아니라 **오케스트레이션(orchestration)** 입니다. POC에서는 한두 개 tool call과 단일 agent로도 그럴듯하지만, 실제 서비스로 가면 곧바로 다음 요구가 붙습니다: (1) 여러 역할의 협업(Planner/Researcher/Coder/Reviewer), (2) 중간 산출물의 **상태(state)** 보존, (3) 실패/재시도/승인(HITL), (4) 관측가능성(tracing)과 재현성.  
 이 지점에서 프레임워크 선택이 곧 아키텍처 선택이 됩니다. 최근 비교 글들이 공통으로 강조하는 축은 “대화(conversation) 기반 vs 역할(role) 기반 vs 그래프(state machine) 기반”이고, 특히 Microsoft가 AutoGen과 Semantic Kernel을 묶어 **Microsoft Agent Framework**로 재정렬했다는 흐름이 눈에 띕니다. ([letsdatascience.com](https://letsdatascience.com/blog/ai-agent-frameworks-compared))

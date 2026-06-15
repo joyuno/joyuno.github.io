@@ -7,18 +7,8 @@ categories: [AI, MLOps]
 tags: [ai, mlops, trend, 2026-01]
 
 source: https://daewooki.github.io/posts/llm-langsmith-vs-langfuse-2026-1-2/
+description: "2025~2026 흐름에서 가장 큰 변화는 두 제품 모두 OpenTelemetry(OTel) 기반으로 ‘엔드-투-엔드 분산 트레이싱’ 을 밀고 있다는 점입니다. LangSmith는 SDK 수준의 OTel 지원을 “완성된 파이프라인”으로 확장했고(기존엔 ingestion 포맷…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 애플리케이션은 “잘 동작한다/안 한다”로 끝나지 않습니다. 같은 입력에도 출력이 흔들리고(비결정성), 한 번의 요청이 여러 단계(Agent planning → tool → retrieval → LLM → rerank…)로 분기되며, 비용은 호출 단위가 아니라 **워크플로 전체**에서 새어 나갑니다. 그래서 운영 단계에서 진짜 필요한 건 단순 logging이 아니라 **Observability(관측 가능성)** 입니다: “어떤 프롬프트가”, “어떤 컨텍스트로”, “어떤 모델을”, “얼마나 쓰고”, “어디서 실패했는지”를 **요청 단위(trace)** 로 재구성할 수 있어야 합니다.
 

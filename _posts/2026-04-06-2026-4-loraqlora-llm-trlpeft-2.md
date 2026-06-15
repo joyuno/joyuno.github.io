@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/2026-4-loraqlora-llm-trlpeft-2/
+description: "2026년 4월 관점에서 보면, 생태계는 Transformers + PEFT + bitsandbytes + TRL(SFTTrainer) 조합이 가장 범용적이고, Unsloth 같은 가속 레이어/도구도 실무 채택이 늘고 있습니다. (huggingface.co)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM fine-tuning은 여전히 “성능 vs 비용” 싸움입니다. Full fine-tuning은 가장 직관적이지만, VRAM·시간·운영 복잡도가 급격히 커집니다. 그래서 실무에서는 **PEFT(Parameter-Efficient Fine-Tuning)** 계열, 특히 **LoRA**가 사실상 표준이 되었고, 여기에 4-bit quantization을 결합한 **QLoRA**가 “단일 GPU에서도 7B~급을 현실적으로” 다루게 만들었습니다. QLoRA의 핵심은 **모델 본체는 4-bit로 얼려서 메모리를 줄이고**, 학습은 **LoRA adapter만** 업데이트한다는 점입니다. (NF4, double quantization, paged optimizer 같은 구성요소가 여기서 등장합니다.) ([arxiv.org](https://arxiv.org/abs/2305.14314?utm_source=openai))
 

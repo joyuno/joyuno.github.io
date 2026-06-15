@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/bm25vector-2026-rag-20-rrf-vs-weighted-2/
+description: "lexical 강한 질의: 에러 코드, API/클래스명, 설정 키, 정확한 약어(예: ERR_CONNECTION_RESET, x-amz-request-id) semantic 강한 질의: 사용자가 자연어로 의도를 말하지만 문서 표현은 다를 때(동의어/우회 표현/설명형 문장)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG에서 “답이 틀린” 이유의 상당수는 LLM이 아니라 **retrieval이 후보 문서를 잘못 뽑았기 때문**입니다. 특히 실무 문서(사내 위키/티켓/로그/정책/기술 문서)는 다음 두 종류의 질의가 섞입니다.
 

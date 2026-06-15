@@ -7,18 +7,8 @@ categories: [AI, Agent]
 tags: [ai, agent, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/agentic-rag-langgraph-1/
+description: "언제 쓰면 좋은가 문서가 크고 이질적(위키+PDF+티켓+코드+로그)이라 한 번의 top-k 검색으로는 정답 근거가 잘 안 모일 때 사용자가 “A와 B 비교해줘”, “조건이 이럴 땐?”, “이 오류의 root cause?”처럼 다단계 탐색이 필요한 질문을 할 때 제품/운영 환경에서 근거…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 전통적 RAG는 보통 `retrieve → (rerank) → generate` 파이프라인이 고정이라, **질문이 애매하거나(재질문 필요), 문서가 방대하거나(추가 탐색 필요), 근거가 부족한데도 답을 생성하는(환각) 상황**에서 취약합니다. 반대로 Agentic RAG는 LLM이 “지금 검색이 필요한가?”, “쿼리를 어떻게 바꿔야 하나?”, “검색 결과가 부실하니 더 파고들까?”를 **자율적으로 결정**하면서 루프를 돌립니다. LangGraph가 이 패턴(상태/루프/중단조건)을 가장 구현하기 좋은 프레임워크로 많이 쓰이고요. ([langchain-ai.lang.chat](https://langchain-ai.lang.chat/langgraph/tutorials/rag/langgraph_agentic_rag/?utm_source=openai))
 

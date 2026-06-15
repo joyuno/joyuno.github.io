@@ -7,18 +7,8 @@ categories: [AI, LLM]
 tags: [ai, llm, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/mmlu-humaneval-2026-3-llm-2/
+description: "게다가 Stanford CRFM은 “같은 MMLU 점수”라도 평가 방식이 제각각이라 리더보드 간 비교가 위험하다고 지적하며, HELM에서 표준화된 방식으로 다시 측정하는 접근을 제안했습니다. (crfm.stanford.edu) OpenAI도 과거에 simple-evals로…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM을 “평가”한다는 건 결국 **의사결정(모델 선택, 배포, 튜닝, 비용 최적화)** 을 위한 숫자를 만드는 일입니다. 그런데 2026년 3월 시점에서 MMLU, HumanEval 같은 고전 벤치마크는 여전히 널리 쓰이면서도, **점수 자체가 비교 불가능하게 만들어지는 케이스**가 너무 많습니다. 특히
 - MMLU는 **prompting/shot 수/CoT 유무**에 따라 점수가 크게 달라지고,

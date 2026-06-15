@@ -7,18 +7,8 @@ categories: [Backend, API]
 tags: [backend, api, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/fastapi-llm-api-sse-2026-5-1/
+description: "언제 쓰면 좋은가 웹/모바일에서 “토큰이 생성되는 대로” 점진 표시(typing 효과), 진행 상황(progress), 로그 tail LLM 호출을 프록시하거나, 여러 upstream을 합쳐 하나의 스트림으로 내보내야 할 때 “결과가 완성될 때까지 기다리면 타임아웃/사용자 이탈”이…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM API 서버를 운영하다 보면 “응답이 느리다”는 불만의 대부분은 **모델이 느려서가 아니라, 사용자가 첫 토큰을 받기까지의 체감 지연**에서 옵니다. 특히 Chat UI/Agent UI에서는 **1~2초 내 첫 글자**가 나오느냐가 UX를 갈라요. 이때 가장 현실적인 해법이 **HTTP 기반 스트리밍**(대개 SSE)입니다. FastAPI는 Starlette 기반이라 스트리밍이 자연스럽고, 2026년 현재 FastAPI 공식 문서도 **SSE를 AI chat streaming의 대표 케이스**로 명시합니다. ([fastapi.tiangolo.com](https://fastapi.tiangolo.com/tutorial/server-sent-events/?utm_source=openai))
 

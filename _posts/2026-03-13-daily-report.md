@@ -4,6 +4,7 @@ title: "2026-03-13 개발 작업 리포트"
 date: 2026-03-13 00:00:00 +0900
 categories: [dev-report]
 tags: [daily-report, development]
+description: "feat(stock_conversion): 종목코드 미변환 종목들 일괄 처리 → stock_code_converter.py에 batch_update 기능 추가"
 ---
 
 # 🤖 Claude CLI 작업 리포트

@@ -7,18 +7,8 @@ categories: [Infra, Kubernetes]
 tags: [infra, kubernetes, trend, 2026-05]
 
 source: https://daewooki.github.io/posts/gpu-2026-kubernetes-llm-gpu-hpakedadcgmd-1/
+description: "언제 쓰면 좋나 vLLM/TGI/Triton/SGLang 같은 GPU 기반 LLM 서빙에서 트래픽이 변동(버스트/야간)하고 비용이 민감할 때 “GPU utilization” 또는 “queue depth(대기열)” 같은 서빙-특화 신호로 replica를 조절하고 싶을 때…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM inference를 Kubernetes에 올리면, 첫 번째로 부딪히는 벽이 **“CPU는 놀고 있는데 GPU는 이미 포화인데도 HPA가 안 늘어난다”**입니다. HPA 기본 신호(CPU/Memory)는 LLM 서빙의 병목(대부분 GPU, KV cache, batch/queue)에 둔감합니다. 그래서 *스케일 아웃 타이밍이 늦고*, TTFT(Time To First Token)나 tail latency가 급격히 악화됩니다.
 

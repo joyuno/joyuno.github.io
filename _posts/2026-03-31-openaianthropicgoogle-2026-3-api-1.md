@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/openaianthropicgoogle-2026-3-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월은 빅테크 AI 3사(OpenAI, Anthropic, Google)가 **모델 라인업 교체·API 사용성 강화·정책 프레임워크 수정**을 거의 같은 타이밍에 쏟아낸 달이었습니다. 특히 “무엇이 새로 나왔나”보다 더 중요한 건, **기존 앱이 깨질 수 있는 deprecation/정책 변화**가 현실적인 리스크로 커졌다는 점입니다. ([platform.openai.com](https://platform.openai.com/docs/deprecations/2023-03-20-codex-models%23.doc?utm_source=openai))
 

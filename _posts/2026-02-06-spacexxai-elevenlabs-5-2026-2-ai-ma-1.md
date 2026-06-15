@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/spacexxai-elevenlabs-5-2026-2-ai-ma-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 2월(정확히는 2월 초), AI 스타트업 시장은 **“대형 자금 조달(mega round)”과 “플랫폼급 M&A”**가 동시에 터지며 분위기가 확 바뀌었습니다. 특히 Voice/Agent/Infrastructure 축에서 돈이 몰리고, 인수합병은 “기능 추가”가 아니라 “산업 지형 재편” 쪽으로 움직이고 있습니다. ([m.economictimes.com](https://m.economictimes.com/tech/technology/elevenlabs-raises-500-million-in-round-led-by-sequoia-valuation-jumps-fourfold-to-11-billion/articleshow/127913207.cms?utm_source=openai))
 

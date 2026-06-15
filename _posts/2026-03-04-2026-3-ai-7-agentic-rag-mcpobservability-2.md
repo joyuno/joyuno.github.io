@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/2026-3-ai-7-agentic-rag-mcpobservability-2/
+description: "이 글에서는 “2026년형 AI 앱”에서 반복적으로 재사용되는 아키텍처 설계 패턴을, 원리와 함께 실전 구현 코드로 정리합니다."
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 시점의 AI 애플리케이션은 더 이상 “LLM API 호출 + 프롬프트”로 끝나지 않습니다. 실제 제품에서 요구하는 건 **확장성(traffic/데이터/팀 규모)**, **신뢰성(재현 가능성/관측 가능성)**, **안전성(tool 오남용/프롬프트 인젝션)**, 그리고 **지식 최신성(RAG)** 입니다.  
 특히 OpenAI가 **Responses API + Agents SDK**로 “tool 기반 agent”를 전면에 세우면서, 앱 아키텍처의 중심이 **단일 모델 호출**에서 **(상태를 가진) 실행 엔진 + 도구 생태계**로 이동하고 있습니다. ([openai.com](https://openai.com/index/new-tools-for-building-agents/?utm_source=openai))  

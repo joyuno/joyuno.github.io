@@ -7,18 +7,8 @@ categories: [AI, RAG]
 tags: [ai, rag, trend, 2026-02]
 
 source: https://daewooki.github.io/posts/pinecone-vs-weaviate-vs-qdrant-vs-chroma-2/
+description: "2026년 2월 관점에서 많이 쓰는 4종(Pinecone/Weaviate/Qdrant/Chroma)을 선택 가이드 + 성능 관점 포인트로 정리합니다. (참고로, 벤치마크 수치는 환경에 따라 크게 흔들립니다. 아래에서는 ‘왜 그런 결과가 나오는가’에 초점을 둡니다.)"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 RAG가 “데모는 쉬운데 운영이 어렵다”로 귀결되는 가장 큰 이유는 **retrieval 계층**이 병목이 되기 때문입니다. LLM 호출 비용/지연만 보다가, 막상 트래픽이 붙으면 **벡터 검색 latency(P95), 필터링 비용, 인덱싱(ingest) 처리량, 메모리 압박**이 전체 시스템 SLO를 결정합니다.  
 그래서 벡터DB 선택은 “기능 체크리스트”가 아니라, **워크로드(쓰기/읽기 비율, 필터 비중, 멀티테넌시, 하이브리드 필요 여부)**를 먼저 고정하고 그에 맞춰야 합니다.

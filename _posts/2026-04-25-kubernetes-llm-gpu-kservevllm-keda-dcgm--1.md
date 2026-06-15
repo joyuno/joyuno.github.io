@@ -7,18 +7,8 @@ categories: [Infra, Kubernetes]
 tags: [infra, kubernetes, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/kubernetes-llm-gpu-kservevllm-keda-dcgm--1/
+description: "그래서 2026년 4월 기준 “실전”에서 가장 많이 채택되는 패턴은: (Pod 오토스케일) KServe + KEDA로 request/queue 기반 스케일링 (vLLM의 num_requests_waiting 같은 지표) (kserve.github.io) (GPU 지표 수집)…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM inference는 CPU 웹서비스처럼 “QPS만 보고” HPA로 늘리면 자주 망합니다. 이유는 간단합니다. **스파이크가 오면 GPU가 포화되기 전에 이미 큐(대기 요청)가 쌓이고, 새 Pod는 뜨자마자 바로 처리 못 하는 경우(모델 로딩, KV cache warm-up)가 많기 때문**입니다. Red Hat/IBM 사례에서도 “새 Pod가 모델을 GPU 메모리에 올릴 때까지는 트래픽을 못 받는다”는 점을 반복해서 강조합니다. ([developers.redhat.com](https://developers.redhat.com/articles/2025/11/26/autoscaling-vllm-openshift-ai-model-serving?utm_source=openai))
 

@@ -7,18 +7,8 @@ categories: [AI, Multimodal]
 tags: [ai, multimodal, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/vlm-2026-3-structured-output-grounding-2/
+description: "1) 멀티모달을 ‘대화’로 쓰지 말고 ‘파이프라인’으로 써라: 한 번에 모든 걸 시키면 hallucination/누락이 늘고 디버깅이 어렵습니다. 2) Structured output(JSON Schema)로 “모델의 자유도”를 제어: 결과를 코드가 소비할 수 있게 강제해야 운영이…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 기준, Vision Language Model(VLM)은 “이미지 캡션” 수준을 넘어 **문서/차트/스크린샷 이해, UI 자동화 보조, 시각적 근거 기반 QA** 같은 실무 문제를 텍스트만으로는 풀기 어려운 영역까지 침투했습니다. 특히 최근 트렌드는 다음 3가지로 요약됩니다.
 

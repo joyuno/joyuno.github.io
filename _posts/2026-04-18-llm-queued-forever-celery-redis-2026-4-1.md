@@ -7,18 +7,8 @@ categories: [Backend, Architecture]
 tags: [backend, architecture, trend, 2026-04]
 
 source: https://daewooki.github.io/posts/llm-queued-forever-celery-redis-2026-4-1/
+description: "API timeout, 재시도 폭발, 사용자 경험 악화(“로딩만 도는 UI”) LLM 공급자 지연/장애 시 웹 서버까지 같이 고갈 GPU/비용 자원(특히 vLLM) 스케줄링 실패 → tail latency 악화 “요청은 받았는데 결과가 안 옴”, “Queued 상태로 영원히 대기”…"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 LLM 기반 기능(요약/분류/리랭킹/에이전트 실행/대량 평가)은 대체로 **요청 시간 변동이 크고(수 초~수 분), 외부 의존(OpenAI/사내 vLLM/DB/벡터DB)과 rate limit**의 영향을 강하게 받습니다. 이걸 동기 HTTP로 처리하면 곧바로 다음 문제가 터집니다:
 

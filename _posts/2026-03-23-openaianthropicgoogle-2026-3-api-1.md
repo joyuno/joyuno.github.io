@@ -7,18 +7,8 @@ categories: [AI, News]
 tags: [ai, news, trend, 2026-03]
 
 source: https://daewooki.github.io/posts/openaianthropicgoogle-2026-3-api-1/
+description: "---"
 ---
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7990TVG7C7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7990TVG7C7');
-</script>
-
 ## 들어가며
 2026년 3월 AI 빅테크 3사는 “모델 성능 경쟁”만이 아니라, **API 라인업 재편·제품 노출 확대·안전/정책 포지셔닝 변경**을 한꺼번에 밀어붙였습니다. 특히 OpenAI의 정부 계약 문구 수정, Anthropic의 Responsible Scaling Policy(RSP) 기조 변화, Google의 Gemini Embedding 2 공개는 개발자 운영과 제품 로드맵에 직접적인 영향을 줍니다. ([openai.com](https://openai.com/index/our-agreement-with-the-department-of-war/?utm_source=openai))
 
