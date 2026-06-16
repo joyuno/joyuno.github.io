@@ -784,3 +784,9 @@
   tags: ["monitoring", "metrics", "visualization"]
   date: "2026-06-15"
   url: "/study-guides/prometheus-grafana-study-guide.html"
+- keyword: "ELK Stack"
+  slug: "elk-stack"
+  category: "infra"
+  tags: ["logging", "search", "observability"]
+  date: "2026-06-16"
+  url: "/study-guides/elk-stack-study-guide.html"
