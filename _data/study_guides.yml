@@ -790,3 +790,9 @@
   tags: ["logging", "search", "observability"]
   date: "2026-06-16"
   url: "/study-guides/elk-stack-study-guide.html"
+- keyword: "HashiCorp Vault"
+  slug: "hashicorp-vault"
+  category: "infra"
+  tags: ["secrets", "security", "encryption"]
+  date: "2026-06-17"
+  url: "/study-guides/hashicorp-vault-study-guide.html"
