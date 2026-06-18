@@ -796,3 +796,9 @@
   tags: ["secrets", "security", "encryption"]
   date: "2026-06-17"
   url: "/study-guides/hashicorp-vault-study-guide.html"
+- keyword: "OpenTelemetry"
+  slug: "opentelemetry"
+  category: "infra"
+  tags: ["observability", "tracing", "metrics"]
+  date: "2026-06-18"
+  url: "/study-guides/opentelemetry-study-guide.html"
