@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실무자를 위한 MITRE ATT&CK Framework 스터디 가이드</title>
+    <title>MITRE ATT&CK Framework 실무 스터디 가이드</title>
     <style>
+        /* ===== CSS 변수 (다크 테마) ===== */
         :root {
             --bg: #0d1117;
             --surface: #161b22;
@@ -18,20 +19,44 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
+
+        /* ===== 리셋 & 기본 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
+
         body {
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
-            padding: 0 20px;
-            max-width: 1200px;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
+
+        /* ===== 헤딩 ===== */
+        h1, h2, h3, h4 {
+            color: var(--text);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ===== 링크 ===== */
         a {
             color: var(--accent);
             text-decoration: none;
@@ -39,546 +64,486 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* ===== Hero ===== */
         .hero {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
             text-align: center;
-            padding: 4rem 1rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
         }
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
         }
         .hero .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+        .hero .meta-badge {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        .hero .meta-badge span {
+            display: inline-block;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .hero .meta-badge .tag {
+            color: var(--accent2);
+            border-color: var(--accent2);
+        }
+        .hero .meta-badge .date {
+            color: var(--accent4);
+            border-color: var(--accent4);
+        }
+
+        /* ===== TOC ===== */
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
             margin-bottom: 2rem;
         }
-        .meta-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
-        }
-        .toc {
-            background-color: var(--surface);
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 3rem;
-            border: 1px solid var(--border);
-        }
         .toc h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
+            font-size: 1.3rem;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0.8rem;
         }
         .toc ol {
-            list-style-position: inside;
-            columns: 2;
+            padding-left: 1.5rem;
+            margin: 0;
         }
-        .toc li {
-            margin-bottom: 0.7rem;
-            padding-left: 10px;
+        .toc ol li {
+            margin-bottom: 0.3rem;
         }
-        .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
+        .toc ol li a {
+            color: var(--text);
+            transition: color 0.2s;
         }
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
+        .toc ol li a:hover {
             color: var(--accent);
         }
-        .section h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent2);
+
+        /* ===== 섹션 ===== */
+        .section {
+            margin-top: 2.5rem;
         }
+
+        /* ===== 개념 카드 그리드 ===== */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.4rem 1.2rem;
+            transition: transform 0.15s, box-shadow 0.2s;
         }
         .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
-        .concept-card h4 {
+        .concept-card h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+        .concept-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* ===== Callout ===== */
+        .callout {
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 6px;
+            padding: 1rem 1.4rem;
+            margin: 1.5rem 0;
+            color: var(--text);
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout.warn strong {
+            color: var(--accent4);
+        }
+        .callout p {
+            margin: 0.2rem 0;
+        }
+
+        /* ===== ASCII 다이어그램 ===== */
+        .diagram {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            white-space: pre;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
             color: var(--accent3);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
+            margin: 1.5rem 0;
         }
+
+        /* ===== 표 ===== */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
-            background-color: var(--surface);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid var(--border);
         }
-        th, td {
-            padding: 1rem;
+        table th,
+        table td {
+            padding: 0.75rem 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border);
         }
-        th {
-            background-color: var(--surface2);
-            color: var(--accent);
+        table th {
+            background: var(--surface2);
             font-weight: 600;
+            color: var(--accent);
         }
-        tr:last-child td {
+        table tr:last-child td {
             border-bottom: none;
         }
-        .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-        }
-        .callout.warn {
-            border-left-color: var(--danger);
-        }
-        .callout h4 {
-            margin-bottom: 0.5rem;
+        table td {
             color: var(--text);
         }
-        .diagram {
-            background-color: var(--surface);
-            padding: 2rem;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            overflow-x: auto;
-            white-space: pre;
-            border: 1px solid var(--border);
-            margin: 2rem 0;
-            color: var(--accent2);
+        table .muted {
+            color: var(--text-muted);
         }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.95rem;
+
+        /* ===== 코드 블록 ===== */
+        pre, code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
         }
         pre {
-            padding: 1.5rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
+            background: #0d1117;
+            border: 1px solid #30363d;
             border-radius: 8px;
-            line-height: 1.5;
-        }
-        .code-block-title {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 0.5rem 1rem;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            border: 1px solid var(--border);
-            border-bottom: none;
+            padding: 1rem 1.2rem;
+            overflow-x: auto;
             font-size: 0.9rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0;
+            line-height: 1.6;
+            margin: 1.2rem 0;
+            color: var(--text);
         }
+        code {
+            background: rgba(48,54,61,0.4);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent2);
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* ===== 푸터 ===== */
         footer {
-            text-align: center;
-            padding: 3rem 0;
             margin-top: 3rem;
+            padding: 1.2rem 0;
             border-top: 1px solid var(--border);
+            text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        @media (max-width: 768px) {
-            .toc ol {
-                columns: 1;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero .subtitle {
-                font-size: 1.2rem;
-            }
+
+        /* ===== 반응형 ===== */
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero { padding: 1.5rem 1rem; }
+            .toc { padding: 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== HERO ===== -->
     <header class="hero">
-        <h1>MITRE ATT&CK® Framework</h1>
-        <div class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 실무 가이드</div>
-        <div class="meta-badges">
-            <span class="badge">Threat Modeling</span>
-            <span class="badge">Tactics & Techniques</span>
-            <span class="badge">Detection Engineering</span>
-            <span class="badge">Adversary Emulation</span>
-            <span class="badge">AI/ML Security</span>
+        <h1>MITRE ATT&amp;CK Framework 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="meta-badge">
+            <span class="tag">threat-modeling</span>
+            <span class="tag">tactics</span>
+            <span class="tag">techniques</span>
+            <span class="tag">procedures</span>
+            <span class="date">📅 2026.03</span>
         </div>
-        <p style="margin-top: 1.5rem; color: var(--text-muted);">작성일: 2026.03 | 최신 업데이트: v13 (Enterprise)</p>
     </header>
 
+    <!-- ===== TOC ===== -->
     <nav class="toc">
-        <h2>📑 목차</h2>
+        <h2>📋 목차</h2>
         <ol>
-            <li><a href="#section1">MITRE ATT&CK Framework란?</a></li>
-            <li><a href="#section2">왜 써야 하는가? 기존 대안과 비교</a></li>
-            <li><a href="#section3">핵심 개념: 매트릭스, Tactic, Technique, Sub-technique</a></li>
-            <li><a href="#section4">퀵스타트: Python & CLI로 시작하기</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#s1">MITRE ATT&amp;CK Framework란?</a></li>
+            <li><a href="#s2">왜 써야 하는가?</a></li>
+            <li><a href="#s3">핵심 개념</a></li>
+            <li><a href="#s4">퀵스타트</a></li>
+            <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+            <li><a href="#s7">참고 자료</a></li>
         </ol>
     </nav>
 
-    <main>
-        <section id="section1" class="section">
-            <h2>1. MITRE ATT&CK Framework란?</h2>
-            <p>MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge)는 사이버 공격자의 행위(Tactics, Techniques, Procedures - TTPs)를 체계적으로 분류한 지식 베이스이자 프레임워크입니다. 실제 관찰된 공격 데이터를 기반으로 공격 라이프사이클을 기술하며, 방어 측의 위협 모델링, 탐지 및 대응 능력을 강화하는 데 목적이 있습니다.</p>
-            
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>📊 지식 베이스 (Knowledge Base)</h4>
-                    <p>공격자의 전술(Tactics), 기술(Techniques), 절차(Procedures)에 대한 상세 설명, 예제, 탐지 및 대응 방안을 포함한 구조화된 데이터셋.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>🛡️ 평가 프레임워크 (Evaluation Framework)</h4>
-                    <p>보안 제품의 성능을 ATT&CK 매트릭스 기반으로 평가하고 벤치마킹하는 표준 방법론을 제공 (예: MITRE Engenuity).</p>
-                </div>
-                <div class="concept-card">
-                    <h4>🔬 공격 에뮬레이션 (Adversary Emulation)</h4>
-                    <p>특정 공격 그룹(APT)의 TTPs를 재현하는 레드팀 플랜 수립 및 방어 체계 검증에 활용.</p>
-                </div>
+    <!-- ===== 1. MITRE ATT&CK Framework란? ===== -->
+    <section class="section" id="s1">
+        <h2>1. MITRE ATT&amp;CK Framework란?</h2>
+        <p>
+            <strong>MITRE ATT&amp;CK</strong> (Adversarial Tactics, Techniques &amp; Common Knowledge)는 실제 위협 행위자들의 공격 전술(Tactics), 
+            기법(Techniques), 절차(Procedures)를 체계적으로 정리한 지식 베이스입니다. 
+            보안 팀은 이를 활용해 탐지 규칙을 개발하고, 침해 지표를 식별하며, 위협 모델링을 수행합니다.
+        </p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h3>🔍 전술-기법-절차 매핑</h3>
+                <p>공격자의 전체 kill chain을 TTP 관점으로 분석하여 탐지·대응 우선순위를 명확히 설정합니다.</p>
             </div>
-        </section>
-
-        <section id="section2" class="section">
-            <h2>2. 왜 써야 하는가? 기존 대안과 비교</h2>
-            <p>기존의 보안 프레임워크(예: Kill Chain)와 비교했을 때 ATT&CK의 가장 큰 차별점은 <strong>실제 관찰 가능한 행위(Techniques)에 초점</strong>을 맞추고 있으며, 상세한 기술 설명과 탐지 로직을 제공한다는 점입니다.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>프레임워크</th>
-                        <th>초점</th>
-                        <th>강점</th>
-                        <th>ATT&CK 대비 한계</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Lockheed Martin Kill Chain</strong></td>
-                        <td>공격 단계(7단계)의 선형 진행</td>
-                        <td>공격 흐름의 이해, 단계별 방어점 식별</td>
-                        <td>너무 고수준, 구체적 기술 및 탐지 방법 부재</td>
-                    </tr>
-                    <tr>
-                        <td><strong>STRIDE</strong></td>
-                        <td>위협 모델링(6가지 위협 유형)</td>
-                        <td>디자인 단계의 체계적 위협 식별</td>
-                        <td>실제 공격 행위 매핑 어려움, 실행 단계 부족</td>
-                    </tr>
-                    <tr>
-                        <td><strong>NIST CSF</strong></td>
-                        <td>보안 관리 프로세스(Identify, Protect 등)</td>
-                        <td>거버넌스, 위험 관리, 컴플라이언스</td>
-                        <td>공격자 관점의 구체적 기술 정보 부재</td>
-                    </tr>
-                    <tr>
-                        <td><strong>MITRE ATT&CK</strong></td>
-                        <td><strong>공격자의 실제 Tactics & Techniques</strong></td>
-                        <td>실행 가능한 탐지/대응 로직, 공격 그룹 TTPs 매핑, 풍부한 데이터</td>
-                        <td>학습 곡선, 방대한 데이터 관리 필요</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="callout">
-                <h4>💡 AI 엔지니어에게 ATT&CK가 중요한 이유</h4>
-                <p>ATT&CK는 레이블링된 공격 시나리오 데이터를 제공하여 <strong>지도 학습 기반 이상 탐지 모델</strong>의 훈련 데이터 구축에 활용될 수 있습니다. 또한, 특정 Technique(예: T1059.003 - Windows Command Shell)에 대한 탐지 로직을 자동 생성하는 AI 모델의 기준 지식으로 사용 가능합니다.</p>
+            <div class="concept-card">
+                <h3>🧠 위협 인텔리전스 통합</h3>
+                <p>STIX/TAXII 표준과 연계하여 외부 위협 정보를 내부 로그 및 탐지 규칙에 바로 매핑할 수 있습니다.</p>
             </div>
-        </section>
-
-        <section id="section3" class="section">
-            <h2>3. 핵심 개념: 매트릭스, Tactic, Technique, Sub-technique</h2>
-            <p>ATT&CK의 계층적 구조를 이해하는 것이 실무 적용의 첫걸음입니다.</p>
-            
-            <div class="diagram">
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           MITRE ATT&CK ENTERPRISE                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  TACTICS (공격자의 전술적 목표 - "Why")                                 │
-│  ┌──────────┬──────────┬──────────┬──────────┬──────────┐              │
-│  │Recon     │Resource  │Initial   │Execution │Persistence│ ... (14개)  │
-│  │(정찰)    │Development│Access    │(실행)    │(지속성)   │              │
-│  │TA0043    │(자원개발)│(초기침입)│TA0002    │TA0003     │              │
-│  └──────────┴──────────┴──────────┴──────────┴──────────┘              │
-│          │          │          │          │          │                  │
-│  TECHNIQUES (목표를 달성하는 구체적 방법 - "How")                       │
-│  ┌──────────┬──────────┬──────────┬──────────┬──────────┐              │
-│  │Active    │Phishing  │Exploit   │Command   │Registry   │ ... (200+)  │
-│  │Scanning  │(피싱)    │Public-   │& Scripting│Run Keys   │              │
-│  │T1595     │T1566     │Facing App│Interpreter│T1547.001 │              │
-│  └──────────┴──────────┴──────────┴──────────┴──────────┘              │
-│                              │                                          │
-│  SUB-TECHNIQUES (기술의 세부 변종 - "How in detail")                    │
-│                              ├─ T1547.001: Registry Run Keys / Startup  │
-│                              ├─ T1547.002: Authentication Package       │
-│                              └─ T1547.003: Time Providers               │
-│                                                                         │
-│  PROCEDURES (실제 관찰된 구현 사례 - "How in reality")                  │
-│  └─ APT29: "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion│
-│     \Run"에 "rundll32.exe stager.dll" 추가                              │
-└─────────────────────────────────────────────────────────────────────────┘
+            <div class="concept-card">
+                <h3>⚙️ 탐지/대응 최적화</h3>
+                <p>ATT&amp;CK Navigator 등을 통해 현재 보안 커버리지를 시각화하고, 미탐지 기법을 식별하여 개선합니다.</p>
             </div>
-            
-            <h3>주요 구성 요소</h3>
-            <ul style="padding-left: 2rem; margin: 1rem 0;">
-                <li><strong>Tactic (TAxxxx):</strong> 공격자의 단기적 전술 목표 (예: TA0001 - Initial Access).</li>
-                <li><strong>Technique (Txxxx):</strong> Tactic을 달성하기 위한 구체적 방법 (예: T1190 - Exploit Public-Facing Application).</li>
-                <li><strong>Sub-technique (Txxxx.yyy):</strong> Technique의 세부 구현 (예: T1059.003 - Windows Command Shell).</li>
-                <li><strong>Procedure:</strong> 실제 공격 그룹이 사용한 구체적 도구, 명령어, 스크립트.</li>
-                <li><strong>Mitigation (Mxxxx):</strong> 해당 Technique을 방지하거나 어렵게 하는 대응책.</li>
-                <li><strong>Detection (DSxxxx):</strong> Technique을 탐지하기 위한 데이터 소스 및 분석 로직.</li>
-            </ul>
-        </section>
+        </div>
+    </section>
 
-        <section id="section4" class="section">
-            <h2>4. 퀵스타트: Python & CLI로 시작하기</h2>
-            <p>공식 Python 라이브러리(`attackcti`)와 STIX/TAXII를 활용하여 ATT&CK 데이터를 프로그래밍 방식으로 조회하고 분석할 수 있습니다.</p>
-            
-            <h3>4.1 환경 설정 및 라이브러리 설치</h3>
-            <div class="code-block-title">Terminal</div>
-            <pre><code># 필수 라이브러리 설치
-pip install attackcti pandas jupyter
-# 또는 컨테이너 환경에서
-docker run -it --rm -p 8888:8888 -v $(pwd):/workspace python:3.11-slim bash -c "pip install attackcti pandas && jupyter notebook --ip=0.0.0.0 --allow-root"</code></pre>
-            
-            <h3>4.2 첫 번째 예제: 모든 Enterprise Technique 조회</h3>
-            <div class="code-block-title">Python (attackcti)</div>
-            <pre><code>from attackcti import attack_client
-import pandas as pd
+    <!-- ===== 2. 왜 써야 하는가? ===== -->
+    <section class="section" id="s2">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>기존 위협 모델링 프레임워크와의 차이를 비교하면 ATT&amp;CK의 실용성이 더욱 명확해집니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>프레임워크</th>
+                    <th>초점</th>
+                    <th>장점</th>
+                    <th>ATT&amp;CK 대비 한계</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cyber Kill Chain</strong></td>
+                    <td>공격 단계</td>
+                    <td>직관적, 고수준 흐름</td>
+                    <td>세부 기법 부족, 현대 공격 반영 미흡</td>
+                </tr>
+                <tr>
+                    <td><strong>STRIDE</strong></td>
+                    <td>위협 유형</td>
+                    <td>개발자 친화적</td>
+                    <td>운영 환경 탐지·대응에 취약</td>
+                </tr>
+                <tr>
+                    <td><strong>NIST CSF</strong></td>
+                    <td>보안 거버넌스</td>
+                    <td>조직 정책 수립에 적합</td>
+                    <td>기술적 TTP 상세화 부족</td>
+                </tr>
+                <tr>
+                    <td><strong>MITRE ATT&amp;CK</strong></td>
+                    <td>TTP 기반 위협 인텔</td>
+                    <td>실제 공격 기반, 지속 업데이트, 도구 연계 용이</td>
+                    <td>초기 학습 곡선</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <p><strong>✅ 핵심</strong> — ATT&amp;CK은 단순한 분류체계를 넘어, SOC·RED팀·위협 인텔리전스 전반에서 공통 언어로 사용됩니다.</p>
+        </div>
+    </section>
 
-# ATT&CK STIX 데이터 로드 (로컬 캐시 또는 TAXII 서버)
-lift = attack_client()
+    <!-- ===== 3. 핵심 개념 ===== -->
+    <section class="section" id="s3">
+        <h2>3. 핵심 개념</h2>
+        <p>ATT&amp;CK은 <strong>Tactics</strong> (왜?), <strong>Techniques</strong> (무엇을?), <strong>Procedures</strong> (어떻게?)의 계층 구조로 설계되어 있습니다.</p>
 
-# 모든 Enterprise Technique 가져오기
-techniques = lift.get_techniques()
-print(f"총 Techniques 수: {len(techniques)}")
+        <div class="diagram">
++--------------------------------------------------------------------+
+|                      MITRE ATT&amp;CK Architecture                     |
++--------------------------------------------------------------------+
+|                                                                      |
+|  [Tactics]  초기접근  ·  실행  ·  지속  ·  권한상승  ·  방어우회  · …  |
+|       ▼           ▼           ▼           ▼           ▼             |
+|  [Techniques] T1078 · T1059 · T1098 · T1548 · T1562 · T1021 …      |
+|       ▼           ▼           ▼           ▼           ▼             |
+|  [Procedures]  구체적인 공격 코드 / IOC / 소프트웨어 예시             |
+|       ▼           ▼           ▼           ▼           ▼             |
+|  [Mitigations]  M1041 · M1022 · M1026 · M1035 · M1047 …            |
+|       ▼           ▼           ▼           ▼           ▼             |
+|  [Detections]  Splunk · Sigma · KQL 규칙 매핑                      |
++--------------------------------------------------------------------+
+|  * Matrix: Enterprise (Windows/macOS/Linux/Cloud/Network)          |
+|  * Mobile: Android/iOS 위협                                        |
+|  * ICS: 산업제어시스템 공격 기법                                    |
++--------------------------------------------------------------------+</div>
 
-# DataFrame으로 변환하여 주요 정보 확인
-tech_list = []
-for t in techniques:
-    tech_list.append({
-        'ID': t['external_references'][0]['external_id'],
-        'Name': t['name'],
-        'Tactic': ', '.join([phase['phase_name'] for phase in t['kill_chain_phases']]),
-        'Description': t['description'][:150] + '...' if t['description'] else ''
-    })
+        <p>Matrix는 플랫폼별로 분리되어 있으며, 각 기법에는 MITIGATION과 DETECTION이 연결되어 실무에 바로 활용 가능합니다.</p>
+        <div class="callout warn">
+            <p><strong>⚠️ 주의</strong> — 모든 기법이 모든 환경에 적용되지는 않습니다. 자신의 인프라(클라우드, 온프레미스, 컨테이너)에 맞는 Matrix를 선택하세요.</p>
+        </div>
+    </section>
 
-df_tech = pd.DataFrame(tech_list)
-print(df_tech.head())
+    <!-- ===== 4. 퀵스타트 ===== -->
+    <section class="section" id="s4">
+        <h2>4. 퀵스타트</h2>
+        <p>ATT&amp;CK 데이터를 활용하는 가장 빠른 방법은 <strong>attackcti</strong> (Python 라이브러리)와 <strong>REST API</strong>를 사용하는 것입니다.</p>
 
-# 특정 Tactic(예: Persistence)의 Technique 필터링
-persistence_techs = df_tech[df_tech['Tactic'].str.contains('persistence', case=False)]
-print(f"\nPersistence Tactic 관련 Techniques: {len(persistence_techs)}개")</code></pre>
-            
-            <h3>4.3 CLI를 통한 빠른 조회 (mitre-attack CLI 도구)</h3>
-            <div class="code-block-title">Terminal</div>
-            <pre><code># mitre-attack CLI 설치 (Node.js 기반)
-npm install -g @mitre/attack-cli
+        <h3>4.1 설치</h3>
+        <pre><code>pip install attackcti</code></pre>
 
-# 기본 조회
-attack search "credential dumping"
-# 특정 그룹(APT29)의 Techniques 조회
-attack group "APT29" --techniques
-# Technique 상세 정보 (T1055 - Process Injection)
-attack technique T1055 --details --subtechniques</code></pre>
-        </section>
+        <h3>4.2 설정 &amp; 첫 번째 예제</h3>
+        <pre><code>from attackcti import attackcti
+import json
 
-        <section id="section5" class="section">
-            <h2>5. 핵심 설정 레퍼런스</h2>
-            <p>ATT&CK를 실무에 통합할 때 주요하게 설정해야 하는 요소들입니다.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>설정 항목</th>
-                        <th>권장값 / 옵션</th>
-                        <th>설명</th>
-                        <th>적용 예시</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>데이터 소스</strong></td>
-                        <td>Enterprise (기본), ICS, Mobile</td>
-                        <td>분석할 환경에 맞는 매트릭스 선택</td>
-                        <td>기업 내부망 → Enterprise, OT 환경 → ICS</td>
-                    </tr>
-                    <tr>
-                        <td><strong>STIX/TAXII 서버</strong></td>
-                        <td>https://cti-taxii.mitre.org</td>
-                        <td>공식 실시간 데이터 피드 엔드포인트</td>
-                        <td>attack_client(latest=True)로 최신 데이터 동기화</td>
-                    </tr>
-                    <tr>
-                        <td><strong>로컬 캐시 주기</strong></td>
-                        <td>24시간 (기본), 7일 (낮은 빈도)</td>
-                        <td>네트워크 부하 감소를 위한 캐싱 정책</td>
-                        <td>스케줄러로 매일 02:00에 데이터 갱신</td>
-                    </tr>
-                    <tr>
-                        <td><strong>매핑 필드</strong></td>
-                        <td>external_id, name, kill_chain_phases</td>
-                        <td>로그/알람과 ATT&CK를 매핑할 키 필드</td>
-                        <td>SIEM에서 alert.technique_id = T1059.003</td>
-                    </tr>
-                    <tr>
-                        <td><strong>AI 모델 입력</strong></td>
-                        <td>Technique 설명, 탐지 예제, 절차</td>
-                        <td>ML 모델의 특징(feature) 또는 레이블 소스</td>
-                        <td>텍스트 임베딩 → Technique 유사도 분석</td>
-                    </tr>
-                    <tr>
-                        <td><strong>시각화 도구</strong></td>
-                        <td>ATT&CK Navigator, Attack Flow</td>
-                        <td>매트릭스 시각화 및 공격 시나리오 작성</td>
-                        <td>JSON Layer 파일로 커버리지 히트맵 생성</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+# ATT&CK 데이터 로드 (v14 기준, 최신 버전 자동 반영)
+attck = attackcti.attackcti()
 
-        <section id="section6" class="section">
-            <h2>6. 실무 팁 & 트러블슈팅</h2>
-            
-            <div class="callout warn">
-                <h4>⚠️ 자주 겪는 문제 1: 데이터 양이 너무 방대하다</h4>
-                <p><strong>증상:</strong> 200개가 넘는 Techniques를 모두 모니터링하려 하니 리소스 부족과 피로도 상승.<br>
-                <strong>해결책:</strong> 조직의 위협 모델과 자산 중요도에 기반한 <strong>Technique 우선순위화</strong> 수행. MITRE의 <a href="#">ATT&CK Evaluations</a> 결과를 참고하여 실제 탐지율이 낮은 Techniques에 집중.</p>
-            </div>
-            
-            <div class="callout">
-                <h4>💡 팁 1: AI/ML 파이프라인에 ATT&CK 통합하기</h4>
-                <p>ATT&CK Technique 설명과 절차 데이터를 NLP 모델(BERT, SentenceTransformer)로 임베딩하여, 신규 로그/이벤트와의 유사도를 계산. 이를 통해 <strong>미리 정의되지 않은 변종 공격(Variants) 탐지</strong>에 활용.</p>
-                <pre><code># 간단한 유사도 매칭 예시 (의사 코드)
-from sentence_transformers import SentenceTransformer
+# 모든 Enterprise 기법 출력 (처음 5개만)
+techniques = attck.get_techniques()
+for t in techniques[:5]:
+    print(f"[{t.id}] {t.name} - {t.description[:100]}...")
 
-model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-# ATT&CK Technique 설명 임베딩
-tech_descriptions = {t.id: t.description for t in techniques}
-tech_embeddings = model.encode(list(tech_descriptions.values()))
+# 특정 Tactics에 속한 기법 조회 (예: Initial Access)
+initial_access = attck.get_techniques_by_tactic("initial-access")
+print(f"\nInitial Access 기법 수: {len(initial_access)}")
+for t in initial_access[:3]:
+    print(f"  → {t.id}: {t.name}")</code></pre>
 
-# 새 이벤트 로그 임베딩
-new_event_embedding = model.encode("PowerShell encoded command execution observed")
-# 코사인 유사도 계산 → 가장 가까운 Technique ID 반환</code></pre>
-            </div>
-            
-            <div class="callout warn">
-                <h4>⚠️ 자주 겪는 문제 2: 탐지 로직과 실제 Technique 매핑이 모호하다</h4>
-                <p><strong>증상:</strong> 하나의 탐지 규칙이 여러 Techniques에 걸쳐 있어 정확한 보고가 어려움.<br>
-                <strong>해결책:</strong> 탐지 규칙을 <strong>가장 구체적인 Sub-technique 수준</strong>으로 분해. 예: "스크립트 실행" → "T1059.001 PowerShell", "T1059.003 Windows Command Shell", "T1059.004 Unix Shell"로 세분화.</p>
-            </div>
-            
-            <div class="callout">
-                <h4>💡 팁 2: ATT&CK Navigator 레이어로 커버리지 시각화</h4>
-                <p>보유한 탐지 규칙, EDR 알람, 레드팀 테스트 결과를 ATT&CK Navigator Layer JSON으로 변환하여 시각적 격차 분석 수행. 이를 통해 방어의 빈틈을 명확히 식별하고 투자 우선순위 결정.</p>
-                <pre><code># Navigator Layer 생성 예시 (Python dict)
-layer = {
-    "name": "Our Detection Coverage",
-    "versions": {"attack": "13", "navigator": "4.8.0"},
-    "techniques": [
-        {
-            "techniqueID": "T1059.003",
-            "score": 85,  # 탐지 커버리지 %
-            "color": "#3fb950",  # 초록색
-            "comment": "Detected via process command-line monitoring"
-        },
-        {
-            "techniqueID": "T1566.001",
-            "score": 40,
-            "color": "#f0883e",  # 주황색
-            "comment": "Partial coverage via email gateway"
-        }
-    ]
-}
-# JSON 파일로 저장 후 https://mitre-attack.github.io/attack-navigator 에 업로드</code></pre>
-            </div>
-        </section>
+        <h3>4.3 CLI 명령어 (curl 활용)</h3>
+        <pre><code># Enterprise ATT&CK 최신 데이터를 JSON으로 다운로드
+curl -s https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json | jq '.objects | length'
 
-        <section id="section7" class="section">
-            <h2>7. 참고 자료</h2>
-            <ul style="padding-left: 2rem; margin: 1rem 0;">
-                <li><a href="https://attack.mitre.org" target="_blank">공식 ATT&CK 웹사이트</a> - 최신 매트릭스, Techniques 상세 정보</li>
-                <li><a href="https://github.com/mitre-attack/attack-scripts" target="_blank">공식 GitHub (attack-scripts)</a> - Python 유틸리티 및 예제</li>
-                <li><a href="https://github.com/mitre/cti" target="_blank">MITRE CTI (Cyber Threat Intelligence) GitHub</a> - STIX 데이터 소스</li>
-                <li><a href="https://attack.mitre.org/docs/ATTACK_Design_and_Philosophy_March_2020.pdf" target="_blank">ATT&CK Design and Philosophy (PDF)</a> - 프레임워크 설계 철학</li>
-                <li><a href="https://medium.com/mitre-attack" target="_blank">MITRE ATT&CK Medium 블로그</a> - 실무 적용 사례 및 업데이트 소식</li>
-                <li><a href="https://d3fend.mitre.org" target="_blank">D3FEND (방어 대응 기술 지식 베이스)</a> - ATT&CK의 방어 측면 보완</li>
-                <li><strong>추천 도서:</strong> "The MITRE ATT&CK Defender’s (MAD) Study Guide"</li>
-            </ul>
-        </section>
-    </main>
+# 특정 기법 조회 (예: T1059 Command and Scripting Interpreter)
+curl -s "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json" \
+  | jq '.objects[] | select(.id == "attack-pattern--e3b6e7b2-6c0b-4e6e-8c0f-4f1c2a3b4c5d") | .name'</code></pre>
 
+        <div class="callout">
+            <p><strong>💡 팁</strong> — <code>attackcti</code> 외에도 <code>stix2</code> 라이브러리를 사용하면 더욱 유연하게 STIX 데이터를 핸들링할 수 있습니다.</p>
+        </div>
+    </section>
+
+    <!-- ===== 5. 핵심 설정 레퍼런스 ===== -->
+    <section class="section" id="s5">
+        <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>실무에서 자주 사용하는 ATT&amp;CK 도구 및 설정값을 표로 정리했습니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>구성 요소</th>
+                    <th>설명</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ATT&amp;CK Navigator</strong></td>
+                    <td>Matrix 시각화 &amp; 커버리지 분석 도구</td>
+                    <td><span class="muted">mitre-attack.github.io/attack-navigator</span></td>
+                </tr>
+                <tr>
+                    <td><strong>STIX/TAXII</strong></td>
+                    <td>위협 인텔리전스 공유 표준 (JSON 기반)</td>
+                    <td><span class="muted">OASIS TC 표준</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Sigma Rules</strong></td>
+                    <td>ATT&amp;CK 기반 탐지 룰 (YAML 형식)</td>
+                    <td><span class="muted">sigmahq.github.io</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Atomic Red Team</strong></td>
+                    <td>ATT&amp;CK 테스트 시나리오 자동화</td>
+                    <td><span class="muted">github.com/redcanaryco/atomic-red-team</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Unfetter</strong></td>
+                    <td>보안 분석 및 시각화 플랫폼</td>
+                    <td><span class="muted">unfetter.io</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 6. 실무 팁 & 트러블슈팅 ===== -->
+    <section class="section" id="s6">
+        <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 문제 1:</strong> "API 응답이 너무 커서 로딩이 오래 걸려요."</p>
+            <p><strong>✅ 해결:</strong> <code>attackcti</code>에서 특정 Matrix만 선택하거나 <code>stix2</code> 필터를 사용하세요. 예: <code>enterprise_only=True</code></p>
+        </div>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 문제 2:</strong> "커스텀 탐지 규칙을 ATT&amp;CK에 어떻게 매핑하나요?"</p>
+            <p><strong>✅ 해결:</strong> Sigma 룰의 <code>tags</code> 필드에 <code>attack.tXXXX</code> 또는 <code>attack.initial_access</code> 형태로 태깅합니다.</p>
+        </div>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 문제 3:</strong> "클라우드 전용 기법이 누락된 것 같아요."</p>
+            <p><strong>✅ 해결:</strong> ATT&amp;CK v14부터 AWS, Azure, GCP 별 기법이 대폭 확장되었습니다. 항상 최신 버전을 확인하세요.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>✅ 베스트 프랙티스</strong> — 매 분기마다 ATT&amp;CK Navigator를 통해 현재 탐지 커버리지를 재평가하고, 
+            신규 기법(CVE와 연계된 것)을 우선적으로 대응하세요.</p>
+        </div>
+    </section>
+
+    <!-- ===== 7. 참고 자료 ===== -->
+    <section class="section" id="s7">
+        <h2>7. 참고 자료</h2>
+        <ul>
+            <li><a href="https://attack.mitre.org" target="_blank">MITRE ATT&amp;CK 공식 사이트</a></li>
+            <li><a href="https://github.com/mitre/cti" target="_blank">MITRE CTI (STIX 데이터) GitHub</a></li>
+            <li><a href="https://github.com/redcanaryco/atomic-red-team" target="_blank">Atomic Red Team — 테스트 라이브러리</a></li>
+            <li><a href="https://sigmahq.github.io" target="_blank">Sigma HQ — 탐지 룰 저장소</a></li>
+            <li><a href="https://oasis-open.github.io/cti-documentation/" target="_blank">OASIS CTI (STIX/TAXII) 문서</a></li>
+            <li><a href="https://attack-navigator.netlify.app" target="_blank">ATT&amp;CK Navigator (웹 버전)</a></li>
+        </ul>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
     <footer>
-        <p>본 가이드는 MITRE ATT&CK 프레임워크의 실무 적용을 위한 학습 자료입니다. 공식 문서를 항상 참고하시기 바랍니다.</p>
-        <p>© 2026 | 태그: <span style="color: var(--accent);">#threat-modeling #tactics #techniques #detection-engineering #ai-security</span></p>
-        <p style="margin-top: 1rem; font-size: 0.8rem;">MITRE ATT&CK는 The MITRE Corporation의 등록 상표입니다.</p>
+        <p>MITRE ATT&amp;CK Framework 실무 스터디 가이드 &middot; 작성일 2026.03 &middot; AI 정보보안 엔지니어 · 보안 전문가 대상</p>
     </footer>
 
-    <script>
-        // Smooth scrolling for TOC links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 20,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Highlight current section in TOC (basic implementation)
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('.section');
-            let currentSection = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if(scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-            // In a more advanced version, you could highlight the corresponding TOC link here
-        });
-    </script>
 </body>
 </html>
