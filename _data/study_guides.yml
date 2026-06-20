@@ -808,3 +808,9 @@
   tags: ["threat-modeling", "tactics", "techniques"]
   date: "2026-06-19"
   url: "/study-guides/mitre-att-ck-framework-study-guide.html"
+- keyword: "Splunk Enterprise Security"
+  slug: "splunk-enterprise-security"
+  category: "security"
+  tags: ["siem", "log-analysis", "threat-detection"]
+  date: "2026-06-20"
+  url: "/study-guides/splunk-enterprise-security-study-guide.html"
