@@ -820,3 +820,9 @@
   tags: ["xdr", "edr", "endpoint"]
   date: "2026-06-21"
   url: "/study-guides/crowdstrike-falcon-study-guide.html"
+- keyword: "Palo Alto Cortex XDR"
+  slug: "palo-alto-cortex-xdr"
+  category: "security"
+  tags: ["xdr", "soar", "detection"]
+  date: "2026-06-22"
+  url: "/study-guides/palo-alto-cortex-xdr-study-guide.html"
