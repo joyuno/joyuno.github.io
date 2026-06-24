@@ -832,3 +832,9 @@
   tags: ["xdr", "ai", "autonomous"]
   date: "2026-06-23"
   url: "/study-guides/sentinelone-singularity-study-guide.html"
+- keyword: "Metasploit Framework"
+  slug: "metasploit-framework"
+  category: "security"
+  tags: ["pentest", "exploitation", "red-team"]
+  date: "2026-06-25"
+  url: "/study-guides/metasploit-framework-study-guide.html"
