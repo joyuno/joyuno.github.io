@@ -838,3 +838,9 @@
   tags: ["pentest", "exploitation", "red-team"]
   date: "2026-06-25"
   url: "/study-guides/metasploit-framework-study-guide.html"
+- keyword: "Burp Suite"
+  slug: "burp-suite"
+  category: "security"
+  tags: ["web-security", "pentest", "scanner"]
+  date: "2026-06-25"
+  url: "/study-guides/burp-suite-study-guide.html"
