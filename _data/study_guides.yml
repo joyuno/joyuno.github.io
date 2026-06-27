@@ -850,3 +850,9 @@
   tags: ["vulnerability-scanner", "compliance"]
   date: "2026-06-26"
   url: "/study-guides/nessus-study-guide.html"
+- keyword: "Wiz"
+  slug: "wiz"
+  category: "security"
+  tags: ["cnapp", "cloud-security", "cspm"]
+  date: "2026-06-27"
+  url: "/study-guides/wiz-study-guide.html"
