@@ -856,3 +856,9 @@
   tags: ["cnapp", "cloud-security", "cspm"]
   date: "2026-06-27"
   url: "/study-guides/wiz-study-guide.html"
+- keyword: "Falco"
+  slug: "falco"
+  category: "security"
+  tags: ["runtime-security", "k8s", "threat-detection"]
+  date: "2026-06-28"
+  url: "/study-guides/falco-study-guide.html"
