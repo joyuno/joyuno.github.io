@@ -1,530 +1,458 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI/보안 엔지니어를 위한 IDA Pro 실무 스터디 가이드</title>
-    <style>
-        :root {
-            --bg: #0d1117;
-            --surface: #161b22;
-            --surface2: #1c2333;
-            --border: #30363d;
-            --text: #e6edf3;
-            --text-muted: #8b949e;
-            --accent: #58a6ff;
-            --accent2: #3fb950;
-            --accent3: #d2a8ff;
-            --accent4: #f0883e;
-            --danger: #f85149;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-        .meta-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
-        }
-        .toc {
-            background-color: var(--surface);
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 3rem;
-            border: 1px solid var(--border);
-        }
-        .toc h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-        .toc ol {
-            list-style-position: inside;
-            columns: 2;
-        }
-        .toc li {
-            margin-bottom: 0.7rem;
-            padding-left: 10px;
-        }
-        .toc a {
-            color: var(--text);
-        }
-        .toc a:hover {
-            color: var(--accent);
-        }
-        .section {
-            margin-bottom: 4rem;
-            padding: 2rem;
-            background-color: var(--surface);
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
-        .section h2 {
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-        }
-        .section h3 {
-            color: var(--accent2);
-            margin: 1.5rem 0 1rem 0;
-        }
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .concept-card {
-            background-color: var(--surface2);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent4);
-        }
-        .concept-card h4 {
-            color: var(--accent4);
-            margin-bottom: 0.8rem;
-        }
-        .callout {
-            background-color: var(--surface2);
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border-left: 4px solid var(--accent);
-        }
-        .callout.warn {
-            border-left-color: var(--danger);
-        }
-        .callout.warn h4 {
-            color: var(--danger);
-        }
-        .diagram {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-        th, td {
-            border: 1px solid var(--border);
-            padding: 12px 15px;
-            text-align: left;
-        }
-        th {
-            background-color: var(--surface2);
-            color: var(--accent);
-        }
-        tr:nth-child(even) {
-            background-color: var(--surface2);
-        }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.95em;
-        }
-        pre {
-            padding: 1.2rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-            border: 1px solid var(--border);
-        }
-        .code-block-title {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 8px 15px;
-            border: 1px solid var(--border);
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            margin-top: 3rem;
-            font-size: 0.9rem;
-        }
-        @media (max-width: 768px) {
-            .toc ol {
-                columns: 1;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .section {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IDA Pro 실무 스터디 가이드 | 2026.03</title>
+<style>
+    :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --surface2: #1c2333;
+        --border: #30363d;
+        --text: #e6edf3;
+        --text-muted: #8b949e;
+        --accent: #58a6ff;
+        --accent2: #3fb950;
+        --accent3: #d2a8ff;
+        --accent4: #f0883e;
+        --danger: #f85149;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.7;
+        padding: 2rem 1.5rem;
+        max-width: 960px;
+        margin: 0 auto;
+    }
+    /* ---- Hero ---- */
+    .hero {
+        text-align: center;
+        padding: 3rem 1rem 2rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 2rem;
+    }
+    .hero h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--accent3));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+    .hero .subtitle {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 1.2rem;
+    }
+    .hero .badge {
+        display: inline-block;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 0.3rem 1rem;
+        margin: 0.25rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+    .hero .badge.acc { color: var(--accent); border-color: var(--accent); }
+    .hero .badge.acc2 { color: var(--accent2); border-color: var(--accent2); }
+    .hero .badge.acc4 { color: var(--accent4); border-color: var(--accent4); }
+    /* ---- TOC ---- */
+    .toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2rem;
+    }
+    .toc h2 { font-size: 1.2rem; margin-bottom: 0.8rem; color: var(--accent); }
+    .toc ol { list-style: decimal; padding-left: 1.5rem; }
+    .toc ol li { margin: 0.3rem 0; }
+    .toc ol li a { color: var(--accent); text-decoration: none; }
+    .toc ol li a:hover { text-decoration: underline; }
+    .toc ol li a::after { content: " ↗"; font-size: 0.8rem; color: var(--text-muted); }
+    /* ---- Section ---- */
+    .section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.8rem 2rem;
+        margin-bottom: 1.8rem;
+    }
+    .section h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 0.4rem;
+    }
+    .section h3 { font-size: 1.2rem; margin: 1.2rem 0 0.6rem; color: var(--accent2); }
+    .section p { margin: 0.6rem 0; color: var(--text); }
+    .section ul, .section ol { margin: 0.6rem 0; padding-left: 1.5rem; color: var(--text); }
+    /* ---- Concept grid ---- */
+    .concept-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1rem;
+        margin: 1.2rem 0;
+    }
+    .concept-card {
+        background: var(--surface2);
+        border-left: 3px solid var(--accent);
+        border-radius: 6px;
+        padding: 1rem 1.2rem;
+        transition: transform 0.15s;
+    }
+    .concept-card:hover { transform: translateY(-2px); }
+    .concept-card h4 { color: var(--accent); margin-bottom: 0.4rem; font-size: 1rem; }
+    .concept-card p { font-size: 0.9rem; color: var(--text-muted); margin:0; }
+    /* ---- Callout ---- */
+    .callout {
+        background: var(--surface2);
+        border-left: 4px solid var(--accent2);
+        border-radius: 4px;
+        padding: 1rem 1.2rem;
+        margin: 1.2rem 0;
+    }
+    .callout.warn { border-left-color: var(--accent4); }
+    .callout p { margin: 0.2rem 0; }
+    .callout strong { color: var(--accent2); }
+    .callout.warn strong { color: var(--accent4); }
+    /* ---- Diagram ---- */
+    .diagram {
+        background: #0d1117;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.8rem;
+        line-height: 1.3;
+        white-space: pre;
+        overflow-x: auto;
+        color: var(--text-muted);
+        margin: 1rem 0;
+    }
+    /* ---- Table ---- */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 0.6rem 1rem;
+        text-align: left;
+    }
+    th { background: var(--surface2); color: var(--accent); font-weight: 600; }
+    td { background: var(--surface); color: var(--text); }
+    /* ---- Code block ---- */
+    code {
+        background: #0d1117;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0.15rem 0.4rem;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 0.85em;
+        color: var(--accent3);
+    }
+    pre {
+        background: #0d1117;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+    pre code {
+        border: none;
+        padding: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    /* ---- Footer ---- */
+    footer {
+        text-align: center;
+        padding: 2rem 0 1rem;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+        body { padding: 1rem; }
+        .hero h1 { font-size: 2rem; }
+        .section { padding: 1.2rem; }
+    }
+</style>
 </head>
 <body>
-    <header class="hero">
-        <h1>IDA Pro 실무 스터디 가이드</h1>
-        <div class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</div>
-        <div class="meta-badges">
-            <span class="badge">Reverse-Engineering</span>
-            <span class="badge">Disassembler</span>
-            <span class="badge">Malware Analysis</span>
-            <span class="badge">Binary Analysis</span>
-            <span class="badge">2026.03</span>
+
+<!-- ===== Hero ===== -->
+<header class="hero">
+    <h1>🛡️ IDA Pro 실무 스터디 가이드</h1>
+    <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+    <div>
+        <span class="badge acc">🔍 reverse-engineering</span>
+        <span class="badge acc2">🧩 disassembler</span>
+        <span class="badge acc4">🦠 malware</span>
+        <span class="badge">v8.3 SP1</span>
+        <span class="badge">난이도: 전문가</span>
+        <span class="badge">작성: 2026.03</span>
+    </div>
+</header>
+
+<!-- ===== TOC ===== -->
+<nav class="toc">
+    <h2>📑 목차</h2>
+    <ol>
+        <li><a href="#s1">IDA Pro란?</a></li>
+        <li><a href="#s2">왜 써야 하는가?</a></li>
+        <li><a href="#s3">핵심 개념</a></li>
+        <li><a href="#s4">퀵스타트</a></li>
+        <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+        <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+        <li><a href="#s7">참고 자료</a></li>
+    </ol>
+</nav>
+
+<!-- ===== 1. IDA Pro란? ===== -->
+<section class="section" id="s1">
+    <h2>1. IDA Pro란?</h2>
+    <p><strong>IDA Pro</strong> (Interactive Disassembler Professional)는 Hex-Rays가 개발한 업계 표준 바이너리 분석 도구입니다. 정적/동적 분석, 디컴파일, 디버깅을 통합하여 리버스 엔지니어링 워크플로우를 제공합니다. AI 정보보안 엔지니어는 취약점 분석, 악성코드 역공학, 펌웨어 분석 등에 활용합니다.</p>
+
+    <h3>🔧 3대 핵심 능력</h3>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>⚙️ 정적 분석</h4>
+            <p>크로스-레퍼런스, 그래프 뷰, 타입 라이브러리로 바이너리 구조를 완벽히 재구성. 수천 개 함수도 탐색 가능.</p>
         </div>
-    </header>
+        <div class="concept-card">
+            <h4>🔄 디컴파일러</h4>
+            <p>Hex-Rays Decompiler가 어셈블리를 의사 C 코드로 변환. 분석 시간을 10배 단축.</p>
+        </div>
+        <div class="concept-card">
+            <h4>🧩 스크립팅</h4>
+            <p>IDAPython (Python 3) 기반 자동화. 수동 작업을 스크립트로 대체하여 대규모 분석 파이프라인 구축.</p>
+        </div>
+    </div>
+</section>
 
-    <nav class="toc">
-        <h2>📚 목차</h2>
-        <ol>
-            <li><a href="#section1">IDA Pro란?</a></li>
-            <li><a href="#section2">왜 써야 하는가? (대안 비교)</a></li>
-            <li><a href="#section3">핵심 개념 & 아키텍처</a></li>
-            <li><a href="#section4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
-        </ol>
-    </nav>
+<!-- ===== 2. 왜 써야 하는가? ===== -->
+<section class="section" id="s2">
+    <h2>2. 왜 써야 하는가?</h2>
+    <p>무료/오픈소스 대안(Ghidra, radare2, Binary Ninja)과 비교했을 때 IDA Pro의 강점은 <strong>디컴파일러 품질</strong>, <strong>플러그인 생태계</strong>, <strong>대규모 바이너리 처리</strong>입니다.</p>
 
-    <main>
-        <section id="section1" class="section">
-            <h2>1. IDA Pro란?</h2>
-            <p>IDA Pro(Interactive Disassembler Professional)는 Hex-Rays 사에서 개발한 상용 인터랙티브 디스어셈블러 및 디버거로, 정적/동적 리버스 엔지니어링의 사실상 표준 도구입니다. 바이너리 실행 파일을 분석하여 어셈블리 코드와 의사 코드(Pseudocode)로 변환하고, 심볼릭 분석, 그래프 뷰, 플러그인 확장 등을 제공합니다.</p>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>📐 정적 분석</h4>
-                    <p>실행 없이 바이너리의 구조, 함수, 문자열, 임포트/익스포트 테이블, 제어 흐름 그래프(CFG)를 분석합니다. 패치 생성, 취약점 식별에 핵심적입니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>🔬 동적 분석</h4>
-                    <p>내장 디버거를 통해 실행 중인 프로세스의 메모리, 레지스터, 스택을 실시간으로 관찰하고 조작합니다. 악성코드 분석, 알고리즘 복원에 필수입니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>🤖 확장성</h4>
-                    <p>Python, IDC 스크립팅 엔진과 풍부한 플러그인 API를 제공하여 자동화 분석, 커스텀 뷰 생성, AI 모델 연동이 가능합니다.</p>
-                </div>
-            </div>
-        </section>
+    <table>
+        <thead>
+            <tr><th>기능</th><th>IDA Pro</th><th>Ghidra</th><th>radare2</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>디컴파일러 정확도</td><td>⭐ 최상</td><td>⭐⭐ 양호</td><td>⭐⭐ 보통</td></tr>
+            <tr><td>스크립팅 언어</td><td>Python / IDC</td><td>Python / Java</td><td>Python / r2pipe</td></tr>
+            <tr><td>플러그인 수</td><td>2,000+ (상업)</td><td>500+ (오픈소스)</td><td>1,000+ (커뮤니티)</td></tr>
+            <tr><td>대형 바이너리</td><td>수백 MB 수용</td><td>제한적</td><td>메모리 의존</td></tr>
+            <tr><td>멀티플랫폼 디버깅</td><td>Win/Linux/Mac/Android</td><td>Win/Linux/Mac</td><td>Win/Linux/Mac</td></tr>
+        </tbody>
+    </table>
 
-        <section id="section2" class="section">
-            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
-            <p>다양한 디스어셈블러가 존재하지만, IDA Pro는 전문적인 리버스 엔지니어링 작업에서 독보적인 위치를 차지합니다.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>도구</th>
-                        <th>장점</th>
-                        <th>단점</th>
-                        <th>적합한 사용 사례</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>IDA Pro</strong></td>
-                        <td>가장 강력한 정적 분석, 풍부한 플러그인 생태계, Hex-Rays Decompiler(의사 코드), 멀티 아키텍처 지원</td>
-                        <td>고가의 라이선스, 높은 학습 곡선, 무거운 리소스 사용</td>
-                        <td>악성코드 심층 분석, 취약점 연구, 프로토콜 리버싱, 상용 소프트웨어 분석</td>
-                    </tr>
-                    <tr>
-                        <td>Ghidra (NSA)</td>
-                        <td>무료 오픈소스, 강력한 Decompiler, 협업 기능, 스크립팅(Java/Python)</td>
-                        <td>UI/UX가 다소 불편, 성능 이슈, 플러그인 생태계 상대적 부족</td>
-                        <td>예산 제약 프로젝트, 교육, 커뮤니티 기반 분석</td>
-                    </tr>
-                    <tr>
-                        <td>Binary Ninja</td>
-                        <td>현대적 UI, 빠른 분석, 강력한 API와 중간 언어(IL), 클라우드 연동</td>
-                        <td>상용 라이선스, 의사 코드 품질 변동, 시장 점유율 낮음</td>
-                        <td>보안 연구원, 자동화 스크립트 개발, 신속한 탐색적 분석</td>
-                    </tr>
-                    <tr>
-                        <td>Radare2/Cutter</td>
-                        <td>완전 무료, CLI 중심, 가벼움, 광범위 포맷 지원</td>
-                        <td>사용 난이도 극히 높음, 문서화 부족, GUI(Cutter) 미성숙</td>
-                        <td>CLI 선호 사용자, 임베디드/비표준 아키텍처, CTF</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="callout">
-                <h4>💡 AI 엔지니어 관점</h4>
-                <p>IDA Pro의 Python API는 분석 데이터를 구조화하여 추출하는 데 최적화되어 있습니다. 함수 시그니처, CFG, 코드 패턴을 자동으로 수집하여 머신러닝 모델(예: 함수 유사도, 취약점 패턴 탐지)의 학습 데이터셋 구축에 활용할 수 있습니다. Ghidra의 분석 결과와 상호 보완적으로 사용하는 전략이 효과적입니다.</p>
-            </div>
-        </section>
+    <div class="callout warn">
+        <strong>⚠️ 라이선스 주의:</strong> IDA Pro는 상용 소프트웨어(가격 $589~$4,799)입니다. 평가판은 30일 제한. 기업/정부 프로젝트에서는 반드시 정식 라이선스 구매.
+    </div>
+</section>
 
-        <section id="section3" class="section">
-            <h2>3. 핵심 개념 & 아키텍처</h2>
-            <p>IDA의 분석 프로세스는 로더(Loader) → 프로세서 모듈(Processor Module) → 분석기(Analyzer)의 파이프라인으로 이루어집니다.</p>
-            <div class="diagram">
-┌─────────────────────────────────────────────────────────────┐
-│                    입력 바이너리 (PE, ELF, Mach-O)           │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  로더 (Loader)                                              │
-│  - 파일 포맷 식별 (PE, ELF 등)                              │
-│  - 섹션 매핑, 임포트/익스포트 테이블 파싱                   │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  프로세서 모듈 (Processor Module)                           │
-│  - x86, ARM, MIPS, PPC 등 아키텍처별 디스어셈블리 수행      │
-│  - 명령어 세트 디코딩                                       │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  분석기 (Analyzer)                                          │
-│  - 코드/데이터 구분 (Heuristics)                            │
-│  - 함수 발견, CFG 생성, 크로스-레퍼런스 분석                │
-│  - 타입 라이브러리 적용                                     │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-                    ┌─────────────────────┐
-                    │  IDA 데이터베이스   │
-                    │  (.idb, .i64)       │
-                    └─────────────────────┘
-                               │
-                ┌──────────────┼──────────────┐
-                ▼              ▼              ▼
-        ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-        │  그래프 뷰  │ │  텍스트 뷰  │ │  Hex 뷰     │
-        │  (CFG)      │ │  (Listing)  │ │  (Dump)     │
-        └─────────────┘ └─────────────┘ └─────────────┘
-                │              │              │
-                └──────────────┼──────────────┘
-                               ▼
-                    ┌─────────────────────┐
-                    │  플러그인/스크립트  │
-                    │  (Python, IDC)      │
-                    └─────────────────────┘
-            </div>
-            <h3>중요 데이터 구조</h3>
-            <ul>
-                <li><strong>IDB 데이터베이스</strong>: 분석 결과를 저장하는 프로젝트 파일. 모든 주석, 이름 변경, 구조체 정의가 여기에 저장됩니다.</li>
-                <li><strong>Netnode</strong>: IDA 내부의 키-값 저장소로, 플러그인이 데이터를 유지하는 데 사용됩니다.</li>
-                <li><strong>Segment</strong>: 로드된 바이너리의 메모리 섹션(예: .text, .data).</li>
-                <li><strong>Function</strong>: 분석된 함수 단위. 프레임 포인터(FP), 로컬 변수, 인수 정보를 포함합니다.</li>
-            </ul>
-        </section>
+<!-- ===== 3. 핵심 개념 ===== -->
+<section class="section" id="s3">
+    <h2>3. 핵심 개념</h2>
+    <p>IDA의 내부 데이터베이스 구조와 주요 뷰를 이해하는 것이 첫걸음입니다.</p>
 
-        <section id="section4" class="section">
-            <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
-            <h3>4.1 설치 (Linux 기준)</h3>
-            <div class="code-block-title">터미널 - 설치 스크립트 다운로드 및 실행</div>
-            <pre><code># 공식 사이트에서 설치 패키지 다운로드 (가정)
-wget https://www.hex-rays.com/idapro/ida-9.0-linux.run
-chmod +x ida-9.0-linux.run
-sudo ./ida-9.0-linux.run --mode unattended --prefix /opt/ida
+    <div class="diagram">
+        ┌─────────────────────────────────────────────────────┐
+        │                  IDA 데이터베이스 (.i64 / .idb)     │
+        ├─────────────────────────────────────────────────────┤
+        │  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
+        │  │ IDA View │  │ Hex View │  │ Decompiler View  │ │
+        │  │ (Graph)  │  │ (Bytes)  │  │ (Pseudo-C)       │ │
+        │  └────┬─────┘  └────┬─────┘  └────────┬─────────┘ │
+        │       │              │                  │           │
+        │  ┌────▼─────────────▼──────────────────▼──────┐    │
+        │  │          Function Call Graph               │    │
+        │  │  main ──> sub_401000 ──> printf            │    │
+        │  │         └──> malloc ──> exit               │    │
+        │  └─────────────────────────────────────────────┘    │
+        │  ┌─────────────────────────────────────────────┐    │
+        │  │   Names / Imports / Exports / Strings       │    │
+        │  └─────────────────────────────────────────────┘    │
+        └─────────────────────────────────────────────────────┘
+    </div>
 
-# Python 환경 설정 (IDA는 내장 Python 사용)
-# 플러그인 디렉토리 생성
-mkdir -p ~/.idapro/plugins
-mkdir -p ~/.idapro/python</code></pre>
+    <ul>
+        <li><strong>IDB/i64</strong>: 분석 결과를 저장하는 바이너리 데이터베이스. i64는 64비트 전용.</li>
+        <li><strong>IDA View</strong>: 그래프/텍스트 디스어셈블리. 흐름을 직관적으로 파악.</li>
+        <li><strong>Hex View</strong>: 원시 바이트와 주소 확인. 패치 시 유용.</li>
+        <li><strong>Decompiler View</strong>: Hex-Rays가 생성한 의사 C 코드. 분석 속도 혁신.</li>
+        <li><strong>크로스 레퍼런스 (Xrefs)</strong>: 함수/변수가 호출/참조된 위치를 추적. <code>Ctrl+X</code></li>
+    </ul>
 
-            <h3>4.2 첫 분석: 간단한 Linux ELF 파일</h3>
-            <div class="code-block-title">CLI - 헤드리스 모드로 분석 자동화</div>
-            <pre><code># idat64는 터미널용 IDA 배치 모드 실행파일
-/opt/ida/idat64 -A -S"analysis_script.py" -Llog.txt ./target_binary
+    <div class="callout">
+        <strong>💡 팁:</strong> <code>Shift+F12</code>로 문자열 목록을 열면 빠르게 상수/에러 메시지 탐색 가능. 악성코드 분석 시 C2 도메인 식별에 효과적.
+    </div>
+</section>
 
-# -A: 자동 분석 모드
-# -S: 분석 후 실행할 스크립트
-# -L: 로그 파일 출력</code></pre>
+<!-- ===== 4. 퀵스타트 ===== -->
+<section class="section" id="s4">
+    <h2>4. 퀵스타트</h2>
 
-            <h3>4.3 기본 Python 스크립트 예제</h3>
-            <div class="code-block-title">Python - 함수 목록과 기본 블록(BB) 정보 추출</div>
-            <pre><code>import idc
+    <h3>4.1 설치 (Linux 예)</h3>
+    <pre><code># IDA Pro 8.3 Linux 설치 스크립트 (공식 다운로드 필요)
+chmod +x idaprox83_linux.run
+sudo ./idaprox83_linux.run --mode unattended --prefix /opt/ida
+
+# 환경 변수 등록
+echo 'export PATH=$PATH:/opt/ida' >> ~/.bashrc
+source ~/.bashrc</code></pre>
+
+    <h3>4.2 첫 번째 예제: 간단한 ELF 분석 + 파이썬 스크립트</h3>
+    <pre><code># headless 모드로 바이너리 로드
+ida64 -B -c sample.elf
+
+# IDAPython 스크립트: 함수 목록 출력
 import idautils
-import idaapi
 
-def list_functions():
-    """IDA 데이터베이스의 모든 함수 정보를 출력"""
-    for func_ea in idautils.Functions():
-        func_name = idc.get_func_name(func_ea)
-        func = idaapi.get_func(func_ea)
-        if func:
-            size = func.size()
-            print(f"[Function] 0x{func_ea:08X}: {func_name} (Size: {size} bytes)")
-            
-            # 기본 블록 순회
-            for block in idaapi.FlowChart(func):
-                print(f"  Basic Block: 0x{block.start_ea:08X} - 0x{block.end_ea:08X}")
+print(f"바이너리: {ida_nalt.get_input_file_path()}")
+print(f"함수 개수: {len(list(idautils.Functions()))}")
+for ea in idautils.Functions()[:10]:  # 처음 10개
+    name = idc.get_func_name(ea)
+    print(f"  0x{ea:x}: {name}")
 
-def rename_main():
-    """진입점 함수를 'main'으로 이름 변경"""
-    entry_point = idc.get_inf_attr(idc.INF_START_IP)
-    if entry_point != idc.BADADDR:
-        idc.set_name(entry_point, "main", idc.SN_NOWARN)
-        print(f"Entry point renamed to 'main' at 0x{entry_point:08X}")
+ida_pro.qexit(0)  # IDA 종료
+</code></pre>
 
-if __name__ == "__main__":
-    idaapi.auto_wait()  # 자동 분석 완료 대기
-    list_functions()
-    rename_main()
-    idc.qexit(0)  # IDA 종료 (배치 모드용)</code></pre>
+    <pre><code># CLI로 직접 실행
+ida64 -S"list_funcs.py" -A sample.elf</code></pre>
 
-            <div class="callout warn">
-                <h4>⚠️ 주의사항</h4>
-                <p>IDA 7.6 이상부터는 Python 3를 사용합니다. 내장 모듈인 <code>idc</code>, <code>idaapi</code>, <code>idautils</code>를 임포트해야 합니다. GUI 환경에서는 <code>idaapi.auto_wait()</code>를 호출하지 마세요.</p>
-            </div>
-        </section>
+    <h3>4.3 GUI 기본 조작</h3>
+    <ul>
+        <li><code>Space</code> : 그래프 뷰 ↔ 텍스트 뷰 전환</li>
+        <li><code>N</code> : 이름 변경 (함수/변수명)</li>
+        <li><code>; (세미콜론)</code> : 주석 추가</li>
+        <li><code>Ctrl+Shift+V</code> : 디컴파일러 뷰 열기</li>
+    </ul>
+</section>
 
-        <section id="section5" class="section">
-            <h2>5. 핵심 설정 레퍼런스</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>설정 항목</th>
-                        <th>경로/키</th>
-                        <th>권장값/설명</th>
-                        <th>영향</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Python 인터프리터</td>
-                        <td>Options → General → Python</td>
-                        <td>시스템 Python 3.9+ 경로 지정 (플러그인 호환성)</td>
-                        <td>외부 라이브러리 사용 가능 여부</td>
-                    </tr>
-                    <tr>
-                        <td>분석 옵션</td>
-                        <td>Analysis tab (로드 시)</td>
-                        <td>"Rename dummy registers" 체크, "Create functions" 체크</td>
-                        <td>분석 정확도 및 자동 함수 탐지</td>
-                    </tr>
-                    <tr>
-                        <td>그래프 뷰 색상</td>
-                        <td>Options → Graph</td>
-                        <td>기본 블록, 에지 색상을 명확히 구분되게 설정</td>
-                        <td>가시성 및 분석 효율성</td>
-                    </tr>
-                    <tr>
-                        <td>플러그인 디렉토리</td>
-                        <td>IDA 설치 디렉토리/plugins 또는 %APPDATA%</td>
-                        <td>keypatch, LazyIDA, ida_medigate 등 유용한 플러그인 설치</td>
-                        <td>기능 확장 및 자동화</td>
-                    </tr>
-                    <tr>
-                        <td>타입 라이브러리</td>
-                        <td>Shift+F11 (Type Libraries)</td>
-                        <td>대상 OS(win, linux) 및 컴파일러(msvc, gcc) 타입 라이브러리 로드</td>
-                        <td>의사 코드 품질 및 구조체 인식</td>
-                    </tr>
-                    <tr>
-                        <td>디버거 설정</td>
-                        <td>Debugger → Process options</td>
-                        <td>실행 인자, 작업 디렉토리, 환경 변수 설정</td>
-                        <td>동적 분석 성공 여부</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+<!-- ===== 5. 핵심 설정 레퍼런스 ===== -->
+<section class="section" id="s5">
+    <h2>5. 핵심 설정 레퍼런스</h2>
+    <table>
+        <thead>
+            <tr><th>설정</th><th>위치</th><th>권장값</th><th>설명</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>분석 단계 (Analysis)</td>
+                <td>Options → Analysis</td>
+                <td>Enabled (Auto)</td>
+                <td>초기 자동 분석 활성화. 대형 바이너리는 Tail call / Kernel 분석 체크.</td>
+            </tr>
+            <tr>
+                <td>프로세서 타입</td>
+                <td>File → Load file → Processor type</td>
+                <td>metapc / ARM / MIPS</td>
+                <td>바이너리 아키텍처 수동 지정 (자동 실패 시).</td>
+            </tr>
+            <tr>
+                <td>디컴파일러 옵션</td>
+                <td>Options → Compiler settings</td>
+                <td>GCC / MSVC</td>
+                <td>호출 규약 및 구조체 패딩 정확도 향상.</td>
+            </tr>
+            <tr>
+                <td>플러그인 로드</td>
+                <td>File → Plugins</td>
+                <td>최소 필요만</td>
+                <td>비활성화 시 분석 속도 개선. 필요 시 <code>Alt+F7</code>로 수동 로드.</td>
+            </tr>
+            <tr>
+                <td>디버거 백엔드</td>
+                <td>Debugger → Select debugger</td>
+                <td>Remote GDB / WinDbg</td>
+                <td>원격 디버깅 시 포트 및 인증 설정.</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <section id="section6" class="section">
-            <h2>6. 실무 팁 & 트러블슈팅</h2>
-            <h3>자주 겪는 문제와 해결책</h3>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>문제: 분석이 너무 느리다</h4>
-                    <p><strong>원인</strong>: 대용량 바이너리, 불필요한 분석 단계 수행.</p>
-                    <p><strong>해결</strong>: 로드 시 분석 옵션에서 "Code analysis"만 체크하고, "Create functions"는 나중에 수행. <code>idc.plan_and_wait()</code>로 특정 영역만 분석.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>문제: 의사 코드(Hex-Rays)가 생성되지 않는다</h4>
-                    <p><strong>원인</strong>: 아키텍처 미지원, 타입 라이브러리 누락, 함수 프롤로그 인식 실패.</p>
-                    <p><strong>해결</strong>: 올바른 프로세서 타입 선택(예: metampc → ppc), 함수 시작 지점 확인(<code>Edit → Functions → Create function</code>), 타입 라이브러리 재적용.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>문제: Python 스크립트에서 모듈 import 에러</h4>
-                    <p><strong>원인</strong>: IDA 내장 Python 경로와 시스템 경로 불일치.</p>
-                    <p><strong>해결</strong>: <code>sys.path.append()</code>로 경로 추가, 또는 IDA의 Python 설정에서 시스템 인터프리터 사용.</p>
-                </div>
-            </div>
-            <h3>고급 실무 팁</h3>
-            <ul>
-                <li><strong>패턴 기반 함수 식별</strong>: FLIRT(Fast Library Identification and Recognition Technology) 시그니처를 활용해 표준 라이브러리 함수를 자동으로 식별하고 이름을 부여합니다.</li>
-                <li><strong>스크립트 자동화</strong>: 반복 작업(문자열 추출, API 호출 매핑, 취약점 패턴 검색)은 Python 스크립트로 자동화하여 시간을 절약하세요.</li>
-                <li><strong>협업 분석</strong>: IDA의 협업 플러그인(예: CollabREate)이나 Ghidra 서버와 연동하여 팀 기반 분석을 수행할 수 있습니다.</li>
-                <li><strong>AI 모델 연동</strong>: IDA Python API로 추출한 CFG를 NetworkX 그래프로 변환하여 GNN 모델에 입력하거나, 코드 임베딩 모델과 연동하여 유사 함수를 탐색하세요.</li>
-            </ul>
-            <div class="callout">
-                <h4>🚀 성능 향상 팁</h4>
-                <p>대용량 64비트 바이너리는 <code>idb</code> 대신 <code>i64</code> 데이터베이스 형식을 사용하세요. 주기적으로 <code>File → Database garbage collection</code>을 실행하여 불필요한 데이터를 정리하면 성능이 개선됩니다.</p>
-            </div>
-        </section>
+    <div class="callout warn">
+        <strong>⚠️ 보안:</strong> 관리자 권한으로 IDA를 실행하지 마세요. 악성코드 샘플을 분석할 때는 반드시 가상머신/샌드박스 환경 사용.
+    </div>
+</section>
 
-        <section id="section7" class="section">
-            <h2>7. 참고 자료</h2>
-            <ul>
-                <li><a href="https://www.hex-rays.com/products/ida/support/idadoc/" target="_blank">📘 공식 IDA Pro 문서</a> - 가장 정확한 API 레퍼런스</li>
-                <li><a href="https://github.com/topics/ida-plugin" target="_blank">🔌 Awesome IDA Plugins (GitHub)</a> - 커뮤니티 플러그인 모음</li>
-                <li><a href="https://hex-rays.com/products/ida/support/tutorials/" target="_blank">🎥 Hex-Rays 공식 튜토리얼</a> - 초보자부터 고급까지</li>
-                <li><a href="https://www.msreverseengineering.com/blog/" target="_blank">✍️ MS Reverse Engineering Blog</a> - 실전 분석 기법</li>
-                <li><a href="https://github.com/onethawt/idaplugins-list" target="_blank">📦 IDA Plugins List</a> - 플러그인 종합 목록</li>
-                <li><strong>도서</strong>: "The IDA Pro Book" (Chris Eagle) - IDA의 바이블</li>
-            </ul>
-        </section>
-    </main>
+<!-- ===== 6. 실무 팁 & 트러블슈팅 ===== -->
+<section class="section" id="s6">
+    <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
 
-    <footer>
-        <p>© 2026.03 - AI 정보보안 엔지니어를 위한 IDA Pro 실무 스터디 가이드</p>
-        <p>본 문서는 교육 목적으로 작성되었으며, 저작권법을 준수하는 범위 내에서만 사용하시기 바랍니다.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--border);">Tags: #reverse-engineering #disassembler #malware #binary-analysis #ai-security</p>
-    </footer>
+    <h3>📌 자주 겪는 문제와 해결책</h3>
+
+    <table>
+        <thead>
+            <tr><th>문제</th><th>원인</th><th>해결책</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>디컴파일러가 코드를 인식 못함</td>
+                <td>분석이 불완전하거나 패킹됨</td>
+                <td><code>Ctrl+Alt+R</code>로 reanalyze. unpakcer 플러그인 적용 후 재분석.</td>
+            </tr>
+            <tr>
+                <td>함수 목록이 너무 많음 (수만 개)</td>
+                <td>라이브러리 함수까지 포함</td>
+                <td>Options → General → Library function recognition 활성화. <code>Alt+F5</code>로 숨김.</td>
+            </tr>
+            <tr>
+                <td>스크립트 실행 오류 (ImportError)</td>
+                <td>IDAPython 환경 불일치</td>
+                <td>IDA 8.x는 Python 3.10+ 필요. <code>python --version</code> 확인 후 가상환경 재설정.</td>
+            </tr>
+            <tr>
+                <td>IDA가 대형 바이너리에서 느림</td>
+                <td>메모리/분석 과부하</td>
+                <td>Options → Analysis → Kernel analysis 옵션 해제. 로딩 시 <code>-o</code> 옵션으로 특정 섹션만 로드.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout">
+        <strong>💡 고급 팁:</strong> IDA의 <strong>FLIRT</strong> (Fast Library Identification and Recognition) 시그니처를 업데이트하면 표준 라이브러리 식별률이 90% 이상으로 향상됩니다. <code>sig/</code> 디렉토리에 최신 .sig 파일 추가.
+    </div>
+</section>
+
+<!-- ===== 7. 참고 자료 ===== -->
+<section class="section" id="s7">
+    <h2>7. 참고 자료</h2>
+    <ul>
+        <li><a href="https://hex-rays.com/ida-pro/" target="_blank">🔗 Hex-Rays 공식 사이트</a> – 최신 버전 및 라이선스</li>
+        <li><a href="https://docs.hex-rays.com/" target="_blank">📘 IDA Pro 공식 문서</a> – SDK, IDAPython 레퍼런스</li>
+        <li><a href="https://hex-rays.com/products/ida/support/idapython_docs/" target="_blank">🐍 IDAPython API 문서</a> – 모든 함수/클래스 설명</li>
+        <li><a href="https://github.com/nihilus/IDAScope" target="_blank">🧰 IDAScope</a> – IDA Pro용 스크립트 모음 (데이터 분석 자동화)</li>
+        <li><a href="https://book.huihoo.com/reverse-engineering-ida-pro/" target="_blank">📖 IDA Pro Reverse Engineering Bible</a> – 실무 예제 중심</li>
+        <li><a href="https://www.sans.org/blog/using-ida-pro-for-malware-analysis/" target="_blank">🦠 SANS – IDA Pro 악성코드 분석 가이드</a></li>
+    </ul>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+    <p>🛡️ IDA Pro 실무 스터디 가이드 · 작성일: 2026.03 · 대상: AI 정보보안 엔지니어 · 보안 전문가</p>
+    <p>태그: <code>reverse-engineering</code> <code>disassembler</code> <code>malware</code> &nbsp;|&nbsp; <a href="#">맨 위로 ↑</a></p>
+    <p style="margin-top:0.5rem; font-size:0.75rem;">© 2026 본 가이드는 교육 목적으로 제공됩니다. 모든 상표는 해당 소유자의 자산입니다.</p>
+</footer>
+
 </body>
 </html>
