@@ -868,3 +868,9 @@
   tags: ["reverse-engineering", "disassembler", "malware"]
   date: "2026-06-29"
   url: "/study-guides/ida-pro-study-guide.html"
+- keyword: "Ghidra"
+  slug: "ghidra"
+  category: "security"
+  tags: ["reverse-engineering", "nsa", "open-source"]
+  date: "2026-06-30"
+  url: "/study-guides/ghidra-study-guide.html"
