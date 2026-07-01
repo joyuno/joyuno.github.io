@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Darktrace 실무 스터디 가이드 | AI 정보보안 엔지니어</title>
+    <title>Darktrace 실무 스터디 가이드 · AI 보안 엔지니어</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         :root {
             --bg: #0d1117;
             --surface: #161b22;
@@ -18,20 +32,6 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 0 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
         a {
             color: var(--accent);
             text-decoration: none;
@@ -39,554 +39,455 @@
         a:hover {
             text-decoration: underline;
         }
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        h1 { font-size: 2.4rem; margin-bottom: 0.25rem; }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.3rem; margin: 1.5rem 0 0.75rem 0; }
         .hero {
-            text-align: center;
-            padding: 4rem 1rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
         }
         .hero .subtitle {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin: 0.5rem 0 1rem 0;
         }
-        .meta-badges {
+        .meta-badge {
             display: flex;
-            justify-content: center;
-            gap: 10px;
             flex-wrap: wrap;
+            gap: 0.6rem 1rem;
+            margin-top: 1rem;
         }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+        .meta-badge span {
+            background: var(--surface2);
             border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 0.25rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .meta-badge .tag {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(88,166,255,0.08);
+        }
+        .meta-badge .date {
+            color: var(--accent2);
+            border-color: var(--accent2);
+            background: rgba(63,185,80,0.08);
         }
         .toc {
-            background-color: var(--surface);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
         }
         .toc h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
+            border-bottom: none;
+            margin: 0 0 0.75rem 0;
+            font-size: 1.4rem;
         }
         .toc ol {
-            list-style-position: inside;
-            padding-left: 1rem;
+            padding-left: 1.5rem;
+            columns: 2;
+            column-gap: 2.5rem;
         }
         .toc li {
-            margin-bottom: 0.8rem;
-            padding-left: 0.5rem;
+            margin-bottom: 0.4rem;
+            break-inside: avoid;
         }
         .toc a {
             color: var(--text);
+            font-weight: 400;
         }
         .toc a:hover {
             color: var(--accent);
         }
         .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
-        }
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--accent2);
-        }
-        .section h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent4);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
         }
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            background: var(--surface2);
+            border-left: 3px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.2rem 1.2rem 1rem 1.2rem;
+            transition: 0.15s ease;
         }
         .concept-card h4 {
-            color: var(--accent3);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+            color: var(--accent);
+        }
+        .concept-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
         .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.2rem;
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 10px;
+            padding: 1rem 1.4rem;
             margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
+            color: var(--text);
         }
         .callout.warn {
-            border-left-color: var(--danger);
+            border-left-color: var(--accent4);
+        }
+        .callout.warn strong {
+            color: var(--accent4);
         }
         .diagram {
-            background-color: var(--surface);
-            font-family: 'Courier New', monospace;
-            padding: 1.5rem;
+            background: #0d1117;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            line-height: 1.4;
+            border-radius: 14px;
+            padding: 1.2rem 1rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
             white-space: pre;
-            color: var(--accent2);
+            overflow-x: auto;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--text);
+            margin: 1.2rem 0;
+        }
+        pre, code {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
         }
         pre {
-            background-color: var(--surface);
-            padding: 1.2rem;
-            border-radius: 8px;
+            background: #0d1117;
             border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
             overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
             margin: 1rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
         }
         code {
-            background-color: var(--surface2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+            background: #1c2333;
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
         }
         th, td {
-            padding: 1rem;
             text-align: left;
+            padding: 0.7rem 0.8rem;
             border-bottom: 1px solid var(--border);
         }
         th {
-            background-color: var(--surface2);
+            background: var(--surface2);
             color: var(--accent);
-            font-weight: 600;
+            font-weight: 500;
         }
-        tr:hover {
-            background-color: var(--surface2);
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
+        td {
             color: var(--text-muted);
-            font-size: 0.9rem;
         }
-        .tag {
-            display: inline-block;
-            background-color: var(--surface2);
-            color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-right: 5px;
-            margin-bottom: 5px;
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 2rem 0 0.5rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 1rem;
         }
-        .step {
-            margin-bottom: 2.5rem;
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
+            margin: 0.5rem 0;
         }
-        .step h4 {
-            color: var(--accent4);
-            margin-bottom: 0.5rem;
+        .badge-list span {
+            background: var(--surface2);
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.75rem;
+            border: 1px solid var(--border);
+        }
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .toc ol { columns: 1; }
+            .hero h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <h1>Darktrace 실무 스터디 가이드</h1>
-        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">AI 정보보안</span>
-            <span class="badge">NDR</span>
-            <span class="badge">Anomaly Detection</span>
-            <span class="badge">Enterprise Immune System</span>
-            <span class="badge">작성일: 2026.03</span>
+
+<!-- Hero -->
+<div class="hero">
+    <h1>🛡️ Darktrace 실무 스터디 가이드</h1>
+    <div class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</div>
+    <div class="meta-badge">
+        <span class="tag">#ai-security</span>
+        <span class="tag">#ndr</span>
+        <span class="tag">#anomaly-detection</span>
+        <span class="date">📅 2026.03</span>
+        <span>🔒 엔터프라이즈 AI 보안</span>
+    </div>
+    <div style="margin-top: 0.8rem; color: var(--text-muted); font-size: 0.9rem;">
+        <span>대상: AI 정보보안 엔지니어 · 보안 전문가</span>
+    </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+    <h2>📋 목차</h2>
+    <ol>
+        <li><a href="#s1">Darktrace란?</a></li>
+        <li><a href="#s2">왜 써야 하는가?</a></li>
+        <li><a href="#s3">핵심 개념 &amp; 아키텍처</a></li>
+        <li><a href="#s4">퀵스타트</a></li>
+        <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+        <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+        <li><a href="#s7">참고 자료</a></li>
+    </ol>
+</div>
+
+<!-- 1. Darktrace란? -->
+<div class="section" id="s1">
+    <h2>1. Darktrace란?</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        Darktrace는 <strong>자기학습 AI (Enterprise Immune System)</strong> 기반의 사이버 보안 플랫폼입니다. 
+        네트워크 트래픽, 클라우드, 이메일, 엔드포인트를 실시간으로 모델링하여 <strong>알려지지 않은 위협</strong>과 <strong>내부자 위협</strong>을 탐지합니다.
+        전통적인 시그니처 기반 탐지를 넘어, <strong>비지도 학습</strong>으로 조직의 '정상'을 스스로 학습합니다.
+    </p>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>🧬 자기학습 AI</h4>
+            <p>데이터 없이도 조직의 고유한 패턴을 학습. 레이블, 파라미터 튜닝 불필요.</p>
         </div>
-    </section>
-
-    <section class="toc">
-        <h2>목차</h2>
-        <ol>
-            <li><a href="#section1">Darktrace란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
-        </ol>
-    </section>
-
-    <section id="section1" class="section">
-        <h2>1. Darktrace란?</h2>
-        <p>Darktrace는 <strong>Enterprise Immune System</strong> 개념을 기반으로 한 AI 기반 네트워크 감지 및 대응(NDR) 플랫폼입니다. 자가 학습(Self-Learning AI)을 통해 조직의 정상적인 '디지털 생활 패턴'을 이해하고, 이로부터 벗어나는 이상 행위를 실시간으로 탐지합니다.</p>
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>자가 학습 AI</h4>
-                <p>사전 정의된 시그니처 없이, 각 환경의 고유한 네트워크 패턴을 학습하여 정상 기준선(Baseline)을 형성합니다. 지도 학습이 아닌 비지도/자기지도 학습 방식을 사용합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>실시간 위협 탐지</h4>
-                <p>네트워크 트래픽, 클라우드 활동, 엔드포인트 데이터, 이메일 등을 분석하여 랜섬웨어, 내부자 위협, 제로데이 공격, 무단 데이터 반출 등을 탐지합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>자동화된 대응(Antigena)</h4>
-                <p>AI가 탐지한 위협에 대해 자동으로 대응 조치를 취할 수 있습니다. 예: 의심스러운 연결 차단, 파일 암호화 속도 제한, 명령 제어(C2) 통신 차단 등.</p>
-            </div>
+        <div class="concept-card">
+            <h4>🔍 실시간 변칙 탐지</h4>
+            <p>초단위로 네트워크·클라우드·이메일 활동을 분석, 알려지지 않은 공격 탐지.</p>
         </div>
-    </section>
-
-    <section id="section2" class="section">
-        <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>솔루션</th>
-                    <th>접근 방식</th>
-                    <th>탐지 유형</th>
-                    <th>AI 활용도</th>
-                    <th>Darktrace 차별점</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>전통적 방화벽/IPS</strong></td>
-                    <td>시그니처 기반, 정책 기반 차단</td>
-                    <td>알려진 위협</td>
-                    <td>낮음 (규칙 엔진)</td>
-                    <td>미지의 위협(Zero-day) 및 이상 행위 탐지 가능</td>
-                </tr>
-                <tr>
-                    <td><strong>SIEM (Splunk, QRadar)</strong></td>
-                    <td>로그 수집, 상관관계 분석</td>
-                    <td>사후 분석, 규칙 기반 알림</td>
-                    <td>중간 (머신러닝 추가 기능)</td>
-                    <td>실시간 자가 학습, 네트워크 트래픽 직접 분석, 자동 대응</td>
-                </tr>
-                <tr>
-                    <td><strong>EDR (CrowdStrike, SentinelOne)</strong></td>
-                    <td>엔드포인트 행위 분석</td>
-                    <td>엔드포인트 중심 위협</td>
-                    <td>높음 (행위 AI)</td>
-                    <td>네트워크 레벨의 상호작용 및 통신 패턴까지 포괄적 분석</td>
-                </tr>
-                <tr>
-                    <td><strong>Darktrace</strong></td>
-                    <td><strong>자가 학습 AI, 정상 기준선 이상 탐지</strong></td>
-                    <td><strong>알려지지 않은 위협, 미묘한 이상 행위</strong></td>
-                    <td><strong>매우 높음 (핵심 엔진)</strong></td>
-                    <td><strong>조직별 맞춤형 '면역 체계', 실시간 자동 대응(Antigena)</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="section3" class="section">
-        <h2>3. 핵심 개념</h2>
-        <p>Darktrace의 핵심은 <strong>Cyber AI Loop</strong>입니다: 학습(Learn) → 탐지(Detect) → 조사(Investigate) → 대응(Respond) → 발전(Evolve)의 순환 구조입니다.</p>
-        <div class="diagram">
-            +---------------------+      +---------------------+      +---------------------+
-            |                     |      |                     |      |                     |
-            |    네트워크/클라우드   |---->|   Darktrace AI      |---->|   Antigena (응답)    |
-            |    데이터 수집       |      |   (자가 학습 엔진)   |      |   (자동화된 조치)    |
-            |                     |      |                     |      |                     |
-            +---------------------+      +---------------------+      +---------------------+
-                        |                           |                           |
-                        v                           v                           v
-            +---------------------+      +---------------------+      +---------------------+
-            |   Raw Data          |      |   이상 점수         |      |   조치 로그         |
-            |   (NetFlow, 패킷,    |      |   (Threat Score)    |      |   (차단, 경고, 속도  |
-            |    로그, 엔드포인트)  |      |   모델 위반         |      |    제한 등)         |
-            +---------------------+      +---------------------+      +---------------------+
-                        |                           |
-                        +---------> 조사 콘솔 <------+
-                                    (사용자 인터페이스)
+        <div class="concept-card">
+            <h4>⚡ 자율 대응 (Antigena)</h4>
+            <p>탐지된 위협을 실시간으로 차단·격리. 사람의 개입 없이 능동적 방어.</p>
         </div>
-        <h3>주요 모델 유형</h3>
-        <ul>
-            <li><strong>디바이스 모델</strong>: 각 디바이스(서버, 사용자 PC, IoT)의 행동 프로파일.</li>
-            <li><strong>사용자 모델</strong>: 사용자의 로그인, 리소스 접근, 데이터 이동 패턴.</li>
-            <li><strong>네트워크 연결 모델</strong>: 디바이스 간 통신 패턴 및 프로토콜 사용.</li>
-            <li><strong>클라우드 모델</strong>: AWS, Azure, GCP 내 리소스 구성 및 활동 패턴.</li>
-        </ul>
-        <div class="callout">
-            <strong>핵심 원리:</strong> "정상(Normal)"을 정의하는 것이 아니라, "새로움(New)"과 "희귀성(Rare)"을 기반으로 이상을 탐지합니다. 통계적 확률과 베이지안 추론을 활용합니다.
+    </div>
+    <div class="badge-list">
+        <span>NDR (Network Detection & Response)</span>
+        <span>UEBA (User Entity Behavior Analytics)</span>
+        <span>SOAR 연동</span>
+        <span>클라우드·OT·5G</span>
+    </div>
+</div>
+
+<!-- 2. 왜 써야 하는가? -->
+<div class="section" id="s2">
+    <h2>2. 왜 써야 하는가? · 기존 대안과 비교</h2>
+    <p style="color: var(--text-muted);">전통적인 SIEM, IDS/IPS, EDR과 Darktrace의 핵심 차이:</p>
+    <table>
+        <thead>
+            <tr><th>영역</th><th>Darktrace (AI NDR)</th><th>기존 SIEM/IDS</th><th>EDR (엔드포인트)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>탐지 방식</td><td>비지도 자기학습</td><td>시그니처 / 룰 기반</td><td>시그니처 + 행위 기반</td></tr>
+            <tr><td>제로데이 공격</td><td>✅ 탁월 (알려지지 않은 위협)</td><td>❌ 취약</td><td>⚠️ 부분적</td></tr>
+            <tr><td>내부자 위협</td><td>✅ 행동 기반 탐지</td><td>❌ 어려움</td><td>⚠️ 제한적</td></tr>
+            <tr><td>데이터 필요</td><td>0 (사전 학습 불필요)</td><td>많은 룰/시그니처</td><td>엔드포인트 에이전트</td></tr>
+            <tr><td>실시간 자동 대응</td><td>✅ Antigena</td><td>❌ 수동 or 플레이북</td><td>⚠️ 제한적</td></tr>
+            <tr><td>클라우드·OT·IoT</td><td>✅ 네이티브</td><td>⚠️ 확장 필요</td><td>❌ 에이전트 한계</td></tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <strong>💡 핵심 인사이트:</strong> Darktrace는 <strong>‘무엇이 정상인지’</strong>를 스스로 정의합니다. 
+        따라서 랜섬웨어, 공급망 공격, 내부 데이터 유출 등 <strong>기존 탐지를 회피하는 위협</strong>에 강력합니다.
+    </div>
+</div>
+
+<!-- 3. 핵심 개념 & 아키텍처 -->
+<div class="section" id="s3">
+    <h2>3. 핵심 개념 · AI 아키텍처</h2>
+    <p style="color: var(--text-muted);">Darktrace의 내부는 <strong>Probabilistic Mathematics</strong>와 <strong>Bayesian 추론</strong>으로 작동합니다. 
+    아래는 단순화된 데이터 흐름입니다.</p>
+    <div class="diagram">
+        ┌────────────────────────────────────────────────────────────┐
+        │                   DARKTRACE CORE ENGINE                    │
+        │  ┌──────────┐    ┌────────────┐    ┌──────────────────┐   │
+        │  │ Network  │    │  Recursive  │    │  Bayesian       │   │
+        │  │ Traffic  │───▶│  Bayesian  │───▶│  Network        │   │
+        │  │ (PCAP)   │    │  Clustering│    │  (변칙 점수)     │   │
+        │  └──────────┘    └────────────┘    └────────┬─────────┘   │
+        │  ┌──────────┐    ┌────────────┐             │             │
+        │  │ Cloud    │    │  Temporal  │             ▼             │
+        │  │ Logs     │───▶│  Modeling  │    ┌──────────────────┐   │
+        │  │ (AWS,Az) │    │ (LSTM 기반)│    │  Anomaly Score   │   │
+        │  └──────────┘    └────────────┘    │  & Threat Path   │   │
+        │  ┌──────────┐                      └──────────────────┘   │
+        │  │ Email    │──── (그래프 분석) ───▶  Antigena (자율 대응)│
+        │  └──────────┘                                            │
+        └────────────────────────────────────────────────────────────┘
+          * 모든 데이터는 실시간으로 '정상 프로파일'과 비교
+          * 점수가 임계치 초과 → 알림 + 자동 차단 (옵션)
+    </div>
+    <div class="concept-grid" style="margin-top: 0.5rem;">
+        <div class="concept-card" style="border-left-color: var(--accent2);">
+            <h4>📈 변칙 점수 (Anomaly Score)</h4>
+            <p>0~100%로 표현. 95% 이상이면 즉시 대응 필요. 다차원 통계 기반.</p>
         </div>
-    </section>
-
-    <section id="section4" class="section">
-        <h2>4. 퀵스타트 (PoC 환경 구축)</h2>
-        <p>개발/테스트 환경에서 Darktrace API를 활용한 기본 통합 예제입니다.</p>
-
-        <div class="step">
-            <h4>Step 1: API 자격 증명 획득</h4>
-            <p>Darktrace 관리 콘솔에서 API 공개 키와 비공개 키를 생성합니다.</p>
-            <pre># 환경 변수 설정 (실무에서는 비밀 관리 도구 사용)
-export DARKTRACE_BASE_URL="https://your-instance.darktrace.com"
-export DARKTRACE_PUBLIC_KEY="your_public_key"
-export DARKTRACE_PRIVATE_KEY="your_private_key"</pre>
+        <div class="concept-card" style="border-left-color: var(--accent3);">
+            <h4>🧠 자기학습 모델</h4>
+            <p>조직마다 고유한 '면역 체계' 구축. 배포 후 1~2주 학습기간.</p>
         </div>
-
-        <div class="step">
-            <h4>Step 2: Python 클라이언트 설치 및 초기화</h4>
-            <pre># 필수 패키지 설치
-pip install requests pandas
-
-# 기본 API 클라이언트 클래스
-import requests
-import json
-import hashlib
-import hmac
-import time
-import pandas as pd
-
-class DarktraceClient:
-    def __init__(self, base_url, public_key, private_key):
-        self.base_url = base_url.rstrip('/')
-        self.public_key = public_key
-        self.private_key = private_key
-
-    def _generate_signature(self, endpoint, params=None, date=None, method='GET'):
-        if date is None:
-            date = time.strftime('%a, %d %b %Y %H:%M:%S GMT', time.gmtime())
-        string_to_sign = f"{method}\n{endpoint}"
-        if params:
-            # 간소화: 실제로는 정렬된 쿼리 문자열 필요
-            pass
-        signature = hmac.new(
-            self.private_key.encode('utf-8'),
-            string_to_sign.encode('utf-8'),
-            hashlib.sha1
-        ).hexdigest()
-        return date, signature
-
-    def get(self, endpoint, params=None):
-        date, signature = self._generate_signature(endpoint, params)
-        headers = {
-            'DTAPI-Token': self.public_key,
-            'DTAPI-Date': date,
-            'DTAPI-Signature': signature
-        }
-        response = requests.get(f"{self.base_url}{endpoint}", headers=headers, params=params)
-        response.raise_for_status()
-        return response.json()
-
-# 클라이언트 초기화
-client = DarktraceClient(
-    base_url=os.environ['DARKTRACE_BASE_URL'],
-    public_key=os.environ['DARKTRACE_PUBLIC_KEY'],
-    private_key=os.environ['DARKTRACE_PRIVATE_KEY']
-)</pre>
+        <div class="concept-card" style="border-left-color: var(--accent4);">
+            <h4>⚙️ Antigena</h4>
+            <p>자율 대응 모듈. 네트워크 차단, 계정 격리, 세션 종료 등.</p>
         </div>
+    </div>
+</div>
 
-        <div class="step">
-            <h4>Step 3: 첫 번째 탐지 데이터 가져오기</h4>
-            <pre># 최근 1시간 내의 이상 점수가 높은 디바이스 조회
-def fetch_top_anomalous_devices(hours=1):
-    from datetime import datetime, timedelta
-    end_time = datetime.utcnow()
-    start_time = end_time - timedelta(hours=hours)
-    params = {
-        'starttime': start_time.isoformat() + 'Z',
-        'endtime': end_time.isoformat() + 'Z',
-        'order': 'desc',
-        'sortby': 'score',
-        'maxresults': 10
-    }
-    try:
-        data = client.get('/devices', params=params)
-        df = pd.DataFrame(data)
-        print(f"탐지된 상위 {len(df)}개 디바이스:")
-        print(df[['label', 'score', 'ip', 'devicetype']].to_string())
-        return df
-    except Exception as e:
-        print(f"API 호출 실패: {e}")
-        return None
+<!-- 4. 퀵스타트 -->
+<div class="section" id="s4">
+    <h2>4. 퀵스타트 · 설치 → 설정 → 첫 탐지</h2>
+    <p style="color: var(--text-muted);">Darktrace는 <strong>가상 어플라이언스</strong> 또는 <strong>SaaS</strong>로 배포됩니다. 
+    아래는 on-premise 환경 기준 CLI/Python 예제입니다.</p>
+    
+    <h3>📦 1단계: 어플라이언스 초기 설정 (CLI)</h3>
+    <pre><code># Darktrace vSensor / vManager 초기 구성
+ssh admin@&lt;darktrace-ip&gt;
+darktrace> configure network --interface eth0 --ip 10.0.1.50/24
+darktrace> configure gateway 10.0.1.1
+darktrace> configure dns 8.8.8.8
+darktrace> enable packet-capture --interface eth1
+darktrace> start engine</code></pre>
 
-# 실행
-devices_df = fetch_top_anomalous_devices()</pre>
-        </div>
+    <h3>🐍 2단계: Python SDK로 이벤트 조회</h3>
+    <pre><code># pip install darktrace-api (공식 SDK)
+import darktrace
+from darktrace import DarktraceAPI
 
-        <div class="step">
-            <h4>Step 4: 모델 위반(Mode Breach) 이벤트 구독 (웹훅 예제)</h4>
-            <pre># Flask를 이용한 간단한 웹훅 수신기 (개발용)
-from flask import Flask, request, jsonify
-app = Flask(__name__)
+client = DarktraceAPI(
+    host="https://10.0.1.50",
+    public_token="your_public_token",
+    private_token="your_private_token",
+    verify_ssl=False   # 테스트 환경
+)
 
-@app.route('/darktrace-webhook', methods=['POST'])
-def handle_breach():
-    data = request.json
-    # 보안: Darktrace 서명 검증 로직 추가 필요
-    breach_id = data.get('bid')
-    score = data.get('score')
-    device_label = data.get('deviceLabel', 'Unknown')
-    model_name = data.get('model', {}).get('name', 'Unknown Model')
-    print(f"[ALERT] 모델 위반 감지 | ID: {breach_id} | 점수: {score}")
-    print(f"       디바이스: {device_label} | 모델: {model_name}")
-    # 여기에 Slack, 이메일, SIEM 전송 로직 추가
-    return jsonify({'status': 'received'}), 200
+# 최근 변칙 이벤트 조회
+events = client.events.list(
+    from_time="2026-03-01T00:00:00Z",
+    to_time="2026-03-10T23:59:59Z",
+    min_score=80
+)
+for ev in events[:5]:
+    print(f"[{ev['score']}] {ev['threat_type']} → {ev['device_ip']}")</code></pre>
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)</pre>
-        </div>
-        <div class="callout warn">
-            <strong>주의:</strong> PoC 환경에서는 실제 네트워크 트래픽이 필요합니다. SPAN 포트 또는 NetFlow 데이터를 Darktrace 가상 어플라이언스로 전송해야 학습이 시작됩니다.
-        </div>
-    </section>
+    <h3>🚀 3단계: 첫 탐지 확인 (CLI)</h3>
+    <pre><code># 실시간 알림 확인 (syslog / API polling)
+darktrace> show alerts --since 1h --severity high
+# 출력 예시
+# 2026-03-10 14:23:11 | 98% | C2 Beaconing | 192.168.1.201 → 45.33.32.156
+# 2026-03-10 14:25:44 | 95% | Unusual SMB | 10.0.1.22 → 10.0.1.88</code></pre>
+    <div class="callout warn">
+        <strong>⚠️ 주의:</strong> 초기 학습 기간(약 7~14일) 동안은 <strong>가양성(False Positive)</strong>이 많을 수 있습니다. 
+        임계치를 80~85%로 시작하고 점진적으로 조정하세요.
+    </div>
+</div>
 
-    <section id="section5" class="section">
-        <h2>5. 핵심 설정 레퍼런스</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>설정 영역</th>
-                    <th>키 파라미터</th>
-                    <th>권장값/설명</th>
-                    <th>CLI/API 엔드포인트 예시</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>데이터 수집</td>
-                    <td>NetFlow/IPFIX</td>
-                    <td>소스 IP: ANY, 목적지: Darktrace IP:9995 (UDP)</td>
-                    <td><code>configure flow export destination 192.168.1.100 9995</code></td>
-                </tr>
-                <tr>
-                    <td>학습 모드</td>
-                    <td>Baseline Period</td>
-                    <td>최소 2주 권장, 학습 중 알림 임계값 낮게 설정</td>
-                    <td><code>PUT /config/learning?mode=baseline&duration=14d</code></td>
-                </tr>
-                <tr>
-                    <td>Antigena (자동 대응)</td>
-                    <td>Action Sensitivity</td>
-                    <td>PoC: 'Passive Mode', 운영: 'Active-Low' 시작 후 점진적 조정</td>
-                    <td><code>POST /antigena/config {"networkSensitivity": "low"}</code></td>
-                </tr>
-                <tr>
-                    <td>외부 통합</td>
-                    <td>SIEM/SOAR 연동</td>
-                    <td>CEF/LEEF 포맷, Syslog 또는 API 웹훅</td>
-                    <td><code>/integrations/siem?format=cef&target=syslog-server:514</code></td>
-                </tr>
-                <tr>
-                    <td>API 보안</td>
-                    <td>토큰 권한 범위</td>
-                    <td>최소 권한 원칙: 읽기 전용 토큰과 쓰기/조치 토큰 분리</td>
-                    <td>관리 콘솔 UI에서 구성</td>
-                </tr>
-                <tr>
-                    <td>모델 튜닝</td>
-                    <td>Exception List</td>
-                    <td>정상적인 비즈니스 활동(예: 백업 서버)에 대한 예외 추가</td>
-                    <td><code>POST /models/exceptions {"deviceid": "xyz", "reason": "Backup Server"}</code></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+<!-- 5. 핵심 설정 레퍼런스 -->
+<div class="section" id="s5">
+    <h2>5. 핵심 설정 레퍼런스</h2>
+    <table>
+        <thead>
+            <tr><th>파라미터</th><th>기본값</th><th>권장 (실무)</th><th>설명</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>anomaly.threshold</td><td>90%</td><td>85% (초기) / 95% (안정화)</td><td>변칙 점수 임계치</td></tr>
+            <tr><td>learning.period_days</td><td>14</td><td>21 (대규모 네트워크)</td><td>자기학습 기준 기간</td></tr>
+            <tr><td>antigena.mode</td><td>monitor</td><td>autonomous (숙련된 팀)</td><td>자동 차단 활성화</td></tr>
+            <tr><td>pcap.capture_size</td><td>512 MB</td><td>1 GB (트래픽 많을 시)</td><td>패킷 캡처 버퍼</td></tr>
+            <tr><td>email.integration</td><td>disabled</td><td>enabled (M365/Gmail)</td><td>이메일 위협 분석</td></tr>
+            <tr><td>cloud.aws_flowlogs</td><td>off</td><td>VPC Flow Logs + CloudTrail</td><td>클라우드 가시성</td></tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <strong>💡 팁:</strong> <code>anomaly.threshold</code>는 <strong>환경별로 다르게</strong> 설정하세요. 
+        개발망은 80%, 프로덕션은 95% 등. API로 동적 변경 가능.
+    </div>
+</div>
 
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>문제: 너무 많은 False Positive 알림</h4>
-                <p><strong>원인:</strong> 학습 기간 부족, 네트워크 변화(신규 서비스 도입), 예외 설정 미비.</p>
-                <p><strong>해결책:</strong></p>
-                <ul>
-                    <li>학습 기간을 2-4주로 확보.</li>
-                    <li>정상적인 주기적 활동(배치 작업, 백업)에 대해 예외(Exceptions) 등록.</li>
-                    <li>모델의 '민감도(Sensitivity)' 설정을 일시적으로 낮춤.</li>
-                </ul>
-            </div>
-            <div class="concept-card">
-                <h4>문제: AI가 중요한 위협을 놓침</h4>
-                <p><strong>원인:</strong> 데이터 수집 불완전(특정 세그먼트 미수집), 암호화 트래픽 분석 한계.</p>
-                <p><strong>해결책:</strong></p>
-                <ul>
-                    <li>모든 네트워크 세그먼트에서 NetFlow/패킷 데이터가 전송되는지 확인.</li>
-                    <li>엔드포인트(EDR) 및 클라우드 로그 통합을 추가하여 보완.</li>
-                    <li>위협 인텔리전스 피드와의 상관관계 분석 설정.</li>
-                </ul>
-            </div>
-            <div class="concept-card">
-                <h4>문제: Antigena 자동 조치가 비즈니스 중단 유발</h4>
-                <p><strong>원인:</strong> 과도한 공격성(Active-High) 설정, 중요 시스템에 대한 예외 미설정.</p>
-                <p><strong>해결책:</strong></p>
-                <ul>
-                    <li>중요 서버/대상 그룹에 대해 'Passive Mode' 또는 'Active-Low'로 시작.</li>
-                    <li>Antigena 네트워크 세그먼트를 나누어 단계적으로 적용.</li>
-                    <li>조치 전 '승인 대기(Hold for Approval)' 모드 활용.</li>
-                </ul>
-            </div>
-            <div class="concept-card">
-                <h4>팁: 효과적인 모니터링 대시보드</h4>
-                <ul>
-                    <li><strong>핵심 지표:</strong> 총 모델 위반 수, 평균 이상 점수, Antigena 조치 수.</li>
-                    <li><strong>집중 조사:</strong> 점수가 급상승한 디바이스, 새로운 외부 연결 도메인.</li>
-                    <li><strong>통합:</strong> Darktrace 알림을 SIEM 대시보드에 임베드하여 단일 창구 구축.</li>
-                    <li><strong>정기 검토:</strong> 주간 False Positive 리포트를 통해 모델/예외 지속적 개선.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="callout">
-            <strong>성공 키포인트:</strong> Darktrace는 '설치 후 망각' 솔루션이 아닙니다. 초기 학습과 지속적인 예외 관리를 통해 정확도를 높이고, 보안 팀의 역량을 증폭시키는 도구로 활용해야 합니다.
-        </div>
-    </section>
+<!-- 6. 실무 팁 & 트러블슈팅 -->
+<div class="section" id="s6">
+    <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+    <table>
+        <thead>
+            <tr><th>문제</th><th>원인</th><th>해결책</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>🔴 가양성 폭주</td><td>학습 기간 부족 / 임계치 낮음</td><td>임계치 90%→95% 상향, 학습기간 21일로 증가</td></tr>
+            <tr><td>🔴 Antigena 차단 과도</td><td>자율 모드가 민감함</td><td>→ monitor 모드로 전환 후 화이트리스트 추가</td></tr>
+            <tr><td>🔴 클라우드 데이터 누락</td><td>VPC Flow Logs 미활성</td><td>AWS: <code>aws ec2 create-flow-logs</code> / Azure: NSG 흐름 로그</td></tr>
+            <tr><td>🔴 API 속도 저하</td><td>토큰 권한 부족 / Rate limit</td><td>관리자 토큰 발급, 요청 간 200ms 지연</td></tr>
+            <tr><td>🔴 이메일 위협 미탐지</td><td>MS Graph API 권한 누락</td><td>Darktrace에 Mailbox.Read.All 위임</td></tr>
+        </tbody>
+    </table>
+    <div class="callout warn">
+        <strong>⚠️ 중요:</strong> Darktrace는 <strong>암호화 트래픽(SSL/TLS)</strong>을 분석하지 못합니다. 
+        TLS 프록시 또는 SSL 해독 지점과 연동하세요.
+    </div>
+    <pre><code># 트러블슈팅: 디버그 로그 활성화 (CLI)
+darktrace> debug set --level verbose --module engine
+darktrace> tail logs --lines 50 | grep "anomaly"</code></pre>
+</div>
 
-    <section id="section7" class="section">
-        <h2>7. 참고 자료</h2>
-        <ul>
-            <li><a href="https://www.darktrace.com/en/resources/" target="_blank">Darktrace 공식 리소스 센터</a> - 백서, 데이터시트, 케이스 스터디</li>
-            <li><a href="https://customerportal.darktrace.com/" target="_blank">Darktrace 고객 포털</a> - 기술 문서, 릴리즈 노트, 패치</li>
-            <li><a href="https://github.com/darktrace" target="_blank">Darktrace GitHub</a> - 공식 API 클라이언트 및 통합 예제 (제한적)</li>
-            <li><strong>권장 도서:</strong> "The Enterprise Immune System" (Darktrace 백서), "AI in Cybersecurity" (관련 개론서)</li>
-            <li><strong>학습 경로:</strong> Darktrace 인증 프로그램(Darktrace Certified Engineer) 참고</li>
-        </ul>
-        <div style="margin-top: 2rem;">
-            <span class="tag">ai-security</span>
-            <span class="tag">ndr</span>
-            <span class="tag">anomaly-detection</span>
-            <span class="tag">self-learning-ai</span>
-            <span class="tag">enterprise-immune-system</span>
-            <span class="tag">autonomous-response</span>
-        </div>
-    </section>
+<!-- 7. 참고 자료 -->
+<div class="section" id="s7">
+    <h2>7. 참고 자료 · 공식 문서</h2>
+    <ul style="color: var(--text-muted); line-height: 2; list-style: none; padding-left: 0;">
+        <li>📘 <a href="https://darktrace.com/resources/" target="_blank">Darktrace 공식 문서 포털</a> — 설치, API, 모범 사례</li>
+        <li>📘 <a href="https://customerportal.darktrace.com/" target="_blank">고객 포털 (Customer Portal)</a> — 릴리즈 노트, KB</li>
+        <li>📘 <a href="https://github.com/darktrace" target="_blank">GitHub: Darktrace SDK & 예제</a> — Python, Go, Java</li>
+        <li>📘 <a href="https://darktrace.com/blog/" target="_blank">블로그 · 위협 인텔리전스</a> — 실제 침해 사례 분석</li>
+        <li>📘 <a href="https://community.darktrace.com/" target="_blank">커뮤니티 포럼</a> — 엔지니어 Q&A</li>
+    </ul>
+    <div style="background: var(--surface2); border-radius: 12px; padding: 1rem; margin-top: 1rem; border: 1px solid var(--border);">
+        <p style="color: var(--text-muted);"><strong>🔗 빠른 링크:</strong> 
+        <code>https://darktrace.com/resources/api-guide</code> · 
+        <code>https://customerportal.darktrace.com/kb</code></p>
+    </div>
+</div>
 
-    <footer>
-        <p>본 가이드는 Darktrace의 공식 문서를 기반으로 실무 적용 관점에서 재구성한 요약 자료입니다.</p>
-        <p>최신 정보 및 정확한 구현 방법은 반드시 공식 문서를 참조하시기 바랍니다.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem;">&copy; 2026.03 - AI 정보보안 엔지니어 커뮤니티를 위한 비공식 스터디 자료</p>
-    </footer>
+<!-- Footer -->
+<div class="footer">
+    <p>🛡️ Darktrace 실무 스터디 가이드 · 2026.03 · AI 정보보안 엔지니어</p>
+    <p style="margin-top: 0.3rem; font-size: 0.75rem;">#ai-security #ndr #anomaly-detection · 본 문서는 Darktrace 공식 문서를 기반으로 한 실무 요약입니다.</p>
+</div>
+
 </body>
 </html>
