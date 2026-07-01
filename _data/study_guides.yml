@@ -874,3 +874,9 @@
   tags: ["reverse-engineering", "nsa", "open-source"]
   date: "2026-06-30"
   url: "/study-guides/ghidra-study-guide.html"
+- keyword: "Darktrace"
+  slug: "darktrace"
+  category: "security"
+  tags: ["ai-security", "ndr", "anomaly-detection"]
+  date: "2026-07-01"
+  url: "/study-guides/darktrace-study-guide.html"
