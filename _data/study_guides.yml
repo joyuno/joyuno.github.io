@@ -880,3 +880,9 @@
   tags: ["ai-security", "ndr", "anomaly-detection"]
   date: "2026-07-01"
   url: "/study-guides/darktrace-study-guide.html"
+- keyword: "Vectra AI"
+  slug: "vectra-ai"
+  category: "security"
+  tags: ["ai-security", "ndr", "threat-detection"]
+  date: "2026-07-03"
+  url: "/study-guides/vectra-ai-study-guide.html"
