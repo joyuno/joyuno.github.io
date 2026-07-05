@@ -892,3 +892,9 @@
   tags: ["web-security", "scanner", "open-source"]
   date: "2026-07-04"
   url: "/study-guides/owasp-zap-study-guide.html"
+- keyword: "Trivy"
+  slug: "trivy"
+  category: "security"
+  tags: ["container-security", "image-scan", "vulnerability"]
+  date: "2026-07-05"
+  url: "/study-guides/trivy-study-guide.html"
