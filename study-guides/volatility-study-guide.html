@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실무자를 위한 Volatility 스터디 가이드</title>
+    <title>Volatility 실무 스터디 가이드 - 2026.03</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -18,20 +18,23 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg);
             color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
             line-height: 1.6;
-            padding: 0 20px;
-            max-width: 1200px;
+            padding: 2rem 1.5rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
+
         a {
             color: var(--accent);
             text-decoration: none;
@@ -39,553 +42,619 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 4rem 1rem;
+            padding: 3rem 1rem 2.5rem;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
         }
         .hero .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin-bottom: 1.2rem;
         }
-        .meta-badges {
+        .hero .meta-badges {
             display: flex;
-            justify-content: center;
-            gap: 10px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
         }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .hero .badge {
+            background: var(--surface2);
             border: 1px solid var(--border);
+            padding: 0.25rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
         }
-        .badge.accent {
-            background-color: var(--accent);
-            color: var(--bg);
+        .hero .badge.tag {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .hero .date-badge {
+            background: var(--accent2);
+            color: #0d1117;
+            font-weight: 600;
             border: none;
         }
+
+        /* TOC */
         .toc {
-            background-color: var(--surface);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            border-radius: 10px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2.5rem;
         }
         .toc h2 {
+            font-size: 1.2rem;
             margin-bottom: 1rem;
             color: var(--accent);
         }
         .toc ol {
-            list-style-position: inside;
-            padding-left: 1rem;
+            list-style: none;
+            counter-reset: toc-counter;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
-        .toc li {
-            margin-bottom: 0.75rem;
-            padding-left: 0.5rem;
+        .toc ol li {
+            counter-increment: toc-counter;
+            font-size: 0.95rem;
         }
-        .toc a {
+        .toc ol li::before {
+            content: counter(toc-counter) ". ";
+            color: var(--accent2);
+            font-weight: 600;
+            margin-right: 0.4rem;
+        }
+        .toc ol li a {
             color: var(--text);
+            border-bottom: 1px dotted transparent;
+            transition: border-color 0.2s;
         }
-        .toc a:hover {
+        .toc ol li a:hover {
+            border-bottom-color: var(--accent);
             color: var(--accent);
         }
+
+        /* Sections */
         .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
+            margin-bottom: 3rem;
         }
         .section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent);
-            color: var(--accent);
-        }
-        .section h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent2);
-        }
-        .section p, .section ul, .section ol {
+            font-size: 1.7rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.4rem;
             margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        .section ul, .section ol {
-            padding-left: 2rem;
-        }
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .concept-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-        .concept-card h4 {
-            color: var(--accent4);
-            margin-bottom: 0.75rem;
+        .section h2 .section-number {
+            color: var(--accent2);
             font-size: 1.3rem;
         }
-        .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            border-radius: 0 8px 8px 0;
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: var(--accent3);
+        }
+        .section p {
+            margin-bottom: 0.9rem;
+            color: var(--text);
+        }
+
+        /* Concept Grid / Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
             margin: 1.5rem 0;
+        }
+        .concept-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.2rem 1.4rem;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+        .concept-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .concept-card h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            color: var(--accent);
+        }
+        .concept-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Callout */
+        .callout {
+            background: var(--surface);
+            border-left: 4px solid var(--accent2);
+            border-radius: 6px;
+            padding: 1rem 1.3rem;
+            margin: 1.5rem 0;
+            color: var(--text);
         }
         .callout.warn {
-            border-left-color: var(--danger);
+            border-left-color: var(--accent4);
         }
-        .callout h4 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+        .callout.warn strong {
+            color: var(--accent4);
         }
-        .callout.warn h4 {
-            color: var(--danger);
+        .callout p {
+            margin-bottom: 0.2rem;
         }
-        .diagram {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            overflow-x: auto;
-            white-space: pre;
-            line-height: 1.4;
-            color: var(--accent2);
-            margin: 2rem 0;
-        }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface);
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-        }
-        pre {
-            padding: 1.5rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            white-space: pre-wrap;
-        }
-        pre code {
-            padding: 0;
-            border: none;
-            background: none;
-        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            background-color: var(--surface);
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
+        }
+        table th,
+        table td {
             border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 1rem;
+            padding: 0.7rem 0.9rem;
             text-align: left;
-            border-bottom: 1px solid var(--border);
+            vertical-align: top;
         }
-        th {
-            background-color: var(--surface2);
+        table th {
+            background: var(--surface2);
             color: var(--accent);
             font-weight: 600;
         }
-        tr:last-child td {
-            border-bottom: none;
+        table td {
+            background: var(--surface);
         }
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
+        table tr:hover td {
+            background: var(--surface2);
+        }
+
+        /* Diagram (ASCII) */
+        .diagram {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            white-space: pre;
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Courier New", monospace;
+            font-size: 0.8rem;
+            line-height: 1.3;
+            overflow-x: auto;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            margin: 1.2rem 0;
         }
-        .tag-list {
+
+        /* Code blocks */
+        pre.code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Courier New", monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+            color: #e6edf3;
+        }
+        pre.code-block .comment {
+            color: #8b949e;
+        }
+        pre.code-block .keyword {
+            color: #ff7b72;
+        }
+        pre.code-block .string {
+            color: #a5d6ff;
+        }
+        pre.code-block .function {
+            color: #d2a8ff;
+        }
+
+        /* Inline code */
+        code {
+            background: var(--surface2);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-family: "SF Mono", monospace;
+            font-size: 0.9em;
+            color: var(--accent3);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        footer .footer-tags {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
         }
-        @media (max-width: 768px) {
+        footer .footer-tags span {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 0.15rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
             body {
-                padding: 0 10px;
+                padding: 1rem;
             }
             .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero .subtitle {
-                font-size: 1.2rem;
+                font-size: 2rem;
             }
             .concept-grid {
                 grid-template-columns: 1fr;
             }
+            .toc {
+                padding: 1.2rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
+
+    <!-- Hero -->
     <header class="hero">
         <h1>Volatility 실무 스터디 가이드</h1>
-        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
         <div class="meta-badges">
-            <span class="badge accent">메모리 포렌식</span>
-            <span class="badge">인시던트 대응</span>
-            <span class="badge">Python 3</span>
-            <span class="badge">실무 중심</span>
-            <span class="badge">작성일: 2026.03</span>
+            <span class="badge tag">memory-forensics</span>
+            <span class="badge tag">incident-response</span>
+            <span class="badge">v3.0+</span>
+            <span class="badge">Python 3.8+</span>
+            <span class="badge date-badge">2026.03</span>
         </div>
     </header>
 
-    <nav class="toc">
-        <h2>목차</h2>
+    <!-- TOC -->
+    <nav class="toc" id="toc">
+        <h2>📋 목차</h2>
         <ol>
             <li><a href="#section1">Volatility란?</a></li>
             <li><a href="#section2">왜 써야 하는가?</a></li>
             <li><a href="#section3">핵심 개념</a></li>
             <li><a href="#section4">퀵스타트</a></li>
             <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
+            <li><a href="#section6">실무 팁 &amp; 트러블슈팅</a></li>
             <li><a href="#section7">참고 자료</a></li>
         </ol>
     </nav>
 
-    <main>
-        <section id="section1" class="section">
-            <h2>1. Volatility란?</h2>
-            <p>Volatility는 오픈 소스 메모리 포렌식 프레임워크로, RAM 덤프 파일에서 디지털 아티팩트를 추출하고 분석하는 데 사용됩니다. 휘발성 메모리의 상태를 정지된 시점에서 조사하여 실행 중인 프로세스, 네트워크 연결, 레지스트리 핸들, 암호화된 키, 루트킷 흔적 등을 발견할 수 있습니다.</p>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>메모리 아키텍처 추상화</h4>
-                    <p>Windows, Linux, macOS, Android 등 다양한 OS의 메모리 구조를 이해하고, 커널 데이터 구조를 파싱하여 일관된 인터페이스로 제공합니다. 프로필(Profile) 시스템을 통해 OS별 특성을 처리합니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>플러그인 기반 확장성</h4>
-                    <p>200개 이상의 공식 플러그인과 사용자 정의 플러그인을 통해 분석 기능을 무한히 확장할 수 있습니다. Python으로 쉽게 새로운 분석 모듈을 개발하여 통합할 수 있습니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h4>자동화 및 API 제공</h4>
-                    <p>CLI 도구뿐만 아니라 풍부한 Python API를 제공하여 대규모 인시던트 대응 자동화 파이프라인에 통합할 수 있습니다. AI 엔지니어는 API를 활용해 분석 로직을 학습 데이터로 활용할 수 있습니다.</p>
-                </div>
+    <!-- 1. Volatility란? -->
+    <section class="section" id="section1">
+        <h2><span class="section-number">1</span> Volatility란?</h2>
+        <p>
+            <strong>Volatility</strong>는 메모리 포렌식(Memory Forensics) 분야의 사실상 표준 오픈소스 프레임워크입니다.
+            물리 메모리(RAM) 덤프를 분석하여 실행 중인 프로세스, 네트워크 연결, 레지스트리 하이브, 커널 오브젝트 등을 추출하고 
+            악성코드 침해 흔적을 발견하는 데 활용됩니다. AI 정보보안 엔지니어에게는 <strong>실시간 인시던트 대응(IR)</strong>과 
+            <strong>심층 메모리 분석</strong>을 위한 핵심 도구입니다.
+        </p>
+        <h3>3대 핵심 능력</h3>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>🔍 프로세스 &amp; 모듈 열거</h4>
+                <p>EPROCESS, PEB 등을 파싱하여 은닉 프로세스, DLL 인젝션 탐지.</p>
             </div>
-        </section>
-
-        <section id="section2" class="section">
-            <h2>2. 왜 써야 하는가?</h2>
-            <p>디스크 포렌식만으로는 잡히지 않는 휘발성 증거를 확보할 수 있어 현대 보안 위협(파일리스 멀웨어, 메모리 상주 공격)에 필수적입니다. 기존 대안과의 비교는 다음과 같습니다.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>도구/접근법</th>
-                        <th>장점</th>
-                        <th>단점</th>
-                        <th>Volatility 대비</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>커맨드라인 네이티브 도구</strong><br>(tasklist, netstat, ps)</td>
-                        <td>실시간 정보, 시스템에 내장</td>
-                        <td>공격자에 의해 변조 가능, 히스토리 없음, 깊은 분석 불가</td>
-                        <td>변조되지 않은 정지된 상태의 메모리 분석 가능</td>
-                    </tr>
-                    <tr>
-                        <td><strong>상용 메모리 분석 도구</strong><br>(Rekall, Belkasoft)</td>
-                        <td>GUI, 통합 보고서</td>
-                        <td>비용, 확장성 제한, 스크립팅 제약</td>
-                        <td>무료 오픈소스, 풀 스크립팅 및 API 지원</td>
-                    </tr>
-                    <tr>
-                        <td><strong>수동 메모리 파싱</strong></td>
-                        <td>완전한 제어, 맞춤형 분석</td>
-                        <td>시간 소모적, 오류 가능성 높음, 전문성 요구</td>
-                        <td>검증된 프레임워크와 풍부한 플러그인으로 생산성 향상</td>
-                    </tr>
-                    <tr>
-                        <td><strong>EDR/시그니처 기반 검사</strong></td>
-                        <td>실시간 차단, 알려진 위협 탐지</td>
-                        <td>알려지지 않은(Zero-day) 공격 탐지 불가, 증거 보존 미흡</td>
-                        <td>시그니처 없이도 행위 기반 이상징후 탐지 가능</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="callout">
-                <h4>AI 엔지니어에게 주는 가치</h4>
-                <p>Volatility는 메모리 스냅샷을 구조화된 데이터(프로세스 목록, DLL, 핸들 테이블 등)로 변환하는 강력한 엔진입니다. 이 데이터는 악성 행위 패턴 학습, 이상 탐지 모델 훈련, 자동화된 인시던트 트라이지 파이프라인 구축에 직접 활용될 수 있습니다.</p>
+            <div class="concept-card">
+                <h4>🌐 네트워크 &amp; 소켓 분석</h4>
+                <p>TCP/UDP 연결 테이블, 소켓 오브젝트를 복원하여 C2 통로 식별.</p>
             </div>
-        </section>
-
-        <section id="section3" class="section">
-            <h2>3. 핵심 개념</h2>
-            <p>Volatility의 동작 원리는 크게 세 단계로 나눌 수 있습니다: <strong>메모리 이미지 로딩</strong> → <strong>적절한 프로필 식별 및 적용</strong> → <strong>플러그인 실행을 통한 계층적 분석</strong>.</p>
-            <div class="diagram">
-    +-----------------------+
-    |   Memory Image File   |
-    |  (raw, crashdump, etc)|
-    +----------+------------+
-               |
-               v
-    +----------+------------+
-    |   Address Space Layer  |
-    |  (물리 메모리 가상화)   |
-    +----------+------------+
-               |
-               v
-    +----------+------------+       +-------------------+
-    |    OS Profile Layer    +------>   Symbol Tables   |
-    |  (Windows10x64, etc)   |       |   (PDB, DWARF)   |
-    +----------+------------+       +-------------------+
-               |
-               v
-    +----------+------------+
-    |   Plugin Subsystem     |
-    |  (pslist, netscan,    |
-    |   malfind, handles)    |
-    +----------+------------+
-               |
-               v
-    +----------+------------+
-    |   Structured Output    |
-    |  (JSON, text, CSV)    |
-    +-----------------------+
+            <div class="concept-card">
+                <h4>🧬 메모리 아티팩트 추출</h4>
+                <p>레지스트리 하이브, cmdline, mutex, 핸들 테이블 등 증거 수집.</p>
             </div>
-            <h3>주요 용어</h3>
-            <ul>
-                <li><strong>프로필(Profile)</strong>: 특정 OS 버전(예: Win10x64_18362)의 메모리 구조를 정의한 컬렉션. 커널 심볼과 타입 정보를 포함합니다.</li>
-                <li><strong>주소 공간(Address Space)</strong>: 물리 메모리, 페이징 파일, 하이버네이트 파일 등 다양한 메모리 소스를 일관된 방식으로 접근할 수 있게 하는 추상화 계층.</li>
-                <li><strong>플러그인(Plugin)</strong>: 특정 분석 작업(예: 프로세스 리스트 출력)을 수행하는 모듈. <code>volatility3</code>에서는 "클래스"로 구현됩니다.</li>
-                <li><strong>심볼 테이블(Symbol Table)</strong>: 커널 데이터 구조체의 오프셋과 레이아웃 정보. 정확한 분석의 핵심입니다.</li>
-            </ul>
-        </section>
+        </div>
+        <div class="callout">
+            <p><strong>💡 AI/ML 파이프라인과의 연계:</strong> Volatility + Python 스크립팅으로 대량 메모리 덤프를 자동 분석하고, 
+            이상 징후를 ML 모델로 분류하는 <em>AI 기반 IR</em> 워크플로우 구성이 가능합니다.</p>
+        </div>
+    </section>
 
-        <section id="section4" class="section">
-            <h2>4. 퀵스타트</h2>
-            <h3>단계 1: 설치 (Python 환경)</h3>
-            <pre><code># 가상환경 생성 및 활성화 (권장)
-python -m venv volatility-env
-source volatility-env/bin/activate  # Linux/macOS
-# volatility-env\Scripts\activate   # Windows
+    <!-- 2. 왜 써야 하는가? -->
+    <section class="section" id="section2">
+        <h2><span class="section-number">2</span> 왜 써야 하는가?</h2>
+        <p>다양한 메모리 분석 도구가 존재하지만, Volatility는 <strong>플러그인 아키텍처</strong>, <strong>멀티 OS 지원</strong>, 
+        <strong>활발한 커뮤니티</strong>로 가장 신뢰받습니다. 아래 표는 주요 대안과의 차이를 보여줍니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>도구</th>
+                    <th>플러그인 생태계</th>
+                    <th>AI/자동화 친화성</th>
+                    <th>커뮤니티 &amp; 문서</th>
+                    <th>성능 (대용량 덤프)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Volatility 3</strong></td>
+                    <td>✅ 100+ 내장, 커스텀 쉬움</td>
+                    <td>✅ Python API, Jupyter 연동</td>
+                    <td>✅ GitHub 6k+ stars, 활발</td>
+                    <td>✅ 최적화된 심볼 로딩</td>
+                </tr>
+                <tr>
+                    <td>Rekall</td>
+                    <td>⚠️ 제한적, 유지보수 둔화</td>
+                    <td>⚠️ Python 2 레거시</td>
+                    <td>❌ 사실상 중단</td>
+                    <td>⚠️ 중간</td>
+                </tr>
+                <tr>
+                    <td>LiME + strings/grep</td>
+                    <td>❌ 수동 분석</td>
+                    <td>❌ 낮음</td>
+                    <td>❌ 도구 수준</td>
+                    <td>⚠️ 느림, 구조적 분석 불가</td>
+                </tr>
+                <tr>
+                    <td>WinPmem (상용)</td>
+                    <td>⚠️ 제한적</td>
+                    <td>⚠️ 중간</td>
+                    <td>⚠️ 기업 지원</td>
+                    <td>✅ 빠름</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout warn">
+            <p><strong>⚠️ 주의:</strong> Rekall은 더 이상 적극적으로 업데이트되지 않습니다. 신규 프로젝트는 반드시 Volatility 3를 선택하세요.</p>
+        </div>
+    </section>
 
-# 최신 Volatility 3 설치
+    <!-- 3. 핵심 개념 -->
+    <section class="section" id="section3">
+        <h2><span class="section-number">3</span> 핵심 개념</h2>
+        <p>Volatility 3는 <strong>레이어 기반 아키텍처</strong>를 채택하여 다양한 메모리 덤프 형식을 추상화합니다. 
+        아래 다이어그램은 핵심 컴포넌트와 데이터 흐름을 보여줍니다.</p>
+
+        <div class="diagram">
+╔═══════════════════════════════════════════════════════╗
+║                   Volatility 3 아키텍처                ║
+╠═══════════════════════════════════════════════════════╣
+║                                                       ║
+║  ┌──────────┐    ┌─────────────┐    ┌──────────────┐  ║
+║  │ Memory    │───▶│ Layer Stack  │───▶│ Plugin       │  ║
+║  │ Dump      │    │ (File, ELF,  │    │ Engine       │  ║
+║  │ (.raw,.vmem│   │  VMEM, AFF4) │    │ (windows.*,  │  ║
+║  │  .lime)   │    │             │    │  linux.*,     │  ║
+║  └──────────┘    └─────────────┘    │  mac.*)       │  ║
+║                                     └───────┬──────┘  ║
+║                                             │          ║
+║                                     ┌───────▼──────┐   ║
+║                                     │ Output       │   ║
+║                                     │ Renderers    │   ║
+║                                     │ (Text, JSON, │   ║
+║                                     │  SQLite,     │   ║
+║                                     │  Custom)     │   ║
+║                                     └──────────────┘   ║
+║                                                       ║
+║  🔹 심볼 테이블 (PDB/ DWARF) → 구조체 오프셋 해석      ║
+║  🔹 플러그인: pslist, psscan, netscan, cmdline, ...   ║
+║  🔹 Python API: vol3.framework import plugins        ║
+╚═══════════════════════════════════════════════════════╝</div>
+
+        <p>각 플러그인은 특정 메모리 객체( EPROCESS, _TCP_ENDPOINT 등 )를 파싱하며, 
+        결과는 JSON, 텍스트, 또는 커스텀 렌더러로 출력됩니다. AI 엔지니어는 <code>vol3</code> Python 모듈로 
+        분석 파이프라인에 직접 통합할 수 있습니다.</p>
+    </section>
+
+    <!-- 4. 퀵스타트 -->
+    <section class="section" id="section4">
+        <h2><span class="section-number">4</span> 퀵스타트</h2>
+        <p>Volatility 3는 Python 패키지로 간단히 설치할 수 있습니다. 아래 단계를 따라 첫 분석까지 진행하세요.</p>
+
+        <h3>① 설치</h3>
+        <pre class="code-block"><span class="comment"># 최신 안정 버전 설치 (권장)</span>
 pip install volatility3
 
-# 추가 유용한 라이브러리
-pip install yara-python pandas jupyter  # 분석 및 자동화용</code></pre>
+<span class="comment"># 또는 GitHub 최신 개발 버전</span>
+git clone https://github.com/volatilityfoundation/volatility3.git
+cd volatility3
+pip install -r requirements.txt</pre>
 
-            <h3>단계 2: 첫 번째 명령어 실행 (CLI)</h3>
-            <p>메모리 이미지(<code>memory.dmp</code>)가 있다고 가정하고 Windows 프로세스 목록을 확인합니다.</p>
-            <pre><code># 기본 사용법: volatility -f [메모리파일] [플러그인]
-volatility -f /path/to/memory.dmp windows.pslist
+        <h3>② 심볼 테이블 설정</h3>
+        <pre class="code-block"><span class="comment"># Windows 심볼 다운로드 (ISO 이미지 필요)</span>
+python vol.py --symbol-dir /path/to/symbols windows.download_symbols
 
-# 더 자세한 정보 (PID, PPID, 생성 시간 등)
-volatility -f memory.dmp windows.psscan
+<span class="comment"># Linux/macOS 는 커널 이미지에서 자동 추출</span>
+python vol.py -f mem.dump linux.banner   <span class="comment"># OS 확인</span></pre>
 
-# 출력을 JSON으로 받아 자동화 파이프라인에 연결
-volatility -f memory.dmp windows.pslist --output json > processes.json</code></pre>
+        <h3>③ 첫 예제 – 실행 중인 프로세스 리스트</h3>
+        <pre class="code-block"><span class="comment"># CLI 명령어</span>
+python vol.py -f /case/memory.raw windows.pslist
 
-            <h3>단계 3: Python API를 이용한 스크립팅</h3>
-            <pre><code>#!/usr/bin/env python3
-"""Volatility3 Python API 예제: 프로세스 및 DLL 목록 추출"""
+<span class="comment"># Python API 활용</span>
+<span class="keyword">from</span> volatility3.framework <span class="keyword">import</span> contexts
+<span class="keyword">from</span> volatility3.plugins.windows <span class="keyword">import</span> pslist
 
-import volatility3.framework
-from volatility3.framework import contexts, automagic, constants
-from volatility3.plugins.windows import pslist, dlllist
-import json
-import sys
+ctx = contexts.Context()
+config_path = <span class="string">"auto"</span>
+<span class="function">pslist.PsList</span>(ctx, config_path).run()
+<span class="comment"># 결과는 JSON, Text 등으로 변환 가능</span></pre>
 
-def analyze_memory(image_path):
-    # 1. 컨텍스트 생성
-    ctx = contexts.Context()
-    ctx.config['automagic.LayerStacker.single_location'] = f"file://{image_path}"
-
-    # 2. 자동 마법 구성 실행 (프로필 자동 감지)
-    automagics = automagic.choose_automagic(automagic.available(ctx))
-    for amagic in automagics:
-        amagic(ctx)
-
-    # 3. 플러그인 실행: 프로세스 목록
-    pslist_plugin = pslist.PsList(ctx)
-    process_tree = []
-    for proc in pslist_plugin.generate_configuration():
-        process_info = {
-            "pid": proc.UniqueProcessId,
-            "name": proc.ImageFileName.cast("string", max_length=255),
-            "ppid": proc.InheritedFromUniqueProcessId,
-            "create_time": proc.get_create_time()
-        }
-        process_tree.append(process_info)
-
-    # 4. 플러그인 실행: 각 프로세스의 DLL 목록
-    dlllist_plugin = dlllist.DllList(ctx)
-    dll_map = {}
-    # (실제 구현에서는 프로세스별로 dlllist.generate_configuration 호출)
-
-    # 결과 출력
-    result = {
-        "image_file": image_path,
-        "process_count": len(process_tree),
-        "processes": process_tree
-    }
-    print(json.dumps(result, indent=2, default=str))
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} &lt;memory_image_path&gt;")
-        sys.exit(1)
-    analyze_memory(sys.argv[1])</code></pre>
-            <div class="callout warn">
-                <h4>주의: 프로필 자동 감지 실패 시</h4>
-                <p>자동 감지가 실패하면 <code>--profile</code> 옵션으로 명시적으로 지정해야 합니다. 사용 가능한 프로필은 <code>volatility --info</code>로 확인할 수 있습니다. Linux의 경우 <code>linux.banner</code> 플러그인으로 커널 버전을 먼저 확인하는 것이 좋습니다.</p>
-            </div>
-        </section>
-
-        <section id="section5" class="section">
-            <h2>5. 핵심 설정 레퍼런스</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>설정 옵션</th>
-                        <th>기본값</th>
-                        <th>설명</th>
-                        <th>사용 예시 (CLI)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>-f, --filename</code></td>
-                        <td>없음</td>
-                        <td>분석할 메모리 이미지 파일 경로</td>
-                        <td><code>-f /evidence/mem.dmp</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>--profile</code></td>
-                        <td>자동 감지</td>
-                        <td>OS 프로필 강제 지정 (Win10x64, LinuxUbuntu2004x64 등)</td>
-                        <td><code>--profile=Win10x64_19041</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>-o, --output</code></td>
-                        <td>text</td>
-                        <td>출력 형식 (text, json, csv, pretty)</td>
-                        <td><code>--output json</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>--output-file</code></td>
-                        <td>stdout</td>
-                        <td>출력을 파일로 저장</td>
-                        <td><code>--output-file=result.json</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>-v, --verbose</code></td>
-                        <td>0</td>
-                        <td>로그 상세도 (0=에러, 1=경고, 2=정보, 3=디버그)</td>
-                        <td><code>-v 2</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>--plugins</code></td>
-                        <td>설치된 경로</td>
-                        <td>사용자 정의 플러그인 경로 추가</td>
-                        <td><code>--plugins=/my_plugins</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>--cache</code></td>
-                        <td>~/.cache/volatility3</td>
-                        <td>심볼 캐시 디렉토리 경로</td>
-                        <td><code>--cache=/tmp/vol_cache</code></td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><strong>Python API 주요 설정 경로</strong>: <code>ctx.config['PLUGIN_NAME.OPTION']</code> 형식으로 접근합니다. 예: <code>ctx.config['automagic.LayerStacker.single_location'] = "file:///path/to/image"</code></p>
-        </section>
-
-        <section id="section6" class="section">
-            <h2>6. 실무 팁 & 트러블슈팅</h2>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>문제: "No suitable address space mapping found"</h4>
-                    <p><strong>원인</strong>: 메모리 이미지 형식을 인식하지 못함. 또는 이미지가 손상되었을 수 있습니다.</p>
-                    <p><strong>해결</strong>:</p>
-                    <ol>
-                        <li><code>file</code> 명령어로 이미지 형식 확인.</li>
-                        <li><code>--layer-format</code> 옵션으로 명시적 지정 (예: <code>--layer-format=dmp</code>).</li>
-                        <li>DumpIt, WinPMEM 등 신뢰된 도구로 메모리 덤프를 다시 획득.</li>
-                    </ol>
-                </div>
-                <div class="concept-card">
-                    <h4>문제: 프로필을 찾을 수 없음</h4>
-                    <p><strong>원인</strong>: 분석 대상 OS에 대한 심볼 테이블(프로필)이 로컬 캐시에 없습니다.</p>
-                    <p><strong>해결</strong>:</p>
-                    <ol>
-                        <li>인터넷이 연결된 상태에서 명령어를 실행하면 자동 다운로드 시도.</li>
-                        <li>수동 다운로드: <code>volatility --os &lt;OS&gt; --output-dir ./symbols</code></li>
-                        <li>Windows의 경우, 해당 OS 버전의 <code>ntoskrnl.pdb</code> 파일을 찾아 지정.</li>
-                    </ol>
-                </div>
-                <div class="concept-card">
-                    <h4>문제: 플러그인 실행 시 비정상 종료</h4>
-                    <p><strong>원인</strong>: 메모리 이미지와 프로필 불일치, 또는 플러그인 내부 버그.</p>
-                    <p><strong>해결</strong>:</p>
-                    <ol>
-                        <li><code>linux.banner</code> 또는 <code>windows.info</code>로 정확한 OS 버전 재확인.</li>
-                        <li><code>-v 3</code> (디버그 모드)로 실행하여 스택 트레이스 확인.</li>
-                        <li>문제가 되는 특정 플러그인을 제외하고 다른 플러그인으로 우회 분석.</li>
-                    </ol>
-                </div>
-            </div>
-            <h3>고급 실무 팁</h3>
-            <ul>
-                <li><strong>대규모 자동화</strong>: Python API를 사용하여 수백 개의 메모리 이미지를 배치 처리하고, 결과를 중앙 ELK 스택이나 SIEM으로 전송하세요.</li>
-                <li><strong>AI/ML 통합</strong>: <code>windows.pslist</code>, <code>windows.netscan</code>, <code>windows.handles</code>의 출력을 정규화하여 프로세스 행위 그래프를 구성하고, 이상 탐지 모델의 입력 피처로 사용하세요.</li>
-                <li><strong>성능 최적화</strong>: 자주 사용하는 프로필은 로컬 캐시에 유지하고, 대용량 이미지 분석 시 <code>--quick</code> 모드(있는 경우)를 고려하세요.</li>
-                <li><strong>커스텀 플러그인 개발</strong>: 신규 멀웨어 패밀리의 아티팩트를 추적하려면 공식 문서의 플러그인 개발 가이드를 따라 Python 클래스를 작성하세요.</li>
-            </ul>
-        </section>
-
-        <section id="section7" class="section">
-            <h2>7. 참고 자료</h2>
-            <ul>
-                <li><strong>공식 문서 및 저장소</strong>: <a href="https://github.com/volatilityfoundation/volatility3" target="_blank">GitHub - volatilityfoundation/volatility3</a></li>
-                <li><strong>플러그인 갤러리</strong>: <a href="https://volatility3.readthedocs.io/en/latest/plugins.html" target="_blank">Volatility 3 Plugins Reference</a></li>
-                <li><strong>심볼 생성 가이드</strong>: <a href="https://volatility3.readthedocs.io/en/latest/symbol-tables.html" target="_blank">Creating Symbol Tables</a></li>
-                <li><strong>교육용 샘플 메모리 이미지</strong>: <a href="https://github.com/volatilityfoundation/volatility/wiki/Memory-Samples" target="_blank">Memory Samples (공식 Wiki)</a></li>
-                <li><strong>관련 책</strong>: <em>The Art of Memory Forensics</em> (Michael Hale Ligh 외) - Volatility 개발팀이 집필한 바이블.</li>
-                <li><strong>커뮤니티</strong>: <a href="https://twitter.com/volatility" target="_blank">@volatility (Twitter)</a>, Volatility Slack 채널.</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>본 가이드는 AI 정보보안 엔지니어와 디지털 포렌식 실무자의 빠른 실무 적응을 위해 제작되었습니다.</p>
-        <p>© 2026.03 - Volatility 실무 스터디 가이드. 지속적으로 업데이트됩니다.</p>
-        <div class="tag-list">
-            <span class="badge">memory-forensics</span>
-            <span class="badge">incident-response</span>
-            <span class="badge">volatility3</span>
-            <span class="badge">ai-security</span>
-            <span class="badge">digital-forensics</span>
+        <div class="callout">
+            <p><strong>💡 팁:</strong> <code>windows.info</code> 플러그인으로 덤프의 OS 버전, KdDebuggerData, ntbuildlab 등을 먼저 확인하세요.</p>
         </div>
+    </section>
+
+    <!-- 5. 핵심 설정 레퍼런스 -->
+    <section class="section" id="section5">
+        <h2><span class="section-number">5</span> 핵심 설정 레퍼런스</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>옵션 / 설정</th>
+                    <th>설명</th>
+                    <th>예시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-f, --file</code></td>
+                    <td>메모리 덤프 파일 경로</td>
+                    <td><code>-f /mnt/evidence/case1.raw</code></td>
+                </tr>
+                <tr>
+                    <td><code>--symbol-dir</code></td>
+                    <td>심볼 테이블 디렉토리 (PDB/ DWARF)</td>
+                    <td><code>--symbol-dir ./symbols</code></td>
+                </tr>
+                <tr>
+                    <td><code>--single-location</code></td>
+                    <td>단일 파일 레이어 강제 지정</td>
+                    <td><code>--single-location file:///dump.vmem</code></td>
+                </tr>
+                <tr>
+                    <td><code>-r, --renderer</code></td>
+                    <td>출력 형식 (text, json, sqlite, csv)</td>
+                    <td><code>-r json</code></td>
+                </tr>
+                <tr>
+                    <td><code>-o, --output-dir</code></td>
+                    <td>출력 파일 저장 디렉토리</td>
+                    <td><code>-o ./results</code></td>
+                </tr>
+                <tr>
+                    <td><code>--timeout</code></td>
+                    <td>플러그인 타임아웃 (초)</td>
+                    <td><code>--timeout 120</code></td>
+                </tr>
+                <tr>
+                    <td><code>--log</code></td>
+                    <td>로그 레벨 (DEBUG, INFO, WARNING)</td>
+                    <td><code>--log DEBUG</code></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout warn">
+            <p><strong>⚠️ 중요:</strong> <code>--single-location</code>은 일부 VM 스냅샷(vmem)에서 레이어 자동 감지가 실패할 때 유용합니다.</p>
+        </div>
+    </section>
+
+    <!-- 6. 실무 팁 & 트러블슈팅 -->
+    <section class="section" id="section6">
+        <h2><span class="section-number">6</span> 실무 팁 &amp; 트러블슈팅</h2>
+
+        <h3>자주 겪는 문제와 해결책</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>문제</th>
+                    <th>원인</th>
+                    <th>해결책</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Symbol not found</code></td>
+                    <td>심볼 테이블 누락 또는 버전 불일치</td>
+                    <td><code>windows.download_symbols</code>로 정확한 심볼 다운로드, 또는 <code>--single-location</code> 시도</td>
+                </tr>
+                <tr>
+                    <td><code>Layer fault: invalid address</code></td>
+                    <td>덤프 파일 손상 또는 잘못된 형식</td>
+                    <td><code>file</code> 명령어로 덤프 형식 확인, <code>vol.py -f dump.raw windows.info</code>로 기본 테스트</td>
+                </tr>
+                <tr>
+                    <td>분석 결과가 너무 느림</td>
+                    <td>플러그인이 불필요한 객체를 스캔</td>
+                    <td><code>--max-chunk-size</code> 축소, 또는 특정 PID 지정 (<code>--pid</code>)</td>
+                </tr>
+                <tr>
+                    <td>JSON 출력 파싱 오류</td>
+                    <td>메모리 구조 깨짐 (anti-forensics)</td>
+                    <td><code>psscan</code> 등 대체 플러그인 사용, 또는 <code>--physical</code> 옵션</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>실무 꿀팁</h3>
+        <div class="concept-grid">
+            <div class="concept-card" style="border-left-color: var(--accent4);">
+                <h4>⚡ 파이프라인 자동화</h4>
+                <p>Volatility 3 Python API + Apache Airflow 로 야간 배치 분석.</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--accent3);">
+                <h4>🧠 AI 이상 탐지</h4>
+                <p>프로세스 트리 feature를 추출하여 Isolation Forest로 변칙 프로세스 탐지.</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--accent2);">
+                <h4>📊 시각화</h4>
+                <p><code>--renderer json</code> 출력을 Grafana / Kibana 에 연동.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 참고 자료 -->
+    <section class="section" id="section7">
+        <h2><span class="section-number">7</span> 참고 자료</h2>
+        <ul style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 0.6rem;">📄 <strong>공식 문서</strong> — <a href="https://volatility3.readthedocs.io" target="_blank" rel="noopener">volatility3.readthedocs.io</a></li>
+            <li style="margin-bottom: 0.6rem;">🐙 <strong>GitHub 저장소</strong> — <a href="https://github.com/volatilityfoundation/volatility3" target="_blank" rel="noopener">github.com/volatilityfoundation/volatility3</a></li>
+            <li style="margin-bottom: 0.6rem;">📘 <strong>플러그인 레퍼런스</strong> — <a href="https://volatility3.readthedocs.io/en/latest/plugins.html" target="_blank" rel="noopener">Plugin List</a></li>
+            <li style="margin-bottom: 0.6rem;">🎓 <strong>커뮤니티 포럼</strong> — <a href="https://community.volatilityfoundation.org" target="_blank" rel="noopener">Volatility Foundation Community</a></li>
+            <li style="margin-bottom: 0.6rem;">📝 <strong>백서/사례</strong> — "Memory Forensics with Volatility 3" (SANS, 2025)</li>
+        </ul>
+        <div class="callout">
+            <p><strong>🚀 추가 학습:</strong> AI 보안 엔지니어라면 <code>vol3</code> Python 모듈을 활용한 <em>자동화된 IR 파이프라인</em> 구축을 권장합니다.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-tags">
+            <span>memory-forensics</span>
+            <span>incident-response</span>
+            <span>volatility3</span>
+            <span>python-forensics</span>
+        </div>
+        <p>© 2026.03 — Volatility 실무 스터디 가이드 · v1.0</p>
+        <p style="margin-top: 0.3rem; font-size: 0.75rem;">제작: AI 정보보안 엔지니어 워크그룹 | 데이터 기반 IR 연구</p>
     </footer>
+
 </body>
 </html>
