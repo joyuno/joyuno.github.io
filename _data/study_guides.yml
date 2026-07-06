@@ -898,3 +898,9 @@
   tags: ["container-security", "image-scan", "vulnerability"]
   date: "2026-07-05"
   url: "/study-guides/trivy-study-guide.html"
+- keyword: "Volatility"
+  slug: "volatility"
+  category: "security"
+  tags: ["memory-forensics", "incident-response"]
+  date: "2026-07-06"
+  url: "/study-guides/volatility-study-guide.html"
