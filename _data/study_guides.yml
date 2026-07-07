@@ -904,3 +904,9 @@
   tags: ["memory-forensics", "incident-response"]
   date: "2026-07-06"
   url: "/study-guides/volatility-study-guide.html"
+- keyword: "YARA"
+  slug: "yara"
+  category: "security"
+  tags: ["malware-detection", "rule-based", "signature"]
+  date: "2026-07-07"
+  url: "/study-guides/yara-study-guide.html"
