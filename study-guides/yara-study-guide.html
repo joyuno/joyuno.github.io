@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실무자를 위한 YARA 스터디 가이드</title>
+    <title>YARA 실무 스터디 가이드 | AI 정보보안 엔지니어</title>
+    <meta name="description" content="데이터 엔지니어 · AI 엔지니어를 위한 YARA 핵심 요약. 패턴 기반 멀웨어 탐지, 룰 설계, 실무 팁.">
+    <meta name="keywords" content="malware-detection, rule-based, signature, YARA, 보안">
     <style>
         :root {
             --bg: #0d1117;
@@ -18,20 +20,28 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        h1, h2, h3, h4 {
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
         a {
             color: var(--accent);
             text-decoration: none;
@@ -39,672 +49,584 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 3rem 1rem 2rem;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
         }
         .hero .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin-bottom: 1.2rem;
         }
-        .meta-badges {
+        .hero .badge-group {
             display: flex;
-            justify-content: center;
-            gap: 10px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
         }
-        .badge {
+        .hero .badge {
             display: inline-block;
-            padding: 5px 12px;
-            background-color: var(--surface2);
-            border: 1px solid var(--border);
+            padding: 0.3rem 1rem;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--surface2);
+            border: 1px solid var(--border);
             color: var(--text-muted);
         }
-        .toc {
-            background-color: var(--surface);
+        .hero .badge.accent { background: #1f3a5f; color: var(--accent); border-color: var(--accent); }
+        .hero .badge.green  { background: #1f3a2f; color: var(--accent2); border-color: var(--accent2); }
+        .hero .badge.purple { background: #2a1f3a; color: var(--accent3); border-color: var(--accent3); }
+        .hero .badge.orange { background: #3a2a1f; color: var(--accent4); border-color: var(--accent4); }
+        .hero .date-badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.2rem 1.2rem;
+            border-radius: 12px;
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 2.5rem;
         }
         .toc h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-        .toc ol {
-            list-style-type: decimal;
-            padding-left: 1.5rem;
-        }
-        .toc li {
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
-        }
-        .section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
-        }
-        .section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--accent);
-        }
-        .section h3 {
-            font-size: 1.6rem;
-            margin: 2rem 0 1rem;
-            color: var(--accent2);
-        }
-        .section p {
-            margin-bottom: 1rem;
-        }
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .concept-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-        .concept-card h4 {
             font-size: 1.3rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             color: var(--accent3);
         }
-        .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            border-radius: 0 8px 8px 0;
-            margin: 2rem 0;
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            padding-left: 0;
         }
-        .callout.warn {
-            border-left-color: var(--danger);
+        .toc ol li {
+            counter-increment: toc-counter;
+            padding: 0.3rem 0;
         }
-        .callout h4 {
+        .toc ol li::before {
+            content: counter(toc-counter) ". ";
+            color: var(--accent);
+            font-weight: 600;
+            margin-right: 0.4rem;
+        }
+        .toc ol li a {
+            color: var(--text);
+            font-weight: 450;
+        }
+        .toc ol li a:hover {
+            color: var(--accent);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 1.5rem;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            border-left: 5px solid var(--accent);
+            padding-left: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem;
+            color: var(--text);
+        }
+        .section p, .section li {
+            color: var(--text-muted);
+        }
+
+        /* Concept grid & card */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+        .concept-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+            padding: 1.5rem 1.3rem;
+            transition: border-color 0.2s;
+        }
+        .concept-card:hover {
+            border-left-color: var(--accent2);
+        }
+        .concept-card h4 {
+            font-size: 1.05rem;
             margin-bottom: 0.5rem;
             color: var(--accent);
         }
-        .callout.warn h4 {
-            color: var(--danger);
+        .concept-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin: 0;
         }
-        .diagram {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface);
-            padding: 1.5rem;
+
+        /* Callout */
+        .callout {
+            background: var(--surface);
+            border-left: 4px solid var(--accent2);
             border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.4rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout.warn strong {
+            color: var(--accent4);
+        }
+        .callout p {
+            margin: 0.3rem 0;
+        }
+
+        /* Diagram */
+        .diagram {
+            background: var(--bg);
             border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
             white-space: pre;
             overflow-x: auto;
-            margin: 2rem 0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            color: var(--accent2);
+            color: var(--text-muted);
+            margin: 1.2rem 0;
         }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
+            margin: 1.2rem 0;
+            font-size: 0.92rem;
         }
         table th, table td {
-            padding: 1rem;
             border: 1px solid var(--border);
+            padding: 0.7rem 1rem;
             text-align: left;
         }
         table th {
-            background-color: var(--surface2);
+            background: var(--surface2);
             color: var(--accent);
             font-weight: 600;
         }
-        table tr:nth-child(even) {
-            background-color: rgba(255,255,255,0.02);
+        table td {
+            background: var(--surface);
+            color: var(--text-muted);
         }
-        code, pre {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface2);
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
-            font-size: 0.95em;
+
+        /* Code blocks */
+        pre, code {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
         }
         pre {
-            padding: 1rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
+            background: #0d1117;
+            border: 1px solid #30363d;
             border-radius: 8px;
+            padding: 1rem 1.2rem;
+            overflow-x: auto;
+            color: var(--text);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+        code {
+            background: #1c2333;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent2);
         }
         pre code {
+            background: transparent;
             padding: 0;
-            background: none;
+            color: inherit;
         }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 3rem 0;
-            margin-top: 4rem;
+            margin-top: 3.5rem;
+            padding-top: 1.5rem;
             border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-        .code-block-title {
-            display: inline-block;
-            background-color: var(--border);
-            color: var(--text);
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px 6px 0 0;
+            text-align: center;
             font-size: 0.85rem;
-            margin-bottom: -1px;
-            position: relative;
-            top: 1px;
+            color: var(--text-muted);
+        }
+        footer .tags {
+            margin-bottom: 0.8rem;
+        }
+        footer .tags span {
+            display: inline-block;
+            background: var(--surface2);
+            padding: 0.2rem 0.9rem;
+            border-radius: 14px;
+            margin: 0.2rem 0.3rem;
+            font-size: 0.78rem;
+            border: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body { padding: 1.2rem 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .toc { padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <h1>YARA 실무 스터디 가이드</h1>
-        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">malware-detection</span>
-            <span class="badge">rule-based</span>
-            <span class="badge">signature</span>
-            <span class="badge">보안 운영</span>
-            <span class="badge">위협 인텔리전스</span>
+
+<!-- Hero -->
+<header class="hero">
+    <h1>🔍 YARA 실무 스터디 가이드</h1>
+    <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+    <div class="badge-group">
+        <span class="badge accent">malware-detection</span>
+        <span class="badge green">rule-based</span>
+        <span class="badge purple">signature</span>
+        <span class="badge orange">AI 보안</span>
+    </div>
+    <div class="date-badge">📅 2026.03 · v1.0</div>
+</header>
+
+<!-- TOC -->
+<nav class="toc" id="toc">
+    <h2>📑 목차</h2>
+    <ol>
+        <li><a href="#s1">YARA란?</a></li>
+        <li><a href="#s2">왜 써야 하는가?</a></li>
+        <li><a href="#s3">핵심 개념</a></li>
+        <li><a href="#s4">퀵스타트</a></li>
+        <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+        <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+        <li><a href="#s7">참고 자료</a></li>
+    </ol>
+</nav>
+
+<!-- 1. YARA란? -->
+<section class="section" id="s1">
+    <h2>1. YARA란?</h2>
+    <p>
+        <strong>YARA</strong>는 패턴 기반 멀웨어 탐지 및 분류를 위한 오픈소스 도구입니다.
+        보안 분석가가 <strong>룰(rule)</strong>을 작성하여 파일, 프로세스 메모리, 네트워크 스트림에서
+        악성 시그니처를 식별할 수 있게 해줍니다. AI 정보보안 엔지니어에게는
+        자동화된 탐지 파이프라인 구축의 핵심 요소로 사용됩니다.
+    </p>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>🧬 문자열 패턴 매칭</h4>
+            <p>리터럴, 정규식, 와일드카드, XOR 등 다양한 방식으로 바이너리/텍스트 패턴을 탐지합니다.</p>
         </div>
-        <p style="margin-top: 2rem; color: var(--text-muted);">작성일: 2026.03</p>
-    </section>
-
-    <nav class="toc">
-        <h2>목차</h2>
-        <ol>
-            <li><a href="#section1">YARA란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
-        </ol>
-    </nav>
-
-    <section id="section1" class="section">
-        <h2>1. YARA란?</h2>
-        <p>YARA는 "Yet Another Recursive Acronym"의 약자로, 파일이나 메모리에서 패턴을 식별하기 위한 도구이자 규칙 언어입니다. 주로 악성코드 연구원과 보안 전문가가 특정 악성코드 패밀리나 위협 지표(IoC)를 식별하는 데 사용합니다.</p>
-        <p>YARA 규칙은 문자열, 바이트 시퀀스, 정규 표현식 등을 기반으로 한 서술적 패턴을 정의하며, 복잡한 논리 조건을 결합하여 정확한 식별을 가능하게 합니다.</p>
-        
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>패턴 매칭</h4>
-                <p>텍스트 문자열, 바이트 시퀀스, 정규 표현식을 파일이나 메모리에서 검색하여 정확히 매칭합니다. 해시 기반 검색보다 변형된 악성코드에 강력합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>메타데이터 활용</h4>
-                <p>규칙에 작성자, 설명, 참조 정보 등의 메타데이터를 포함시켜 협업과 규칙 관리를 효율화합니다. 위협 인텔리전스 공유에 적합합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>조건부 로직</h4>
-                <p>AND, OR, NOT 연산자를 활용해 복잡한 매칭 조건을 구성할 수 있습니다. 단순 패턴 이상의 정교한 식별 로직 구현이 가능합니다.</p>
-            </div>
+        <div class="concept-card">
+            <h4>🧠 조건부 로직</h4>
+            <p>카운트, 오프셋, 파일 크기, 엔트로피 등 풍부한 조건식을 조합하여 정밀한 룰을 설계할 수 있습니다.</p>
         </div>
-    </section>
-
-    <section id="section2" class="section">
-        <h2>2. 왜 써야 하는가?</h2>
-        <p>YARA는 기존의 정적 시그니처 검사나 해시 기반 검색을 보완하는 강력한 도구입니다. 아래 비교표를 통해 YARA의 장점을 확인할 수 있습니다.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>방식</th>
-                    <th>장점</th>
-                    <th>단점</th>
-                    <th>YARA 비교</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>해시 기반 (MD5/SHA256)</strong></td>
-                    <td>매우 빠름, 정확도 100%</td>
-                    <td>최소한의 변경에도 무력화, 규모 확장 비효율</td>
-                    <td>패턴 기반으로 변형에도 강함</td>
-                </tr>
-                <tr>
-                    <td><strong>정적 시그니처 (ClamAV 등)</strong></td>
-                    <td>광범위한 패밀리 커버리지</td>
-                    <td>복잡한 규칙 작성 어려움, 성능 이슈</td>
-                    <td>직관적인 규칙 문법, 높은 성능</td>
-                </tr>
-                <tr>
-                    <td><strong>머신러닝/AI 모델</strong></td>
-                    <td>미지의 위협 탐지 가능</td>
-                    <td>설명 가능성 낮음, 오탐률 관리 어려움</td>
-                    <td>명확한 규칙 기반, 설명 가능성 높음</td>
-                </tr>
-                <tr>
-                    <td><strong>YARA</strong></td>
-                    <td>높은 정확도, 변형 강인성, 협업 용이</td>
-                    <td>규칙 작성 학습 필요, 패턴 관리 부담</td>
-                    <td>-</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="callout">
-            <h4>AI 엔지니어에게 중요한 점</h4>
-            <p>YARA는 AI 기반 위협 탐지 시스템의 <strong>전처리 필터</strong>나 <strong>후처리 검증 계층</strong>으로 효과적입니다. AI 모델이 탐지한 샘플을 YARA 규칙으로 재검증하거나, YARA로 선별한 샘플을 AI 모델 학습 데이터로 활용할 수 있습니다.</p>
+        <div class="concept-card">
+            <h4>⚙️ 모듈 확장</h4>
+            <p>PE, ELF, Cuckoo, Math, Hash 등 확장 모듈을 통해 파일 포맷 및 동작 분석을 강화합니다.</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="section3" class="section">
-        <h2>3. 핵심 개념</h2>
-        <p>YARA 규칙은 크게 세 부분으로 구성됩니다: <strong>Rule Header</strong>, <strong>Strings Section</strong>, <strong>Condition Section</strong>.</p>
-        
-        <div class="diagram">
+<!-- 2. 왜 써야 하는가? -->
+<section class="section" id="s2">
+    <h2>2. 왜 써야 하는가?</h2>
+    <p>기존 시그니처 기반 탐지 방식(ClamAV, Snort 등)과 비교한 YARA의 강점은 다음과 같습니다.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>비교 항목</th>
+                <th>YARA</th>
+                <th>ClamAV</th>
+                <th>Snort (파일 탐지)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>룰 표현력</td>
+                <td>매우 풍부 (조건식, 모듈)</td>
+                <td>제한적 (시그니처 위주)</td>
+                <td>보통 (패턴 + 플러그인)</td>
+            </tr>
+            <tr>
+                <td>메모리 스캔</td>
+                <td>✅ 내장 지원</td>
+                <td>❌</td>
+                <td>부분적 (preproc)</td>
+            </tr>
+            <tr>
+                <td>속도 (단일 룰)</td>
+                <td>우수 (Aho-Corasick)</td>
+                <td>보통</td>
+                <td>좋음</td>
+            </tr>
+            <tr>
+                <td>AI/ML 연계</td>
+                <td>✅ Python 바인딩, 자동화 쉬움</td>
+                <td>어려움</td>
+                <td>중간</td>
+            </tr>
+            <tr>
+                <td>커뮤니티 룰</td>
+                <td>풍부 (YARA-Hunt, Valhalla)</td>
+                <td>많음</td>
+                <td>많음</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <p><strong>💡 AI 엔지니어 관점:</strong> YARA는 Python에서 <code>yara-python</code>으로 쉽게 임포트 가능하며, ML 기반 전처리/후처리 파이프라인에 자연스럽게 통합됩니다.</p>
+    </div>
+</section>
+
+<!-- 3. 핵심 개념 -->
+<section class="section" id="s3">
+    <h2>3. 핵심 개념</h2>
+    <p>YARA 룰은 크게 세 부분으로 구성됩니다: <strong>메타데이터(meta)</strong>, <strong>문자열 정의(strings)</strong>, <strong>조건(condition)</strong>.</p>
+    <div class="diagram">
++------------------+          +-------------------+          +-------------------+
+|   meta           |          |   strings         |          |   condition       |
+|  author          |          |  $a = "malware"   |          |  any of them      |
+|  description     | -------> |  $b = /evil\d+/i | -------> |  or all of them   |
+|  date            |          |  $c = { 6A 40 00 }|          |  #a &gt; 2          |
+|  reference       |          |  $d = "crypto" nocase|       |  filesize &lt; 1MB  |
++------------------+          +-------------------+          +-------------------+
+         |                            |                              |
+         v                            v                              v
+    [룰 식별 정보]            [탐지할 패턴 집합]            [논리 조합 &amp; 제약]
+    </div>
+    <p>룰은 <code>.yar</code> 또는 <code>.yara</code> 확장자로 저장하며, 컴파일 후 대상 파일/메모리/프로세스에 적용합니다.</p>
+
+    <h3>아키텍처 개요</h3>
+    <div class="diagram">
 ┌─────────────────────────────────────────────────────────────┐
-│                     YARA Rule Structure                     │
+│                   YARA 아키텍처 (단순화)                    │
 ├─────────────────────────────────────────────────────────────┤
-│  rule &lt;rule_name&gt; : &lt;tag1&gt; &lt;tag2&gt; ... {                    │
-│      meta:                                                  │
-│          author = "..."                                    │
-│          description = "..."                               │
-│          reference = "..."                                 │
-│                                                             │
-│      strings:                                               │
-│          $str1 = "malicious"                               │
-│          $str2 = { 6A 40 68 00 30 00 00 }                  │
-│          $reg1 = /http:\/\/[a-z0-9]+\.(com|net)/           │
-│                                                             │
-│      condition:                                             │
-│          ( $str1 or $reg1 ) and filesize &lt; 200KB            │
-│  }                                                         │
+│   [룰 파일] ──컴파일──> [룰 세트 (트리/오토마타)]          │
+│                              │                              │
+│    [대상] ──매핑/로드──> [스캐너] ──매칭──> [결과 집합]    │
+│   (파일/메모리/프로세스)     │                              │
+│                              v                              │
+│                      [매칭된 룰 + 세부 정보]                │
 └─────────────────────────────────────────────────────────────┘
-        </div>
-        
-        <h3>주요 구성 요소</h3>
-        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li><strong>Rule Header</strong>: 규칙 이름과 선택적 태그 정의</li>
-            <li><strong>Meta Section</strong>: 규칙에 대한 설명 메타데이터</li>
-            <li><strong>Strings Section</strong>: 검색할 문자열/바이트 패턴 정의</li>
-            <li><strong>Condition Section</strong>: 매칭 조건을 정의하는 부울 표현식</li>
-        </ul>
-        
-        <div class="callout warn">
-            <h4>주의사항</h4>
-            <p>YARA 규칙은 대소문자를 구분합니다. 규칙 이름, 문자열, 조건문 모두 정확한 대소문자를 사용해야 합니다.</p>
-        </div>
-    </section>
+    </div>
+    <div class="callout warn">
+        <p><strong>⚠️ 주의:</strong> YARA는 기본적으로 파일 전체를 메모리에 로드합니다. 대용량 파일(수백 MB 이상)은 <code>peek</code> 또는 <code>scan</code> 전략을 고려하세요.</p>
+    </div>
+</section>
 
-    <section id="section4" class="section">
-        <h2>4. 퀵스타트</h2>
-        
-        <h3>4.1 설치</h3>
-        <p>Python 패키지를 통해 yara-python 라이브러리 설치:</p>
-        <div class="code-block-title">CLI</div>
-        <pre><code>pip install yara-python</code></pre>
-        
-        <p>시스템 패키지 관리자 사용 (Ubuntu/Debian):</p>
-        <pre><code>sudo apt-get install yara</code></pre>
-        
-        <h3>4.2 첫 번째 YARA 규칙 작성</h3>
-        <p>간단한 악성코드 패턴을 탐지하는 규칙을 작성해봅니다.</p>
-        
-        <div class="code-block-title">malware_rule.yar</div>
-        <pre><code>rule Detect_Suspicious_PE {
+<!-- 4. 퀵스타트 -->
+<section class="section" id="s4">
+    <h2>4. 퀵스타트</h2>
+
+    <h3>4.1 설치</h3>
+    <p>macOS / Linux / Windows 모두 지원됩니다. Python 환경에서는 <code>yara-python</code>을 권장합니다.</p>
+    <pre><code># macOS (Homebrew)
+brew install yara
+
+# Linux (apt/deb)
+sudo apt-get install yara
+
+# Python (pip)
+pip install yara-python</code></pre>
+
+    <h3>4.2 첫 번째 룰 작성</h3>
+    <p><code>hello_malware.yar</code> 파일을 생성하고 아래 내용을 입력합니다.</p>
+    <pre><code>rule HelloMalware
+{
     meta:
-        author = "AI Security Team"
-        description = "의심스러운 PE 파일 특징 탐지"
-        date = "2026-03-01"
-        threat_level = "high"
-    
-    strings:
-        $mz_header = "MZ"
-        $pe_header = "PE"
-        $suspicious_string = "This program cannot be run in DOS mode"
-        $url_pattern = /https?:\/\/[a-zA-Z0-9\.\-]+\.[a-z]{2,}\/[a-zA-Z0-9\/\.\-]+/
-        $hex_pattern = { 68 ?? ?? 00 00 68 ?? ?? 00 00 }
-    
-    condition:
-        // MZ 헤더와 PE 헤더가 모두 존재 (PE 파일)
-        $mz_header at 0 and $pe_header
-        and 
-        // 의심 문자열이 있거나 URL 패턴이 존재
-        ( $suspicious_string or $url_pattern )
-        and
-        // 파일 크기가 100KB에서 10MB 사이
-        filesize > 100KB and filesize < 10MB
-}</code></pre>
-        
-        <h3>4.3 Python에서 YARA 사용하기</h3>
-        <div class="code-block-title">Python</div>
-        <pre><code>import yara
-import os
+        author = "AI-Security-Lab"
+        description = "간단한 시그니처 예제"
+        date = "2026-03"
 
-# 규칙 컴파일
-try:
-    rules = yara.compile(filepath='malware_rule.yar')
-except yara.SyntaxError as e:
-    print(f"규칙 문법 오류: {e}")
-    exit(1)
+    strings:
+        $a = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR"
+        $b = "This is not a virus" ascii wide
+
+    condition:
+        $a or $b
+}</code></pre>
+
+    <h3>4.3 스캔 실행 (CLI)</h3>
+    <pre><code># 단일 파일 스캔
+yara hello_malware.yar sample.exe
+
+# 디렉터리 전체 스캔 (재귀)
+yara -r hello_malware.yar /path/to/samples
+
+# 외부 변수 전달 (예: 파일 크기 제한)
+yara -d max_size=1048576 hello_malware.yar sample.bin</code></pre>
+
+    <h3>4.4 Python에서 사용</h3>
+    <pre><code>import yara
+
+# 룰 컴파일
+rules = yara.compile(source='''
+rule HelloMalware
+{
+    strings:
+        $a = "EICAR"
+    condition:
+        $a
+}
+''')
 
 # 파일 스캔
-def scan_file(file_path):
-    if not os.path.exists(file_path):
-        print(f"파일 없음: {file_path}")
-        return
-    
-    try:
-        matches = rules.match(file_path)
-        if matches:
-            print(f"[탐지] {file_path}")
-            for match in matches:
-                print(f"  규칙: {match.rule}")
-                print(f"  태그: {', '.join(match.tags) if match.tags else '없음'}")
-                print(f"  네임스페이스: {match.namespace}")
-                print(f"  매칭 문자열:")
-                for string in match.strings:
-                    print(f"    - {string[1]} at offset {string[0]}")
-        else:
-            print(f"[정상] {file_path}")
-    except Exception as e:
-        print(f"스캔 오류: {e}")
+matches = rules.match('sample.exe')
+for m in matches:
+    print(f'룰 매치: {m.rule}')
+    for s in m.strings:
+        print(f'  → 문자열 @ {s.instances[0].offset}: {s.identifier}')</code></pre>
+    <div class="callout">
+        <p><strong>🔁 팁:</strong> <code>yara.compile(filepath=...)</code>로 외부 룰 파일을 직접 로드할 수도 있습니다.</p>
+    </div>
+</section>
 
-# 디렉토리 배치 스캔
-def batch_scan(directory):
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            file_path = os.path.join(root, file)
-            scan_file(file_path)
+<!-- 5. 핵심 설정 레퍼런스 -->
+<section class="section" id="s5">
+    <h2>5. 핵심 설정 레퍼런스</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>설정 / 옵션</th>
+                <th>설명</th>
+                <th>예시</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>strings</code> 타입</td>
+                <td>ascii / wide / xor / fullword / nocase 등</td>
+                <td><code>$x = "evil" nocase wide</code></td>
+            </tr>
+            <tr>
+                <td><code>condition</code> 연산자</td>
+                <td><code>and, or, not, for..of, #, @, !, filesize, entrypoint</code></td>
+                <td><code>#a &gt; 2 and filesize &lt; 500KB</code></td>
+            </tr>
+            <tr>
+                <td><code>peek()</code></td>
+                <td>파일의 특정 영역만 읽어 메모리 절약</td>
+                <td><code>peek(0x100, 512)</code></td>
+            </tr>
+            <tr>
+                <td><code>import</code> 모듈</td>
+                <td><code>pe</code>, <code>elf</code>, <code>math</code>, <code>hash</code>, <code>cuckoo</code></td>
+                <td><code>import "pe"</code> → <code>pe.number_of_sections</code></td>
+            </tr>
+            <tr>
+                <td><code>external</code> 변수</td>
+                <td>CLI <code>-d</code> 또는 Python dict로 전달</td>
+                <td><code>condition: ext_var == true</code></td>
+            </tr>
+            <tr>
+                <td><code>-s</code> / <code>--print-strings</code></td>
+                <td>매칭된 문자열의 위치와 내용 출력</td>
+                <td><code>yara -s rule.yar target</code></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-# 사용 예제
-if __name__ == "__main__":
-    # 단일 파일 스캔
-    scan_file("suspicious.exe")
-    
-    # 디렉토리 배치 스캔
-    # batch_scan("/path/to/scan")</code></pre>
-        
-        <h3>4.4 CLI에서 YARA 사용</h3>
-        <div class="code-block-title">CLI</div>
-        <pre><code># 기본 스캔
-yara malware_rule.yar suspicious_file.exe
+<!-- 6. 실무 팁 & 트러블슈팅 -->
+<section class="section" id="s6">
+    <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
 
-# 태그 필터링
-yara -t high malware_rule.yar suspicious_file.exe
+    <h3>자주 겪는 문제와 해결책</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>문제</th>
+                <th>원인</th>
+                <th>해결책</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>룰이 매칭되지 않음</td>
+                <td>대소문자, 인코딩, 바이트 순서</td>
+                <td><code>nocase</code>, <code>wide</code>, <code>xor</code> 수정자 확인</td>
+            </tr>
+            <tr>
+                <td>메모리 부족 (대용량 파일)</td>
+                <td>파일 전체를 한 번에 로드</td>
+                <td><code>peek()</code> 또는 <code>chunked</code> 스캔 사용</td>
+            </tr>
+            <tr>
+                <td>컴파일 오류 (unknown modifier)</td>
+                <td>오타 또는 지원되지 않는 수정자</td>
+                <td>문서 확인, <code>-v</code> 버전 체크</td>
+            </tr>
+            <tr>
+                <td>Python 바인딩 segfault</td>
+                <td>비정상 파일 / 메모리 경계 침범</td>
+                <td>try-except로 감싸거나 <code>yara.compile</code> 단계에서 예외 처리</td>
+            </tr>
+        </tbody>
+    </table>
 
-# 재귀적 디렉토리 스캔
-yara -r malware_rule.yar /path/to/directory
+    <h3>실무 팁</h3>
+    <ul style="color: var(--text-muted); padding-left: 1.5rem; margin: 0.8rem 0;">
+        <li><strong>오토마타 최적화:</strong> 반복되는 문자열은 변수화하고, <code>for..of</code>를 활용하여 룰 길이를 줄이세요.</li>
+        <li><strong>CI/CD 통합:</strong> GitHub Actions에서 <code>yara</code> 실행하여 PR마다 샘플 검증을 자동화할 수 있습니다.</li>
+        <li><strong>메모리 스캔:</strong> 프로세스 덤프(<code>procdump</code>) 후 YARA로 스캔하거나, <code>yara -p &lt;pid&gt;</code>로 실시간 스캔(Linux/macOS).</li>
+        <li><strong>룰 테스트:</strong> <code>yara -t</code> (테스트 모드)로 룰만 검증하거나, <code>--fail-on-warnings</code>로 품질 관리.</li>
+        <li><strong>성능 튜닝:</strong> 너무 많은 <code>xor(0-255)</code>는 느리므로, 우선순위 룰로 분리하세요.</li>
+    </ul>
+</section>
 
-# 결과를 JSON으로 출력
-yara -C malware_rule.yar suspicious_file.exe
+<!-- 7. 참고 자료 -->
+<section class="section" id="s7">
+    <h2>7. 참고 자료</h2>
+    <ul style="color: var(--text-muted); padding-left: 1.5rem; margin: 0.8rem 0;">
+        <li><a href="https://yara.readthedocs.io/" target="_blank" rel="noopener">YARA 공식 문서 (ReadTheDocs)</a></li>
+        <li><a href="https://github.com/VirusTotal/yara" target="_blank" rel="noopener">GitHub 저장소 (VirusTotal/yara)</a></li>
+        <li><a href="https://yaraify.abuse.ch/" target="_blank" rel="noopener">YARAify – 실시간 룰 공유 플랫폼</a></li>
+        <li><a href="https://github.com/Neo23x0/yarahunt" target="_blank" rel="noopener">YARA-Hunt – 침해 사고 대응용 룰 세트</a></li>
+        <li><a href="https://valhalla.nextron-systems.com/" target="_blank" rel="noopener">Valhalla – YARA 룰 커뮤니티</a></li>
+    </ul>
+    <div class="callout">
+        <p><strong>📚 추천:</strong> YARA 룰을 처음 작성한다면, 공식 문서의 "Writing YARA rules" 챕터와 Nextron Systems의 "YARA for Beginners"를 병행하세요.</p>
+    </div>
+</section>
 
-# 여러 규칙 파일 사용
-yara rules/ malware_rule.yar suspicious_file.exe</code></pre>
-    </section>
+<!-- Footer -->
+<footer>
+    <div class="tags">
+        <span>malware-detection</span>
+        <span>rule-based</span>
+        <span>signature</span>
+        <span>YARA</span>
+        <span>AI 보안</span>
+    </div>
+    <p>© 2026 AI 정보보안 엔지니어 스터디 가이드 · 작성일: 2026.03</p>
+    <p style="font-size:0.8rem; margin-top:0.3rem;">본 문서는 교육 목적으로 제공되며, 실제 운영 환경에 적용 전 충분한 테스트를 권장합니다.</p>
+</footer>
 
-    <section id="section5" class="section">
-        <h2>5. 핵심 설정 레퍼런스</h2>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>설정/옵션</th>
-                    <th>기본값</th>
-                    <th>설명</th>
-                    <th>실무 활용 예시</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>filesize</strong></td>
-                    <td>-</td>
-                    <td>현재 파일의 크기 (바이트)</td>
-                    <td>filesize &lt; 500KB and filesize &gt; 1KB</td>
-                </tr>
-                <tr>
-                    <td><strong>entrypoint</strong></td>
-                    <td>-</td>
-                    <td>PE 파일의 진입점 오프셋</td>
-                    <td>entrypoint == 0x1000</td>
-                </tr>
-                <tr>
-                    <td><strong>imports</strong></td>
-                    <td>-</td>
-                    <td>PE 파일의 임포트 함수 확인</td>
-                    <td>imports contains ("CreateRemoteThread", "VirtualAlloc")</td>
-                </tr>
-                <tr>
-                    <td><strong>exports</strong></td>
-                    <td>-</td>
-                    <td>PE 파일의 익스포트 함수 확인</td>
-                    <td>exports contains "malicious_function"</td>
-                </tr>
-                <tr>
-                    <td><strong>strings</strong></td>
-                    <td>-</td>
-                    <td>문자열 카운트/인덱스 접근</td>
-                    <td>#str1 &gt; 3 or @str1[0] &lt; 100</td>
-                </tr>
-                <tr>
-                    <td><strong>pe</strong> 모듈</td>
-                    <td>비활성</td>
-                    <td>PE 파일 구조 분석 모듈</td>
-                    <td>pe.characteristics &amp; 0x2000</td>
-                </tr>
-                <tr>
-                    <td><strong>elf</strong> 모듈</td>
-                    <td>비활성</td>
-                    <td>ELF 파일 분석 모듈</td>
-                    <td>elf.type == elf.ET_EXEC</td>
-                </tr>
-                <tr>
-                    <td><strong>math</strong> 모듈</td>
-                    <td>비활성</td>
-                    <td>수학 연산 함수 제공</td>
-                    <td>math.entropy(0, filesize) &gt; 7.5</td>
-                </tr>
-                <tr>
-                    <td><strong>time</strong> 모듈</td>
-                    <td>비활성</td>
-                    <td>시간 관련 함수 제공</td>
-                    <td>time.now() &gt; 2026</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="callout">
-            <h4>모듈 활성화 방법</h4>
-            <p>YARA 모듈은 기본적으로 비활성화되어 있습니다. 사용하려면 Python 코드에서 명시적으로 활성화하거나 CLI에서 모듈을 로드해야 합니다.</p>
-            <pre><code># Python에서 모듈 활성화
-rules = yara.compile(
-    source='rule test { condition: true }',
-    modules=['pe', 'math', 'time']
-)</code></pre>
-        </div>
-    </section>
-
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
-        
-        <h3>자주 겪는 문제와 해결책</h3>
-        
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>문제: 성능 저하</h4>
-                <p><strong>증상</strong>: 대용량 파일 스캔 시 매우 느림</p>
-                <p><strong>원인</strong>: 너무 많은 정규식, 광범위한 와일드카드</p>
-                <p><strong>해결책</strong>:</p>
-                <ul>
-                    <li>정규식보다는 문자열 리터럴 우선 사용</li>
-                    <li>와일드카드 범위 제한: ?? 대신 [A-F][0-9]</li>
-                    <li>파일 크기 조건으로 조기 필터링</li>
-                </ul>
-            </div>
-            
-            <div class="concept-card">
-                <h4>문제: 오탐률 높음</h4>
-                <p><strong>증상</strong>: 정상 파일까지 악성코드로 탐지</p>
-                <p><strong>원인</strong>: 너무 일반적인 패턴 사용</p>
-                <p><strong>해결책</strong>:</p>
-                <ul>
-                    <li>패턴 조합 사용: 단일 패턴이 아닌 AND 조건</li>
-                    <li>컨텍스트 추가: 특정 오프셋에서만 매칭</li>
-                    <li>거짓 양성 데이터셋으로 테스트</li>
-                </ul>
-            </div>
-            
-            <div class="concept-card">
-                <h4>문제: 규칙 관리 어려움</h4>
-                <p><strong>증상</strong>: 규칙 수가 많아지고 충돌 발생</p>
-                <p><strong>원인</strong>: 체계적인 규칙 관리 부재</p>
-                <p><strong>해결책</strong>:</p>
-                <ul>
-                    <li>태그 체계 도입: malware, ransomware, info_stealer</li>
-                    <li>네임스페이스 분리: rules/{vendor}/{malware_family}</li>
-                    <li>규칙 버전 관리: meta section에 version 필드 추가</li>
-                </ul>
-            </div>
-        </div>
-        
-        <h3>고급 실무 팁</h3>
-        
-        <div class="callout">
-            <h4>팁 1: 엔트로피 기반 탐지</h4>
-            <p>패킹된 악성코드는 높은 엔트로피를 가집니다. math 모듈의 entropy() 함수를 활용:</p>
-            <pre><code>rule High_Entropy_Packed {
-    meta:
-        description = "높은 엔트로피를 가진 패킹 파일 탐지"
-    
-    condition:
-        math.entropy(0, filesize) > 7.8
-        and
-        filesize > 50KB and filesize < 2MB
-}</code></pre>
-        </div>
-        
-        <div class="callout">
-            <h4>팁 2: AI와 연동한 동적 규칙 생성</h4>
-            <p>AI 모델이 발견한 패턴을 YARA 규칙으로 자동 생성:</p>
-            <pre><code>import yara
-import json
-
-def create_rule_from_ai_findings(finding_id, patterns, metadata):
-    """AI 분석 결과로부터 YARA 규칙 생성"""
-    rule_template = """
-rule AI_Detected_{rule_id} {{
-    meta:
-        ai_finding_id = "{finding_id}"
-        confidence = {confidence}
-        generated_at = "{timestamp}"
-    
-    strings:
-{strings}
-    
-    condition:
-{condition}
-}}
-"""
-    
-    strings_section = ""
-    for i, pattern in enumerate(patterns.get('strings', [])):
-        strings_section += f'        $ai_str{i} = "{pattern}"\n'
-    
-    for i, hex_pattern in enumerate(patterns.get('hex_patterns', [])):
-        strings_section += f'        $ai_hex{i} = {{ {hex_pattern} }}\n'
-    
-    # 조건 생성 (모든 패턴이 존재해야 함)
-    condition = "        "
-    all_patterns = [f'$ai_str{i}' for i in range(len(patterns.get('strings', [])))]
-    all_patterns += [f'$ai_hex{i}' for i in range(len(patterns.get('hex_patterns', [])))]
-    
-    if all_patterns:
-        condition += " and ".join(all_patterns)
-    else:
-        condition += "false"
-    
-    return rule_template.format(
-        rule_id=finding_id.replace("-", "_"),
-        finding_id=finding_id,
-        confidence=metadata.get('confidence', 0.8),
-        timestamp=metadata.get('timestamp', '2026-03-01'),
-        strings=strings_section,
-        condition=condition
-    )
-
-# 사용 예제
-ai_findings = {
-    'finding_id': 'malware-xyz-123',
-    'patterns': {
-        'strings': ['evil.com', 'malicious payload'],
-        'hex_patterns': ['E8 ?? ?? ?? ?? 83 C4 04']
-    },
-    'metadata': {
-        'confidence': 0.92,
-        'timestamp': '2026-03-01T12:00:00Z'
-    }
-}
-
-yara_rule = create_rule_from_ai_findings(**ai_findings)
-print(yara_rule)</code></pre>
-        </div>
-        
-        <div class="callout warn">
-            <h4>주의: 메모리 사용량</h4>
-            <p>YARA는 규칙 컴파일 시 메모리에 로드합니다. 수만 개의 규칙을 동시에 사용하면 메모리 사용량이 급증할 수 있습니다. 규칙을 논리적 그룹으로 나누고 필요할 때만 로드하는 전략을 고려하세요.</p>
-        </div>
-    </section>
-
-    <section id="section7" class="section">
-        <h2>7. 참고 자료</h2>
-        
-        <ul style="margin-left: 1.5rem;">
-            <li><a href="https://yara.readthedocs.io/" target="_blank">YARA 공식 문서</a> - 가장 완전한 공식 레퍼런스</li>
-            <li><a href="https://github.com/Yara-Rules/rules" target="_blank">YARA Rules GitHub</a> - 커뮤니티 규칙 모음</li>
-            <li><a href="https://virustotal.github.io/yara/" target="_blank">VirusTotal YARA</a> - VirusTotal의 YARA 가이드</li>
-            <li><a href="https://www.nextron-systems.com/yara/" target="_blank">YARA Rule Generator</a> - 시각적 규칙 생성 도구</li>
-            <li><a href="https://github.com/InQuest/awesome-yara" target="_blank">Awesome YARA</a> - YARA 관련 리소스 모음</li>
-            <li><a href="https://www.bsk-consulting.de/2015/02/16/write-simple-sound-yara-rules/" target="_blank">효율적인 YARA 규칙 작성 가이드</a></li>
-        </ul>
-        
-        <div class="callout">
-            <h4>학습 경로 추천</h4>
-            <ol style="margin-left: 1.5rem;">
-                <li>공식 문서의 "Writing YARA rules" 섹션 숙지</li>
-                <li>GitHub의 예제 규칙 분석 및 수정</li>
-                <li>실제 악성코드 샘플에 대한 규칙 작성 연습</li>
-                <li>성능 최적화 기법 학습</li>
-                <li>AI 시스템과의 통합 패턴 설계</li>
-            </ol>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 AI 정보보안 엔지니어 커뮤니티</p>
-        <p>본 문서는 교육 목적으로 작성되었으며, 실제 보안 운영에 적용 시 테스트 환경에서 충분히 검증해야 합니다.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-            문서 버전: 1.0 | 최종 업데이트: 2026년 3월
-        </p>
-    </footer>
 </body>
 </html>
