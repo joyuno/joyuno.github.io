@@ -922,3 +922,9 @@
   tags: ["adversarial-ml", "ai-red-team", "ibm"]
   date: "2026-07-09"
   url: "/study-guides/adversarial-robustness-toolbox-study-guide.html"
+- keyword: "Garak"
+  slug: "garak"
+  category: "security"
+  tags: ["llm-security", "vulnerability-scanner"]
+  date: "2026-07-10"
+  url: "/study-guides/garak-study-guide.html"
