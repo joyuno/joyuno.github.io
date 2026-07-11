@@ -928,3 +928,9 @@
   tags: ["llm-security", "vulnerability-scanner"]
   date: "2026-07-10"
   url: "/study-guides/garak-study-guide.html"
+- keyword: "Okta"
+  slug: "okta"
+  category: "security"
+  tags: ["iam", "sso", "identity"]
+  date: "2026-07-11"
+  url: "/study-guides/okta-study-guide.html"
