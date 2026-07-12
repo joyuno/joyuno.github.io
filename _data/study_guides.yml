@@ -934,3 +934,9 @@
   tags: ["iam", "sso", "identity"]
   date: "2026-07-11"
   url: "/study-guides/okta-study-guide.html"
+- keyword: "CyberArk"
+  slug: "cyberark"
+  category: "security"
+  tags: ["pam", "privileged-access", "vault"]
+  date: "2026-07-13"
+  url: "/study-guides/cyberark-study-guide.html"
