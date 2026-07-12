@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberArk 실무 스터디 가이드 | AI/정보보안 엔지니어</title>
+    <title>CyberArk 실무 스터디 가이드 · AI 보안 엔지니어</title>
     <style>
+        /* ----- 다크 테마 CSS 변수 (요구사항) ----- */
         :root {
             --bg: #0d1117;
             --surface: #161b22;
@@ -18,467 +19,490 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ----- 글로벌 리셋 & 베이스 ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg);
             color: var(--text);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            padding: 20px;
+            padding: 2rem 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        h1, h2, h3 { margin-top: 2rem; margin-bottom: 1rem; color: var(--accent); }
-        h1 { font-size: 2.5rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
-        h2 { font-size: 1.8rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-        h3 { font-size: 1.3rem; color: var(--accent3); }
-        p { margin-bottom: 1rem; }
-        ul, ol { margin-left: 2rem; margin-bottom: 1.5rem; }
-        li { margin-bottom: 0.5rem; }
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface2);
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: var(--accent3);
+
+        /* ----- 링크 & 강조 ----- */
+        a {
+            color: var(--accent);
+            text-decoration: none;
         }
-        pre {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1rem;
-            overflow-x: auto;
-            margin-bottom: 1.5rem;
-            font-family: 'Courier New', Courier, monospace;
-            line-height: 1.4;
+        a:hover {
+            text-decoration: underline;
         }
-        pre code { background: none; padding: 0; color: inherit; }
+
+        strong {
+            color: var(--text);
+        }
+
+        /* ----- 헤더/히어로 (hero) ----- */
         .hero {
-            text-align: center;
-            padding: 3rem 1rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
-        .hero-subtitle {
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .hero .subtitle {
             font-size: 1.2rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
+            border-left: 4px solid var(--accent2);
+            padding-left: 1rem;
         }
-        .meta-badges {
+        .hero .meta-badge {
             display: flex;
-            justify-content: center;
-            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            gap: 0.8rem 1.2rem;
+            margin-top: 1.2rem;
         }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+        .hero .meta-badge span {
+            background: var(--surface2);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
             font-size: 0.85rem;
             border: 1px solid var(--border);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
+        .hero .meta-badge .tag {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .hero .meta-badge .date {
+            color: var(--accent4);
+            border-color: var(--accent4);
+        }
+
+        /* ----- 목차 (toc) ----- */
         .toc {
-            background-color: var(--surface);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
             margin-bottom: 2.5rem;
         }
-        .toc ol { list-style-type: decimal; }
-        .toc li { margin-bottom: 0.7rem; }
-        .section {
-            margin-bottom: 3rem;
+        .toc h2 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.8rem;
+        }
+        .toc ol li {
+            counter-increment: toc-counter;
+            flex: 0 0 auto;
+        }
+        .toc ol li::before {
+            content: counter(toc-counter) ".";
+            color: var(--accent2);
+            font-weight: 600;
+            margin-right: 6px;
+        }
+        .toc ol li a {
+            color: var(--text);
+            border-bottom: 1px dotted var(--border);
+            padding-bottom: 2px;
+        }
+        .toc ol li a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ----- 섹션 공통 ----- */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem 2rem 2.2rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.6rem;
+            color: var(--accent);
+        }
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 1.5rem 0 0.8rem;
+            color: var(--text);
+        }
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        /* ----- 개념 카드 그리드 (concept-grid / concept-card) ----- */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
             margin: 1.5rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
+            background: var(--surface2);
+            border-left: 3px solid var(--accent);
+            border-radius: 16px;
+            padding: 1.4rem 1.2rem;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: border-color 0.2s;
+            transition: transform 0.1s ease;
         }
-        .concept-card:hover {
-            border-color: var(--accent);
+        .concept-card h4 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            color: var(--accent);
         }
-        .concept-card h3 {
-            margin-top: 0;
-            color: var(--accent4);
+        .concept-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0;
         }
+
+        /* ----- callout (일반 / warn) ----- */
         .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 12px;
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
+            color: var(--text);
         }
         .callout.warn {
-            border-left-color: var(--danger);
+            border-left-color: var(--accent4);
+            background: #1c1a1a;
         }
+        .callout.warn strong {
+            color: var(--accent4);
+        }
+
+        /* ----- 다이어그램 (ASCII, monospace) ----- */
         .diagram {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface);
-            padding: 1.5rem;
+            background: #0d1117;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            overflow-x: auto;
+            border-radius: 14px;
+            padding: 1.2rem 1rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
             white-space: pre;
-            font-size: 0.9rem;
-            line-height: 1.3;
-            color: var(--accent2);
+            overflow-x: auto;
+            color: var(--text);
             margin: 1.5rem 0;
         }
+
+        /* ----- 테이블 (table) ----- */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
+            font-size: 0.95rem;
         }
-        th, td {
-            border: 1px solid var(--border);
-            padding: 0.75rem 1rem;
-            text-align: left;
-        }
-        th {
-            background-color: var(--surface2);
+        table th {
+            background: var(--surface2);
             color: var(--accent);
-            font-weight: 600;
+            font-weight: 500;
+            text-align: left;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
         }
-        tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
-        footer {
+        table td {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        table tr {
+            background: var(--surface);
+        }
+        table tr:nth-child(even) {
+            background: var(--surface2);
+        }
+
+        /* ----- 코드블록 (inline / block) ----- */
+        code {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.9em;
+            color: var(--accent3);
+        }
+        pre {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem 1.2rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+        }
+        pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ----- footer ----- */
+        .footer {
             text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
             color: var(--text-muted);
             font-size: 0.9rem;
+            padding: 2rem 0 0.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: 1rem;
         }
-        .step {
-            counter-increment: step;
-            margin-bottom: 2rem;
-            padding-left: 3rem;
-            position: relative;
+
+        /* 반응형 조정 */
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .toc ol { flex-direction: column; gap: 0.3rem; }
         }
-        .step::before {
-            content: counter(step);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background-color: var(--accent);
-            color: var(--bg);
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        .steps-container { counter-reset: step; }
     </style>
 </head>
 <body>
-    <header class="hero">
-        <h1>CyberArk 실무 스터디 가이드</h1>
-        <p class="hero-subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">PAM</span>
-            <span class="badge">Privileged Access</span>
-            <span class="badge">Vault</span>
-            <span class="badge">자격증명 관리</span>
-            <span class="badge">2026.03</span>
+
+<!-- ===== Hero 섹션 ===== -->
+<header class="hero">
+    <h1>🔐 CyberArk 실무 스터디 가이드</h1>
+    <div class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</div>
+    <div class="meta-badge">
+        <span class="tag">🏷️ PAM</span>
+        <span class="tag">🏷️ privileged-access</span>
+        <span class="tag">🏷️ vault</span>
+        <span class="date">📅 2026.03</span>
+        <span>🎯 AI 정보보안 엔지니어 · 보안 전문가</span>
+    </div>
+</header>
+
+<!-- ===== 목차 (TOC) ===== -->
+<nav class="toc">
+    <h2>📋 목차</h2>
+    <ol>
+        <li><a href="#sec1">CyberArk란?</a></li>
+        <li><a href="#sec2">왜 써야 하는가?</a></li>
+        <li><a href="#sec3">핵심 개념</a></li>
+        <li><a href="#sec4">퀵스타트</a></li>
+        <li><a href="#sec5">핵심 설정 레퍼런스</a></li>
+        <li><a href="#sec6">실무 팁 &amp; 트러블슈팅</a></li>
+        <li><a href="#sec7">참고 자료</a></li>
+    </ol>
+</nav>
+
+<!-- ===== 1. CyberArk란? ===== -->
+<section class="section" id="sec1">
+    <h2>1. CyberArk란?</h2>
+    <p><strong>CyberArk</strong>는 특권 계정(Privileged Account)과 자격 증명을 중앙 관리, 모니터링, 보호하는 PAM(Privileged Access Management) 플랫폼입니다. AI 및 데이터 파이프라인에서 민감한 자격 증명을 안전하게 주입하고, 세션을 격리하며, 감사 로그를 남기는 데 필수적입니다.</p>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>🔑 자격 증명 보관</h4>
+            <p>Vault에 SSH 키, DB 패스워드, API 토큰을 암호화 저장. AI 워크플로에서 안전하게 호출.</p>
         </div>
-    </header>
+        <div class="concept-card">
+            <h4>🛡️ 세션 격리 &amp; 모니터링</h4>
+            <p>PSM(Privileged Session Manager)으로 세션을 격리, 키 입력 및 출력을 기록.</p>
+        </div>
+        <div class="concept-card">
+            <h4>🤖 자동화 &amp; DevOps 통합</h4>
+            <p>AIM, Conjur, REST API를 통해 머신 간 자격 증명 로테이션 및 애플리케이션 주입.</p>
+        </div>
+    </div>
+</section>
 
-    <nav class="toc">
-        <h2>📚 목차</h2>
-        <ol>
-            <li><a href="#section1">CyberArk란?</a></li>
-            <li><a href="#section2">왜 써야 하는가? (기존 대안과 비교)</a></li>
-            <li><a href="#section3">핵심 개념과 아키텍처</a></li>
-            <li><a href="#section4">퀵스타트: 설치부터 첫 실행까지</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
-        </ol>
-    </nav>
+<!-- ===== 2. 왜 써야 하는가? ===== -->
+<section class="section" id="sec2">
+    <h2>2. 왜 써야 하는가?</h2>
+    <p>전통적인 자격 증명 관리(하드코딩, Vaultwarden, 단순 비밀번호 관리자)는 감사, 확장성, 동적 로테이션에 한계가 있습니다. 아래 비교를 확인하세요.</p>
+    <table>
+        <thead>
+            <tr><th>영역</th><th>CyberArk</th><th>기존 대안 (파일·Env·단순 Vault)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>중앙 정책</td><td>세분화된 접근 제어, 타임박스</td><td>정적, 수동</td></tr>
+            <tr><td>감사 증적</td><td>세션 기록, 명령어 수준 로깅</td><td>제한적 또는 없음</td></tr>
+            <tr><td>자동 로테이션</td><td>기본 지원 (스케줄/이벤트 기반)</td><td>별도 스크립트 필요</td></tr>
+            <tr><td>AI/ML 파이프라인</td><td>REST API, Conjur 사이드카</td><td>보안 취약</td></tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <strong>📌 핵심</strong> — CyberArk는 규제 준수(SOC2, PCI-DSS)와 AI 인프라 보안을 동시에 만족시키는 엔터프라이즈급 PAM 표준입니다.
+    </div>
+</section>
 
-    <main>
-        <section id="section1" class="section">
-            <h2>1. CyberArk란?</h2>
-            <p><strong>CyberArk</strong>는 특권 계정 관리(Privileged Access Management, PAM) 분야의 선두주자로, 조직 내 가장 중요한 자산에 대한 접근을 보호하는 솔루션 스위트입니다. 핵심은 <code>Vault</code>라는 중앙 집중식 보안 저장소에 모든 특권 자격증명(패스워드, SSH 키, API 토큰 등)을 암호화하여 저장하고, 접근을 엄격하게 제어·감사·관리하는 것입니다.</p>
+<!-- ===== 3. 핵심 개념 (ASCII 다이어그램 포함) ===== -->
+<section class="section" id="sec3">
+    <h2>3. 핵심 개념</h2>
+    <p>CyberArk 아키텍처는 크게 <strong>Vault</strong>, <strong>PSM</strong>, <strong>AIM</strong>, <strong>CPM</strong>으로 구성됩니다. 아래 다이어그램은 AI 엔지니어가 자주 사용하는 흐름을 단순화한 것입니다.</p>
+    <div class="diagram">
++------------------+       +------------------+       +------------------+
+|   AI App/Agent   | ----> |   AIM / Conjur   | ----> |   CyberArk Vault |
+| (모델 학습/추론) |       | (자격 증명 주입) |       | (암호화 저장소)  |
++------------------+       +------------------+       +--------+---------+
+         |                                                        |
+         |  (PSM 세션 격리)                                       | (CPM 로테이션)
+         v                                                        v
++------------------+                                     +------------------+
+|  PSM (프록시)     |                                     |  CPM (정책 관리)  |
+|  세션 기록/격리   |                                     |  자동 로테이션    |
++------------------+                                     +------------------+
+    </div>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>Vault</h4>
+            <p>모든 자격 증명의 중앙 암호화 저장소. DR, 클러스터링 지원.</p>
+        </div>
+        <div class="concept-card">
+            <h4>PSM</h4>
+            <p>Privileged Session Manager – 원격 접속 세션을 격리, 감사.</p>
+        </div>
+        <div class="concept-card">
+            <h4>AIM / Conjur</h4>
+            <p>애플리케이션 자격 증명 주입. AI 파이프라인에서 API 키 동적 할당.</p>
+        </div>
+        <div class="concept-card">
+            <h4>CPM</h4>
+            <p>자격 증명 정책 관리 및 자동 로테이션.</p>
+        </div>
+    </div>
+</section>
 
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h3>🔐 자격증명 관리</h3>
-                    <p>수명주기 전반(발견, 등록, 순환, 폐기)에 대한 자동화된 관리. 정책 기반의 자동 패스워드 변경으로 공격 표면을 최소화합니다.</p>
-                </div>
-                <div class="concept-card">
-                    <h3>🚪 세션 격리 및 모니터링</h3>
-                    <p>PSM(Privileged Session Manager)을 통해 직접적인 대상 시스템 접속을 차단하고, 중계 세션을 기록·감사합니다. 모든 키스트로크와 화면을 저장.</p>
-                </div>
-                <div class="concept-card">
-                    <h3>🤖 자동화된 위협 분석</h3>
-                    <p>이상적인 접근 패턴을 AI/ML로 학습, 위험한 특권 세션(비정상 시간/위치/명령어)을 실시간 탐지하고 대응합니다.</p>
-                </div>
-            </div>
-        </section>
+<!-- ===== 4. 퀵스타트 ===== -->
+<section class="section" id="sec4">
+    <h2>4. 퀵스타트</h2>
+    <p>CyberArk 환경에서 자격 증명을 가져오는 전형적인 Python 예제와 CLI 명령어입니다.</p>
+    
+    <h3>📦 설치 (Python SDK 예시)</h3>
+    <pre><code>pip install cyberark-aim-sdk   # 공식 AIM SDK (예시)
+# 또는 REST API 직접 호출</code></pre>
 
-        <section id="section2" class="section">
-            <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
-            <p>많은 조직이 스크립트, 일반 패스워드 관리자, 또는 클라우드 네이티브 도구로 특권 계정을 관리하려 시도하지만, 다음과 같은 한계가 있습니다.</p>
+    <h3>⚙️ 설정: AIM 서비스 연결</h3>
+    <pre><code># 환경 변수 설정 (또는 Conjur 구성)
+export CYBERARK_VAULT_URL="https://vault.internal:1858"
+export CYBERARK_APP_ID="ai-pipeline-01"</code></pre>
 
-            <table>
-                <thead>
-                    <tr><th>솔루션</th><th>장점</th><th>단점 (CyberArk 대비)</th><th>적합 시나리오</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>CyberArk</strong></td>
-                        <td>통합 PAM, 강력한 감사·규정 준수, 세션 격리, 위협 분석, 높은 확장성</td>
-                        <td>복잡성, 높은 라이선스 비용, 학습 곡선</td>
-                        <td>대규모 엔터프라이즈, 금융/공공, 높은 규제 환경</td>
-                    </tr>
-                    <tr>
-                        <td>Hashicorp Vault</td>
-                        <td>API 중심, 동적 비밀, 클라우드 친화적, 오픈소스 코어</td>
-                        <td>네이티브 세션 모니터링 부재, PAM 특화 기능 미비, 운영 부담</td>
-                        <td>클라우드/DevOps, 동적 인프라, 서비스간 비밀</td>
-                    </tr>
-                    <tr>
-                        <td>1Password / LastPass Enterprise</td>
-                        <td>사용자 친화적, 쉬운 배포, 강력한 개인용 기능</td>
-                        <td>세션 격리 없음, 제한된 특권 계정 관리, 기본적인 감사 로그</td>
-                        <td>내부 직원 비밀번호 공유, 2FA 관리</td>
-                    </tr>
-                    <tr>
-                        <td>수동 관리 (스프레드시트, 로테이션 스크립트)</td>
-                        <td>초기 비용 없음, 간단한 구조</td>
-                        <td>보안 취약점 극대화, 감사 불가, human error, 규모 확장 불가</td>
-                        <td>소규모 PoC, 비권장</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="callout">
-                <strong>핵심 차별점:</strong> CyberArk는 "관리"를 넘어 "세션 격리와 행위 분석"까지 포함한 <strong>종합적인 특권 접근 보안 생태계</strong>를 제공합니다. 규정 준수(SOX, PCI-DSS, GDPR) 요구사항을 충족시키는 데 필수적입니다.
-            </div>
-        </section>
+    <h3>🐍 첫 예제: Python으로 자격 증명 가져오기</h3>
+    <pre><code>import os, requests
 
-        <section id="section3" class="section">
-            <h2>3. 핵심 개념과 아키텍처</h2>
-            <p>CyberArk 솔루션은 여러 컴포넌트로 구성됩니다. 가장 일반적인 Enterprise Architecture Vault(온프레미스) 기준의 상호작용을 ASCII로 표현합니다.</p>
+vault_url = os.environ["CYBERARK_VAULT_URL"]
+app_id = os.environ["CYBERARK_APP_ID"]
 
-            <pre class="diagram">
-    +----------------+     안전한 채널     +---------------+
-    |  관리자/사용자 | ------------------> |   PVWA        |
-    |  (Web/CLI)     |    (HTTPS/443)     |(Password Vault|
-    +----------------+                    |  Web Access)  |
-                                          +-------+-------+
-                                                  | REST API
-                                          +-------+-------+
-                                          |  Central Vault|
-                                          |  (암호화 저장) |
-                                          +-------+-------+
-                                                  | 내부 통신
-    +----------------+                    +-------+-------+    +---------------+
-    |  대상 시스템   | <----------------- |     PSM       | -> |  감사 저장소  |
-    |  (SSH, RDP, DB)|   격리된 세션     |(Privileged    |    |(세션 녹화/로그)|
-    +----------------+   (SSH/3389 터널)  | Session Manager)|   +---------------+
-                                          +----------------+
-            ↑                                    ↑
-            |                                    | CPM 통신
-    +----------------+                    +----------------+
-    |  자격증명 변경 | <----------------- |      CPM       |
-    |  (Target)      |    정기/이벤트 기반|(Credential     |
-    +----------------+                    | Password Manager)|
-                                          +----------------+
-            </pre>
+# AIM REST API 호출 (예시)
+resp = requests.get(
+    f"{vault_url}/AIMWebService/api/Accounts",
+    params={"AppID": app_id, "Safe": "AI_SAFE", "Object": "db-master-pw"},
+    verify=False  # 프로덕션에서는 인증서 적용
+)
+cred = resp.json()
+print(f"DB 계정: {cred['UserName']} / {cred['Content'][:4]}****")</code></pre>
 
-            <h3>주요 컴포넌트 설명</h3>
-            <ul>
-                <li><strong>Vault</strong>: 암호화된 자격증명 저장소. 모든 보안의 핵심.</li>
-                <li><strong>PVWA</strong>: 사용자/관리자의 웹 인터페이스. 접근 요청, 승인, 자격증명 검색.</li>
-                <li><strong>PSM</strong>: 세션을 중계하고 모든 활동을 기록하는 게이트웨이. 직접 접근 차단.</li>
-                <li><strong>CPM</strong>: 대상 시스템의 패스워드를 정책에 따라 자동으로 변경하는 엔진.</li>
-                <li><strong>PSM</strong>: 세션을 중계하고 모든 활동을 기록하는 게이트웨이. 직접 접근 차단.</li>
-            </ul>
-        </section>
+    <div class="callout warn">
+        <strong>⚠️ 주의:</strong> 프로덕션에서는 mTLS 또는 Conjur 토큰 인증을 사용하고, 로그에 자격 증명을 절대 출력하지 마세요.
+    </div>
 
-        <section id="section4" class="section">
-            <h2>4. 퀵스타트: 설치부터 첫 실행까지</h2>
-            <p>개발/테스트 환경을 위한 CyberArk CLI 및 Python SDK를 이용한 기본 플로우입니다. (가상 시나리오)</p>
+    <h3>🖥️ CLI 명령어 (cyberark-cli 예시)</h3>
+    <pre><code># cyberark-cli (가상) – 자격 증명 조회
+cyberark list accounts --safe AI_SAFE --app-id ai-pipeline-01
 
-            <div class="steps-container">
-                <div class="step">
-                    <h3>CLI 도구 설치 및 초기 설정</h3>
-                    <p>CyberArk PAS(Privileged Access Security) CLI를 다운로드하고 구성합니다.</p>
-                    <pre><code># 1. CyberArk 패키지 저장소 추가 (예시: Ubuntu/Debian)
-echo "deb [arch=amd64] https://repo.cyberark.cloud/pas/stable/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cyberark.list
-wget -qO - https://repo.cyberark.cloud/pas/stable/gpgkey | sudo apt-key add -
-sudo apt update
+# 세션 시작 (PSM)
+cyberark start-session --target root@db-server --account db-admin</code></pre>
+</section>
 
-# 2. PAS CLI 설치
-sudo apt install cyberark-pas-cli
+<!-- ===== 5. 핵심 설정 레퍼런스 ===== -->
+<section class="section" id="sec5">
+    <h2>5. 핵심 설정 레퍼런스</h2>
+    <table>
+        <thead>
+            <tr><th>설정 항목</th><th>설명</th><th>예시 값</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>Safe</code></td><td>자격 증명을 그룹화하는 논리적 컨테이너</td><td><code>AI_SAFE</code></td></tr>
+            <tr><td><code>AppID</code></td><td>AIM 애플리케이션 식별자</td><td><code>ai-pipeline-01</code></td></tr>
+            <tr><td><code>Authentication</code></td><td>Vault 인증 방식 (LDAP, 인증서, CyberArk)</td><td><code>ClientCert</code></td></tr>
+            <tr><td><code>PSM_Server</code></td><td>PSM 서버 주소</td><td><code>psm.internal:1858</code></td></tr>
+            <tr><td><code>CPM_Interval</code></td><td>자격 증명 로테이션 주기 (시간)</td><td><code>24h</code></td></tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <strong>💡 팁:</strong> AI 파이프라인에서는 <code>Safe</code>를 데이터 소스별로 분리하고, <code>AppID</code>에 워크로드 태그를 포함하세요.
+    </div>
+</section>
 
-# 3. PVWA 서버에 대한 CLI 구성
-cybr configure -s https://pvwa.example.com -u admin_user --insecure
-# 인증 후 토큰이 로컬에 저장됩니다.</code></pre>
-                </div>
+<!-- ===== 6. 실무 팁 & 트러블슈팅 ===== -->
+<section class="section" id="sec6">
+    <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+    <div class="callout warn">
+        <strong>🔥 자주 겪는 문제 1:</strong> AIM 요청 시 <code>403 Forbidden</code> → AppID가 Safe에 매핑되지 않음. PVWA에서 애플리케이션 권한 확인.
+    </div>
+    <div class="callout warn">
+        <strong>🔥 자주 겪는 문제 2:</strong> 자격 증명 만료로 파이프라인 중단 → CPM 정책 확인, 로테이션 주기를 워크로드 스케줄과 동기화.
+    </div>
+    <div class="callout warn">
+        <strong>🔥 자주 겪는 문제 3:</strong> PSM 세션 지연 → PSM 서버 리소스(CPU/메모리) 모니터링, 세션 타임아웃 조정.
+    </div>
+    <div class="callout">
+        <strong>✅ 실무 꿀팁:</strong> AI 모델 학습 전 <code>cyberark rotate</code>를 트리거하여 신선한 자격 증명을 사용하고, 실패 시 재시도 로직을 구현하세요.
+    </div>
+</section>
 
-                <div class="step">
-                    <h3>Python SDK를 이용한 첫 번째 자격증명 조회</h3>
-                    <p>CyberArk의 공식 Python 라이브러리(<code>pycyberark</code>)를 사용하여 안전한 자격증명 검색을 자동화합니다.</p>
-                    <pre><code># pip install pycyberark
-import requests
-import json
+<!-- ===== 7. 참고 자료 ===== -->
+<section class="section" id="sec7">
+    <h2>7. 참고 자료</h2>
+    <ul style="list-style: none; padding-left: 0;">
+        <li>📘 <a href="https://docs.cyberark.com/" target="_blank">CyberArk 공식 문서</a> – 제품별 가이드</li>
+        <li>📘 <a href="https://cyberark-customers.force.com/" target="_blank">CyberArk 커뮤니티</a> – Knowledge Base</li>
+        <li>📘 <a href="https://github.com/cyberark" target="_blank">GitHub · CyberArk</a> – Conjur, SDK 예제</li>
+        <li>📘 <a href="https://www.cyberark.com/resources/" target="_blank">CyberArk 리소스 허브</a> – 백서, 웨비나</li>
+    </ul>
+    <div class="callout" style="margin-top: 0.8rem;">
+        <strong>🔗 빠른 링크:</strong> <a href="https://docs.cyberark.com/aim" target="_blank">AIM REST API 레퍼런스</a> · <a href="https://docs.cyberark.com/psm" target="_blank">PSM 설정</a>
+    </div>
+</section>
 
-# PVWA REST API를 통한 인증 (예시 - 실제로는 더 안전한 방법 사용)
-def get_cyberark_token(pvwa_url, username, password):
-    auth_url = f"{pvwa_url}/PasswordVault/API/auth/CyberArk/Logon"
-    headers = {"Content-Type": "application/json"}
-    payload = {"username": username, "password": password}
-    response = requests.post(auth_url, json=payload, headers=headers, verify=False)
-    response.raise_for_status()
-    return response.json()["CyberArkLogonResult"]
+<!-- ===== Footer ===== -->
+<footer class="footer">
+    <p>CyberArk 실무 스터디 가이드 · AI 정보보안 엔지니어 · 2026.03</p>
+    <p style="font-size: 0.8rem; margin-top: 0.3rem;">PAM · Privileged Access · Vault · #CyberArk</p>
+</footer>
 
-def retrieve_account_credentials(pvwa_url, token, safe, account_name):
-    search_url = f"{pvwa_url}/PasswordVault/API/Accounts"
-    headers = {"Authorization": token, "Content-Type": "application/json"}
-    params = {"filter": f"safeName eq {safe} and username eq {account_name}"}
-    response = requests.get(search_url, headers=headers, params=params, verify=False)
-    accounts = response.json()["value"]
-    if accounts:
-        account_id = accounts[0]["id"]
-        # 실제 패스워드 검색 요청 (권한 필요)
-        retrieve_url = f"{pvwa_url}/PasswordVault/API/Accounts/{account_id}/Password/Retrieve"
-        pwd_response = requests.post(retrieve_url, headers=headers, verify=False)
-        return pwd_response.json()["value"]
-    return None
-
-# 사용 예 (실제 값으로 대체 필요)
-# TOKEN = get_cyberark_token("https://pvwa.example.com", "AppUser", "AppPass")
-# PASSWORD = retrieve_account_credentials("https://pvwa.example.com", TOKEN, "Linux-Servers", "root@prod-db01")
-# print(f"Retrieved password: {PASSWORD}")</code></pre>
-                    <div class="callout warn">
-                        <strong>주의:</strong> 실제 구현에서는 하드코딩된 자격증명을 사용하지 마세요. CyberArk의 <strong>CPM(자격증명 관리자)</strong>이나 <strong>AAM(애플리케이션 접근 관리자)</strong>를 사용하여 애플리케이션이 런타임에 안전하게 자격증명을 검색하도록 구성해야 합니다.
-                    </div>
-                </div>
-
-                <div class="step">
-                    <h3>안전한 SSH 연결 (PSM을 통한 격리)</h3>
-                    <p>PSM을 통해 대상 서버에 접속하는 방법. 직접 SSH 키를 로컬에 저장하지 않습니다.</p>
-                    <pre><code># 1. PSM을 통한 SSH 연결 명령어 생성 (PVWA API 사용)
-# 사용자는 PVWA 포털에서 'Connect' 버튼을 클릭하면 PSM 호스트와 포트를 통해 터널링된 연결 명령어를 받습니다.
-
-# 2. 받은 명령어 예시 (PSM이 중간에서 세션을 프록시함)
-# ssh -o ProxyCommand="openssl s_client -connect psm-host.example.com:443 -quiet" target-user@dummy-target
-
-# 3. 자동화 스크립트 예시 (PSM 연결 정보를 동적으로 가져와 실행)
-import subprocess
-# ... PVWA API로 PSM 연결 정보 조회 로직 ...
-psm_proxy = "openssl s_client -connect psm-host.example.com:443 -quiet"
-target = "admin@server-internal-name"
-command = ["ssh", "-o", f"ProxyCommand={psm_proxy}", target]
-# subprocess.run(command)  # 모든 트래픽이 PSM을 통해 기록됩니다.</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <section id="section5" class="section">
-            <h2>5. 핵심 설정 레퍼런스</h2>
-            <p>CyberArk 환경에서 자주 접하는 주요 정책 및 설정 값입니다.</p>
-            <table>
-                <thead>
-                    <tr><th>카테고리</th><th>설정 항목</th><th>기본값/권장값</th><th>설명</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td rowspan="3">Vault 정책</td><td>복잡성 규칙</td><td>Min 14 chars, 3 of 4(Upper,Lower,Digit,Special)</td><td>Vault 내 자격증명 생성 규칙</td></tr>
-                    <tr><td>이중 승인 (Dual Control)</td><td>활성화 (고가치 Safe)</td><td>Safe에서 계정을 검색하려면 두 명의 승인자 필요</td></tr>
-                    <tr><td>감사 로그 보존</td><td>365일 (규제에 따라 조정)</td><td>모든 접근 이력 저장 기간</td></tr>
-                    <tr><td rowspan="3">CPM 정책</td><td>패스워드 변경 주기</td><td>30-90일 (시스템 중요도에 따라)</td><td>자동 순환 주기</td></tr>
-                    <tr><td>변경 실패 재시도</td><td>3회</td><td>실패 후 재시도 횟수</td></tr>
-                    <tr><td>복구 계정</td><td>필수 구성</td><td>CPM 실패 시 수동 복구용 대체 계정</td></tr>
-                    <tr><td rowspan="3">PSM 정책</td><td>세션 녹화</td><td>활성화 (Video + Keystrokes)</td><td>모든 세션 기록</td></tr>
-                    <tr><td>세션 타임아웃</td><td>15분 (유휴 상태)</td><td>활동 없을 시 세션 종료</td></tr>
-                    <tr><td>제한된 명령어</td><td>rm -rf, del /, shutdown 등</td><td>실행 시 세션 종료 및 경고</td></tr>
-                    <tr><td rowspan="2">통합</td><td>SIEM 연동 (Syslog/Splunk)</td><td>필수 구성</td><td>중앙 감사를 위한 로그 전송</td></tr>
-                    <tr><td>타임아웃</td><td>15분 (유휴 상태)</td><td>활동 없을 시 세션 종료</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="section6" class="section">
-            <h2>6. 실무 팁 & 트러블슈팅</h2>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h3>🚨 CPM이 패스워드 변경에 실패합니다.</h3>
-                    <p><strong>증상:</strong> "Password change failed" 알림, 대상 시스템에 로그인 불가.</p>
-                    <p><strong>원인 및 해결:</strong></p>
-                    <ul>
-                        <li><strong>네트워크/방화벽:</strong> CPM 서버 → 대상 시스템 포트(SSH 22, WinRM 5985/6) 접근성 확인.</li>
-                        <li><strong>권한:</strong> CPM이 사용하는 계정에 대상 시스템의 패스워드 변경 권한이 있는지 확인.</li>
-                        <li><strong>플러그인:</strong> 대상 플랫폼(예: Oracle DB, Cisco IOS)에 맞는 CPM 플러그인이 설치·구성되었는지 확인.</li>
-                        <li><strong>복구:</strong> 미리 설정된 '복구 계정'으로 수동 접근 후 문제 해결.</li>
-                    </ul>
-                </div>
-                <div class="concept-card">
-                    <h3>🐢 PSM을 통한 연결이 매우 느립니다.</h3>
-                    <p><strong>증상:</strong> SSH/RDP 세션 지연, 반응 속도 저하.</p>
-                    <p><strong>원인 및 해결:</strong></p>
-                    <ul>
-                        <li><strong>PSM 부하:</strong> 동시 세션 수 모니터링, 필요 시 PSM 서버 추가 (Scale-out).</li>
-                        <li><strong>녹화 설정:</strong> '고해상도 비디오 녹화'가 기본일 경우, '텍스트 로깅만'으로 변경 테스트.</li>
-                        <li><strong>네트워크 경로:</strong> PSM 서버와 대상 시스템 간의 네트워크 대역폭/지연 확인.</li>
-                    </ul>
-                </div>
-                <div class="concept-card">
-                    <h3>🤖 AI/자동화 파이프라인과의 통합</h3>
-                    <p><strong>과제:</strong> CI/CD 툴, IaC, AI 모델 학습 스크립트가 안전하게 자격증명을 가져와야 함.</p>
-                    <p><strong>모범 사례:</strong></p>
-                    <ul>
-                        <li><strong>AAM 사용:</strong> 애플리케이션 ID를 활용한 OAuth 2.0 기반 인증. 하드코딩된 비밀번호 제거.</li>
-                        <li><strong>REST API + 토큰:</strong> 짧은 수명의 토큰 발급, IP 제한, 정기 순환.</li>
-                        <li><strong>Conjur 통합:</strong> CyberArk의 오소스 비밀 관리 솔루션으로 Kubernetes, Docker 환경에 최적화.</li>
-                    </ul>
-                </div>
-                <div class="concept-card">
-                    <h3>🔐 Vault 장애 시 비상 접근 절차</h3>
-                    <p><strong>시나리오:</strong> Vault 클러스터 다운, 모든 자격증명 접근 불가.</p>
-                    <p><strong>대비책:</strong></p>
-                    <ul>
-                        <li><strong>DR(재해복구) 사이트:</strong> 동기화된 보조 Vault 구성 및 정기 테스트.</li>
-                        <li><strong>비상 계정 (Break Glass):</strong> Vault 외부에 암호화되어 저장된 제한된 수의 최고 권한 계정. 물리적 안전 장치와 결합.</li>
-                        <li><strong>문서화:</strong> 장애 조치 절차를 명확히 문서화하고 정기 훈련 실시.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="section7" class="section">
-            <h2>7. 참고 자료</h2>
-            <ul>
-                <li><a href="https://docs.cyberark.com/" target="_blank">📘 CyberArk 공식 문서 포털</a> - 가장 포괄적인 레퍼런스</li>
-                <li><a href="https://developer.cyberark.com/" target="_blank">🔧 CyberArk Developer Portal</a> - API 문서, SDK, 툴킷</li>
-                <li><a href="https://www.cyberark.com/products/privileged-access-manager/conjur/" target="_blank">🐧 CyberArk Conjur (오픈소스)</a> - DevOps/클라우드 비밀 관리</li>
-                <li><a href="https://github.com/cyberark" target="_blank">💻 CyberArk GitHub</a> - 오픈소스 프로젝트 및 샘플 코드</li>
-                <li><strong>학습 경로:</strong> CyberArk Defender, Sentry, Guardian 공인 교육 과정 및 인증</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>본 가이드는 CyberArk의 공식 문서를 요약하고 실무 관점에서 재구성한 것입니다. 최신 정보는 항상 공식 채널을 참조하세요.</p>
-        <p>© 2026.03 - AI 정보보안 엔지니어 커뮤니티를 위한 스터디 자료 | 태그: <code>PAM</code> <code>Privileged-Access</code> <code>Vault</code></p>
-    </footer>
 </body>
 </html>
