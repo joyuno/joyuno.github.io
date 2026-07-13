@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloudflare WAF 실무 스터디 가이드</title>
+    <meta name="description" content="데이터 엔지니어 · AI 엔지니어를 위한 Cloudflare WAF 핵심 요약">
+    <meta name="keywords" content="waf, ddos, web-protection">
     <style>
         :root {
             --bg: #0d1117;
@@ -24,12 +26,12 @@
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
+            padding: 2rem 1.5rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
         a {
@@ -39,618 +41,486 @@
         a:hover {
             text-decoration: underline;
         }
-        .hero {
-            background: linear-gradient(135deg, var(--surface), var(--surface2));
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            margin-bottom: 2.5rem;
+        h1, h2, h3, h4 {
+            color: var(--text);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.6rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+        h3 { font-size: 1.2rem; }
+        p { margin-bottom: 1em; }
+        ul, ol { margin-bottom: 1em; padding-left: 1.5em; }
+        li { margin-bottom: 0.3em; }
+        code {
+            background: var(--surface);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #0d1117;
             border: 1px solid var(--border);
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-        .meta-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        .toc {
-            background-color: var(--surface);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border);
-        }
-        .toc h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-        .toc ol {
-            list-style-type: decimal;
-            padding-left: 1.5rem;
-        }
-        .toc li {
-            margin-bottom: 0.5rem;
-        }
-        .section {
-            background-color: var(--surface);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border);
-        }
-        .section h2 {
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--accent);
-        }
-        .section h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent3);
-        }
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .concept-card {
-            background-color: var(--surface2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent);
-        }
-        .concept-card h4 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-        .callout {
-            background-color: var(--surface2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-left: 4px solid var(--accent);
-        }
-        .callout.warn {
-            border-left-color: var(--danger);
-        }
-        .callout h4 {
-            margin-top: 0;
-            color: var(--accent);
-        }
-        .callout.warn h4 {
-            color: var(--danger);
-        }
-        .diagram {
-            background-color: var(--surface2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            font-family: 'Courier New', monospace;
-            white-space: pre;
+            border-radius: 6px;
+            padding: 1em;
             overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
-            color: var(--accent2);
-            font-size: 0.9rem;
-            line-height: 1.4;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 1.5em;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
+            margin-bottom: 1.5em;
+            font-size: 0.95em;
         }
-        table th, table td {
-            padding: 12px 15px;
-            text-align: left;
+        th, td {
             border: 1px solid var(--border);
+            padding: 0.6em 0.8em;
+            text-align: left;
         }
-        table th {
-            background-color: var(--surface2);
+        th {
+            background: var(--surface2);
+            color: var(--text);
+            font-weight: 600;
+        }
+        td {
+            background: var(--surface);
+        }
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 1em;
+        }
+        .hero .meta-badge {
+            display: inline-flex;
+            gap: 0.5em;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hero .meta-badge span {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.2em 0.8em;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        /* TOC */
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5em 2em;
+            margin-bottom: 2rem;
+        }
+        .toc h2 {
+            border-bottom: none;
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+        .toc ol {
+            list-style: decimal;
+            padding-left: 1.5em;
+            margin-bottom: 0;
+        }
+        .toc ol li {
+            margin-bottom: 0.4em;
+        }
+        .toc ol li a {
+            color: var(--text);
+        }
+        .toc ol li a:hover {
             color: var(--accent);
         }
-        table tr:nth-child(even) {
-            background-color: var(--surface2);
+        /* Section */
+        .section {
+            margin-bottom: 2.5rem;
         }
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background-color: var(--surface2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        /* Concept grid */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
         }
-        pre {
-            padding: 1.5rem;
-            overflow-x: auto;
-            margin: 1rem 0;
+        .concept-card {
+            background: var(--surface);
             border: 1px solid var(--border);
-            white-space: pre-wrap;
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+            padding: 1.2rem 1.5rem;
         }
-        .code-block {
-            position: relative;
+        .concept-card h4 {
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            color: var(--accent);
         }
-        .code-block .lang {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--border);
+        .concept-card p {
+            margin-bottom: 0;
             color: var(--text-muted);
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            border-bottom-left-radius: 4px;
         }
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
+        /* Callout */
+        .callout {
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 4px;
+            padding: 1em 1.2em;
+            margin-bottom: 1.5em;
+        }
+        .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout p {
+            margin-bottom: 0;
+        }
+        /* Diagram */
+        .diagram {
+            white-space: pre;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2em;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 1.5em;
+            color: var(--text-muted);
+        }
+        /* Footer */
+        .footer {
             border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        .step {
-            counter-increment: step-counter;
-            margin-bottom: 2rem;
-            padding-left: 3rem;
-            position: relative;
+        .footer .date {
+            display: inline-block;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.2em 0.8em;
+            margin-bottom: 0.5em;
         }
-        .step::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background-color: var(--accent);
-            color: var(--bg);
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        ol {
-            counter-reset: step-counter;
+        /* Responsive */
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .toc { padding: 1em; }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <h1>Cloudflare WAF 실무 스터디 가이드</h1>
-        <p class="subtitle">AI 정보보안 엔지니어 · 보안 전문가를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">WAF</span>
-            <span class="badge">DDoS</span>
-            <span class="badge">Web Protection</span>
-            <span class="badge">Cloudflare</span>
-            <span class="badge">실무 가이드</span>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>Cloudflare WAF 실무 스터디 가이드</h1>
+    <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+    <div class="meta-badge">
+        <span>#waf</span>
+        <span>#ddos</span>
+        <span>#web-protection</span>
+        <span>2026.03</span>
+    </div>
+</section>
+
+<!-- TOC -->
+<nav class="toc">
+    <h2>목차</h2>
+    <ol>
+        <li><a href="#s1">Cloudflare WAF란?</a></li>
+        <li><a href="#s2">왜 써야 하는가?</a></li>
+        <li><a href="#s3">핵심 개념</a></li>
+        <li><a href="#s4">퀵스타트</a></li>
+        <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+        <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+        <li><a href="#s7">참고 자료</a></li>
+    </ol>
+</nav>
+
+<!-- 1. Cloudflare WAF란? -->
+<section class="section" id="s1">
+    <h2>1. Cloudflare WAF란?</h2>
+    <p>Cloudflare WAF(Web Application Firewall)는 에지(Edge)에서 동작하는 클라우드 기반 웹 방화벽입니다. 전 세계 330개 이상의 데이터센터에서 트래픽을 검사하여 악성 요청을 차단하고, 정상 트래픽만 오리진 서버로 전달합니다.</p>
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>🛡️ OWASP Top 10 대응</h4>
+            <p>SQL 인젝션, XSS, CSRF 등 주요 웹 취약점을 사전 정의된 규칙으로 차단합니다. 사용자 정의 규칙도 지원합니다.</p>
         </div>
-        <p style="margin-top: 1.5rem; color: var(--text-muted);">작성일: 2026년 03월</p>
-    </section>
-
-    <section class="toc">
-        <h2>목차</h2>
-        <ol>
-            <li><a href="#section1">Cloudflare WAF란?</a></li>
-            <li><a href="#section2">왜 써야 하는가?</a></li>
-            <li><a href="#section3">핵심 개념</a></li>
-            <li><a href="#section4">퀵스타트</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
-        </ol>
-    </section>
-
-    <section id="section1" class="section">
-        <h2>1. Cloudflare WAF란?</h2>
-        <p>Cloudflare WAF(Web Application Firewall)는 클라우드 기반의 웹 애플리케이션 방화벽으로, 악성 트래픽을 필터링하고 웹 애플리케이션을 OWASP Top 10을 포함한 다양한 공격으로부터 보호합니다. 전역 Anycast 네트워크를 통해 초저지연 보안 서비스를 제공합니다.</p>
-        
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>1. 규칙 기반 필터링</h4>
-                <p>사용자 정의 규칙(Cloudflare Rules) 및 관리형 규칙셋(Managed Rulesets)을 통해 세밀한 트래픽 제어가 가능합니다. SQLi, XSS, 패스 트래버설 등 다양한 공격 시그니처를 차단합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>2. 머신러닝 기반 보호</h4>
-                <p>Cloudflare의 글로벌 위협 인텔리전스와 AI/ML 모델을 활용하여 제로데이 공격 및 변종 공격을 탐지합니다. WAF Attack Score를 통해 의심스러운 요청을 점수화합니다.</p>
-            </div>
-            <div class="concept-card">
-                <h4>3. API-First 보안</h4>
-                <p>RESTful API와 Terraform Provider를 제공하여 보안 정책을 코드(Infrastructure as Code)로 관리할 수 있습니다. CI/CD 파이프라인과 통합이 용이합니다.</p>
-            </div>
+        <div class="concept-card">
+            <h4>⚡ Rate Limiting &amp; DDoS</h4>
+            <p>초당 요청 수를 제한하고, L3/L7 DDoS 공격을 에지에서 흡수하여 오리진을 보호합니다. 자동 임계값 조정 기능 포함.</p>
         </div>
-    </section>
-
-    <section id="section2" class="section">
-        <h2>2. 왜 써야 하는가?</h2>
-        <p>기존 온프레미스 WAF 및 다른 클라우드 WAF 대비 Cloudflare WAF의 차별화된 장점을 비교합니다.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>비교 항목</th>
-                    <th>Cloudflare WAF</th>
-                    <th>전통적 온프레미스 WAF</th>
-                    <th>타 클라우드 WAF</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>배포 모델</strong></td>
-                    <td>글로벌 Anycast 네트워크 (Reverse Proxy)</td>
-                    <td>인라인 어플라이언스</td>
-                    <td>리전별 배포</td>
-                </tr>
-                <tr>
-                    <td><strong>성능 영향</strong></td>
-                    <td>극히 낮음 (Edge 처리)</td>
-                    <td>높음 (지연 증가)</td>
-                    <td>중간 (리전 내 처리)</td>
-                </tr>
-                <tr>
-                    <td><strong>규칙 업데이트</strong></td>
-                    <td>실시간 자동 업데이트</td>
-                    <td>수동 업데이트 필요</td>
-                    <td>주기적 업데이트</td>
-                </tr>
-                <tr>
-                    <td><strong>DDoS 보호 통합</strong></td>
-                    <td>네이티브 통합 (무제한 계층)</td>
-                    <td>별도 솔루션 필요</td>
-                    <td>제한적 통합</td>
-                </tr>
-                <tr>
-                    <td><strong>API 관리</strong></td>
-                    <td>완전한 API 지원 (Terraform, SDK)</td>
-                    <td>제한적</td>
-                    <td>부분적</td>
-                </tr>
-                <tr>
-                    <td><strong>비용 효율성</strong></td>
-                    <td>사용량 기반, 예측 가능</td>
-                    <td>고정 CAPEX + 유지보수 비용</td>
-                    <td>트래픽 양에 따라 급증 가능</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="section3" class="section">
-        <h2>3. 핵심 개념</h2>
-        <p>Cloudflare WAF의 아키텍처와 핵심 구성 요소를 ASCII 다이어그램으로 시각화합니다.</p>
-        
-        <div class="diagram">
-    ┌─────────────────────────────────────────────────────────────┐
-    │                    Client Request                           │
-    └───────────────────────────┬─────────────────────────────────┘
-                                │
-                                ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                 Cloudflare Global Network                   │
-    │  ┌────────────┐  ┌────────────┐  ┌────────────┐          │
-    │  │   Edge     │  │   Edge     │  │   Edge     │          │
-    │  │  PoP 1     │  │  PoP 2     │  │  PoP N     │          │
-    │  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘          │
-    │        │               │               │                  │
-    │  ┌─────▼──────┐  ┌─────▼──────┐  ┌─────▼──────┐          │
-    │  │   WAF      │  │   WAF      │  │   WAF      │          │
-    │  │  Engine    │  │  Engine    │  │  Engine    │          │
-    │  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘          │
-    │        │               │               │                  │
-    │  ┌─────▼──────┐  ┌─────▼──────┐  ┌─────▼──────┐          │
-    │  │  DDoS      │  │  Rate      │  │  Managed   │          │
-    │  │  Protection│  │  Limiting  │  │  Rulesets  │          │
-    │  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘          │
-    │        │               │               │                  │
-    └────────┼───────────────┼───────────────┼──────────────────┘
-             │               │               │
-             ▼               ▼               ▼
-    ┌────────┼───────────────┼───────────────┼──────────────────┐
-    │        │               │               │                  │
-    │  ┌─────▼──────┐  ┌─────▼──────┐  ┌─────▼──────┐          │
-    │  │  Custom    │  │  ML-Based  │  │  Logging   │          │
-    │  │  Rules     │  │  Filtering │  & Analytics  │          │
-    │  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘          │
-    │        │               │               │                  │
-    └────────┼───────────────┼───────────────┼──────────────────┘
-             │               │               │
-             └───────────────┼───────────────┘
-                             ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                    Origin Server                            │
-    └─────────────────────────────────────────────────────────────┘
+        <div class="concept-card">
+            <h4>🧠 AI 기반 위협 인텔리전스</h4>
+            <p>머신러닝 모델이 실시간으로 트래픽 패턴을 분석하여 알려지지 않은 공격(제로데이)도 탐지합니다. Attack Score로 위험도 평가.</p>
         </div>
-        
-        <div class="callout">
-            <h4>핵심 용어 설명</h4>
-            <p><strong>Managed Rulesets</strong>: Cloudflare에서 관리하는 사전 정의된 규칙 세트 (OWASP Core, Cloudflare Managed, WordPress 등).</p>
-            <p><strong>Custom Rules</strong>: 사용자가 작성하는 조건-동작 기반의 규칙 (필드, 연산자, 값 구성).</p>
-            <p><strong>WAF Attack Score</strong>: 요청의 악성도를 0-100 점수로 평가, 동적 차단에 활용.</p>
-            <p><strong>Rate Limiting</strong>: IP, 세션, 국가별 요청 수 제한으로 Brute Force 방지.</p>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <section id="section4" class="section">
-        <h2>4. 퀵스타트</h2>
-        <p>Cloudflare WAF를 빠르게 설정하고 첫 번째 보안 규칙을 배포하는 단계별 가이드입니다.</p>
-        
-        <ol>
-            <div class="step">
-                <h3>단계 1: 도메인 추가 및 DNS 설정</h3>
-                <p>Cloudflare 대시보드에서 도메인을 추가하고 네임서버를 변경합니다.</p>
-                <div class="code-block">
-                    <div class="lang">CLI</div>
-                    <pre># Cloudflare CLI (flarectl)을 사용한 도메인 추가 예시
-flarectl zone create --zone=example.com --jump-start=false</pre>
-                </div>
-            </div>
-            
-            <div class="step">
-                <h3>단계 2: WAF 기본 설정 활성화</h3>
-                <p>Security > WAF 메뉴에서 관리형 규칙셋을 활성화합니다.</p>
-                <div class="code-block">
-                    <div class="lang">Python</div>
-<pre>import requests
+<!-- 2. 왜 써야 하는가? -->
+<section class="section" id="s2">
+    <h2>2. 왜 써야 하는가?</h2>
+    <p>기존 온프레미스 WAF나 다른 클라우드 WAF 대비 Cloudflare WAF가 가지는 장점을 비교합니다.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>항목</th>
+                <th>Cloudflare WAF</th>
+                <th>기존 WAF (ModSecurity 등)</th>
+                <th>AWS WAF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>배포 방식</td>
+                <td>DNS 변경만으로 즉시 적용</td>
+                <td>리버스 프록시 구성 필요</td>
+                <td>ALB/CloudFront 연동 필요</td>
+            </tr>
+            <tr>
+                <td>DDoS 방어</td>
+                <td>내장 (무제한 완화)</td>
+                <td>별도 장비 필요</td>
+                <td>Shield Advanced 필요 (추가 비용)</td>
+            </tr>
+            <tr>
+                <td>규칙 업데이트</td>
+                <td>자동 (Managed Rules)</td>
+                <td>수동 업데이트</td>
+                <td>부분 자동</td>
+            </tr>
+            <tr>
+                <td>AI/ML 탐지</td>
+                <td>Attack Score, Bot Management</td>
+                <td>없음</td>
+                <td>없음 (WAF 전용)</td>
+            </tr>
+            <tr>
+                <td>성능</td>
+                <td>에지 캐싱 + 최적화 라우팅</td>
+                <td>오리진 부하 증가</td>
+                <td>리전 종속</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <p><strong>💡 결론:</strong> Cloudflare WAF는 운영 부담이 적고, DDoS 방어와 AI 기반 탐지가 통합되어 있어 데이터/AI 엔지니어링 파이프라인을 보호하기에 적합합니다.</p>
+    </div>
+</section>
 
-CLOUDFLARE_API_TOKEN = "your-api-token"
-ZONE_ID = "your-zone-id"
-headers = {
-    "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
+<!-- 3. 핵심 개념 -->
+<section class="section" id="s3">
+    <h2>3. 핵심 개념</h2>
+    <p>Cloudflare WAF의 동작 방식을 이해하기 위한 아키텍처 다이어그램입니다.</p>
+    <div class="diagram">
+        ┌─────────────────────────────────────────────────────────────┐
+        │                     Cloudflare Edge (330+ PoPs)            │
+        │                                                           │
+        │  ┌──────────┐   ┌──────────────┐   ┌──────────────────┐  │
+        │  │  Client  │──▶│  WAF Engine  │──▶│  Cache / Origin  │  │
+        │  │  Request │   │  - OWASP     │   │  - Rate Limit    │  │
+        │  └──────────┘   │  - AI/ML     │   │  - DDoS Mitigate │  │
+        │                 │  - Custom    │   └────────┬─────────┘  │
+        │                 └──────────────┘            │            │
+        │                                            ▼            │
+        │                                    ┌──────────────┐     │
+        │                                    │  Origin 서버  │     │
+        │                                    │  (Protected)  │     │
+        │                                    └──────────────┘     │
+        └─────────────────────────────────────────────────────────────┘
+          * 모든 트래픽은 WAF Engine을 거쳐 검사됨
+          * 정상 요청만 오리진에 도달
+          * 공격 트래픽은 에지에서 차단 (오리진 부하 0)
+    </div>
+    <p><strong>핵심 구성 요소:</strong></p>
+    <ul>
+        <li><strong>Managed Rulesets</strong> — Cloudflare가 관리하는 OWASP, Cloudflare 특화 규칙</li>
+        <li><strong>Custom Rules</strong> — 사용자 정의 필터 (IP, ASN, JA3, 표현식 기반)</li>
+        <li><strong>Rate Limiting</strong> — 트래픽 임계값 초과 시 차단/챌린지</li>
+        <li><strong>Attack Score</strong> — AI 기반 요청 위험 점수 (0~100)</li>
+    </ul>
+</section>
+
+<!-- 4. 퀵스타트 -->
+<section class="section" id="s4">
+    <h2>4. 퀵스타트</h2>
+    <p>Python과 Cloudflare API를 사용하여 WAF 규칙을 설정하는 예제입니다. CLI 명령어도 함께 제공합니다.</p>
+
+    <h3>4.1 사전 준비</h3>
+    <p>Cloudflare 계정과 API 토큰이 필요합니다. (Zone:Read, WAF:Edit 권한)</p>
+    <pre><code># 환경 변수 설정 (CLI)
+export CF_API_TOKEN="your_api_token_here"
+export CF_ZONE_ID="your_zone_id_here"</code></pre>
+
+    <h3>4.2 Python으로 WAF 규칙 생성</h3>
+    <pre><code>import requests
+import os
+
+API_TOKEN = os.environ["CF_API_TOKEN"]
+ZONE_ID = os.environ["CF_ZONE_ID"]
+HEADERS = {
+    "Authorization": f"Bearer {API_TOKEN}",
     "Content-Type": "application/json"
 }
 
-# OWASP Core 규칙셋 활성화
-payload = {
-    "rulesets": [
-        {
-            "id": "481f4f5f6f1c4a0a8f1c4a0a8f1c4a0a8",  # OWASP Core Ruleset ID
-            "action": "block",
-            "enabled": True
-        }
-    ]
-}
-
-response = requests.patch(
-    f"https://api.cloudflare.com/client/v4/zones/{ZONE_ID}/rulesets",
-    headers=headers,
-    json=payload
-)
-print(response.json())</pre>
-                </div>
-            </div>
-            
-            <div class="step">
-                <h3>단계 3: 첫 번째 커스텀 규칙 생성</h3>
-                <p>SQL Injection 시도를 차단하는 커스텀 규칙을 생성합니다.</p>
-                <div class="code-block">
-                    <div class="lang">Python</div>
-<pre>import requests
-
-CLOUDFLARE_API_TOKEN = "your-api-token"
-ZONE_ID = "your-zone-id"
-headers = {
-    "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
-    "Content-Type": "application/json"
-}
-
-# SQL Injection 패턴 차단 규칙
+# SQL Injection 차단 규칙 (Custom Rule)
 rule_payload = {
-    "name": "Block SQLi Attempts",
-    "description": "차단 SQL Injection 패턴",
-    "expression": """
-        http.request.uri.query contains "union" or 
-        http.request.uri.query contains "select" or
-        http.request.uri.query contains "insert" or
-        http.request.uri.query contains "drop" or
-        http.request.uri.query contains "delete"
-    """,
+    "description": "Block SQL Injection - 실무 예제",
+    "expression": "(http.request.uri.path contains \"/api/\") and (http.request.body.raw matches \"(?i)(select|union|insert|drop)\")",
     "action": "block",
     "enabled": True
 }
 
 response = requests.post(
-    f"https://api.cloudflare.com/client/v4/zones/{ZONE_ID}/rulesets/phases/http_request_firewall_custom/entrypoint",
-    headers=headers,
+    f"https://api.cloudflare.com/client/v4/zones/{ZONE_ID}/rulesets/phases/http_request_firewall_custom/rules",
+    headers=HEADERS,
     json=rule_payload
 )
-print(response.json())</pre>
-                </div>
-            </div>
-            
-            <div class="step">
-                <h3>단계 4: Rate Limiting 설정</h3>
-                <p>/admin 경로에 대한 Brute Force 공격 방지를 위한 Rate Limiting 설정</p>
-                <div class="code-block">
-                    <div class="lang">CLI</div>
-<pre># Cloudflare API를 사용한 Rate Limiting 규칙 생성
-curl -X POST "https://api.cloudflare.com/client/v4/zones/{zone_id}/rate_limits" \
--H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
--H "Content-Type: application/json" \
--d '{
-  "description": "Protect admin login from brute force",
-  "match": {
-    "request": {
-      "methods": ["POST"],
-      "schemes": ["HTTP", "HTTPS"],
-      "url_pattern": "*/admin/login"
-    }
-  },
-  "period": 60,
-  "threshold": 10,
-  "action": {
-    "mode": "simulate",
-    "timeout": 600,
-    "response": {
-      "content_type": "application/json",
-      "body": "{\"error\":\"Rate limit exceeded\"}"
-    }
-  }
-}'</pre>
-                </div>
-            </div>
-        </ol>
-    </section>
+print(response.json())</code></pre>
 
-    <section id="section5" class="section">
-        <h2>5. 핵심 설정 레퍼런스</h2>
-        <p>Cloudflare WAF의 주요 설정 옵션과 권장값을 정리한 레퍼런스 테이블입니다.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>설정 항목</th>
-                    <th>권장값</th>
-                    <th>설명</th>
-                    <th>API 필드</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Security Level</strong></td>
-                    <td>Medium</td>
-                    <td>익명 IP 및 신뢰할 수 없는 소스에 대한 도전 수준</td>
-                    <td>security_level</td>
-                </tr>
-                <tr>
-                    <td><strong>Bot Fight Mode</strong></td>
-                    <td>On</td>
-                    <td>알려진 봇 트래픽 자동 차단</td>
-                    <td>bot_fight_mode</td>
-                </tr>
-                <tr>
-                    <td><strong>OWASP Core Ruleset</strong></td>
-                    <td>Block</td>
-                    <td>OWASP Top 10 공격에 대한 기본 보호</td>
-                    <td>rulesets[].action</td>
-                </tr>
-                <tr>
-                    <td><strong>Managed Ruleset Sensitivity</strong></td>
-                    <td>Medium</td>
-                    <td>관리형 규칙의 민감도 (Low/Medium/High)</td>
-                    <td>sensitivity</td>
-                </tr>
-                <tr>
-                    <td><strong>WAF Attack Score Threshold</strong></td>
-                    <td>30</td>
-                    <td>차단을 트리거할 최소 공격 점수 (0-100)</td>
-                    <td>score_threshold</td>
-                </tr>
-                <tr>
-                    <td><strong>Rate Limiting (일반 API)</strong></td>
-                    <td>1000 req/10min</td>
-                    <td>API 엔드포인트 기본 Rate Limit</td>
-                    <td>threshold/period</td>
-                </tr>
-                <tr>
-                    <td><strong>Logging Retention</strong></td>
-                    <td>30 days</td>
-                    <td>WAF 이벤트 로그 보관 기간</td>
-                    <td>retention</td>
-                </tr>
-                <tr>
-                    <td><strong>Anomaly Detection</strong></td>
-                    <td>On</td>
-                    <td>비정상 트래픽 패턴 자동 탐지</td>
-                    <td>anomaly_detection</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+    <h3>4.3 Rate Limiting 규칙 (CLI + Python)</h3>
+    <pre><code># CLI: curl로 Rate Limiting 규칙 생성
+curl -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rate_limits" \
+  -H "Authorization: Bearer ${CF_API_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Rate limit /api - 100 req/min",
+    "match": {
+      "request": {
+        "url": "*/api/*"
+      }
+    },
+    "threshold": 100,
+    "period": 60,
+    "action": "block",
+    "enabled": true
+  }'</code></pre>
 
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
-        
-        <div class="callout">
-            <h4>팁 1: 스테이징 환경에서 먼저 테스트</h4>
-            <p>모든 WAF 규칙은 스테이징 환경에서 "Log" 모드로 테스트한 후 프로덕션에 배포하세요. False Positive로 인한 서비스 장애를 방지할 수 있습니다.</p>
-        </div>
-        
-        <div class="callout">
-            <h4>팁 2: 규칙 우선순위 관리</h4>
-            <p>Cloudflare WAF는 규칙을 순차적으로 평가합니다. 특정 규칙이 다른 규칙보다 먼저 평가되도록 우선순위를 설정하세요. 글로벌 규칙보다 로컬 규칙이 우선 적용됩니다.</p>
-        </div>
-        
-        <div class="callout warn">
-            <h4>문제 1: False Positive 차단</h4>
-            <p><strong>증상</strong>: 정상 사용자가 차단됨<br>
-            <strong>원인</strong>: 너무 광범위한 규칙 패턴, 높은 민감도 설정<br>
-            <strong>해결책</strong>:<br>
-            1. 차단 이벤트 로그에서 트리거된 규칙 ID 확인<br>
-            2. 규칙 패턴을 구체화 (예: 특정 경로만 적용)<br>
-            3. "skip" 동작으로 예외 IP 추가<br>
-            4. Attack Score 임계값 조정</p>
-        </div>
-        
-        <div class="callout warn">
-            <h4>문제 2: 성능 저하</h4>
-            <p><strong>증상</strong>: 응답 시간 증가<br>
-            <strong>원인</strong>: 복잡한 정규식, 과도한 규칙 수<br>
-            <strong>해결책</strong>:<br>
-            1. 규칙 수 최소화 (필요한 규칙만 활성화)<br>
-            2. 정규식 대신 단순 문자열 매칭 사용<br>
-            3. Rate Limiting 규칙 최적화<br>
-            4. 캐싱 계층 활용 증가</p>
-        </div>
-        
-        <div class="callout">
-            <h4>팁 3: 모니터링과 알림 설정</h4>
-            <p>Cloudflare Analytics와 웹훅을 연동하여 WAF 이벤트에 대한 실시간 알림을 설정하세요. 주요 메트릭:<br>
-            - 총 차단 요청 수<br>
-            - 상위 차단 규칙<br>
-            - 공격 소스 국가<br>
-            - Attack Score 분포</p>
-        </div>
-        
-        <div class="callout warn">
-            <h4>문제 3: API 통합 실패</h4>
-            <p><strong>증상</strong>: Terraform/API로 규칙 배포 실패<br>
-            <strong>원인</strong>: API 토큰 권한 부족, 잘못된 Zone ID<br>
-            <strong>해결책</strong>:<br>
-            1. API 토큰에 필요한 권한 확인 (Zone.WAF:Edit)<br>
-            2. Zone ID가 올바른지 확인<br>
-            3. API 요청 제한 초과 여부 확인 (1200 req/5min)<br>
-            4. Terraform 상태 파일 동기화</p>
-        </div>
-    </section>
+    <div class="callout warn">
+        <p><strong>⚠️ 주의:</strong> 실제 운영 환경에서는 규칙을 먼저 "log" 모드로 테스트한 후 "block"으로 전환하세요. Attack Score를 활용하면 더 정교한 탐지가 가능합니다.</p>
+    </div>
+</section>
 
-    <section id="section7" class="section">
-        <h2>7. 참고 자료</h2>
-        <ul style="list-style-type: none; padding-left: 0;">
-            <li style="margin-bottom: 1rem;"><a href="https://developers.cloudflare.com/waf/" target="_blank">📚 Cloudflare WAF 공식 문서</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://developers.cloudflare.com/waf/managed-rulesets/" target="_blank">🔧 관리형 규칙셋 가이드</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://developers.cloudflare.com/waf/custom-rules/" target="_blank">⚙️ 커스텀 규칙 작성 가이드</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://developers.cloudflare.com/api/operations/zoneWAFOverview" target="_blank">🔌 Cloudflare WAF API 레퍼런스</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs" target="_blank">🏗️ Terraform Provider 문서</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://www.cloudflare.com/learning/ddos/glossary/web-application-firewall-waf/" target="_blank">🎓 WAF 학습 센터</a></li>
-            <li style="margin-bottom: 1rem;"><a href="https://github.com/cloudflare/cloudflare-go" target="_blank">💻 Cloudflare Go SDK</a></li>
-        </ul>
-    </section>
+<!-- 5. 핵심 설정 레퍼런스 -->
+<section class="section" id="s5">
+    <h2>5. 핵심 설정 레퍼런스</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>설정 항목</th>
+                <th>설명</th>
+                <th>추천 값 / 예시</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Managed Rulesets</td>
+                <td>Cloudflare OWASP, Cloudflare Specials</td>
+                <td>OWASP: paranoia level 3, Specials: 모두 ON</td>
+            </tr>
+            <tr>
+                <td>Custom Rules (필터)</td>
+                <td>IP, ASN, URI, 헤더 기반 차단/허용</td>
+                <td><code>(ip.src eq 1.2.3.4) and (http.request.uri.path eq "/admin")</code></td>
+            </tr>
+            <tr>
+                <td>Rate Limiting</td>
+                <td>임계값 초과 시 차단/챌린지</td>
+                <td>API: 100 req/min, 로그인: 5 req/min</td>
+            </tr>
+            <tr>
+                <td>Attack Score</td>
+                <td>AI 기반 위험 점수 (0~100)</td>
+                <td>차단: score &gt; 60, 로그: score &gt; 30</td>
+            </tr>
+            <tr>
+                <td>Bot Management</td>
+                <td>봇 트래픽 분류 및 차단</td>
+                <td>Verified Bots: Allow, Malicious: Block</td>
+            </tr>
+            <tr>
+                <td>Security Level</td>
+                <td>챌린지 강도 (Under Attack 모드 포함)</td>
+                <td>Medium (기본), 공격 시 High</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    <footer>
-        <p>© 2026 Cloudflare WAF 실무 스터디 가이드</p>
-        <p>본 문서는 AI 정보보안 엔지니어와 보안 전문가를 위한 실무 중심의 학습 자료입니다.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-            태그: <strong>#WAF</strong> <strong>#Cloudflare</strong> <strong>#WebSecurity</strong> <strong>#DDoSProtection</strong> <strong>#AI보안</strong>
-        </p>
-    </footer>
+<!-- 6. 실무 팁 & 트러블슈팅 -->
+<section class="section" id="s6">
+    <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+    <div class="callout warn">
+        <p><strong>🔴 문제 1:</strong> 정상 트래픽이 WAF에 의해 차단됨 (False Positive)</p>
+    </div>
+    <p><strong>해결책:</strong> WAF 로그를 확인하고, 해당 요청의 Attack Score를 분석합니다. 특정 규칙이 오탐지하는 경우 <strong>Skip</strong> 규칙을 추가하거나 규칙 표현식을 조정합니다. 예를 들어 특정 User-Agent는 검사에서 제외:</p>
+    <pre><code># Python: Skip 규칙 예제 (특정 봇 허용)
+skip_payload = {
+    "description": "Skip WAF for health check bot",
+    "expression": "(http.user_agent eq \"HealthChecker/1.0\")",
+    "action": "skip",
+    "action_parameters": {"rulesets": ["all"]}
+}</code></pre>
+
+    <div class="callout warn">
+        <p><strong>🔴 문제 2:</strong> DDoS 공격 중 오리진이 다운됨</p>
+    </div>
+    <p><strong>해결책:</strong> "Under Attack" 모드를 활성화하면 모든 방문자에게 JS 챌린지가 적용됩니다. 또한 Rate Limiting 임계값을 낮추고, 오리진 IP를 Cloudflare IP로만 제한하세요.</p>
+    <pre><code># CLI: Under Attack 모드 활성화
+curl -X PATCH "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/settings/security_level" \
+  -H "Authorization: Bearer ${CF_API_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{"value": "under_attack"}'</code></pre>
+
+    <div class="callout">
+        <p><strong>💡 팁:</strong> WAF 로그는 Logpush를 통해 S3, GCS, 또는 자신의 데이터 레이크로 스트리밍할 수 있습니다. AI 엔지니어라면 이 데이터를 활용해 이상 탐지 모델을 재학습시킬 수 있습니다.</p>
+    </div>
+</section>
+
+<!-- 7. 참고 자료 -->
+<section class="section" id="s7">
+    <h2>7. 참고 자료</h2>
+    <ul>
+        <li><a href="https://developers.cloudflare.com/waf/" target="_blank" rel="noopener">Cloudflare WAF 공식 문서</a></li>
+        <li><a href="https://developers.cloudflare.com/waf/managed-rulesets/" target="_blank" rel="noopener">Managed Rulesets 가이드</a></li>
+        <li><a href="https://developers.cloudflare.com/waf/custom-rules/" target="_blank" rel="noopener">Custom Rules 표현식 참조</a></li>
+        <li><a href="https://developers.cloudflare.com/waf/rate-limiting/" target="_blank" rel="noopener">Rate Limiting 설정</a></li>
+        <li><a href="https://developers.cloudflare.com/ai-gateway/" target="_blank" rel="noopener">AI Gateway (AI 트래픽 보호)</a></li>
+    </ul>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="date">📅 2026.03 작성</div>
+    <p>Cloudflare WAF 실무 스터디 가이드 · 데이터 엔지니어 &amp; AI 엔지니어를 위한 핵심 요약</p>
+    <p style="margin-top:0.3em; font-size:0.8rem;">본 문서는 Cloudflare, Inc.와 관련이 없으며 학습 목적으로 제작되었습니다.</p>
+</footer>
+
 </body>
 </html>

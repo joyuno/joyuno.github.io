@@ -940,3 +940,9 @@
   tags: ["pam", "privileged-access", "vault"]
   date: "2026-07-13"
   url: "/study-guides/cyberark-study-guide.html"
+- keyword: "Cloudflare WAF"
+  slug: "cloudflare-waf"
+  category: "security"
+  tags: ["waf", "ddos", "web-protection"]
+  date: "2026-07-13"
+  url: "/study-guides/cloudflare-waf-study-guide.html"
