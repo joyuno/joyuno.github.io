@@ -946,3 +946,9 @@
   tags: ["waf", "ddos", "web-protection"]
   date: "2026-07-13"
   url: "/study-guides/cloudflare-waf-study-guide.html"
+- keyword: "Zscaler"
+  slug: "zscaler"
+  category: "security"
+  tags: ["zero-trust", "ztna", "sase"]
+  date: "2026-07-14"
+  url: "/study-guides/zscaler-study-guide.html"
