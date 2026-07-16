@@ -952,3 +952,9 @@
   tags: ["zero-trust", "ztna", "sase"]
   date: "2026-07-14"
   url: "/study-guides/zscaler-study-guide.html"
+- keyword: "Microsoft Sentinel"
+  slug: "microsoft-sentinel"
+  category: "security"
+  tags: ["siem", "azure", "cloud-native"]
+  date: "2026-07-16"
+  url: "/study-guides/microsoft-sentinel-study-guide.html"
