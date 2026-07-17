@@ -958,3 +958,9 @@
   tags: ["siem", "azure", "cloud-native"]
   date: "2026-07-16"
   url: "/study-guides/microsoft-sentinel-study-guide.html"
+- keyword: "Aqua Security"
+  slug: "aqua-security"
+  category: "security"
+  tags: ["container-security", "cwpp", "runtime"]
+  date: "2026-07-17"
+  url: "/study-guides/aqua-security-study-guide.html"
