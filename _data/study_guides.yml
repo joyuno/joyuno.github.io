@@ -964,3 +964,9 @@
   tags: ["container-security", "cwpp", "runtime"]
   date: "2026-07-17"
   url: "/study-guides/aqua-security-study-guide.html"
+- keyword: "SQLMap"
+  slug: "sqlmap"
+  category: "security"
+  tags: ["sql-injection", "automation", "pentest"]
+  date: "2026-07-18"
+  url: "/study-guides/sqlmap-study-guide.html"
