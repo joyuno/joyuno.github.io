@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 정보보안 엔지니어를 위한 Wireshark 실무 스터디 가이드</title>
+    <title>Wireshark 실무 스터디 가이드</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -18,553 +18,628 @@
             --accent4: #f0883e;
             --danger: #f85149;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg);
             color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
             margin: 0 auto;
         }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1rem 2rem;
             border-bottom: 1px solid var(--border);
             margin-bottom: 2rem;
         }
         .hero h1 {
             font-size: 2.8rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
         }
         .hero .subtitle {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
         }
-        .meta-badges {
+        .hero .badges {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 0.6rem;
             flex-wrap: wrap;
         }
-        .badge {
-            background-color: var(--surface2);
-            color: var(--text-muted);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .hero .badge {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
             border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
         }
+        .hero .badge.accent {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .hero .badge.accent2 {
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+        .hero .badge.accent3 {
+            border-color: var(--accent3);
+            color: var(--accent3);
+        }
+        .hero .date {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
         .toc {
-            background-color: var(--surface);
-            padding: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            border-left: 4px solid var(--accent);
+            padding: 1.5rem 2rem;
             margin-bottom: 2rem;
         }
-        .toc ol {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-        }
-        .toc li {
-            margin-bottom: 0.5rem;
-        }
-        .toc a {
+        .toc h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
             color: var(--accent);
-            text-decoration: none;
         }
-        .toc a:hover {
-            text-decoration: underline;
+        .toc ol {
+            list-style: decimal;
+            padding-left: 1.5rem;
         }
+        .toc ol li {
+            margin-bottom: 0.4rem;
+        }
+        .toc ol li a {
+            color: var(--text);
+        }
+        .toc ol li a:hover {
+            color: var(--accent);
+        }
+
+        /* Sections */
         .section {
-            margin-bottom: 3rem;
-            scroll-margin-top: 20px;
+            margin-bottom: 2.5rem;
         }
         .section h2 {
             font-size: 1.8rem;
-            color: var(--accent);
-            padding-bottom: 0.5rem;
+            font-weight: 600;
             border-bottom: 2px solid var(--border);
-            margin-bottom: 1.5rem;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
         }
         .section h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 1.2rem 0 0.6rem;
             color: var(--accent2);
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
         }
+        .section p {
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+
+        /* Concept Grid */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
         .concept-card {
-            background-color: var(--surface);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+            padding: 1.2rem 1.5rem;
+            transition: border-color 0.2s;
         }
         .concept-card:hover {
-            transform: translateY(-5px);
             border-color: var(--accent);
         }
         .concept-card h4 {
-            color: var(--accent3);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
         }
+        .concept-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Callout */
         .callout {
-            background-color: var(--surface2);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
+            background: var(--surface2);
+            border-left: 4px solid var(--accent2);
+            border-radius: 4px;
+            padding: 1rem 1.2rem;
+            margin: 1.2rem 0;
         }
         .callout.warn {
+            border-left-color: var(--accent4);
+        }
+        .callout.danger {
             border-left-color: var(--danger);
         }
-        .diagram {
-            background-color: var(--surface);
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            margin: 1.5rem 0;
-            line-height: 1.4;
+        .callout p {
+            margin-bottom: 0.2rem;
+        }
+        .callout p:last-child {
+            margin-bottom: 0;
+        }
+        .callout strong {
             color: var(--accent2);
         }
+        .callout.warn strong {
+            color: var(--accent4);
+        }
+
+        /* Diagram */
+        .diagram {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            white-space: pre;
+            overflow-x: auto;
+            color: var(--text);
+            margin: 1.2rem 0;
+        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background-color: var(--surface);
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
         }
-        table th, table td {
+        table th,
+        table td {
+            padding: 0.6rem 1rem;
             border: 1px solid var(--border);
-            padding: 0.8rem 1rem;
             text-align: left;
         }
         table th {
-            background-color: var(--surface2);
+            background: var(--surface2);
             color: var(--accent);
             font-weight: 600;
         }
-        code, pre {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--surface2);
-            border-radius: 4px;
+        table td {
+            background: var(--surface);
         }
-        code {
-            padding: 2px 6px;
-            font-size: 0.9em;
+        table tr:hover td {
+            background: var(--surface2);
         }
+
+        /* Code blocks */
         pre {
-            padding: 1.2rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
             overflow-x: auto;
             margin: 1rem 0;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            line-height: 1.5;
+            color: var(--text);
+        }
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+            background: var(--surface2);
+            padding: 0.1em 0.3em;
+            border-radius: 3px;
         }
         pre code {
+            background: transparent;
             padding: 0;
-            background-color: transparent;
+            border-radius: 0;
         }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
             border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        a {
+        footer a {
             color: var(--accent);
         }
-        a:hover {
-            color: var(--accent4);
-        }
-        .step {
-            margin-bottom: 2rem;
-        }
-        .step h4 {
-            color: var(--accent4);
-            margin-bottom: 0.5rem;
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body { padding: 1rem 0.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .toc { padding: 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <h1>Wireshark 실무 스터디 가이드</h1>
-        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
-        <div class="meta-badges">
-            <span class="badge">Packet Analysis</span>
-            <span class="badge">Network Forensics</span>
-            <span class="badge">AI Security</span>
-            <span class="badge">Updated: 2026.03</span>
-        </div>
-    </section>
+<div class="container">
 
-    <nav class="toc">
-        <h3>목차</h3>
+    <!-- Hero -->
+    <header class="hero">
+        <h1>🦈 Wireshark 실무 스터디 가이드</h1>
+        <p class="subtitle">데이터 엔지니어 · AI 엔지니어를 위한 핵심 요약</p>
+        <div class="badges">
+            <span class="badge accent">packet-analysis</span>
+            <span class="badge accent2">network</span>
+            <span class="badge accent3">forensics</span>
+            <span class="badge">#tshark</span>
+            <span class="badge">#pcap</span>
+        </div>
+        <div class="date">📅 2026.03 작성</div>
+    </header>
+
+    <!-- TOC -->
+    <nav class="toc" id="toc">
+        <h2>📑 목차</h2>
         <ol>
-            <li><a href="#section1">Wireshark란?</a></li>
-            <li><a href="#section2">왜 써야 하는가? (대안 비교)</a></li>
-            <li><a href="#section3">핵심 개념 (아키텍처)</a></li>
-            <li><a href="#section4">퀵스타트: 설치 → 설정 → 첫 예제</a></li>
-            <li><a href="#section5">핵심 설정 레퍼런스</a></li>
-            <li><a href="#section6">실무 팁 & 트러블슈팅</a></li>
-            <li><a href="#section7">참고 자료</a></li>
+            <li><a href="#s1">Wireshark란?</a></li>
+            <li><a href="#s2">왜 써야 하는가?</a></li>
+            <li><a href="#s3">핵심 개념</a></li>
+            <li><a href="#s4">퀵스타트</a></li>
+            <li><a href="#s5">핵심 설정 레퍼런스</a></li>
+            <li><a href="#s6">실무 팁 &amp; 트러블슈팅</a></li>
+            <li><a href="#s7">참고 자료</a></li>
         </ol>
     </nav>
 
-    <section id="section1" class="section">
+    <!-- 1. Wireshark란? -->
+    <section class="section" id="s1">
         <h2>1. Wireshark란?</h2>
-        <p>Wireshark는 네트워크 패킷을 캡처하고 분석하는 데 사실상 표준(de facto standard)으로 사용되는 오픈 소스 프로토콜 분석기입니다. 네트워크 트래픽을 깊이 들여다볼 수 있는 "X-Ray 비전"을 제공한다고 볼 수 있습니다.</p>
+        <p><strong>Wireshark</strong>는 네트워크 인터페이스를 통과하는 패킷을 실시간으로 캡처하고, 저장된 pcap 파일을 분석할 수 있는 오픈소스 패킷 분석 도구입니다. 전 세계 보안 전문가와 네트워크 엔지니어에게 사실상의 표준(de facto standard)으로 자리잡고 있습니다.</p>
+
+        <h3>3대 핵심 능력</h3>
         <div class="concept-grid">
             <div class="concept-card">
-                <h4>1. 캡처 (Capture)</h4>
-                <p>네트워크 인터페이스에서 실시간으로 패킷을 수집합니다. Promiscuous 모드 지원으로 호스트에 도착하는 모든 트래픽을 캡처 가능합니다.</p>
+                <h4>📡 패킷 캡처</h4>
+                <p>이더넷, Wi-Fi, loopback 등 다양한 인터페이스에서 실시간 트래픽을 캡처. BPF 필터로 필요한 패킷만 수집 가능.</p>
             </div>
             <div class="concept-card">
-                <h4>2. 디코딩 (Decode)</h4>
-                <p>원시 이더넷 프레임을 3,000개 이상의 프로토콜로 해석하여 가독성 있는 형태로 계층별로 표시합니다. (Ethernet → IP → TCP → HTTP)</p>
+                <h4>🔍 프로토콜 분석</h4>
+                <p>TCP/IP, HTTP, DNS, TLS, QUIC 등 3,000개 이상의 프로토콜을 디코딩하여 계층별 상세 정보 제공.</p>
             </div>
             <div class="concept-card">
-                <h4>3. 분석 (Analyze)</h4>
-                <p>통계, 대화(Conversation) 추적, 흐름 그래프 생성, 필터링을 통해 패턴, 이상 징후, 성능 문제를 발견합니다.</p>
+                <h4>🛠 네트워크 트러블슈팅</h4>
+                <p>지연, 재전송, 패킷 손실, 비정상 플로우 탐지. 통계 도구(IO 그래프, 대화 목록)로 병목 식별.</p>
             </div>
         </div>
     </section>
 
-    <section id="section2" class="section">
-        <h2>2. 왜 써야 하는가? (기존 대안과 비교)</h2>
-        <p>AI/데이터 파이프라인의 네트워크 문제를 진단할 때 명령줄 도구만으로는 한계가 있습니다. Wireshark의 시각적, 상호작용적 분석이 주는 이점을 비교합니다.</p>
+    <!-- 2. 왜 써야 하는가? -->
+    <section class="section" id="s2">
+        <h2>2. 왜 써야 하는가?</h2>
+        <p>Wireshark는 GUI 기반의 강력한 분석 환경을 제공합니다. 아래 표는 주요 대안과의 비교입니다.</p>
+
         <table>
             <thead>
                 <tr>
                     <th>도구</th>
-                    <th>장점</th>
-                    <th>단점 (AI/데이터 엔지니어 관점)</th>
-                    <th>Wireshark 차별점</th>
+                    <th>인터페이스</th>
+                    <th>필터링</th>
+                    <th>프로토콜 디코딩</th>
+                    <th>스크립트 가능</th>
+                    <th>추천 용도</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>tcpdump</strong></td>
-                    <td>가볍고, 서버 헤드리스 환경에 최적, 스크립팅 용이</td>
-                    <td>실시간 시각화 부재, 복잡한 필터 학습 곡선, 대용량 덤프 분석 비효율</td>
-                    <td>GUI를 통한 직관적 탐색, 프로토콜 디코딩 깊이, 통계 도구 풍부</td>
+                    <td><strong>Wireshark</strong></td>
+                    <td>GUI + CLI (tshark)</td>
+                    <td>Display/BPF 필터</td>
+                    <td>3,000+ 프로토콜</td>
+                    <td>Lua, Python (pyshark)</td>
+                    <td>심층 분석, 포렌식</td>
                 </tr>
                 <tr>
-                    <td><strong>tshark (CLI)</strong></td>
-                    <td>Wireshark 엔진의 CLI 버전, 자동화에 적합</td>
-                    <td>GUI의 시각적 연결성 부재, 일회성 분석에 비효율적</td>
-                    <td>동일 엔진 기반, GUI와 CLI 혼용 가능 (캡처는 tshark, 분석은 GUI)</td>
+                    <td>tcpdump</td>
+                    <td>CLI</td>
+                    <td>BPF 필터</td>
+                    <td>기본 (프로토콜 헤더)</td>
+                    <td>Shell 파이프</td>
+                    <td>경량 캡처, 서버 환경</td>
                 </tr>
                 <tr>
-                    <td><strong>Cloud Logs (AWS VPC Flow 등)</strong></td>
-                    <td>관리형 서비스, 메타데이터 수집, 대규모 스케일</td>
-                    <td>패킷 페이로드 내용 불가, 실시간 디버깅 어려움, 세부 프로토콜 분석 제한</td>
-                    <td>Full Packet Capture, 암호화 전/후 내용 분석(가능 시), 실제 애플리케이션 데이터 확인</td>
+                    <td>tshark</td>
+                    <td>CLI</td>
+                    <td>Display/BPF 필터</td>
+                    <td>Wireshark와 동일</td>
+                    <td>Shell, Python</td>
+                    <td>자동화, 원격 분석</td>
                 </tr>
                 <tr>
-                    <td><strong>Python (scapy, pyshark)</strong></td>
-                    <td>완전한 프로그래밍 가능성, AI 파이프라인 통합 용이</td>
-                    <td>실시간 대화형 분석 부재, 프로토콜 지원 범위 제한, 성능 이슈 (대용량)</td>
-                    <td>분석 결과를 바탕으로 Python 스크립트 작성에 활용 가능 (상호보완)</td>
+                    <td>Scapy (Python)</td>
+                    <td>라이브러리</td>
+                    <td>Python 코드</td>
+                    <td>수동 구현 필요</td>
+                    <td>Python</td>
+                    <td>프로토타이핑, 커스텀 도구</td>
                 </tr>
             </tbody>
         </table>
+
         <div class="callout">
-            <strong>핵심 결론:</strong> Wireshark는 <strong>심층 조사(Deep Dive)</strong>와 <strong>근본 원인 분석(Root Cause Analysis)</strong>에 필수적입니다. tshark로 캡처하고 Wireshark GUI로 분석하는 하이브리드 워크플로우를 추천합니다.
+            <p><strong>💡 핵심 포인트</strong> — Wireshark는 GUI의 직관성과 tshark의 CLI 자동화를 모두 제공합니다. AI 엔지니어는 pyshark를 활용하여 대규모 pcap 데이터를 파이프라인에 통합할 수 있습니다.</p>
         </div>
     </section>
 
-    <section id="section3" class="section">
-        <h2>3. 핵심 개념: Wireshark 아키텍처</h2>
-        <p>Wireshark는 모듈식 아키텍처로 구성되어 있으며, 캡처부터 표시까지의 데이터 흐름을 이해해야 효율적으로 사용할 수 있습니다.</p>
+    <!-- 3. 핵심 개념 -->
+    <section class="section" id="s3">
+        <h2>3. 핵심 개념</h2>
+        <p>Wireshark의 내부 동작 흐름을 이해하면 필터와 분석 옵션을 효과적으로 사용할 수 있습니다.</p>
+
         <div class="diagram">
- +-----------------------+
- |     [네트워크 인터페이스]     |
- |  (eth0, en0, adapter)  |
- +-----------+-----------+
-             | (Raw Packets)
-             v
- +-----------------------+
- |    캡처 엔진 (libpcap)    |
- |   (WinPcap/Npcap)     |
- +-----------+-----------+
-             | (Packet Buffer)
-             v
- +-----------------------+
- |   디스섹터/디코더 계층     |
- | (Dissectors) - Protocol|
- |  TCP, HTTP, TLS, etc. |
- +-----------+-----------+
-             | (Decoded Data)
-             v
- +-----------------------+
- |    패킷 분석 코어       |
- | (Filters, Statistics, |
- |  Flow Tracking)       |
- +-----------+-----------+
-             | (UI/CLI Output)
-             v
- +-----------------------+
- |    사용자 인터페이스      |
- |  (GUI: Qt / CLI: TShark)|
- +-----------------------+
++------------------+      +-------------------+      +------------------+
+|  Network Interface|----->|  Capture Engine   |----->|  Packet Filter   |
+| (eth0, wlan0, ..) |      | (libpcap/Npcap)   |      | (BPF / Display)  |
++------------------+      +-------------------+      +------------------+
+                                 |                            |
+                                 v                            v
+                          +-------------------+      +------------------+
+                          |  Protocol Dissector|----->|  Analysis &      |
+                          | (3,000+ 프로토콜)   |      |  Visualization   |
+                          +-------------------+      +------------------+
+                                 |                            |
+                                 v                            v
+                          +-------------------+      +------------------+
+                          |  Packet List      |      |  Statistics      |
+                          |  Packet Details   |      |  IO Graph, Flow  |
+                          |  Packet Bytes     |      |  Conversations   |
+                          +-------------------+      +------------------+
         </div>
-        <h3>주요 컴포넌트 설명</h3>
-        <ul>
-            <li><strong>libpcap / WinPcap / Npcap</strong>: OS별 패킷 캡처 라이브러리. Wireshark의 캡처 기반.</li>
-            <li><strong>디스섹터(Dissector)</strong>: 특정 프로토콜(예: HTTP/2, Kafka, MQTT)을 해석하는 플러그인 모듈. 커스텀 디스섹터 작성 가능.</li>
-            <li><strong>필터 엔진</strong>: BPF(Berkeley Packet Filter) 구문과 Wireshark Display Filter 구문을 처리.</li>
-            <li><strong>Qt GUI</strong>: 기본 사용자 인터페이스. TShark는 동일 엔진의 명령줄 버전.</li>
+
+        <h3>주요 용어</h3>
+        <ul style="margin-left:1.5rem; margin-bottom:1rem;">
+            <li><strong>Capture Filter</strong> (BPF) — 캡처 시점에 패킷을 걸러냅니다. 예: <code>tcp port 80</code></li>
+            <li><strong>Display Filter</strong> — 이미 캡처된 패킷 중 조건에 맞는 것만 표시합니다. 예: <code>http.request.method == "GET"</code></li>
+            <li><strong>Dissector</strong> — 각 프로토콜의 헤더와 페이로드를 해석하는 플러그인입니다.</li>
+            <li><strong>Follow Stream</strong> — TCP/UDP/TLS 스트림을 재조립하여 전체 대화 내용을 확인합니다.</li>
         </ul>
+
+        <div class="callout warn">
+            <p><strong>⚠️ 주의</strong> — Display Filter는 캡처된 전체 패킷에 적용되므로, 대용량 pcap에서는 <strong>tshark -Y</strong> 또는 <strong>-2 -R</strong> 옵션을 사용하여 필터링 속도를 높일 수 있습니다.</p>
+        </div>
     </section>
 
-    <section id="section4" class="section">
-        <h2>4. 퀵스타트: 설치 → 설정 → 첫 예제</h2>
-        <div class="step">
-            <h4>Step 1: 설치 (macOS 예시)</h4>
-            <pre><code># Homebrew를 통한 설치 (가장 간단)
+    <!-- 4. 퀵스타트 -->
+    <section class="section" id="s4">
+        <h2>4. 퀵스타트</h2>
+
+        <h3>설치</h3>
+        <p>각 환경에 맞게 설치합니다.</p>
+
+        <pre><code># Ubuntu / Debian
+sudo apt update && sudo apt install wireshark -y
+
+# macOS (Homebrew)
 brew install --cask wireshark
 
-# 설치 후 권한 설정 (패킷 캡처를 위해 필요)
-sudo chmod 644 /dev/bpf*
-# 또는 Wireshark를 그룹에 추가 (영구적)
-sudo dseditgroup -o edit -a $(whoami) -t user access_bpf</code></pre>
-        </div>
-        <div class="step">
-            <h4>Step 2: 첫 캡처 및 Python 연동 예제</h4>
-            <p>Python으로 HTTP 요청을 생성하고, Wireshark(tshark)로 캡처하는 예제입니다.</p>
-            <pre><code># generate_traffic.py
-import requests
-import time
-import threading
+# Windows (Chocolatey)
+choco install wireshark
 
-def make_request(url):
-    try:
-        resp = requests.get(url, timeout=5)
-        print(f"Request to {url}: Status {resp.status_code}")
-    except Exception as e:
-        print(f"Error: {e}")
+# 또는 공식 사이트에서 설치 프로그램 다운로드</code></pre>
 
-# 테스트 URL (공개 서비스)
-urls = [
-    "https://httpbin.org/get",
-    "https://api.github.com",
-    "https://www.google.com"
-]
+        <h3>첫 번째 캡처 예제 (CLI)</h3>
+        <p>터미널에서 tshark로 간단한 HTTP 트래픽을 캡처합니다.</p>
 
-# 병렬 요청 생성
-threads = []
-for url in urls:
-    t = threading.Thread(target=make_request, args=(url,))
-    t.start()
-    threads.append(t)
-    time.sleep(0.5) # 패킷 간격 생성
-
-for t in threads:
-    t.join()
-print("Traffic generation complete.")</code></pre>
-            <p>터미널에서 tshark로 캡처 (별도 창에서 실행):</p>
-            <pre><code># 인터페이스 확인
+        <pre><code># 인터페이스 목록 확인
 tshark -D
 
-# en0에서 HTTP/HTTPS 트래픽 캡처 (파일 저장)
-tshark -i en0 -f "port 80 or port 443" -w first_capture.pcapng -c 100
+# 10개의 패킷만 캡처 (인터페이스 eth0)
+tshark -i eth0 -c 10
 
-# 실시간으로 HTTP 패킷만 보기
-tshark -i en0 -Y "http or tls.handshake" -V</code></pre>
-        </div>
-        <div class="step">
-            <h4>Step 3: Wireshark GUI에서 파일 열기 및 필터 적용</h4>
-            <p>캡처한 <code>first_capture.pcapng</code> 파일을 Wireshark GUI에서 열고, 다음과 같은 Display Filter를 적용해보세요.</p>
-            <pre><code># 특정 IP (예: GitHub)
-ip.addr == 140.82.121.3
+# HTTP GET 요청만 캡처하여 저장
+tshark -i eth0 -f "tcp port 80" -w http_sample.pcap -c 50
 
-# HTTPS 핸드셰이크 확인
-tls.handshake
+# 저장된 파일에서 HTTP 요청만 출력
+tshark -r http_sample.pcap -Y "http.request"</code></pre>
 
-# HTTP 요청 중 GET만 보기
-http.request.method == GET
+        <h3>Python으로 pcap 분석 (pyshark)</h3>
+        <p>pyshark 라이브러리를 사용하여 캡처 파일을 분석합니다.</p>
 
-# 특정 도메인 (SNI 필드 활용)
-tls.handshake.extensions_server_name contains "github.com"</code></pre>
+        <pre><code># 설치: pip install pyshark
+
+import pyshark
+
+# pcap 파일 열기
+cap = pyshark.FileCapture('http_sample.pcap', display_filter='http')
+
+# 각 패킷에서 HTTP 호스트와 URI 추출
+for pkt in cap:
+    try:
+        http_layer = pkt.http
+        print(f"[{pkt.sniff_time}] {pkt.ip.src} -&gt; {pkt.ip.dst} | "
+              f"{http_layer.request_method} {http_layer.request_uri}")
+    except AttributeError:
+        pass
+
+cap.close()</code></pre>
+
+        <div class="callout">
+            <p><strong>🔧 팁</strong> — pyshark는 tshark 바이너리를 백엔드로 사용합니다. 시스템에 Wireshark/tshark가 설치되어 있어야 동작합니다.</p>
         </div>
     </section>
 
-    <section id="section5" class="section">
+    <!-- 5. 핵심 설정 레퍼런스 -->
+    <section class="section" id="s5">
         <h2>5. 핵심 설정 레퍼런스</h2>
+        <p>Wireshark 환경설정(Preferences)에서 자주 변경하는 항목들입니다.</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>설정 항목</th>
-                    <th>경로 (GUI)</th>
-                    <th>기본값 / 권장값</th>
+                    <th>설정</th>
+                    <th>경로</th>
                     <th>설명</th>
+                    <th>추천 값</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>캡처 인터페이스</td>
-                    <td>Capture → Options</td>
-                    <td>모든 인터페이스</td>
-                    <td>Promiscuous 모드 활성화 시 호스트의 모든 트래픽 캡처. 가상 환경(도커, VM)의 인터페이스도 확인.</td>
+                    <td>Column: Custom</td>
+                    <td>Preferences → Columns</td>
+                    <td>표시 열 추가/제거</td>
+                    <td>Source, Destination, Protocol, Info, Delta time</td>
                 </tr>
                 <tr>
-                    <td>이름 해석</td>
-                    <td>View → Name Resolution</td>
-                    <td>MAC, Network, Transport 해제 권장</td>
-                    <td>성능 저하와 프라이버시 노출 우려. 분석 후 필요 시 개별 활성화.</td>
-                </tr>
-                <tr>
-                    <td>프로토콜 디스섹터</td>
-                    <td>Analyze → Enabled Protocols</td>
-                    <td>모두 활성화</td>
-                    <td>불필요한 프로토콜은 비활성화하여 성능 향상. (예: IPX, DECnet)</td>
-                </tr>
-                <tr>
-                    <td>컬러링 규칙</td>
+                    <td>Coloring Rules</td>
                     <td>View → Coloring Rules</td>
-                    <td>기본 규칙 세트</td>
-                    <td>에러(빨강), HTTP(녹청), DNS(파랑) 등 시각적 구분. 커스텀 규칙 생성 가능.</td>
+                    <td>패킷 종류별 색상 지정</td>
+                    <td>TCP RST 빨강, DNS 파랑 등</td>
                 </tr>
                 <tr>
-                    <td>프로파일</td>
-                    <td>Edit → Configuration Profiles</td>
-                    <td>Default</td>
-                    <td>작업별 프로파일 생성 권장 (예: "HTTP_Analysis", "TLS_Debug"). 필터, 컬러링, 컬럼을 그룹 관리.</td>
+                    <td>Capture: Promiscuous</td>
+                    <td>Capture → Options</td>
+                    <td>무차별 모드 (다른 호스트 패킷)</td>
+                    <td>체크 (분석 환경)</td>
                 </tr>
                 <tr>
-                    <td>시간 표시 형식</td>
-                    <td>View → Time Display Format</td>
-                    <td>Seconds Since Beginning</td>
-                    <td>상대 시간이 일반적. 지연 분석 시 "Seconds Since Previous Packet" 유용.</td>
+                    <td>Name Resolution</td>
+                    <td>Preferences → Name Resolution</td>
+                    <td>IP → 호스트명, MAC → 제조사</td>
+                    <td>MAC resolution 켜기, DNS 켜기</td>
+                </tr>
+                <tr>
+                    <td>Protocol: TLS</td>
+                    <td>Preferences → Protocols → TLS</td>
+                    <td>(Pre-)Master Secret 로드</td>
+                    <td>SSLKEYLOGFILE 환경변수 활용</td>
+                </tr>
+                <tr>
+                    <td>Layout: Panes</td>
+                    <td>Preferences → Layout</td>
+                    <td>패킷 리스트/상세/바이트 배치</td>
+                    <td>3단 레이아웃 (기본)</td>
                 </tr>
             </tbody>
         </table>
-    </section>
 
-    <section id="section6" class="section">
-        <h2>6. 실무 팁 & 트러블슈팅</h2>
         <div class="callout warn">
-            <strong>주의:</strong> 회사 네트워크에서 패킷 캡처 시 보안 정책과 법적 규정을 반드시 준수하세요. 본인 소유가 아니거나 권한 없는 트래픽 캡처는 엄격히 금지됩니다.
+            <p><strong>⚠️ 보안 주의</strong> — Name Resolution에서 DNS 쿼리를 활성화하면 캡처 중에 DNS 트래픽이 발생할 수 있습니다. 격리된 분석 환경에서는 끄는 것이 좋습니다.</p>
         </div>
-        <h3>자주 겪는 문제 & 해결책</h3>
-        <div class="concept-grid">
-            <div class="concept-card">
-                <h4>문제 1: 인터페이스가 보이지 않음</h4>
-                <p><strong>증상:</strong> Capture → Interfaces에 아무것도 나열되지 않음.</p>
-                <p><strong>원인:</strong> Npcap/WinPcap 설치 오류 또는 권한 부족.</p>
-                <p><strong>해결:</strong>
-                    <ul>
-                        <li>Windows: Npcap 재설치 (WinPcap 호환 모드 옵션 체크).</li>
-                        <li>Linux/macOS: <code>sudo wireshark</code> 실행 (권장하지 않음) 또는 <code>usermod -a -G wireshark $USER</code>로 그룹 추가 후 재로그인.</li>
-                    </ul>
-                </p>
-            </div>
-            <div class="concept-card">
-                <h4>문제 2: HTTPS 트래픽이 복호화되지 않음</h4>
-                <p><strong>증상:</strong> TLS 패킷 내용이 암호화된 채로 표시됨.</p>
-                <p><strong>해결 (클라이언트 키 로그):</strong>
-                    <ol>
-                        <li>환경변수 설정: <code>SSLKEYLOGFILE=/path/to/keylog.txt</code></li>
-                        <li>브라우저/클라이언트 재시작.</li>
-                        <li>Wireshark: Edit → Preferences → Protocols → TLS → (Pre)-Master-Secret log filename에 동일 파일 지정.</li>
-                    </ol>
-                    * 서버 프라이빗 키를 사용하는 방법도 있으나 제한적.
-                </p>
-            </div>
-            <div class="concept-card">
-                <h4>문제 3: 너무 많은 패킷, 분석 집중 불가</h4>
-                <p><strong>해결: 체계적 필터링 전략</strong></p>
-                <pre><code># 1. 대화(Conversation) 추적: Statistics → Conversations → TCP/UDP 탭에서 트래픽량 큰 IP 쌍 확인.
-# 2. 디스플레이 필터 점진적 적용:
-   ip.addr == 10.0.0.1 and tcp.port == 5432  # 특정 IP와 DB 포트
-   http.request  # 모든 HTTP 요청만
-   tcp.analysis.flags  # TCP 문제(재전송, 중복 ACK) 패킷만
-# 3. "Follow TCP Stream" 활용: 특정 연결의 전체 대화 내용 확인.</code></pre>
-            </div>
-            <div class="concept-card">
-                <h4>문제 4: AI 파이프라인 내 통신 분석</h4>
-                <p><strong>시나리오:</strong> TensorFlow Serving, MLflow 서버, Kafka, Redis 간 통신 지연.</p>
-                <p><strong>접근법:</strong>
-                    <ul>
-                        <li><strong>gRPC:</strong> 프로토콜 디스섹터 활성화. HTTP/2 스트림으로 분석.</li>
-                        <li><strong>Kafka:</strong> Wireshark 기본 디스섹터로 토픽, 오프셋 확인 가능.</li>
-                        <li><strong>지연 분석:</strong> I/O Graph (Statistics → I/O Graph) 또는 "tcp.time_delta" 필터로 패킷 간 간격 확인.</li>
-                    </ul>
-                </p>
-            </div>
-        </div>
-        <h3>성능 팁</h3>
-        <ul>
-            <li><strong>캡처 필터(Capture Filter) 사용:</strong> 캡처 시점에서 노이즈 제거 (예: <code>host 192.168.1.5 and not port 22</code>).</li>
-            <li><strong>파일 롤오버 설정:</strong> 장기 캡처 시 "Capture → Output"에서 파일 크기/시간 기준 자동 새 파일 생성 설정.</li>
-            <li><strong>대용량 파일:</strong> 수십 GB 파일은 <code>editcap</code> 도구로 분할하거나, 필터 적용 후 "File → Export Specified Packets"로 추출 후 분석.</li>
-        </ul>
     </section>
 
-    <section id="section7" class="section">
+    <!-- 6. 실무 팁 & 트러블슈팅 -->
+    <section class="section" id="s6">
+        <h2>6. 실무 팁 &amp; 트러블슈팅</h2>
+
+        <h3>자주 겪는 문제와 해결책</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>문제</th>
+                    <th>원인</th>
+                    <th>해결책</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>패킷이 캡처되지 않음</td>
+                    <td>권한 부족 (Linux)</td>
+                    <td><code>sudo usermod -aG wireshark $USER</code> 후 재로그인</td>
+                </tr>
+                <tr>
+                    <td>인터페이스 목록이 비어 있음</td>
+                    <td>Npcap/WinPcap 미설치 (Windows)</td>
+                    <td>Npcap 설치 시 "WinPcap API 호환 모드" 체크</td>
+                </tr>
+                <tr>
+                    <td>Display Filter가 너무 느림</td>
+                    <td>대용량 pcap (수 GB)</td>
+                    <td>tshark -Y 대신 <code>tshark -2 -R "filter"</code> 사용, 또는 pyshark로 청크 처리</td>
+                </tr>
+                <tr>
+                    <td>TLS 패킷이 암호화되어 보임</td>
+                    <td>세션 키 없음</td>
+                    <td>SSLKEYLOGFILE 환경변수 설정 후 브라우저 재시작</td>
+                </tr>
+                <tr>
+                    <td>패킷 손실률 높음</td>
+                    <td>버퍼 부족 / 디스크 I/O</td>
+                    <td>캡처 옵션에서 Buffer size 증가, SSD 사용</td>
+                </tr>
+                <tr>
+                    <td>프로토콜이 Unknown으로 표시</td>
+                    <td>Dissector 누락 / 비표준 포트</td>
+                    <td>Preferences → Protocols → 해당 프로토콜 포트 지정</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>실무 꿀팁</h3>
+        <ul style="margin-left:1.5rem; margin-bottom:1rem;">
+            <li><strong>Ctrl+E</strong> — 캡처 시작/중지 토글</li>
+            <li><strong>Ctrl+Shift+F</strong> — 패킷 바이트 검색 (문자열, hex)</li>
+            <li><strong>Statistics → IO Graph</strong> — 시간별 트래픽 추이 확인</li>
+            <li><strong>Telephony → VoIP Calls</strong> — SIP/RTP 통화 분석</li>
+            <li><strong>Tools → Firewall ACL Rules</strong> — 선택한 패킷으로 방화벽 규칙 생성</li>
+        </ul>
+
+        <div class="callout danger">
+            <p><strong>🚨 주의</strong> — 실제 운영 네트워크에서 캡처할 때는 반드시 사전 승인을 받고, 개인정보 보호 법규를 준수하세요.</p>
+        </div>
+    </section>
+
+    <!-- 7. 참고 자료 -->
+    <section class="section" id="s7">
         <h2>7. 참고 자료</h2>
-        <ul>
-            <li><a href="https://www.wireshark.org/docs/" target="_blank">공식 문서</a> - 가장 완벽한 레퍼런스</li>
-            <li><a href="https://wiki.wireshark.org/SampleCaptures" target="_blank">샘플 캡처 파일 모음</a> - 다양한 프로토콜 예제 학습</li>
-            <li><a href="https://www.wireshark.org/download.html" target="_blank">다운로드 및 릴리스 노트</a></li>
-            <li><strong>도서:</strong> "Wireshark Network Analysis" (Laura Chappell) - 실무 바이블</li>
-            <li><strong>Python 통합:</strong> <a href="https://github.com/KimiNewt/pyshark" target="_blank">pyshark</a> 라이브러리 - Python에서 Wireshark 디스섹터 활용</li>
+        <ul style="margin-left:1.5rem;">
+            <li><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener">Wireshark 공식 문서</a> — 사용자 가이드, 매뉴얼 페이지</li>
+            <li><a href="https://wiki.wireshark.org/" target="_blank" rel="noopener">Wireshark Wiki</a> — Display Filter 레퍼런스, 샘플 캡처</li>
+            <li><a href="https://www.wireshark.org/download/automated/captures/" target="_blank" rel="noopener">Sample Captures</a> — 공식 예제 pcap 파일</li>
+            <li><a href="https://github.com/boundary/wireshark-lua" target="_blank" rel="noopener">Wireshark Lua API</a> — Dissector 및 툴 개발</li>
+            <li><a href="https://pypi.org/project/pyshark/" target="_blank" rel="noopener">pyshark</a> — Python 바인딩</li>
+            <li><a href="https://www.tcpdump.org/manpages/tcpdump.1.html" target="_blank" rel="noopener">tcpdump 매뉴얼</a> — BPF 필터 문법</li>
         </ul>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p>© 2026 AI 정보보안 엔지니어 커뮤니티 - 본 가이드는 실무 중심의 빠른 이해를 목적으로 합니다. 상세 내용은 공식 문서를 참고하세요.</p>
-        <p>Tags: packet-analysis, network, forensics, wireshark, ai-security</p>
+        <p>© 2026 Wireshark 실무 스터디 가이드 | 작성자: AI 정보보안 엔지니어 · 보안 전문가</p>
+        <p>이 가이드는 <a href="https://www.wireshark.org/" target="_blank" rel="noopener">Wireshark</a> 공식 프로젝트와 무관하며 학습 목적으로 제작되었습니다.</p>
+        <p style="margin-top:0.5rem; font-size:0.8rem;">태그: packet-analysis · network · forensics</p>
     </footer>
 
-    <script>
-        // 간단한 TOC 스크롤 부드럽게 및 현재 섹션 하이라이트 (내장 스크립트)
-        document.addEventListener('DOMContentLoaded', function() {
-            const tocLinks = document.querySelectorAll('.toc a');
-            const sections = document.querySelectorAll('.section');
-
-            // 스크롤 시 현재 섹션 업데이트 (간단한 버전)
-            function onScroll() {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (scrollY >= (sectionTop - 100)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                tocLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').substring(1) === current) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-
-            // 활성 링크 스타일
-            const style = document.createElement('style');
-            style.textContent = '.toc a.active { font-weight: bold; color: var(--accent4) !important; }';
-            document.head.appendChild(style);
-
-            window.addEventListener('scroll', onScroll);
-            onScroll(); // 초기 호출
-        });
-    </script>
+</div>
 </body>
 </html>
