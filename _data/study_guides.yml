@@ -976,3 +976,9 @@
   tags: ["packet-analysis", "network", "forensics"]
   date: "2026-07-19"
   url: "/study-guides/wireshark-study-guide.html"
+- keyword: "DNSSEC"
+  slug: "dnssec"
+  category: "security"
+  tags: ["dns-security", "authentication", "protocol"]
+  date: "2026-07-20"
+  url: "/study-guides/dnssec-study-guide.html"
