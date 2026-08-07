@@ -2,7 +2,7 @@ name: Daily Blog Scraper
 
 on:
   schedule:
-    # 매일 밤 23:55 (KST) = UTC 14:55 에 실행
+    # 매일 밤 23:55 (KST) = UTC 14:55
     - cron: '55 14 * * *'
   workflow_dispatch:  # 수동 실행 가능
 
@@ -12,6 +12,7 @@ permissions:
 jobs:
   scrape-and-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # 러너 행업 시 15분 방치 대신 빠르게 실패
 
     steps:
       - name: Checkout repository
@@ -28,8 +29,16 @@ jobs:
         run: |
           pip install requests beautifulsoup4 markdownify
 
-      - name: Run scraper
-        run: python scripts/scraper.py
+      - name: Run scraper (일시 오류 자동 재시도)
+        env:
+          # GitHub API 인증(비인증 60회/시 rate limit 방지)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          n=0
+          until python scripts/scraper.py; do
+            n=$((n+1)); [ $n -ge 3 ] && echo "3회 연속 실패 — 종료" && exit 1
+            echo "일시 오류 — 재시도 $n/3, 30s 후..."; sleep 30
+          done
 
       - name: Check for changes
         id: git-check
@@ -45,4 +54,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add -A
           git commit -m "Auto: Add scraped posts from $(date +'%Y-%m-%d')"
+          git pull --rebase --autostash origin main || true  # push 경합 방지
           git push
