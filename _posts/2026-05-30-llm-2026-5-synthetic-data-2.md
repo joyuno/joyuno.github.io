@@ -9,7 +9,7 @@ tags: [ai, data, trend, 2026-05]
 source: https://daewooki.github.io/posts/llm-2026-5-synthetic-data-2/
 description: "1) 도메인/포맷 특화가 필요한데 라벨 데이터가 없다 (또는 만들기 너무 비싸다) 2) RAG로는 해결이 안 되는 출력 스타일·정책·함수호출·분류 기준 같은 “행동”을 모델에 주입해야 한다"
 ---
-## 들어가며
+{% raw %}## 들어가며
 프로덕션에서 LLM을 쓰다 보면, 결국 두 가지 벽을 만납니다.
 
 1) **도메인/포맷 특화가 필요한데 라벨 데이터가 없다** (또는 만들기 너무 비싸다)  
@@ -350,3 +350,4 @@ if __name__ == "__main__":
 - OpenAI SFT/RFT 문서로 “eval 먼저”와 포맷/운용 기준 정리 ([platform.openai.com](https://platform.openai.com/docs/guides/supervised-fine-tuning?utm_source=openai))
 
 원하면, 당신의 프로젝트 도메인(예: 고객센터 분류, SQL 생성, 내부 정책 Q&A, 코드 리뷰 봇)에 맞춰 **(1) seed 설계 템플릿 (2) judge rubric (3) contamination 방지 split 전략 (4) LoRA/QLoRA까지 포함한 학습 커맨드** 형태로 바로 적용 가능한 청사진으로 바꿔드릴게요.
+{% endraw %}

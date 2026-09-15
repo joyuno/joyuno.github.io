@@ -9,7 +9,7 @@ tags: [ai, prototyping, trend, 2026-07]
 source: https://daewooki.github.io/posts/nextjs-vercel-ai-sdk-fullstack-ai-2026-7-1/
 description: "언제 쓰면 좋은가 대화형/작업형 UI에서 응답 지연이 곧 이탈로 이어지는 제품(고객지원, IDE 보조, 리서치 도구) LLM이 툴을 호출하며 여러 step을 수행해야 하는 앱(검색, DB 조회, 브라우저 자동화, 워크플로우) 모델/벤더를 바꿀 가능성이 높아…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 2026년의 “AI 앱”은 더 이상 **프롬프트 → 응답 문자열**로 끝나지 않습니다. 사용자는 *즉시 반응(Streaming)*, *도구 호출(Tool calling)*, *구조화된 결과(Structured output)*, *장시간 작업(브라우저 자동화/크롤링/문서 처리)*, *비용/관측(Observability)*까지 요구합니다. Next.js(App Router) + Vercel AI SDK 조합이 강한 이유는, 이 요구사항이 **Route Handler(서버) + React 클라이언트 훅(useChat) + Data Stream 프로토콜**로 자연스럽게 맞물리기 때문입니다. 특히 `streamText()`가 토큰을 즉시 흘려보내 UX를 크게 개선하는 패턴은 2026년 기준 사실상 표준이 됐습니다. ([sitepoint.com](https://www.sitepoint.com/nextjs-ai-streaming-building-realtime-apps-with-vercel-ai-sdk/?utm_source=openai))
 
 **언제 쓰면 좋은가**
@@ -265,3 +265,4 @@ export default function Page() {
 다음 학습 추천은 두 갈래입니다:  
 (1) **AI SDK v6 기준의 structured output(Output.object)/툴 파트 렌더링 패턴**을 팀 코드 컨벤션으로 굳히기 ([vercel-docs.vercel.sh](https://vercel-docs.vercel.sh/academy/ai-sdk?utm_source=openai))  
 (2) “우리 서비스의 툴 카탈로그(권한/감사/레이트리밋 포함)”를 설계 문서로 먼저 만들고, 그 다음에 UI를 붙이기—이 순서가 풀스택 AI 앱을 가장 빨리 ‘제품’으로 만듭니다.
+{% endraw %}

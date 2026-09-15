@@ -9,7 +9,7 @@ tags: [devops, tutorial, trend, 2025-12]
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-reusable-workfl-2/
 description: "2025년의 CI/CD는 “돌아가면 됐다” 수준을 이미 넘어섰습니다. PR마다 자동으로 test/build가 안정적으로 반복되고, main 병합 시에는 검증된 산출물이 안전한 인증 방식(OIDC) 으로 배포 환경 보호(approvals) 를 거쳐 경합 없이(concurrency)…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 
 2025년의 CI/CD는 “돌아가면 됐다” 수준을 이미 넘어섰습니다. PR마다 자동으로 test/build가 안정적으로 반복되고, main 병합 시에는 **검증된 산출물**이 **안전한 인증 방식(OIDC)** 으로 **배포 환경 보호(approvals)** 를 거쳐 **경합 없이(concurrency)** 릴리즈되는 흐름이 기본 기대치가 됐죠.  
 GitHub Actions는 이런 요구를 충족하기 위한 기능들이 성숙해졌지만, 막상 파이프라인을 구축하면 흔히 다음 문제를 만납니다.
@@ -202,3 +202,4 @@ jobs:
 - self-hosted runner를 쓸 경우 runner 업데이트/네트워크 요건(artifact v4 관련) 점검 ([github.com](https://github.com/actions/upload-artifact?utm_source=openai))  
 
 원하시면, 사용 중인 스택(Node/Spring/Docker/Kubernetes/Terraform 등)과 배포 대상(AWS/GCP/Azure/Vercel 등)을 알려주시면 위 템플릿을 기반으로 **실제 클라우드 OIDC 설정까지 포함한 “바로 붙여넣어 동작하는” 파이프라인**으로 구체화해드릴게요.
+{% endraw %}

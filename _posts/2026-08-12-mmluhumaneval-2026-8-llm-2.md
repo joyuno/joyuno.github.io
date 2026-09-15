@@ -9,7 +9,7 @@ tags: [ai, llm, trend, 2026-08]
 source: https://daewooki.github.io/posts/mmluhumaneval-2026-8-llm-2/
 description: "LLM을 프로젝트에 붙일 때 “어떤 모델이 더 좋나?”를 빠르게 결정하려면 결국 평가(evaluation) 가 필요합니다. 문제는 2026년 현재, MMLU/HumanEval 같은 고전 벤치마크 점수는 그 자체로 제품 성능을 대표하지 못하는 경우가 점점 늘었다는 점입니다. 이유는 크게…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 
 LLM을 프로젝트에 붙일 때 “어떤 모델이 더 좋나?”를 빠르게 결정하려면 결국 **평가(evaluation)** 가 필요합니다. 문제는 2026년 현재, MMLU/HumanEval 같은 고전 벤치마크 점수는 **그 자체로 제품 성능을 대표하지 못하는 경우가 점점 늘었다**는 점입니다. 이유는 크게 세 가지입니다.
 
@@ -370,3 +370,4 @@ HumanEval은 테스트가 상대적으로 약해 “그럴듯한 코드”가 �
 - LiveCodeBench로 “오염에 강한 코드 평가” 설계를 참고 ([arxiv.org](https://arxiv.org/abs/2403.07974?utm_source=openai))  
 
 원하면, 당신의 서비스(예: RAG QA / 코드리뷰 봇 / 데이터 파이프라인 생성기)에 맞춰 **평가 항목 설계(문항 타입, 채점 방식, 비용 상한, 실패 분석 리포트 포맷)** 까지 이어서 템플릿으로 잡아드릴 수 있습니다.
+{% endraw %}

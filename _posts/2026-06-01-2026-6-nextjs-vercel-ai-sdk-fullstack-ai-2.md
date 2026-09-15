@@ -9,7 +9,7 @@ tags: [ai, prototyping, trend, 2026-06]
 source: https://daewooki.github.io/posts/2026-6-nextjs-vercel-ai-sdk-fullstack-ai-2/
 description: "스트리밍 응답(UX)과 서버 실행 제한(timeout, runtime) 사이의 충돌 Tool calling이 들어가는 순간 생기는 멀티스텝 오케스트레이션, 그리고 “툴 출력이 그대로 프론트에 노출되는” 문제 대화/작업 로그, 피드백(👍/👎), 관측(telemetry)까지 포함한 운영…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 Next.js로 AI 기능을 붙이는 건 이제 “챗 UI + API 한 개”로 끝나는 문제가 아닙니다. 실서비스에 들어가면 곧바로 아래가 터집니다.
 
 - **스트리밍 응답**(UX)과 **서버 실행 제한**(timeout, runtime) 사이의 충돌  
@@ -267,3 +267,4 @@ Next.js + Vercel AI SDK 조합의 본질은 “LLM 호출”이 아니라 **스�
 3) 텔레메트리/피드백 수집(품질 개선 루프) 템플릿 참고 ([vercel.com](https://vercel.com/templates/Next.js/ai-chatbot-telemetry?utm_source=openai))
 
 원하시면, 위 예제를 **(1) 실제 DB(Prisma/Drizzle) 저장**, **(2) Redis rate limit**, **(3) 비동기 잡(Trigger.dev/큐)** 까지 확장한 “서비스 운영형” 아키텍처로 2편 형태로 이어서 작성해드릴게요.
+{% endraw %}

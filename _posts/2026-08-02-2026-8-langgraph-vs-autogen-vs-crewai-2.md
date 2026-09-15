@@ -9,7 +9,7 @@ tags: [ai, agent, trend, 2026-08]
 source: https://daewooki.github.io/posts/2026-8-langgraph-vs-autogen-vs-crewai-2/
 description: "2026년 8월 기준, 실무 관점에서 프레임워크 선택을 한 줄로 요약하면 이렇습니다."
 ---
-## 들어가며
+{% raw %}## 들어가며
 멀티 에이전트가 필요한 순간은 명확합니다. **(1) 역할 분리(Research/Plan/Execute/Review)**가 성능·품질에 직접 기여하고, **(2) 루프/분기/재시도/승인(HITL)** 같은 **제어 흐름(control flow)**이 제품 요구사항으로 고정될 때입니다. 반대로 “에이전트가 많을수록 똑똑해지겠지”라는 기대감으로 늘리면, 대부분 **비용·지연·실패율**만 올라갑니다(에이전트 간 대화 오버헤드, 컨텍스트 중복, 비결정성 증가).
 
 2026년 8월 기준, 실무 관점에서 프레임워크 선택을 한 줄로 요약하면 이렇습니다.
@@ -252,3 +252,4 @@ LangGraph 계열에서 체크포인트는 상태 전체를 저장합니다. 대�
 - AutoGen은 Group chat에서 **next-speaker 정책**을 코드로 명시해 “대화가 흘러가다 끝나는” 것을 방지하기 ([microsoft.github.io](https://microsoft.github.io/autogen/docs/Use-Cases/agent_chat/?utm_source=openai))  
 
 원하면, 위 예제를 **CrewAI(Tasks/Process + Flow)** 버전과 **AutoGen(GroupChatManager 기반)** 버전으로도 같은 요구사항(릴리스 노트 + 위험 변경 + 승인 게이트)으로 나란히 구현해, “코드 관점”에서 무엇이 쉬워지고 무엇이 어려워지는지까지 비교해 드릴 수 있습니다.
+{% endraw %}

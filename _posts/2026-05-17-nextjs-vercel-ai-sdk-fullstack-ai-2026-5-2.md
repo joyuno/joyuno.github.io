@@ -9,7 +9,7 @@ tags: [ai, prototyping, trend, 2026-05]
 source: https://daewooki.github.io/posts/nextjs-vercel-ai-sdk-fullstack-ai-2026-5-2/
 description: "streaming을 붙였는데 운영에서 버퍼링처럼 한 번에 몰아서 나오거나, tool calling을 넣었더니 호출이 느려지고(연쇄 호출), 비용이 튀거나, “agent”를 만들려다 오케스트레이션/관측/중단 조건이 부실해서 장애가 나는 경우입니다."
 ---
-## 들어가며
+{% raw %}## 들어가며
 2026년 5월 기준으로 Next.js에서 AI 기능을 붙일 때 가장 흔한 실패는 “데모는 되는데, 제품은 안 되는” 지점에서 터집니다. 구체적으로는:
 
 - **streaming**을 붙였는데 운영에서 버퍼링처럼 한 번에 몰아서 나오거나,
@@ -260,3 +260,4 @@ Next.js + Vercel AI SDK로 fullstack AI 앱을 “제품급”으로 만들려�
 1) ToolLoopAgent로 “loop/stop/툴 설계” 감 잡기 ([ai-sdk.dev](https://ai-sdk.dev/docs/reference/ai-sdk-core/tool-loop-agent?utm_source=openai))  
 2) Next.js Route Handler streaming 특성/제약(중간 notFound 불가 등) 이해 ([nextjs.org](https://nextjs.org/docs/13/app/building-your-application/routing/route-handlers?utm_source=openai))  
 3) Tracing/observability를 붙여 “비용-지연-품질”을 수치로 운영 ([docs.inference.net](https://docs.inference.net/integrations/traces/ai-sdk?utm_source=openai))
+{% endraw %}

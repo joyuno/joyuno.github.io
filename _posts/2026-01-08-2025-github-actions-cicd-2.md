@@ -9,7 +9,7 @@ tags: [devops, tutorial, trend, 2026-01]
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-2/
 description: "최근 변화 중 특히 실무에 영향이 큰 건 캐시입니다. GitHub Actions 캐시 백엔드가 v2로 전환되며, @actions/cache 패키지는 2025-02-01부터 구버전이 사실상 실패를 유발할 수 있으니 v4+로 업그레이드 권고가 공지되었습니다. 즉, “예전 YAML…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 2025년의 CI/CD는 “빌드/테스트 자동화”를 넘어서 **배포 권한 통제, 공급망 보안, 병렬 실행 제어, 캐시 전략**까지 한 덩어리로 설계해야 합니다. GitHub Actions는 YAML 몇 줄로 시작할 수 있지만, 실제 운영에서는 작은 설정 하나(예: `permissions`, `concurrency`, `cache` 버전) 때문에 **배포 충돌, 토큰 과권한, 캐시 실패로 인한 전면 장애**가 나기도 합니다.
 
 최근 변화 중 특히 실무에 영향이 큰 건 캐시입니다. GitHub Actions 캐시 백엔드가 v2로 전환되며, `@actions/cache` 패키지는 **2025-02-01부터 구버전이 사실상 실패를 유발할 수 있으니 v4+로 업그레이드 권고**가 공지되었습니다. 즉, “예전 YAML 그대로”는 2025년에 더 위험합니다. ([github.com](https://github.com/actions/toolkit/discussions/1890?utm_source=openai))
@@ -175,3 +175,4 @@ jobs:
 다음 학습 추천:
 - GitHub Actions OIDC를 실제 클라우드(AWS/Azure/GCP) 로그인 action과 연결해 “무비밀 배포” 완성 ([docs.github.com](https://docs.github.com/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-cloud-providers?utm_source=openai))
 - Security hardening 가이드 기반으로 Action pinning/승인 흐름(CODEOWNERS 포함)까지 파이프라인 거버넌스로 확장 ([docs.github.com](https://docs.github.com/enterprise-server%403.15/actions/security-for-github-actions/security-guides/using-githubs-security-features-to-secure-your-use-of-github-actions?utm_source=openai))
+{% endraw %}
