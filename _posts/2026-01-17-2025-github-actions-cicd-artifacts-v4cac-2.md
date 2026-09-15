@@ -9,7 +9,7 @@ tags: [devops, tutorial, trend, 2026-01]
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-artifacts-v4cac-2/
 description: "---"
 ---
-## 들어가며
+{% raw %}## 들어가며
 2025년의 GitHub Actions CI/CD는 “YAML 좀 잘 쓰면 된다” 수준을 넘었습니다. 실제 운영에서는 **속도(캐시/병렬화)**, **재현성(artifact/lockfile)**, **보안(최소 권한·OIDC·Environment gate)** 이 셋이 동시에 맞아야 파이프라인이 오래 갑니다. 특히 2025년 초 기준으로는 **artifact 액션 v3가 2025-01-30부터 GitHub.com에서 사용 불가**가 되어, 예전 워크플로를 그대로 두면 배포 파이프라인이 갑자기 깨질 수 있습니다. ([github.blog](https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions?utm_source=openai))  
 그래서 이 글은 “2025년에 깨지지 않고, 운영 친화적으로 확장 가능한” GitHub Actions CI/CD를 **원리부터 구현까지** 묶어서 정리합니다.
 
@@ -173,3 +173,4 @@ jobs:
 - **OIDC + Environment gate로 배포 권한을 설계**하는 것입니다. ([docs.github.com](https://docs.github.com/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-cloud-providers?utm_source=openai))  
 
 다음 학습으로는 (1) reusable workflows로 조직 표준 CI/CD 템플릿 만들기, (2) Environment 보호 규칙(승인/대기/브랜치 제한) 운영 정책화, (3) OIDC claim 설계(issuer/audience/subject 제한)까지 확장해보면 “보안과 자동화의 균형”이 한 단계 올라갑니다. ([docs.github.com](https://docs.github.com/en/enterprise-cloud%40latest/actions/reference/openid-connect-reference?utm_source=openai))
+{% endraw %}

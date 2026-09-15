@@ -10,7 +10,7 @@ render_with_liquid: false
 
 source: https://daewooki.github.io/posts/forgejo-template-repo-rce-defense/
 ---
-## 2026-09-10 보안 릴리스가 보여준 것
+{% raw %}## 2026-09-10 보안 릴리스가 보여준 것
 Forgejo 릴리스 페이지에 따르면 v16.0.4는 2026-09-10에 공개됐고(Stable), 같은 날 v15.0.8(LTS)도 함께 나왔습니다. v16.0의 Stable 지원 종료일은 2026-10-29로 표기돼 있습니다.[^1]
 
 이 타이밍이 중요한 이유는 단순히 RCE 하나가 뚫렸다/막혔다가 아니라, 셀프호스트 Git이 자주 밟는 함정을 정면으로 건드렸기 때문입니다.
@@ -522,4 +522,4 @@ python3 scan_template_repo.py \
 [^5]: <https://forgejo.org/download/>
 [^6]: <https://forgejo.org/2026-07-release-v16-0/>
 [^7]: <https://fossies.org/linux/forgejo/release-notes/13934.md>
-
+{% endraw %}

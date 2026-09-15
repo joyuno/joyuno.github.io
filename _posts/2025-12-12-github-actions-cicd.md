@@ -9,7 +9,7 @@ tags: [github-actions, cicd, devops, automation]
 source: https://daewooki.github.io/posts/github-actions-cicd/
 description: "수동 배포의 문제점: 🐛 \"배포할 때마다 뭔가 빠뜨려요\" ⏰ \"배포하는 데 30분씩 걸려요\" 😰 \"금요일 오후에는 배포 못 해요\""
 ---
-## CI/CD가 왜 필요한가?
+{% raw %}## CI/CD가 왜 필요한가?
 
 수동 배포의 문제점:
 - 🐛 "배포할 때마다 뭔가 빠뜨려요"
@@ -41,7 +41,7 @@ Push → Test → Build → Deploy
 
 ### .github/workflows/ci.yml
 
-{% raw %}
+
 ```yaml
 name: CI Pipeline
 
@@ -157,11 +157,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 ```
-{% endraw %}
+
 
 ### .github/workflows/deploy.yml
 
-{% raw %}
+
 ```yaml
 name: Deploy
 
@@ -198,7 +198,7 @@ jobs:
         run: |
           echo "Deploying to production..."
 ```
-{% endraw %}
+
 
 ---
 
@@ -206,19 +206,19 @@ jobs:
 
 ### 1. 캐시 활용하기
 
-{% raw %}
+
 ```yaml
 - uses: actions/setup-python@v5
   with:
     python-version: '3.12'
     cache: 'pip'  # pip 캐시 자동 관리
 ```
-{% endraw %}
+
 
 ### 2. Matrix 빌드
 여러 Python 버전에서 테스트하고 싶다면:
 
-{% raw %}
+
 ```yaml
 strategy:
   matrix:
@@ -228,16 +228,16 @@ steps:
     with:
       python-version: ${{ matrix.python-version }}
 ```
-{% endraw %}
+
 
 ### 3. Secrets 관리
 
-{% raw %}
+
 ```yaml
 env:
   API_KEY: ${{ secrets.API_KEY }}
 ```
-{% endraw %}
+
 
 Settings > Secrets에서 안전하게 관리하세요.
 
@@ -259,3 +259,4 @@ Settings > Secrets에서 안전하게 관리하세요.
 **"금요일 오후 배포"도 이제 두렵지 않습니다!** 🚀
 
 다음 글에서는 ArgoCD를 이용한 GitOps 배포를 다뤄보겠습니다.
+{% endraw %}

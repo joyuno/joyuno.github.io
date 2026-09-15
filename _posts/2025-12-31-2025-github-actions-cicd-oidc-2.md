@@ -9,7 +9,7 @@ tags: [devops, tutorial, trend, 2025-12]
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-oidc-2/
 description: "그래서 2025년에 “잘 만든” Actions 파이프라인은 보통 아래 3가지를 중심으로 설계합니다."
 ---
-## 들어가며
+{% raw %}## 들어가며
 2025년의 CI/CD는 “돌아가기만 하면 된다”를 넘어 **속도(개발 리드타임)**, **안정성(배포 충돌/롤백)**, **보안(공급망/토큰 유출)**을 동시에 만족해야 합니다. GitHub Actions는 저장소 이벤트와 코드(Workflow YAML)가 결합된 형태라 진입장벽이 낮지만, 규모가 커질수록 YAML이 중복되고(팀/서비스별 파편화), 병렬 실행으로 리소스가 낭비되며, 토큰/시크릿 관리가 복잡해집니다.
 
 그래서 2025년에 “잘 만든” Actions 파이프라인은 보통 아래 3가지를 중심으로 설계합니다.
@@ -199,3 +199,4 @@ OIDC를 쓰면 “토큰을 발급받는 워크플로우”를 클라우드가 �
 - Artifact(v4)/Cache의 역할을 분리해 속도와 안정성을 동시에 챙기기 ([github.com](https://github.com/actions/upload-artifact?utm_source=openai))  
 
 다음 학습으로는 (1) 조직 단위 reusable workflow 배포/버저닝 전략, (2) OIDC trust policy를 repo/ref/environment 단위로 쪼개는 방법, (3) self-hosted runner 그룹/격리 설계까지 확장하면 “엔터프라이즈급 Actions”에 도달할 수 있습니다.
+{% endraw %}

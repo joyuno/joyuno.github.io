@@ -9,7 +9,7 @@ tags: [devops, tutorial, trend, 2026-01]
 source: https://daewooki.github.io/posts/2025-github-actions-cicd-2/
 description: "---"
 ---
-## 들어가며
+{% raw %}## 들어가며
 2025년의 CI/CD는 단순히 “빌드-테스트-배포”를 자동화하는 수준에서 끝나지 않습니다. 파이프라인이 커질수록 **권한 관리(credential leak)**, **공급망 공격(supply-chain attack)**, **배포 경쟁 상태(race condition)** 같은 문제가 실제 장애/사고로 이어지기 때문입니다.  
 GitHub Actions는 여전히 가장 널리 쓰이는 선택지지만, 이제는 “YAML 몇 줄”이 아니라 **보안·재현성·운영 안정성까지 포함한 설계**가 중요해졌습니다. 특히 GitHub는 클라우드 배포 인증에서 **OIDC(OpenID Connect)**를 강하게 권장하고, 빌드 산출물에 대해 **Artifact Attestations(서명된 provenance)**까지 제공하면서 “검증 가능한 배포”를 현실적인 표준으로 만들고 있습니다. ([docs.github.com](https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services?utm_source=openai))
 
@@ -173,3 +173,4 @@ GitHub Docs도 “보안 이점은 검증까지 해야 생긴다” + “테스�
 다음 학습 추천은 두 갈래입니다.
 1) 조직 단위로 **Reusable workflows**를 만들어 “검증된 빌드 정의를 중앙화”하기(표준화/감사 대응에 강함)  
 2) CD 단계에서 실제로 **attestation verify를 강제**해 “서명된 산출물만 배포” 정책을 완성하기 ([docs.github.com](https://docs.github.com/en/actions/concepts/security/artifact-attestations?utm_source=openai))
+{% endraw %}

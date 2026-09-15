@@ -10,7 +10,7 @@ render_with_liquid: false
 
 source: https://daewooki.github.io/posts/postgresql-19-beta3-test-window/
 ---
-## 베타가 가장 싼 이유: feature freeze 이후에만 가능한 테스트
+{% raw %}## 베타가 가장 싼 이유: feature freeze 이후에만 가능한 테스트
 
 PostgreSQL 베타는 기능이 계속 추가되는 알파가 아니라 **feature-frozen** 상태에서 버그/회귀를 잡기 위해 배포되는 프리릴리스입니다. 즉 “지금 돌린 테스트 결과”가 GA까지 의미를 유지할 확률이 가장 높습니다. PostgreSQL 쪽도 베타/RC를 공개하는 이유를 명확히 적어 두었는데, 베타/RC는 새로운 기능을 더 넣지 않는(feature-frozen) 단계이며 프로덕션 사용이 목적이 아니라 커뮤니티가 워크로드로 회귀를 찾아 달라는 성격입니다.[^1]
 
@@ -546,4 +546,4 @@ PostgreSQL 19 스케줄 측면에서도 베타는 창이 짧습니다. 19의 Fea
 [^9]: <https://www.postgresql.org/docs/19/monitoring-stats.html>
 [^10]: <https://www.postgresql.org/docs/19/release-19.html>
 [^11]: <https://wiki.postgresql.org/wiki/PostgreSQL_19_Open_Items>
-
+{% endraw %}

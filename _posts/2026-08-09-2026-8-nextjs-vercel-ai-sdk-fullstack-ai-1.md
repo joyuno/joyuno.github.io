@@ -9,7 +9,7 @@ tags: [ai, prototyping, trend, 2026-08]
 source: https://daewooki.github.io/posts/2026-8-nextjs-vercel-ai-sdk-fullstack-ai-1/
 description: "스트리밍 UX(TTFT/체감 성능)와 서버 부하/타임아웃을 동시에 만족시키기 어렵다 LLM 호출이 늘수록 비용 통제(모든 요청을 frontier model로 보내는 실수)가 곧바로 과금 폭탄으로 이어진다 Tool calling을 붙이는 순간, “함수 몇 개”가 아니라…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 Next.js로 AI 앱을 만들 때 대부분의 팀이 초반에 겪는 문제는 비슷합니다.
 
 - **스트리밍 UX**(TTFT/체감 성능)와 **서버 부하/타임아웃**을 동시에 만족시키기 어렵다  
@@ -276,3 +276,4 @@ Server Actions로도 흉내는 낼 수 있지만, 스트리밍/에러/캐시/런
 - Vercel의 Next.js AI Chatbot 템플릿을 “기능”이 아니라 **아키텍처(데이터 저장, 파일, auth) 관점**으로 뜯어보기 ([vercel.com](https://vercel.com/new/folds-graphics-projects/templates/next.js/nextjs-ai-chatbot?utm_source=openai))
 
 원하면, 위 예제를 **Neon(Postgres)로 티켓/대화 로그 영속화**, **Auth.js로 userId 주입**, **Blob로 첨부파일 처리**, 그리고 **“검증 실패 시 승격”까지 포함한 라우팅 함수**로 확장한 버전까지 이어서 작성해드릴게요.
+{% endraw %}
