@@ -9,7 +9,7 @@ tags: [ai, coding, trend, 2026-09]
 source: https://daewooki.github.io/posts/claude-code-codex-cli-2026-9-1/
 description: "이 글의 목표는 “Claude Code + Codex CLI를 같이 쓰면 뭐가 좋다” 수준이 아니라, 내 프로젝트에 적용 가능한 자동화 워크플로를 어떻게 설계/운영할지 판단 기준을 주는 것입니다."
 ---
-## 들어가며
+{% raw %}## 들어가며
 CLI 기반 AI 코딩 에이전트(Claude Code, Codex CLI)는 “IDE 보조”를 넘어 **리포지토리 단위 작업을 자동화**하는 쪽으로 무게중심이 옮겨왔습니다. 특히 2026년 들어 GitHub가 **GitHub Agentic Workflows**(Markdown으로 정의 → 컴파일 → Actions로 실행)라는 형태로 *에이전트 실행을 워크플로 자산으로 관리*하는 흐름을 만들면서, “로컬 터미널에서 검증된 패턴을 CI로 확장”하는 길이 열렸습니다. ([docs.github.com](https://docs.github.com/en/copilot/how-tos/github-agentic-workflows/creating-github-agentic-workflows?utm_source=openai))
 
 이 글의 목표는 “Claude Code + Codex CLI를 같이 쓰면 뭐가 좋다” 수준이 아니라, **내 프로젝트에 적용 가능한 자동화 워크플로를 어떻게 설계/운영할지** 판단 기준을 주는 것입니다.
@@ -217,3 +217,4 @@ Codex CLI는 `config.toml`에 `mcp_servers`로 MCP 서버를 등록하는 방식
 다음 학습 추천:
 - GitHub Agentic Workflows의 엔진 선택/컴파일/트리거 모델을 먼저 익히고 ([docs.github.com](https://docs.github.com/en/copilot/how-tos/github-agentic-workflows/creating-github-agentic-workflows?utm_source=openai))  
 - 그 다음 Codex CLI의 `AGENTS.md` 계층화 + MCP 연결을 통해 “조직 규칙/도구 접근”을 표준화하세요. ([github.com](https://github.com/syntax-syndicate/codex-agentic-cli?utm_source=openai))
+{% endraw %}

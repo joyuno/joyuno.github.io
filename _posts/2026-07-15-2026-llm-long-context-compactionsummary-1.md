@@ -9,7 +9,7 @@ tags: [ai, llm, trend, 2026-07]
 source: https://daewooki.github.io/posts/2026-llm-long-context-compactionsummary-1/
 description: "비용 폭증: 대화/에이전트가 길어질수록 매 턴마다 “지금까지 전부”를 다시 보내고 다시 추론하며 과금됩니다. 그래서 prompt caching과 compaction이 사실상 필수가 됐습니다. (redis.io) 성능 붕괴(quality rot): 컨텍스트가 길어질수록 모델이…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 LLM long context window(200K~1M+ tokens)가 “문서를 통째로 넣고 끝”을 가능하게 만든 건 맞습니다. 하지만 2026년 현재 실무에서 더 자주 겪는 문제는 따로 있습니다.
 
 - **비용 폭증**: 대화/에이전트가 길어질수록 매 턴마다 “지금까지 전부”를 다시 보내고 다시 추론하며 과금됩니다. 그래서 **prompt caching**과 **compaction**이 사실상 필수가 됐습니다. ([redis.io](https://redis.io/blog/context-compaction/?utm_source=openai))  
@@ -352,3 +352,4 @@ if __name__ == "__main__":
 - “압축이 약속을 깨지 않는지”를 다루는 최신 형식화 연구(검증 관점) ([arxiv.org](https://arxiv.org/abs/2605.17304?utm_source=openai))  
 
 원하시면, 위 코드에 **(a) 토큰 계측/대시보드 로그**, **(b) commitments 누락 검출용 unit test**, **(c) RAG 결합(Artifacts 포인터를 실제 검색으로 resolve)**까지 붙여서 “프로덕션형 템플릿”으로 확장해드릴게요.
+{% endraw %}

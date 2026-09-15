@@ -94,6 +94,30 @@ def enrich_for_seo(content: str) -> str:
     return f"---\n{fm_block}\n---\n{body}"
 
 
+# 본문 코드 블록의 {{ }} / {% %} 가 Jekyll Liquid 로 해석돼 Pages 빌드를 통째로
+# 깨뜨리는 것 차단. 스크랩 포스트는 Liquid 를 쓰지 않으므로 본문 전체를 raw 처리한다.
+_LIQUID_RE = re.compile(r"\{\{|\{%")
+_RAW_TAG_RE = re.compile(r"\{%-?\s*(?:end)?raw\s*-?%\}")
+
+
+def protect_liquid(content: str) -> str:
+    """front matter 는 두고 본문만 {% raw %} 로 감싼다."""
+    if not content.startswith("---"):
+        return content
+    end_idx = content.find("\n---\n", 3)
+    if end_idx == -1:
+        return content
+
+    fm_block = content[: end_idx + 5]
+    body = content[end_idx + 5 :]
+    if not _LIQUID_RE.search(body):
+        return content
+
+    # 원본에 있던 raw/endraw 는 제거 — 중첩 불가라 첫 endraw 에서 래핑이 조기 종료된다
+    body = _RAW_TAG_RE.sub("", body)
+    return f"{fm_block}{{% raw %}}{body.rstrip()}\n{{% endraw %}}\n"
+
+
 def build_headers():
     headers = {"Accept": "application/vnd.github.v3+json"}
     token = os.environ.get("GITHUB_TOKEN")
@@ -230,6 +254,7 @@ def import_post(file_info, headers):
         source_url = get_source_url(filename)
         processed = process_frontmatter(raw, source_url)
         processed = enrich_for_seo(processed)
+        processed = protect_liquid(processed)
         return save_post(filename, processed)
     except Exception as e:
         print(f"  오류 ({filename}): {e}")

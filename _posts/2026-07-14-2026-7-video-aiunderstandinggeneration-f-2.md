@@ -9,7 +9,7 @@ tags: [ai, multimodal, trend, 2026-07]
 source: https://daewooki.github.io/posts/2026-7-video-aiunderstandinggeneration-f-2/
 description: "언제 쓰면 좋은가 긴 영상에서 질의 기반 QA / 하이라이트 탐지 / 이벤트 타임라인 추출 / 근거 프레임 리트리벌이 필요한 경우 사용자 질문이 들어올 때마다 “동적으로” 봐야 할 장면이 달라지는 제품(예: 고객이 “그때 누가 문을 열었지?” 같은 질문을 하는 보안 영상) 언제 쓰면…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 2026년 7월의 비디오 AI는 모델 성능 자체도 중요하지만, **“어떤 프레임(혹은 구간)을 모델에 먹일지”를 결정하는 파이프라인**이 실제 품질/비용을 좌우합니다. 긴 영상(회의 녹화, 강의, CCTV, 스포츠, 게임 리플레이)을 “그냥 1fps로 샘플링”하면 **토큰/비용은 줄지만** 질의에 필요한 근거 프레임을 놓쳐서 답이 틀리거나, 반대로 **모든 프레임을 다 넣으면** 비용·지연이 감당이 안 됩니다.
 
 - **언제 쓰면 좋은가**
@@ -226,3 +226,4 @@ Q-Gate가 지적하듯, 내러티브/자막 기반 질문에 visual metric만 �
 - 실제 API 입력 최적화: Gemini video understanding의 clipping/FPS 조절 가이드 정독 후, 비용-정확도 실험표 만들기 ([docs.cloud.google.com](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/video-understanding?hl=en&utm_source=openai))
 
 원하시면, 위 파이프라인을 **(1) GCS 업로드 + (2) segment 캐시를 위한 Postgres 스키마 + (3) 재시도/관측(Logging/Tracing) 포함** 형태로 “바로 서비스에 붙는” 템플릿으로 확장해 드릴게요.
+{% endraw %}

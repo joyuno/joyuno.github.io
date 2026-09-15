@@ -9,7 +9,7 @@ tags: [ai, prototyping, trend, 2026-06]
 source: https://daewooki.github.io/posts/nextjs-vercel-ai-sdk-fullstack-ai-2026-6-2/
 description: "UI는 빠르게 반응해야 하는데, LLM 응답은 느리다 → Streaming이 필수 단순 Q&A가 아니라 검색/DB/외부 API를 연결해야 한다 → Tool calling이 필요 배포 환경(Vercel)에서 Edge/Node 런타임, 타임아웃, 스트림 포맷이 꼬인다 → 런타임/프로토콜…"
 ---
-## 들어가며
+{% raw %}## 들어가며
 Next.js로 AI 앱을 만들 때 팀이 가장 많이 막히는 지점은 “모델 호출 자체”가 아니라 **제품 형태로 만들기 위한 풀스택 접점**입니다. 예를 들면:
 
 - UI는 빠르게 반응해야 하는데, LLM 응답은 느리다 → **Streaming**이 필수
@@ -283,3 +283,4 @@ Generative UI는 강력하지만, Vercel 템플릿 자체에 **AI SDK RSC 개발
 - Next.js Route Handlers의 스트리밍/런타임 설정을 정확히 이해하기 ([nextjs.org](https://nextjs.org/docs/13/app/building-your-application/routing/route-handlers?utm_source=openai))
 - Vercel AI SDK의 tool-part 스트림을 UI에서 어떻게 “상태 머신”으로 표현할지(로딩/툴 실행/결과/재시도)
 - Generative UI(`streamUI`)는 “기술 데모”가 아니라 **유지보수 가능한 범위**로 제한적으로 실험 ([vercel-ai.mintlify.app](https://vercel-ai.mintlify.app/reference/ai-sdk-rsc/stream-ui?utm_source=openai))
+{% endraw %}

@@ -10,7 +10,7 @@ render_with_liquid: false
 
 source: https://daewooki.github.io/posts/react-19-3-view-transitions-fragment-refs/
 ---
-## 2026-09-09에 바뀐 사실: 이제 실험이 아니라 계약이 됐다
+{% raw %}## 2026-09-09에 바뀐 사실: 이제 실험이 아니라 계약이 됐다
 React 팀은 2026-09-09에 React 19.3을 공개했고, 작년에 experimental로 소개했던 View Transitions와 Fragment Refs를 stable로 올렸습니다. React 19.3은 npm에서 바로 설치 가능한 정식 릴리스라는 선언까지 포함합니다. [React 19.3 발표문](https://react.dev/blog/2026/09/09/react-19-3)[^1]
 
 여기서 중요한 포인트는 기능 목록이 아닙니다. stable로 승격되는 순간부터는 팀 단위로 “적용/미적용” 의사결정을 해야 하고, 적용한다면 실패 시나리오와 폴백을 제품 요구사항으로 끌어올려야 합니다. View Transitions는 UX 연출 도구로 보이지만, 실제로는 **라우팅과 상태 업데이트를 어떻게 분류하고 스케줄링할지**에 대한 설계 문제를 강제로 꺼내 놓습니다.[^1]
@@ -598,4 +598,4 @@ Fragment Refs는 wrapper를 없애는 편의 기능으로 보면 반만 봅니�
 [^8]: <https://react.dev/reference/react/Fragment>
 [^9]: <https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API>
 [^10]: <https://www.w3.org/TR/trusted-types/>
-
+{% endraw %}
